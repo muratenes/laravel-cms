@@ -1,0 +1,18 @@
+[
+    {
+        "title" : "Elektronik",
+        "children" : [
+            {"title" : "Bilgisayar" },
+            {"title" : "Telefon" },
+            {"title" : "Beyaz Eşya" }
+        ]
+    },
+    {
+        "title" : "Moda",
+        "children" : [
+            {"title" : "Kadın Giyim" },
+            {"title" : "Erkek Giyim" },
+            {"title" : "Çocuk Giyim" }
+        ]
+    }
+]

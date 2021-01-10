@@ -1,0 +1,283 @@
+@extends('admin.layouts.master')
+@section('title','Ürün Detay')
+
+@section('header')
+    <style>
+        .productVariantItem {
+            margin-bottom: 10px;
+        }
+    </style>
+    <!-- Currencies -->
+    <meta name="currencies" content="{{ json_encode($data['currencies']) }}">
+@endsection
+
+@section('content')
+    <form role="form" method="post" action="{{ route('admin.product.save',$product->id != null ? $product->id : 0) }}" id="form" enctype="multipart/form-data">
+        {{ csrf_field() }}
+        <div class="box box-default">
+            <div class="box-body with-border">
+                <div class="row">
+                    <div class="col-md-10">
+                        <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
+                        › <a href="{{ route('admin.products') }}"> Ürünler</a>
+                        › {{ $product->title }}
+                    </div>
+                    <div class="col-md-2 text-right mr-3">
+                        @if(!is_null($product->slug))
+                            <a target="_blank" href="{{ route('product.detail',$product->slug) }}">Sitede Görüntüle <i class="fa fa-eye"></i></a>&nbsp;&nbsp;&nbsp;
+                            &nbsp;@endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DİL BILGİLERİ -->
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab_product_default_language" data-toggle="tab">
+                                <img src="{{ langIcon(defaultLangID()) }}"/>
+                            </a>
+                        </li>
+                        @foreach($product->descriptions as $index => $description)
+                            <li>
+                                <a href="#tab_product_{{ $index }}" data-toggle="tab" title="{{ langTitle($description->lang) }}">
+                                    <img src="{{ langIcon($description->lang) }}"/>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_product_default_language">
+                            <!-- varsayılan dil bilgileri -->
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label for="exampleInputEmail1">Başlık</label>
+                                    <input type="text" class="form-control" name="title" placeholder="ürün başlık" maxlength="90"
+                                           value="{{ old('title', $product->title) }}">
+                                </div>
+
+
+                                <div class="form-group col-md-1">
+                                    <label for="exampleInputEmail1">Slug</label>
+                                    <input type="text" class="form-control" id="slug" name="slug" placeholder="ürün slug" disabled
+                                           value="{{ old('slug', $product->slug) }}">
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <label for="exampleInputEmail1">Kod</label>
+                                    <input type="text" class="form-control" name="code" placeholder="ürün kodu otomatik oluşur" {{ config('admin.product_auto_code') ? 'disabled' :'' }}
+                                    value="{{ old('code', $product->code) }}">
+                                </div>
+
+                                <div class="form-group col-md-1">
+                                    <label for="exampleInputEmail1">Aktif Mi ?</label><br>
+                                    <input type="checkbox" class="minimal" name="active" {{ $product->active == 1 ? 'checked': '' }}>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="image">Fotoğraf</label><br>
+                                    <input type="file" class="form-control" name="image">
+                                    @if($product->image)
+                                        <span class="help-block"><a
+                                                href="{{ imageUrl('public/products',$product->image) }}">{{ $product->image }}</a></span>
+                                    @endif
+                                </div>
+                                @if(config('admin.product.buying_price'))
+                                    <div class="form-group col-md-1">
+                                        <label for="exampleInputEmail1">Alış Fiyatı</label>
+                                        <input type="number" class="form-control" name="buying_price" placeholder="firmadan alış fiyatı"
+                                               value="{{ old('buying_price', $product->buying_price) }}">
+                                    </div>
+                                @endif
+                                @if(config('admin.product.cargo_price'))
+                                    <div class="form-group col-md-2">
+                                        <label for="cargo_price">Kargo Fiyatı
+                                            <i class="fa fa-question-circle" title="Ürüne ait kargo fiyatı eğer boş bırakılırsa ayarlarda belirtilen varsayılan kargo fiyatı eklenir.Ücretsiz yapmak istiyorsanız 0 giriniz"></i>
+                                        </label>
+                                        <input type="number" class="form-control" name="cargo_price" placeholder="Kargo Fiyatı"
+                                               value="{{ old('cargo_price', $product->cargo_price) }}">
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="row">
+                                @if(config('admin.product.qty'))
+                                    <div class="form-group col-md-1">
+                                        <label for="exampleInputEmail1">Adet</label>
+                                        <input type="number" class="form-control" id="qty" name="qty" placeholder="Adet"
+                                               value="{{ old('qty', $product->qty) }}">
+                                    </div>
+                                @else
+                                    <input type="hidden" name="qty" value="1">
+                                @endif
+                                @if(config('admin.product.use_brand'))
+                                    <div class="form-group col-md-1">
+                                        <label for="exampleInputEmail1">
+                                            Marka
+                                            @if($product->brand_id)
+                                                <a target="_blank" href="{{ route('admin.product.brands.edit',$product->brand_id) }}">
+                                                    <i class="fa fa-eye text-blue"></i></a>
+                                            @endif
+                                        </label>
+                                        <select name="brand_id" id="brand" class="form-control">
+                                            <option value="">---Marka Seçiniz --</option>
+                                            @foreach($data['brands'] as $brand)
+                                                <option {{  $product->brand_id == $brand->id ? 'selected' : ''  }}
+                                                        value="{{ $brand->id }}">{{ $brand->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
+                                @if(config('admin.product.use_companies'))
+                                    <div class="form-group col-md-1">
+                                        <label for="exampleInputEmail1">Tedarikçi Firma
+                                            &nbsp;@if($product->company_id)
+                                                <a target="_blank" href="{{ route('admin.product.company.edit',$product->company_id) }}"><i
+                                                        class="fa fa-eye text-blue"></i></a>
+                                            @endif
+                                        </label>
+                                        <select name="company_id" id="company" class="form-control">
+                                            <option value="">---Firma Seçiniz --</option>
+                                            @foreach($data['companies'] as $com)
+                                                <option {{$product->company_id == $com->id ? 'selected' : '' }}
+                                                        value="{{ $com->id }}">{{ $com->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
+                              @include('admin.product.partials.product-categories')
+
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Kısa Açıklama</label>
+                                    <input type="text" class="form-control" id="spot" name="spot" placeholder="Kısa açıklama" maxlength="255"
+                                           value="{{ old('spot', $product->spot) }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                @if(config('admin.product.use_tags'))
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">Kelimeler(Tags)</label>
+                                        <select class="form-control" multiple="multiple" id="tags" name="tags[]">
+                                            @if($product->tags)
+                                                @foreach($product->tags as $tag)
+                                                    <option value="{{ $tag }}" selected>{{ $tag }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        @include('admin.product.partials.product-detail-languages')
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- ürün fiyat bilgileri -->
+                @if(config('admin.product.prices'))
+                    <div class="row">
+                        <div class="col-md-12">
+                            @include('admin.product.partials.product-prices')
+                        </div>
+                    </div>
+                @endif
+            <!-- Ürün Açıklama -->
+                <div class="row">
+                    <div class="col-md-{{ config('admin.product.use_attribute') ? '6': '12' }}">
+                        <div class="box box-primary">
+                            <div class="box-header" data-widget="collapse" data-toggle="tooltip">
+                                <h3 class="box-title">Ürün Açıklama
+                                    <small>Ürün hakkında açıklama</small>
+                                </h3>
+                                <div class="pull-right box-tools">
+                                    <button type="button" class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip"
+                                            title="Daralt">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body pad">
+                         <textarea class="textarea" placeholder="Place some text here" id="editor1"
+                                   style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"
+                                   name="desc">{{ old('desc',$product->desc )}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    @if(config('admin.product.use_attribute'))
+                        @include('admin.product.partials.product-attributes')
+                    @endif
+                </div>
+                @if(config('admin.product.features'))
+                    @include('admin.product.partials.product-features')
+                @endif
+                @if(config('admin.product.variants'))
+                    @include('admin.product.partials.product-variants')
+                @endif
+                @if(config('admin.product.use_gallery'))
+                    @include('admin.product.partials.product-gallery')
+                @endif
+            </div>
+
+        </div>
+
+
+        <button type="submit" class="btn btn-success pull-right" style="margin-bottom:10px">Kaydet</button>
+    </form>
+@endsection
+@section('footer')
+    <script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+
+        $(function () {
+            $('select[id*="categories"]').select2({
+                placeholder: 'kategori seçiniz'
+            });
+            $('select[name*="parent_category_id"],select[name*="sub_category_id"]').select2({
+                placeholder: 'kategori seçiniz'
+            });
+            $('select#company').select2({
+                placeholder: 'firma seçiniz'
+            });
+            $('select#brand').select2({
+                placeholder: 'marka seçiniz'
+            });
+
+            $('select[id*="attributes"]').select2({
+                placeholder: 'özellik seçiniz'
+            });
+            $('select[id*="subAttributes"]').select2({
+                placeholder: 'alt özellik seçiniz'
+            });
+            // $('#subAttributes').select2({
+            //     placeholder: 'Alt Özellikler seçiniz'
+            // });
+
+            $('#tags').select2({
+                tags: true,
+                tokenSeparators: [',', ' ']
+            })
+
+            // dil tags
+            $('#tags_2').select2({
+                tags: true,
+                tokenSeparators: [',', ' ']
+            })
+            $('#tags_3').select2({
+                tags: true,
+                tokenSeparators: [',', ' ']
+            })
+            var options = {
+                language: 'tr',
+                filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+                filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+                allowedContent : true
+            };
+            CKEDITOR.replace('editor1', options);
+            CKEDITOR.replace('editor_lang_2', options);
+            CKEDITOR.replace('editor_lang_3', options);
+
+        })
+    </script>
+    <script src="{{ asset('admin_files/js/adminProductDetailVehicles.js') }}"></script>
+    <script src="{{ asset('admin_files/js/pages/admin.product.js') }}"></script>
+    <script src="{{ asset('admin_files/js/.js') }}"></script>
+@endsection
