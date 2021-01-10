@@ -15,10 +15,6 @@ return [
     'no_address_information_is_entered_selected_please_add_or_select_a_new_address_below' => 'Adres bilgisi girilmedi / seçilmedi, lütfen aşağıdan yeni bir adres ekleyin veya seçin.',
     'no_order_found_to_pay' => 'ödeme yapmak için herhangi bir siparişiniz bulunamadı',
     'the_order_has_been_received_successfully' => 'Sipariş başarılı şekilde alındı.',
-    // Sepet
-    'only_qty_left_of_this_product' => " Yetersiz stok, bu üründen malesef :qty adet kaldı",
-    'there_are_no_items_in_your_cart' => 'Sepetinizde ürün bulunamadı',
-    'added_to_basket' => 'Sepete eklendi',
 
     // Kullanıcı
     'welcome_to_app' => 'Hoşgeldin Giriş Başarılı',
@@ -70,6 +66,10 @@ return [
     'the_amount_refunded_cannot_be_greater_than_the_grand_total' => 'iade edilmek istenen tutar(:refunded_amount), ürününün genel toplamından büyük olamaz',
     'item_removed' => 'Ürün sepetten kaldırıldı',
     'removed_all_items' => 'Sepetteki tüm ürünler silindi',
+    'only_qty_left_of_this_product' => " Yetersiz stok, bu üründen malesef :qty adet kaldı",
+    'there_are_no_items_in_your_cart' => 'Sepetinizde ürün bulunamadı',
+    'added_to_basket' => 'Sepete eklendi',
+    'basket_item_not_found' => 'Ürün sepette bulunamadı',
 
 
     // İade

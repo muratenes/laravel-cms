@@ -11,6 +11,7 @@ use App\Models\SepetUrun;
 use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Interfaces\SepetInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
+use App\Repositories\Traits\CartTrait;
 use App\Repositories\Traits\ResponseTrait;
 use App\Repositories\Traits\SepetSupportTrait;
 use Illuminate\Http\JsonResponse;
@@ -76,6 +77,44 @@ class SepetController extends Controller
         return redirect(route('basket'));
     }
 
+    /**
+     * sepetteki ürünü 1 adet azaltır
+     * @param Request $request
+     * @param string $rowID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function decrement(Request $request, string $rowID)
+    {
+        // todo GAte ekle
+        $cartItem = $this->getCartItem($rowID);
+        if (!$cartItem) {
+            $this->error(__('lang.basket_item_not_found'));
+        }
+
+        $quantity = $this->getCartItemQuantity($cartItem);
+        $this->decrementItem($cartItem);
+        if ($request->user()) {
+            if ($quantity == 1) {
+                Sepet::getCurrentBasket()->basket_items()
+                    ->where(['product_id' => $cartItem->attributes['product']['id']])
+                    ->delete();
+            } else {
+                Sepet::getCurrentBasket()->basket_items()
+                    ->where(['product_id' => $cartItem->attributes['product']['id']])
+                    ->decrement('qty');
+            }
+        }
+
+        return $this->success([
+            'card' => [
+                'items' => $this->cartItems(),
+                'sub_total' => $this->getCardSubTotal(),
+                'total' => $this->getCartTotal(),
+                'cargo_price' => CartTrait::getCartTotalCargoAmount()
+            ]
+        ]);
+
+    }
 
     /**
      * @param Request $request
@@ -142,7 +181,8 @@ class SepetController extends Controller
             'card' => [
                 'items' => $this->cartItems(),
                 'sub_total' => $this->getCardSubTotal(),
-                'total' => $this->getCartTotal()
+                'total' => $this->getCartTotal(),
+                'cargo_price' => CartTrait::getCartTotalCargoAmount()
             ]
         ]);
     }

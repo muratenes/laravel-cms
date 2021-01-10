@@ -52,6 +52,7 @@ Route::group(['prefix' => 'sepet','middleware' => 'throttle:20'], function () {
     // Ajax
     Route::post('/addToBasket/{product:id}', 'SepetController@addItem')->name('basket.add.ajax');
     Route::post('/removeBasketItem/{rowId}', 'SepetController@removeItemFromBasketWithAjax')->name('basket.remove.ajax');
+    Route::post('/decrement/{rowId}', 'SepetController@decrement');
     Route::post('/multiple-update', 'SepetController@updateMultipleBasketItem');
 });
 

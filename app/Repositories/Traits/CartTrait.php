@@ -116,6 +116,34 @@ trait CartTrait
     }
 
     /**
+     * sepete eklenen ürünün adet bilgisini getirir.
+     * @param $cartItem
+     * @return mixed
+     */
+    public function getCartItemQuantity($cartItem)
+    {
+        return $cartItem->quantity;
+    }
+
+    /**
+     * @param object $cartItem sepet item
+     */
+    public function decrementItem($cartItem)
+    {
+        $quantity = $this->getCartItemQuantity($cartItem);
+        if ($quantity == 1) {
+            $this->removeCartItem($cartItem->id);
+        } else {
+            $this->updateCartItem($cartItem->id, array(
+                'quantity' => array(
+                    'relative' => false,
+                    'value' => $quantity - 1
+                ),
+            ));
+        }
+    }
+
+    /**
      * sepet alt toplam
      * @return mixed
      */

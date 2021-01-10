@@ -1,14 +1,3 @@
-// Basket Page And Payment Page
-
-
-$("#qty").change(function () {
-    var dataValue = parseInt($(this).attr("dt-max"));
-    var curVal = parseInt($(this).val());
-    console.log(curVal, dataValue)
-    if (curVal >= dataValue)
-        $(this).val(dataValue);
-});
-
 // taksit sayisini güncelle input hidden
 
 $('#iyzico_installment').on('click', 'input', function () {
@@ -55,57 +44,101 @@ function getInstallmentDetails(totalPrice) {
 }
 
 
-function updateBasket() {
-    var dataItemRowIdAndQty = Create2DArray($("#sepetItemsContainer .basketCartItem").length);
-    $("#sepetItemsContainer input[data-type=cartItemRow]").each(function (index, element) {
-        dataItemRowIdAndQty[index][0] = element.value;
-        dataItemRowIdAndQty[index][1] = $("#" + element.value).val()
-    });
-    $.post('/sepet/multiple-update', {
-        dataItemRowIdAndQty: dataItemRowIdAndQty
-    }, function (data, status) {
-        if (status === "success") {
-            renderUpdatedBasketInfo(data);
-        }
-    })
-}
-
-function Create2DArray(rows) {
-    var arr = [];
-
-    for (var i = 0; i < rows; i++) {
-        arr[i] = [];
-    }
-
-    return arr;
-}
-
-function renderUpdatedBasketInfo(data) {
-    Object.keys(data.card).forEach(function (key) {
-        $key = data[key];
-        var selector = $("tr.basketCartItem[data-value=" + key + "]");
-        var qty = parseFloat(data.card[key]['qty']);
-        var price = parseFloat(data.card[key]['price'])
-        selector.find('.price').text((data.card[key]['price']).toFixed(2));
-        $("#" + key + "").val(data.card[key]['qty']);
-        selector.find('.itemTotalPrice').text((price * qty).toFixed(2));
-    });
-    console.log(data)
-    $("span.cartSubTotal").text(data.cardPrice)
-    $("span.cartTotal").text(data.cardTotalPrice)
-}
-
 // sepet ürün adet azaltma - arttırma
+$('body').on('click', '.input-number__add', function () {
+    var productID = $(this).attr('data-id');
+    var qty = $(`#basketItemProduct_${productID}`).val();
+    $.post(`/sepet/addToBasket/${productID}`, {
+        qty: 1
+    }, function (data) {
+        if (data.status === true) {
+            reloadBasketItems(data.data.card.items)
+            bindPrices(data.data.card)
+        } else {
+            alert(data.status.message)
+        }
+    }).catch(response => {
+        errorMessage(response)
+    });
+});
 
-$('.item-decrement,.item-increment').on('click', function () {
-    var product_id = $(this).attr('data-id');
-    var qty = $(this).attr('data-qty');
-    $.ajax({
-        type: 'PATCH',
-        url: '/sepet/guncelle/' + product_id,
-        data: {qty: qty},
-        success: function () {
-            window.location.href = '/sepet';
+$('body').on('click', '.input-number__sub', function () {
+    var productID = $(this).attr('data-cart-id');
+    var qty = $(`#basketItemProduct_${productID}`).val();
+    $.post(`/sepet/decrement/${productID}`, function (data) {
+        if (data.status === true) {
+            reloadBasketItems(data.data.card.items)
+            bindPrices(data.data.card)
+        } else {
+            alert(data.status.message)
+        }
+    }).catch(response => {
+        errorMessage(response)
+    });
+});
+
+/**
+ * sepetten ürünü silmek için kullanılır
+ * @param rowId
+ */
+function removeBasketItemFromBasket(rowId) {
+    $.post(`/sepet/removeBasketItem/${rowId}`, function (data) {
+        if (data.status === true) {
+            reloadBasketItems(data.data.card.items)
+            bindPrices(data.data.card)
         }
     })
-});
+}
+
+/**
+ * total,sub_total günceller
+ * @param card
+ */
+function bindPrices(card) {
+    $(".cartSubTotalPrice").text(parseFloat(card.sub_total).toFixed(2))
+    $(".cartTotalPrice").text(parseFloat(card.total).toFixed(2))
+    $(".cartTotalCargPrice").text(parseFloat(card.cargo_price).toFixed(2))
+}
+
+/**
+ * sepetteki ürünleri listeler
+ * @param items
+ */
+function reloadBasketItems(items) {
+    $(".cart-table__body").html('')
+    Object.keys(items).forEach(function (key) {
+        const item = items[key];
+        const totalPrice = parseFloat((item.price + item.attributes.cargo_price) * item.quantity).toFixed(2)
+        $(".cart-table__body").append(
+            `<tr class="cart-table__row" data-product="${item.id}">
+                <td class="cart-table__column cart-table__column--image">
+                    <div class="image image--type--product"><a href="${item.attributes.product.slug}" class="image__body">
+                    <img class="image__tag" src="/storage/products/${item.attributes['product']['image']}" alt=""></a>
+                    </div>
+                </td>
+                <td class="cart-table__column cart-table__column--product"><a href="${item.attributes.product.slug}" class="cart-table__product-name">${item.name}</a>
+                </td>
+                <td class="cart-table__column cart-table__column--price" data-title="Fiyat">
+                    <span class="oldPrice line-through text-red">${item.attributes.old_price ? `${item.attributes.old_price} ₺` : ''}</span>
+                    <span class="currentPrice">${item.price} ₺</span>
+                </td>
+                <td class="cart-table__column cart-table__column--price" data-title="Fiyat">
+                    <span class="currentPrice"> ${item.attributes.cargo_price} ₺</span>
+                </td>
+                <td class="cart-table__column cart-table__column--quantity" data-title="Adet">
+                    <div class="cart-table__quantity input-number">
+                        <input class="form-control input-number__input" type="number" min="1" id="basketItemProduct_${item.attributes.product.id}" value="${item.quantity}" readonly>
+                        <div class="input-number__add" data-id="${item.attributes.product.id}"></div>
+                        <div class="input-number__sub" data-cart-id="${item.id}"></div>
+                    </div>
+                </td>
+                <td class="cart-table__column cart-table__column--total" data-title="Toplam">${totalPrice} ₺</td>
+                <td class="cart-table__column cart-table__column--remove" onclick="removeBasketItemFromBasket(${item.id})">
+                    <button type="button" class="cart-table__remove btn btn-sm btn-icon btn-muted">
+                        <svg width="12" height="12"><path d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4C11.2,9.8,11.2,10.4,10.8,10.8z"></path></svg>
+                    </button>
+                </td>
+            </tr>`
+        )
+    })
+}
