@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Auth\Role;
+use App\Models\Favori;
 use App\Models\KullaniciAdres;
 use App\Utils\Concerns\Models\UserNotifications;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -56,6 +57,14 @@ class User extends Authenticatable implements HasLocalePreference
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favori::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function default_invoice_address()
@@ -64,6 +73,10 @@ class User extends Authenticatable implements HasLocalePreference
     }
 
 
+    /**
+     * get full name
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return "{$this->name} {$this->surname}";

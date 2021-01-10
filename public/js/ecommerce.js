@@ -134,11 +134,14 @@ function basketItemAddToHtml(items, cardPrice) {
 }
 
 function addToFavorites(productId) {
-    $.post('/favoriler/ekle', {
-        productId: productId
-    }, function (data, status) {
-        if (data == "true") {
+    $.post(`/kullanici/favoriler/${productId}`, function (data) {
+        console.log(data)
+        if (data.status === true) {
             alert("Favorilere Eklendi")
+        }
+    }).fail((response, error) => {
+        if (response.status === 401) {
+            alert('Favorilere eklemeniz için giriş yapmanız gerek.')
         }
     })
 }

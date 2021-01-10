@@ -18,22 +18,22 @@
             </div>
             <div class="col-lg-9 order-lg-last dashboard-content">
                 <h2>Favorilerim</h2>
-                @if(count($list) > 0)
+                @if(count($favorites) > 0)
                     <div class="row">
-                        @foreach($list as $l)
+                        @foreach($favorites as $l)
                             <div class="col-6 col-md-3 col-xl-3">
                                 <div class="product-default">
                                     <figure>
                                         <a href="{{ route('product.detail',$l->product->slug) }}">
-                                            <img src="{{config('constants.image_paths.product270x250_folder_path').$l->product->image}}">
+                                            <img src="{{ imageUrl('public/products',$l->product->image) }}">
                                         </a>
                                     </figure>
                                     <div class="product-details">
                                         <h2 class="product-title">
-                                            <a href="{{ route('productDetail',$l->product->slug) }}">{{substr($l->product->title,0,25)}}</a>
+                                            <a href="{{ route('product.detail',$l->product->slug) }}">{{substr($l->product->title,0,25)}}</a>
                                         </h2>
                                         <div class="price-box">
-                                            <span class="product-price">₺{{$l->product->price}}</span>
+                                            <span class="product-price">₺{{$l->product->current_price}}</span>
                                         </div><!-- End .price-box -->
                                         <div class="product-action">
                                             <a href="#" class="btn-icon-wish active"><i class="fas fa-heart"></i></a>

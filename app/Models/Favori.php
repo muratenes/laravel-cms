@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Product\Urun;
 use Illuminate\Database\Eloquent\Model;
 
 class Favori extends Model
