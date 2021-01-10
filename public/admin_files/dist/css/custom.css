@@ -1,0 +1,6 @@
+.key-container > span {
+ width : 100% !important
+}
+.key-container > label {
+    display: block;
+}
