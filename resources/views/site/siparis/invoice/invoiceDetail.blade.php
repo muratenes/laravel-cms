@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{$site->title}} Fatura Bilgileri - {{ $order->id }}</title>
+    <title>{{ $order->code }}_order_invoice.pdf</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -57,9 +57,10 @@
                 <strong class="pb-10">Alıcı</strong>
                 <address>
                    {{ $order->full_name }}<br>
+                    <strong>Teslimat Adresi :</strong> <br>{{ $order->adres }}<br>
                     <strong>Fatura Adresi :</strong> <br>{{ $order->fatura_adres }}<br>
                     <strong>Telefon:</strong> <br> {{ $order->phone }}<br>
-                    <strong>Email</strong>:<br> {{ $order->basket->user->email }}
+                    <strong>Email</strong>:<br> {{ $order->email }}
                 </address>
             </div>
             <!-- /.col -->
@@ -69,7 +70,7 @@
                 <b>Sipariş Id:</b> {{$order->id}}<br>
                 <b>Sepet Id:</b>  {{$order->sepet_id}}<br>
                 <b>İşlem Tarihi:</b> <br>{{$order->created_at}}<br>
-                <b>Taksit :</b>&nbsp;{{$order->iyzico->installment}}
+                <b>Taksit :</b>&nbsp;<br>{{$order->iyzico->installment}}
             </div>
             <!-- /.col -->
         </div>
@@ -81,7 +82,8 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Ürün</th>
+                        <th>ID</th>
+                        <th>Başlık</th>
                         <th>Özellikler</th>
                         <th>Fiyat</th>
                         <th>Adet</th>
@@ -90,14 +92,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($order->basket->basket_items as $item)
+                    @foreach($order->snapshot['basket']['basket_items'] as $item)
                         <tr>
-                            <td>{{ $item->product->title }}</td>
-                            <td>{{$item->attributes_text}}</td>
-                            <td>{{$item->price}} {{ $order->currency_symbol }}</td>
-                            <td>{{$item->qty}}</td>
-                            <td>{{$item->cargo_price}} {{ $order->currency_symbol }}</td>
-                            <td>{{ $item->total }} {{ $order->currency_symbol }}</td>
+                            <td>{{ $item['id'] }}</td>
+                            <td>({{ $item['product']['id'] }}){{ $item['product']['title'] }}</td>
+                            <td>{{ $item['attributes_text'] }}</td>
+                            <td>{{ $item['sub_total'] }} {{ $order->currency_symbol }}</td>
+                            <td>{{ $item['qty'] }}</td>
+                            <td>{{$item['cargo_price']}} {{ $order->currency_symbol }}</td>
+                            <td>{{ $item['total'] }} {{ $order->currency_symbol }}</td>
                         </tr>
                     @endforeach
 
@@ -110,27 +113,31 @@
 
         <div class="row">
             <!-- /.col -->
-            <div class="col-xs-6 pull-right">
+            <div class="col-xs-4 pull-right">
 
                 <div class="table-responsive">
                     <table class="table">
                         <tr>
                             <th style="width:50%">Ara Toplam:</th>
-                            <td>{{ $order->order_price }} ₺</td>
+                            <td>{{ $order->order_price }} {{ $order->currency_symbol }}</td>
                         </tr>
-                        @if($order->basket->coupon_id)
+                        @if($order->coupon_price)
                             <tr>
                                 <th style="width:50%">Kupon:</th>
-                                <td class="text-red">- {{ $order->coupon_price }} ₺ ({{ $order->basket->coupon ? $order->basket->coupon->code : '--' }})</td>
+                                <td class="text-red">- {{ $order->coupon_price }} {{ $order->currency_symbol }}
+                                    @if ($order->basket and $order->basket->coupon)
+                                        ({{  $order->basket->coupon->code }})
+                                    @endif
+                                </td>
                             </tr>
                         @endif
                         <tr>
                             <th>Kargo:</th>
-                            <td>{{$order->cargo_price}} ₺</td>
+                            <td>{{$order->cargo_price}} {{ $order->currency_symbol }}</td>
                         </tr>
                         <tr>
                             <th>Toplam:</th>
-                            <td>{{$order->order_total_price}} ₺</td>
+                            <td>{{$order->order_total_price}} {{ $order->currency_symbol }}</td>
                         </tr>
                     </table>
                 </div>

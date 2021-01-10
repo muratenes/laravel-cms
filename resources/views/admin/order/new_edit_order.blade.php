@@ -15,7 +15,7 @@
                 <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirm('Tamamını iptal etmek istiyor musunuz ? bu işlem geri alınamaz') ? document.getElementById('cancelOrderForm').submit() : ''"
                    title="tamamını iptal et,sadece aynı gün alınan siparişler için geçerlidir"><i
                         class="fa fa-close"></i> İptal &nbsp;</a>
-                <a class="btn btn-info btn-sm" href="{{ route('admin.order.invoice',$order->id) }}"><i class="fa fa-file"></i> &nbsp;Fatura Görüntüle</a>
+                <a class="btn btn-info btn-sm" href="{{ route('admin.order.invoice',$order->id) }}"><i class="fa fa-file"></i> &nbsp;Yazdır</a>
                 <a target="_blank" href="{{ config('admin.iyzico.order_url') }}{{ $order->iyzico ? $order->iyzico->paymentId : '' }}" class="btn btn-default btn-sm" title="İyzico üzerinde göster">
                     <i class="fa fa-eye"></i> İyzico
                 </a>
@@ -80,13 +80,14 @@
                             </tr>
                             </thead>
                         </table>
-                        @include('admin.order.partials.address-detail')
+
                     </div>
                     <!-- /.box-body -->
 
                 </div>
-
+                @include('admin.order.partials.address-detail')
             </div>
+
             <!--/.col (left) -->
 
             <div class="col-md-6">
