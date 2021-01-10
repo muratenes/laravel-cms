@@ -150,6 +150,35 @@ function addToFavorites(productId) {
     })
 }
 
+/**
+ * input qty 1 attırır.
+ */
+$(".qtyIncrease").unbind('click').on('click', function (item, elem) {
+    $("#qty").val(parseInt($("#qty").val()) + 1)
+})
+
+/**
+ * input qty 1 azaltır.
+ */
+$(".qtyCounterDecrease").unbind('click').on('click', function (item, elem) {
+    let currentQty = parseInt($("#qty").val());
+    if (currentQty > 1) {
+        $("#qty").val(currentQty - 1)
+    }
+})
+
+/**
+ * left sidebar kategori filtreleme
+ */
+$('#sidebarCategories input[type="text"]').keyup(function () {
+    var searchText = $(this).val();
+    $('ul > li').each(function () {
+        var currentLiText = $(this).text().toLowerCase(),
+            showCurrentLi = currentLiText.indexOf(searchText.toLowerCase()) !== -1;
+        $(this).toggle(showCurrentLi);
+    });
+});
+
 function getSelectedBrandList() {
     var brandList = new Array();
     var index = 0;
