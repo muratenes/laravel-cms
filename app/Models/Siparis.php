@@ -29,6 +29,10 @@ class Siparis extends Model
     const STATUS_ODEME_ALINAMADI = 12;
     const STATUS_3D_BASLATILDI = 13;
 
+    protected $casts = [
+        'snapshot' => 'array'
+    ];
+
 
     public function scopeGetOrderCountByStatus($query, $status_type)
     {

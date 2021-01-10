@@ -69,6 +69,9 @@ trait PaymentConcern
             'phone_invoice' => $invoiceAddress->phone,
             'email_invoice' => $invoiceAddress->email
         ]);
+        $order = Siparis::with('basket.basket_items.product')->find($order->id)->first();
+        $order->update(['snapshot' => $order->toArray()]);
+
         Log::addIyzicoLog('Sipariş Oluşturuldu',"order id : $order->id",$basket->id);
         session()->put('orderId', $order->id);
 

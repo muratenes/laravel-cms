@@ -53,6 +53,8 @@ class CreateSiparislerTable extends Migration
             $table->string('phone_invoice', 20)->nullable();
             $table->string('email_invoice', 40)->nullable();
 
+            $table->json('snapshot')->nullable();
+
 
             $table->timestamps();
             $table->softDeletes();
