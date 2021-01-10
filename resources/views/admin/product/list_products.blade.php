@@ -96,6 +96,7 @@
                             <th>Slug <i class="fa fa-question-circle" title="web sitesinde görüntüle"></i></th>
                             <th class="{{ config('admin.product.use_companies') ? '' : 'hidden' }}">Firma</th>
                             <th class="{{ config('admin.product.use_brand') ? '' : 'hidden' }}">Marka</th>
+                            <th>Stok</th>
                             <th>Fiyat</th>
                             <th>İndirimli</th>
                             <th>Fotoğraf</th>

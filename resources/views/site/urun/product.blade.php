@@ -51,7 +51,7 @@
                 <li class="breadcrumb-item"><a href="{{ route('homeView') }}"><i class="icon-home"></i></a></li>
                 <li class="breadcrumb-item">
                     @foreach($product->categories as $kategori)
-                        <a href="{{route('categoryDetail',$kategori->slug)}}">{{$kategori->title_lang}}</a>{{ $loop->last == 1 ? '' : ',' }}
+                        <a href="{{route('category.detail',$kategori->slug)}}">{{$kategori->title_lang}}</a>{{ $loop->last == 1 ? '' : ',' }}
                     @endforeach
                 </li>
                 <li class="breadcrumb-item">{{ $product->title }}</li>

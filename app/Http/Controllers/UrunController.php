@@ -33,7 +33,7 @@ class UrunController extends Controller
         $featuredProductTitle = "Benzer Ürünler";
         $bestSellers = collect($this->model->getBestSellersProducts($product->categories[0]->id, 6, $product->id));
         $discount = $product->discount_price;
-        $comments = $product->getLastActive10Comments;
+        $comments = $product->comments()->latest()->take(5)->get();
         return view('site.urun.product', compact('product', 'discount', 'featuredProducts', 'featuredProductTitle', 'bestSellers', 'comments'));
     }
 

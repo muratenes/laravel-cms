@@ -7,10 +7,10 @@ $(document).ready(function () {
         pageLength: 16,
         ajax: {
             url: '/admin/product/ajax',
-            data : {
-                category : $("#category_filter").val(),
-                company : $("#company_filter").val(),
-                brand : $("#brand_filter").val(),
+            data: {
+                category: $("#category_filter").val(),
+                company: $("#company_filter").val(),
+                brand: $("#brand_filter").val(),
             }
         },
         "language": {
@@ -77,6 +77,13 @@ $(document).ready(function () {
                         : ''
                 },
                 visible: $("#useBrand").val() == 1
+            },
+            {
+                data: 'qty',
+                name: 'qty',
+                render: function (data, type, row) {
+                    return `<span class="${data > 10 ? 'text-green' : 'text-danger'}">${data}</span>`
+                },
             },
             {
                 data: 'tl_price', name: 'tl_price',
