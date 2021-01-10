@@ -192,6 +192,9 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Siparişteki Ürünler - SP-{{ $order->id }}</h3>
+                        <div class="box-tools">
+                            <a href="{{ route('admin.orders.snapshot',$order->id )}}" target="_blank"><i class="fa fa-eye"></i></a>
+                        </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">

@@ -82,6 +82,16 @@ class SiparisController extends Controller
         return redirect(route('admin.orders'));
     }
 
+    /**
+     * sipariş oluşturulurken sepetteki ürünlerin kopyası alınır
+     * @param Siparis $order
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function snapshot(Siparis $order)
+    {
+        return response()->json($order->snapshot);
+    }
+
 
     public function invoiceDetail(Siparis $order)
     {

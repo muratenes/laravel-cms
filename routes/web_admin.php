@@ -101,6 +101,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('/', 'SiparisController@list')->name('admin.orders');
             Route::get('/iyzico-fails', 'IyzicoController@iyzicoErrorOrderList')->name('admin.orders.iyzico_logs');
             Route::get('/iyzico-fails/{id}', 'IyzicoController@iyzicoErrorOrderDetail')->name('admin.orders.iyzico_logs_detail');
+            Route::get('snapshot/{order:id}','SiparisController@snapshot')->name('admin.orders.snapshot');
             Route::get('edit/{order:id}', 'SiparisController@newOrEditOrder')->name('admin.order.edit');
             Route::post('save/{order:id}', 'SiparisController@save')->name('admin.order.save');
             Route::get('delete/{id}', 'SiparisController@deleteOrder')->name('admin.order.delete');
