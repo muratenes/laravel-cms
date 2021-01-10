@@ -22,17 +22,9 @@
         </div>
     </div>
     <!-- filtreleme -->
-    <div class="box box-default {{ Request::hasAny(['category','company']) ? '' : 'collapsed-box' }}">
-        <div class="box-header with-border">
-            <h3 class="box-title">Filtreleme</h3>
-
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                </button>
-            </div>
-        </div>
+    <div class="box box-default">
         <!-- /.box-header -->
-        <div class="box-body" style="{{ Request::hasAny(['category','company']) ? '' : 'display : none' }}" >
+        <div class="box-body" >
             <div class="row">
                 <form action="{{ route('admin.products') }}" method="get" id="form">
                     <div class="col-md-12">
