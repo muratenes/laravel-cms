@@ -67,7 +67,7 @@
                     <address>
                         {{$address->title}} <br>
                         {{$address->adres}} <br>
-                        {{$address->Town->title}} - {{$address->City->title}} <br>
+                        {{$address->state->title}} - {{$address->district->title}} <br>
                         +90{{$address->phone}}
                     </address>
                 </div>
@@ -80,7 +80,7 @@
                         <address>
                             {{$defaultInvoiceAddress->title}} <br>
                             {{$defaultInvoiceAddress->adres}} <br>
-                            {{$defaultInvoiceAddress->Town->title}} - {{$defaultInvoiceAddress->City->title}} <br>
+                            {{$defaultInvoiceAddress->state->title}} - {{$defaultInvoiceAddress->district->title}} <br>
                             +90{{$defaultInvoiceAddress->phone}}
                         </address>
                     </div>
@@ -226,7 +226,7 @@
 
                                                     <select class="form-control" name="city" id="city" onchange="citySelectOnChange(this)">
                                                         <option value="">Seçiniz</option>
-                                                        @foreach($cities as $city)
+                                                        @foreach($states as $city)
                                                             <option value="{{$city->id}}">{{$city->title}}</option>
                                                         @endforeach
                                                     </select>
