@@ -133,6 +133,10 @@ function basketItemAddToHtml(items, cardPrice) {
     // $("#basketContainer").html(items);
 }
 
+/**
+ * istek listesine ekler
+ * @param productId
+ */
 function addToFavorites(productId) {
     $.post(`/kullanici/favoriler/${productId}`, function (data) {
         console.log(data)
