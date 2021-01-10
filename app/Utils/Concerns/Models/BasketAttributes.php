@@ -14,7 +14,7 @@ trait BasketAttributes
     public function getSubTotalAttribute()
     {
         return $this->basket_items()->get()->sum(function ($item) {
-            return $item->total;
+            return $item->sub_total;
         });
     }
 
