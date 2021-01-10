@@ -45,10 +45,6 @@
                                 <td>SP-{{ $order->id }}</td>
                             </tr>
                             <tr>
-                                <th>Sipariş Tutarı</th>
-                                <td>{{ $order->order_total_price.' '.  $currencySymbol  }}</td>
-                            </tr>
-                            <tr>
                                 <th>Sipariş Durumu</th>
                                 <td>
                                     <select name="status" class="form-control">
@@ -68,17 +64,6 @@
                                 <td>{{$order->created_at }}</td>
                             </tr>
                             <tr>
-                                <th colspan="2" style="text-align: center">Adres Bilgileri</th>
-                            </tr>
-                            <tr>
-                                <th>Teslimat Adresi</th>
-                                <td>{{$order->adres }}</td>
-                            </tr>
-                            <tr>
-                                <th>Fatura Adresi</th>
-                                <td>{{$order->fatura_adres }}</td>
-                            </tr>
-                            <tr>
                                 <th colspan="2" style="text-align: center">Müşteri Bilgileri</th>
                             </tr>
                             <tr>
@@ -95,6 +80,7 @@
                             </tr>
                             </thead>
                         </table>
+                        @include('admin.order.partials.address-detail')
                     </div>
                     <!-- /.box-body -->
 
@@ -115,24 +101,29 @@
                                 <thead>
                                 <tr>
                                     <th>Toplam Ürün</th>
-                                    <td>{{ $order->basket->item_count }}</td>
+                                    <td>{{ count($order->snapshot['basket']['basket_items']) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Alt Toplam</th>
-                                    <td>{{ $basket->sub_total }} {{ $currencySymbol }}</td>
+                                    <td>{{ $order->order_price }} {{ $currencySymbol }}</td>
                                 </tr>
                                 <tr>
                                     <th>Kargo Toplam</th>
                                     <td>
-                                        <span class="text-success">+{{ $basket->cargo_total }} {{ $currencySymbol }}</span>
+                                        <span class="text-success">+{{ $order->cargo_price }} {{ $currencySymbol }}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Kupon</th>
                                     <td>
                                     <span class="text-danger">
-                                        @if ($basket->coupon)
-                                            {{ $basket->coupon_price }} {{ $currencySymbol }} ({{ $basket->coupon->code }})
+                                        @if ($order->coupon_price)
+                                            @if ($basket->coupon)
+                                                {{ $basket->coupon_price }} {{ $currencySymbol }} ({{ $basket->coupon->code }})
+                                            @else
+                                                {{ $order->coupon_price }} {{ $currencySymbol }}
+                                            @endif
+
                                         @else
                                             Kupon kullanılmadı
                                         @endif
@@ -142,7 +133,7 @@
                                 </tr>
                                 <tr>
                                     <th>Genel Toplam</th>
-                                    <td>{{ $basket->total }} {{ $currencySymbol }}</td>
+                                    <td>{{ $order->order_total_price }} {{ $currencySymbol }}</td>
                                 </tr>
 
                                 </thead>
