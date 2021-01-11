@@ -16,15 +16,16 @@ class OrderFilter extends Filter
     public function category(string $value = null): Builder
     {
         if (config('admin.product.multiple_category')) {
-            return $this->builder->whereHas('categories', function ($q) use ($value) {
+            return $this->builder->whereHas('basket.basket_items.product.categories', function ($q) use ($value) {
                 $q->where('category_id', $value);
             });
         }
 
-        return $this->builder->where(function ($query) use ($value) {
-            $query->where('parent_category_id', $value)->orWhere('sub_category_id', $value);
+        return $this->builder->whereHas('basket.basket_items.product', function ($q) use ($value) {
+            $q->where(function ($query) use ($value) {
+                $query->where('parent_category_id', $value)->orWhere('sub_category_id', $value);
+            });
         });
-
     }
 
     /**
@@ -56,7 +57,6 @@ class OrderFilter extends Filter
      */
     public function company(string $value = null): Builder
     {
-//        dd($value);
         return $this->builder->whereHas('basket.basket_items.product', function ($q) use ($value) {
             $q->where('company_id', $value);
         });

@@ -46,8 +46,9 @@ class SiparisController extends Controller
     {
         $filter_types = Siparis::listStatusWithId();
         $companies = $this->productCompanyService->all();
-        $categories = $this->categoryService->all();
+        $categories = $this->categoryService->all([['parent_category_id', null]], ['id', 'title', 'parent_category_id'], ['sub_categories']);
         $states = $this->cityTownService->all();
+
 
         return view('admin.order.list_orders', compact('filter_types', 'companies', 'categories', 'states'));
     }

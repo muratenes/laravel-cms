@@ -36,17 +36,32 @@
                                 @endif
                                 <div class="col-md-2">
                                     <select name="status" class="form-control" id="status">
-                                        <option value="0">--Sipariş Durumu Seçiniz--</option>
+                                        <option value="">--Sipariş Durumu Seçiniz--</option>
                                         @foreach($filter_types as $filter)
                                             <option value="{{ $filter[0] }}" {{ $filter[0] == request('status') ? 'selected': '' }}> {{ $filter[1] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <select name="state" class="form-control" id="state">
-                                        <option value="0">--İl Seçiniz--</option>
+                                        <option value="">--İl Seçiniz--</option>
                                         @foreach($states as $state)
                                             <option value="{{ $state->id }}" {{ $state->id == request('state') ? 'selected': '' }}> {{ $state->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select name="category" class="form-control" id="category">
+                                        <option value="">Ürün Kategori</option>
+                                        @foreach($categories as $cat)
+                                            <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                                               <b> {{ $cat->title  }}</b>
+                                            </option>
+                                            @foreach($cat->sub_categories as $subCategory)
+                                                <option value="{{ $subCategory->id }}" {{ request('category') == $subCategory->id ? 'selected' : '' }}>
+                                                    &nbsp;&nbsp;-- {{ $subCategory->title  }}
+                                                </option>
+                                            @endforeach
                                         @endforeach
                                     </select>
                                 </div>

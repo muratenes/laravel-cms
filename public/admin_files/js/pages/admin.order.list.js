@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // $("#category_filter,#company_filter,#brand_filter").select2({})
+    $("#category,#company,#state,#status").select2({})
     var table = $('#orderList').DataTable({
         processing: true,
         serverSide: true,
@@ -11,6 +11,7 @@ $(document).ready(function () {
                 status: $("#status").val(),
                 state: $("#state").val(),
                 company: $("#company").val(),
+                category: $("#category").val(),
             }
         },
         "language": {
