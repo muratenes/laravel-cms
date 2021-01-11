@@ -17,9 +17,8 @@ $(document).ready(function () {
             "url": "/admin_files/plugins/jquery-datatable/language-tr.json"
         },
         columns: [
-            {data: 'id', name: 'id'},
             {
-                data: 'code', name: 'code',
+                data: 'code', name: 'id',
                 render: function (data, type, row) {
                     return `<a href="/admin/order/edit/${row.id}">${data}</a>`
                 }

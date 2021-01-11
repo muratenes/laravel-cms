@@ -30,6 +30,7 @@ class CreateKullaniciAdresTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('country_id')->references('id')->on('countries');
             $table->foreign('state_id')->references('id')->on('states');

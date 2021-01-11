@@ -7,9 +7,12 @@ use App\Models\Region\Neighborhood;
 use App\Models\Region\State;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class KullaniciAdres extends Model
 {
+    use SoftDeletes;
+
     protected $table = "kullanici_adres";
     protected $guarded = ['id'];
     protected $perPage = 10;

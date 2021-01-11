@@ -48,7 +48,6 @@
                     <table class="table table-hover table-bordered" id="orderList">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Sipariş Kodu</th>
                                 <th>Ad/Soyad</th>
                                 <th>Kullanıcı</th>
