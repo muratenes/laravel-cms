@@ -114,6 +114,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('refund-item', 'SiparisController@refundItem')->name('admin.orders.refund-basket-item');
 
             Route::get('edit/{order:id}/invoice', 'SiparisController@invoiceDetail')->name('admin.order.invoice');
+            Route::get('ajax', 'SiparisController@ajax')->name('admin.order.ajax');
         });
 
         //----- Admin/Banners/..

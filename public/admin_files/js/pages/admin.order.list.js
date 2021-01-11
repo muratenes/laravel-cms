@@ -1,0 +1,72 @@
+$(document).ready(function () {
+    // $("#category_filter,#company_filter,#brand_filter").select2({})
+    var table = $('#orderList').DataTable({
+        processing: true,
+        serverSide: true,
+        order: [0, 'desc'],
+        pageLength: 16,
+        ajax: {
+            url: '/admin/order/ajax',
+            data: {
+                category: $("#category_filter").val(),
+                company: $("#company_filter").val(),
+                brand: $("#brand_filter").val(),
+            }
+        },
+        "language": {
+            "url": "/admin_files/plugins/jquery-datatable/language-tr.json"
+        },
+        columns: [
+            {data: 'id', name: 'id'},
+            {
+                data: 'code', name: 'code',
+                render: function (data, type, row) {
+                    return `<a href="/admin/order/edit/${row.id}">${data}</a>`
+                }
+            },
+            {data: 'full_name', name: 'full_name'},
+            {
+                data: 'basket.user.name', name: 'basket.user.name',
+                render: function (data, type, row) {
+                    return row.basket?.user
+                        ? `<a href="/admin/user/edit/${row.basket.user_id}">${row.basket.user.name} ${row.basket.user.surname}</a>`
+                        : '-'
+                }
+            },
+            {
+                data: 'adres', name: 'adres',
+                render: function (data) {
+                    return `${data.substr(0, 20)}..`;
+                }
+            },
+            {data: 'phone', name: 'phone'},
+            {
+                data: 'is_payment', name: 'is_payment',
+                render: function (data) {
+                    return data
+                        ? `<i class="fa fa-check text-green"></i>`
+                        : '<i class="fa fa-times text-red"></i>'
+                }
+            },
+            {data: 'status_label', name: 'status'},
+            {
+                data: 'real_order_price', name: 'real_order_price',
+                render: function (data, type, row) {
+                    return `${row['real_order_price']} ₺`;
+                }
+            },
+            {
+                data: 'real_order_total_price', name: 'real_order_total_price',
+                render: function (data, type, row) {
+                    return `${row['real_order_total_price']} ₺`;
+                }
+            },
+            {
+                data: 'created_at', name: 'created_at',
+                render: function (data, type, row) {
+                    return createdAt(data)
+                }
+            }
+        ]
+    });
+})

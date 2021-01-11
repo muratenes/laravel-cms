@@ -45,42 +45,25 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
-                    <table class="table table-hover table-bordered">
-                        <tbody>
-                        <tr>
-                            <th>Sipariş Kodu</th>
-                            <th>Ad/Soyad</th>
-                            <th>Kullanıcı</th>
-                            <th>Adres</th>
-                            <th>Telefon</th>
-                            <th>Ödeme Alındı?</th>
-                            <th>Durum</th>
-                            <th>Sepet Tutarı</th>
-                            <th>Kargo Tutarı</th>
-                            <th>Kupon Tutar</th>
-                            <th>Toplam Tutar</th>
-                            <th>Oluşturulma Tarihi</th>
-                        </tr>
-                        @foreach($list as $l)
+                    <table class="table table-hover table-bordered" id="orderList">
+                        <thead>
                             <tr>
-                                <td><a href="{{ route('admin.order.edit',$l->id) }}">SP-{{ $l->id }}</a></td>
-                                <td><a href="{{ route('admin.order.edit',$l->id) }}"> {{ $l->full_name }}</a></td>
-                                <td><a href="{{ route('admin.user.edit',$l->basket->user->id) }}">{{ $l->basket->user->name }} &nbsp; <i class="fa fa-edit"></i></a></td>
-                                <td>{{ $l ->adres }}</td>
-                                <td>{{ $l ->phone }}</td>
-                                <td><i class="fa fa-{{ $l->is_payment == 1 ? 'check text-green':'times text-red text-bold' }}"></i> </td>
-                                <td>{{ $l->statusLabel() }}</td>
-                                <td>{{ $l->order_price }} {{ getCurrencySymbolById($l->currency_id) }}</td>
-                                <td class="text text-success">+{{ $l->cargo_price }} {{ getCurrencySymbolById($l->currency_id) }}</td>
-                                <td class="text text-danger">-{{ $l->coupon ? $l->coupon->price : 0 }} {{ getCurrencySymbolById($l->currency_id) }}</td>
-                                <td class="text-bold">{{ $l->order_total_price }}  {{ getCurrencySymbolById($l->currency_id) }}</td>
-                                <td>{{ $l ->created_at }} </td>
+                                <th>ID</th>
+                                <th>Sipariş Kodu</th>
+                                <th>Ad/Soyad</th>
+                                <th>Kullanıcı</th>
+                                <th>Adres</th>
+                                <th>Telefon</th>
+                                <th>Ödeme Alındı?</th>
+                                <th>Durum</th>
+                                <th>Sepet Tutarı</th>
+{{--                                <th>Kargo Tutarı</th>--}}
+{{--                                <th>Kupon Tutar</th>--}}
+                                <th>Toplam Tutar</th>
+                                <th>Oluşturulma Tarihi</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-
+                        </thead>
                     </table>
-                    <div class="text-right"> {{ $list->appends(['q' => request('q'),'status_filter'=> request('status_filter')])->links() }}</div>
                 </div>
 
                 <!-- /.box-body -->
@@ -89,4 +72,7 @@
             <!-- /.box -->
         </div>
     </div>
+@endsection
+@section('footer')
+    <script src="/admin_files/js/pages/admin.order.list.js"></script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Ayar;
 use App\Models\Log;
+use App\Models\Product\Urun;
 use App\Models\SepetUrun;
 use App\Models\Siparis;
 use App\Notifications\order\OrderCancelledNotification;
@@ -16,6 +17,7 @@ use App\Repositories\Traits\SiparisUrunTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Iyzipay\Model\Locale;
+use Yajra\DataTables\DataTables;
 
 class SiparisController extends Controller
 {
@@ -29,18 +31,10 @@ class SiparisController extends Controller
     }
 
 
-    public function list(Request $request)
+    public function list()
     {
-        $request->validate(['status_filter' => 'numeric']);
-        $query = $request->get('q');
-        $status_filter = $request->get('status_filter');
-        if ($query || $status_filter) {
-            $list = $this->model->orderFilterByStatusAndSearchText($query, $status_filter, true);
-        } else {
-            $list = $this->model->with('basket.user', null, true);
-        }
         $filter_types = Siparis::listStatusWithId();
-        return view('admin.order.list_orders', compact('list', 'filter_types'));
+        return view('admin.order.list_orders', compact('filter_types'));
     }
 
     /**
@@ -73,6 +67,13 @@ class SiparisController extends Controller
         }
 
         return redirect(route('admin.order.edit', $order->id))->with('message', 'işlem başarılı');
+    }
+
+    public function ajax(){
+        return DataTables::of(
+            Siparis::with(['basket.user'])
+        )->make(true);
+
     }
 
 

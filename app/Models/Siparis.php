@@ -16,6 +16,15 @@ class Siparis extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    protected $casts = [
+        'snapshot' => 'array'
+    ];
+
+    protected $appends = [
+        'code',
+        'status_label'
+    ];
+
     const STATUS_BASARISIZ = 1;
     const STATUS_GERI_ODEME = 2;
     const STATUS_ONAY_BEKLIYOR = 3;
@@ -29,9 +38,7 @@ class Siparis extends Model
     const STATUS_ODEME_ALINAMADI = 12;
     const STATUS_3D_BASLATILDI = 13;
 
-    protected $casts = [
-        'snapshot' => 'array'
-    ];
+
 
 
     public function scopeGetOrderCountByStatus($query, $status_type)

@@ -69,6 +69,7 @@ trait PaymentConcern
             'phone_invoice' => $invoiceAddress->phone,
             'email_invoice' => $invoiceAddress->email
         ]);
+        // todo take snapshot add user data
         $order = Siparis::with('basket.basket_items.product')->find($order->id)->first();
         $order->update(['snapshot' => $order->toArray()]);
 
