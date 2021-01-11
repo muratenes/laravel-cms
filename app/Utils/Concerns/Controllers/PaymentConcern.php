@@ -69,9 +69,8 @@ trait PaymentConcern
             'phone_invoice' => $invoiceAddress->phone,
             'email_invoice' => $invoiceAddress->email
         ]);
-        // todo take snapshot add user data
-        $order = Siparis::with('basket.basket_items.product')->find($order->id)->first();
-        $order->update(['snapshot' => $order->toArray()]);
+
+        $this->takeSnapshot($order);
 
         Log::addIyzicoLog('Sipariş Oluşturuldu',"order id : $order->id",$basket->id);
         session()->put('orderId', $order->id);
@@ -110,6 +109,21 @@ trait PaymentConcern
         } else {
             Urun::find($productID)->decrement('qty', $qty);
         }
+    }
+
+    /**
+     * sipariş oluşturma esnasında gerekli bilgileri json olarak alır.
+     * @param Siparis $order
+     */
+    private function takeSnapshot(Siparis $order) {
+        $order = Siparis::with(['basket.basket_items.product', 'basket.user'])->find($order->id)->first();
+        $order->basket->setAppends(['total', 'sub_total', 'cargo_total', 'coupon_price']);
+        foreach ($order->basket->basket_items as $basketItem) {
+            $basketItem->setAppends(['total', 'sub_total', 'cargo_total']);
+        }
+        $orderArray = $order->toArray();
+        unset($orderArray['snapshot']);
+        $order->update(['snapshot' => $orderArray]);
     }
 
 }

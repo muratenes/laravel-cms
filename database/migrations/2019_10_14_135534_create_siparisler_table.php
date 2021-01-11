@@ -44,6 +44,8 @@ class CreateSiparislerTable extends Migration
             $table->string('email', 40)->nullable();
             $table->string('order_note', 255)->nullable();
             $table->uuid('hash');
+            $table->unsignedInteger('delivery_address_id');
+            $table->unsignedInteger('invoice_address_id');
 
 
             $table->unsignedSmallInteger('installment_count')->default(1);
@@ -60,6 +62,8 @@ class CreateSiparislerTable extends Migration
             $table->softDeletes();
 
             $table->foreign('sepet_id')->references('id')->on('sepet')->onDelete('cascade');
+            $table->foreign('delivery_address_id')->references('id')->on('kullanici_adres')->onDelete('cascade');
+            $table->foreign('invoice_address_id')->references('id')->on('kullanici_adres')->onDelete('cascade');
         });
     }
 
