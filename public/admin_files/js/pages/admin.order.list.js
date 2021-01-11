@@ -35,7 +35,7 @@ $(document).ready(function () {
             {
                 data: 'adres', name: 'adres',
                 render: function (data) {
-                    return `${data.substr(0, 20)}..`;
+                    return `<span title="${data}">${data.substr(0, 20)}..</span>`;
                 }
             },
             {data: 'phone', name: 'phone'},

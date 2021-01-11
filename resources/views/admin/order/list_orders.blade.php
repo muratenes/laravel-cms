@@ -16,32 +16,45 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="box ">
-                <div class="box-header">
-                    <h3 class="box-title">Siparişler</h3>
-
-                    <div class="box-tools">
-                        <form action="{{ route('admin.orders') }}" method="get" id="form">
-                            <div class="row">
-                                <div class="col-md-3 input-group input-group-sm hidden-xs  pull-right">
-                                    <input type="text" name="q" class="form-control pull-right" placeholder="Siparişlerde ara.." value="{{ request('q') }}">
-
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+            <!-- filtreleme -->
+            <div class="box box-default">
+                <!-- /.box-header -->
+                <div class="box-body" >
+                    <div class="row">
+                        <form action="{{ route('admin.orders') }}" method="GET" id="form">
+                            <div class="col-md-12">
+                                <div class="col-md-1" style="padding-top: 8px"><strong>Filtrele : </strong></div>
+                                @if(config('admin.product.use_companies'))
+                                    <div class="col-md-2">
+                                        <select name="company" class="form-control" id="company_filter">
+                                            <option value="">--Tedarikçi--</option>
+                                            @foreach($companies as $com)
+                                                <option value="{{ $com->id }}" {{ request('company') == $com->id ? 'selected' : '' }}>{{ $com->title }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                </div>
-                                <div class="col-md-3  pull-right">
-                                    <select name="status_filter" class="form-control" id="status_filter" onchange="document.getElementById('form').submit()">
+                                @endif
+                                <div class="col-md-2">
+                                    <select name="status_filter" class="form-control" id="status_filter">
                                         <option value="0">--Sipariş Durumu Seçiniz--</option>
                                         @foreach($filter_types as $filter)
                                             <option value="{{ $filter[0] }}" {{ $filter[0] == request('status_filter') ? 'selected': '' }}> {{ $filter[1] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-sm btn-success">Filtrele</button>
+                                    <a href="{{ route('admin.products') }}" class="btn btn-sm btn-danger">Temizle</a>
+                                </div>
 
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+            <div class="box ">
+                <div class="box-header">
+                    <h3 class="box-title">Siparişler</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">

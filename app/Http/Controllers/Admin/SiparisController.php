@@ -6,12 +6,16 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Ayar;
 use App\Models\Log;
 use App\Models\Product\Urun;
+use App\Models\Product\UrunFirma;
 use App\Models\SepetUrun;
 use App\Models\Siparis;
 use App\Notifications\order\OrderCancelledNotification;
 use App\Notifications\order\OrderItemStatusChangedNotification;
 use App\Notifications\order\OrderStatusChangedNotification;
+use App\Repositories\Interfaces\CityTownInterface;
+use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\SiparisInterface;
+use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\ResponseTrait;
 use App\Repositories\Traits\SiparisUrunTrait;
 use Illuminate\Http\Request;
@@ -24,17 +28,27 @@ class SiparisController extends Controller
     use SiparisUrunTrait, ResponseTrait;
 
     protected SiparisInterface $model;
+    protected UrunFirma $productCompanyService;
+    protected KategoriInterface $categoryService;
+    protected CityTownInterface $cityTownService;
 
-    public function __construct(SiparisInterface $model)
+    public function __construct(SiparisInterface $model, UrunFirma $productCompanyService, KategoriInterface $categoryService, CityTownInterface $cityTownService)
     {
         $this->model = $model;
+        $this->productCompanyService = $productCompanyService;
+        $this->categoryService = $categoryService;
+        $this->cityTownService = $cityTownService;
     }
 
 
     public function list()
     {
         $filter_types = Siparis::listStatusWithId();
-        return view('admin.order.list_orders', compact('filter_types'));
+        $companies = $this->productCompanyService->all();
+        $categories = $this->categoryService->all();
+        $states = $this->cityTownService->all();
+
+        return view('admin.order.list_orders', compact('filter_types', 'companies', 'categories', 'states'));
     }
 
     /**
