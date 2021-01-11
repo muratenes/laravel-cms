@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Filters\OrderFilter;
 use App\Models\Ayar;
 use App\Models\Log;
 use App\Models\Product\Urun;
@@ -83,7 +84,12 @@ class SiparisController extends Controller
         return redirect(route('admin.order.edit', $order->id))->with('message', 'işlem başarılı');
     }
 
-    public function ajax()
+    /**
+     * @param OrderFilter $filter
+     * @return mixed
+     * @throws \Exception
+     */
+    public function ajax(OrderFilter $filter)
     {
         return DataTables::of(
             Siparis::with(['basket' => function ($query) {
@@ -91,7 +97,7 @@ class SiparisController extends Controller
                 }, 'delivery_address' => function ($query) {
                     $query->select(['id', 'title', 'state_id', 'district_id'])->with(['state', 'district'])->withTrashed();
                 }, 'basket.user:id,name,surname,email']
-            )
+            )->filter($filter)
         )->make(true);
 
     }

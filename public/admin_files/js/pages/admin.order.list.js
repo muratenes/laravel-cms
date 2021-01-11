@@ -8,9 +8,9 @@ $(document).ready(function () {
         ajax: {
             url: '/admin/order/ajax',
             data: {
-                category: $("#category_filter").val(),
-                company: $("#company_filter").val(),
-                brand: $("#brand_filter").val(),
+                status: $("#status").val(),
+                state: $("#state").val(),
+                company: $("#company").val(),
             }
         },
         "language": {

@@ -26,7 +26,7 @@
                                 <div class="col-md-1" style="padding-top: 8px"><strong>Filtrele : </strong></div>
                                 @if(config('admin.product.use_companies'))
                                     <div class="col-md-2">
-                                        <select name="company" class="form-control" id="company_filter">
+                                        <select name="company" class="form-control" id="company">
                                             <option value="">--Tedarikçi--</option>
                                             @foreach($companies as $com)
                                                 <option value="{{ $com->id }}" {{ request('company') == $com->id ? 'selected' : '' }}>{{ $com->title }}</option>
@@ -35,16 +35,24 @@
                                     </div>
                                 @endif
                                 <div class="col-md-2">
-                                    <select name="status_filter" class="form-control" id="status_filter">
+                                    <select name="status" class="form-control" id="status">
                                         <option value="0">--Sipariş Durumu Seçiniz--</option>
                                         @foreach($filter_types as $filter)
-                                            <option value="{{ $filter[0] }}" {{ $filter[0] == request('status_filter') ? 'selected': '' }}> {{ $filter[1] }}</option>
+                                            <option value="{{ $filter[0] }}" {{ $filter[0] == request('status') ? 'selected': '' }}> {{ $filter[1] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select name="state" class="form-control" id="state">
+                                        <option value="0">--İl Seçiniz--</option>
+                                        @foreach($states as $state)
+                                            <option value="{{ $state->id }}" {{ $state->id == request('state') ? 'selected': '' }}> {{ $state->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-2">
                                     <button class="btn btn-sm btn-success">Filtrele</button>
-                                    <a href="{{ route('admin.products') }}" class="btn btn-sm btn-danger">Temizle</a>
+                                    <a href="{{ route('admin.orders') }}" class="btn btn-sm btn-danger">Temizle</a>
                                 </div>
 
                             </div>

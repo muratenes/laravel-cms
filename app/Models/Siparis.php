@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Repositories\Traits\ModelCurrencyTrait;
+use App\Utils\Concerns\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,6 +11,7 @@ class Siparis extends Model
 {
     use  SoftDeletes;
     use ModelCurrencyTrait;
+    use Filterable;
 
     protected $table = "siparisler";
     protected $perPage = 20;
