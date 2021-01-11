@@ -55,6 +55,8 @@
                                 <th>Telefon</th>
                                 <th>Ödeme Alındı?</th>
                                 <th>Durum</th>
+                                <th>İl</th>
+                                <th>İlçe</th>
                                 <th>Sepet Tutarı</th>
 {{--                                <th>Kargo Tutarı</th>--}}
 {{--                                <th>Kupon Tutar</th>--}}

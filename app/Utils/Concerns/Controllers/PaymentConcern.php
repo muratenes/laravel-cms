@@ -67,7 +67,9 @@ trait PaymentConcern
             'order_note' => request()->get('order_note'),
             'full_name_invoice' => $invoiceAddress->full_name,
             'phone_invoice' => $invoiceAddress->phone,
-            'email_invoice' => $invoiceAddress->email
+            'email_invoice' => $invoiceAddress->email,
+            'delivery_address_id' => $defaultAddress->id,
+            'invoice_address_id' => $invoiceAddress->id
         ]);
 
         $this->takeSnapshot($order);

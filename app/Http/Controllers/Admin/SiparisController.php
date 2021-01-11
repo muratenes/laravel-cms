@@ -69,9 +69,15 @@ class SiparisController extends Controller
         return redirect(route('admin.order.edit', $order->id))->with('message', 'işlem başarılı');
     }
 
-    public function ajax(){
+    public function ajax()
+    {
         return DataTables::of(
-            Siparis::with(['basket.user'])
+            Siparis::with(['basket' => function ($query) {
+                    $query->withTrashed();
+                }, 'delivery_address' => function ($query) {
+                    $query->select(['id', 'title', 'state_id', 'district_id'])->with(['state', 'district'])->withTrashed();
+                }, 'basket.user:id,name,surname,email']
+            )
         )->make(true);
 
     }
@@ -107,6 +113,7 @@ class SiparisController extends Controller
      */
     public function cancelOrderItem(SepetUrun $item)
     {
+        // todo : refund amount hatası var eklenecek
         return $this->model->refundBasketItemFromIyzico($item);
     }
 

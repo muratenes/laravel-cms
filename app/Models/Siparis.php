@@ -39,8 +39,6 @@ class Siparis extends Model
     const STATUS_3D_BASLATILDI = 13;
 
 
-
-
     public function scopeGetOrderCountByStatus($query, $status_type)
     {
         return $query->where('status', $status_type)->count();
@@ -71,6 +69,22 @@ class Siparis extends Model
     public function iyzico()
     {
         return $this->hasOne(Iyzico::class, 'siparis_id', 'id')->withDefault();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function delivery_address()
+    {
+        return $this->belongsTo(KullaniciAdres::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function invoice_address()
+    {
+        return $this->belongsTo(KullaniciAdres::class);
     }
 
 

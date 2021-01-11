@@ -49,6 +49,12 @@ $(document).ready(function () {
             },
             {data: 'status_label', name: 'status'},
             {
+                data: 'delivery_address.state.title', name: 'delivery_address.state_id',
+            },
+            {
+                data: 'delivery_address.district.title', name: 'delivery_address.district_id',
+            },
+            {
                 data: 'real_order_price', name: 'real_order_price',
                 render: function (data, type, row) {
                     return `${row['real_order_price']} ₺`;
