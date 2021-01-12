@@ -16,6 +16,7 @@ class CreateUrunDescriptionsTable extends Migration
         Schema::create('urun_descriptions', function (Blueprint $table) {
             $table->id();
             $table->string('title', 50)->nullable();
+            $table->string('slug', 60)->nullable();
             $table->string('spot', 255)->nullable();
             $table->json('tags')->nullable();
             $table->json('properties')->nullable();

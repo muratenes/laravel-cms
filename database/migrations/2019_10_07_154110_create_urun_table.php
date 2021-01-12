@@ -45,8 +45,8 @@ class CreateUrunTable extends Migration
 
             // Multiple category
             if (! config('admin.product.multiple_category')) {
-                $table->unsignedInteger('parent_category_id');
-                $table->unsignedInteger('sub_category_id');
+                $table->unsignedInteger('parent_category_id')->nullable();
+                $table->unsignedInteger('sub_category_id')->nullable();
 
                 $table->foreign('parent_category_id')->references('id')->on('kategoriler');
                 $table->foreign('sub_category_id')->references('id')->on('kategoriler');
