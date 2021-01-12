@@ -143,10 +143,16 @@ class ProductsImports implements ToCollection, WithHeadingRow
         }
     }
 
+    /**
+     * product gallery upload images
+     * @param Urun $product
+     * @param $row
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     private function uploadGalleryImages(Urun $product, $row)
     {
         for ($i = 1; $i < 5; $i++) {
-            $imageName = $row["image_${i}"];
+            $imageName = $row["image${i}"];
             if ($imageName and Storage::exists('excel/products/images/' . $imageName) and $imageName) {
                 $file = Storage::get('excel/products/images/' . $imageName);
                 Storage::put('public/product-gallery/' . $imageName, $file);

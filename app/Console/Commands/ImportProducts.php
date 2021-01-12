@@ -39,7 +39,7 @@ class ImportProducts extends Command
      */
     public function handle()
     {
-        Excel::import(new ProductsImports, storage_path('app/excel/products/products.ods'),null,\Maatwebsite\Excel\Excel::ODS);
+        Excel::import(new ProductsImports, storage_path('app/excel/products/products.ods'));
         return 0;
     }
 }
