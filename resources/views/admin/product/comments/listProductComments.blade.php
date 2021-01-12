@@ -50,9 +50,9 @@
                         </tr>
                         @foreach($list as $l)
                             <tr>
-                                <td>{{ $l ->id }} </td>
-                                <td><a href="{{route('admin.user.edit',$l->user_id)}}">{{ $l->user->full_name }}</a></td>
-                                <td><a href="{{route('admin.product.edit',$l->product_id)}}">{{ $l->product->title }}</a></td>
+                                <td><a href="{{route('admin.product.comments.edit',$l->user_id)}}">{{  $l ->id }}</a></td>
+                                <td><a href="{{route('admin.user.edit',$l->user_id)}}">{{ $l->user->full_name }}<i class="fa fa-external-link"></i></a></td>
+                                <td><a href="{{route('admin.product.edit',$l->product_id)}}">{{ $l->product->title }} <i class="fa fa-external-link"></i></a></td>
                                 <td>{{ substr($l->message,0,50) }}</td>
                                 <td>{{ $l->created_at }}</td>
                                 <td><i class="fa fa-{{ $l-> active == false ? 'times text-red' : 'check text-green' }}"></i></td>

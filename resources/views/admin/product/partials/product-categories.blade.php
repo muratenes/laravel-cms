@@ -25,7 +25,7 @@
 </div>
 <div class="form-group col-md-2">
     <label>Alt Kategori</label>
-    <select name="sub_category_id" id="sub_category_id" class="form-control" required>
+    <select name="sub_category_id" id="sub_category_id" class="form-control">
         <option value="">---Alt Kategori Seçiniz --</option>
         @foreach($data['subCategories'] as $subCat)
             <option {{ $product->sub_category_id == $subCat->id ? 'selected' : '' }}

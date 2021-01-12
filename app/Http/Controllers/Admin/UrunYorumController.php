@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Product\UrunAttribute;
+use App\Models\Product\UrunYorum;
 use App\Repositories\Interfaces\UrunYorumInterface;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class UrunYorumController extends Controller
 {
@@ -15,9 +17,12 @@ class UrunYorumController extends Controller
         $this->model = $model;
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $list = $this->model->allWithPagination(null, null, null, ['product', 'user']);
+        $list = UrunYorum::when($request->get('productID'), function ($q, $v) {
+            $q->where('product_id', $v);
+        })->latest()->paginate();
+
         return view('admin.product.comments.listProductComments', compact('list'));
     }
 
@@ -27,9 +32,8 @@ class UrunYorumController extends Controller
             $item = $this->model->getById($id, null, ['product', 'user']);
         else
             $item = new UrunAttribute();
-        if (!is_null($item)) {
-            $item->is_read = 1;
-            $item->save();
+        if ($id != 0 and !$item->is_read) {
+            $item->update(['is_read' => 1]);
         }
         return view('admin.product.comments.editOrNewComment', compact('item'));
     }
@@ -39,9 +43,9 @@ class UrunYorumController extends Controller
         $request_data = \request()->only('title');
         $request_data['active'] = request()->has('active') ? 1 : 0;
         if ($id != 0) {
-            $entry = $this->model->update($request_data, $id);
+           $this->model->update($request_data, $id);
         } else {
-            $entry = $this->model->create($request_data);
+            $this->model->create($request_data);
         }
         return redirect(route('admin.product.comments.list'));
     }
