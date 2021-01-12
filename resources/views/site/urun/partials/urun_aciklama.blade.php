@@ -38,14 +38,14 @@
                                 </a>
                             </figure>
                             <div class="author-content">
-                                <h4><a href="#">{{$com->user->getfullName() }}</a></h4>
+                                <h4><a href="#">{{$com->user->full_name }}</a></h4>
                                 {{ $com->message }}
                             </div>
                         </div>
                     @endforeach
                     @auth()
                         <div id="makeNewComment">
-                            <form action="{{ route('product.comments.add') }}" method="post">
+                            <form action="{{ route('product.comments.add',['product' => $product->id]) }}" method="post">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <input type="hidden" name="product_slug" value="{{ $product->slug }}">

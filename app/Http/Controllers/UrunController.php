@@ -7,7 +7,6 @@ use App\Models\Product\UrunMarka;
 use App\Models\Product\UrunVariant;
 use App\Models\Product\UrunYorum;
 use App\Repositories\Interfaces\KampanyaInterface;
-use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -17,14 +16,11 @@ class UrunController extends Controller
     use ResponseTrait;
 
     protected UrunlerInterface $model;
-    private KategoriInterface $_categoryService;
     private KampanyaInterface $_campaignService;
 
-    public function __construct(UrunlerInterface $model, KategoriInterface $categoryService, KampanyaInterface $campaignService)
+    public function __construct(UrunlerInterface $model)
     {
         $this->model = $model;
-        $this->_categoryService = $categoryService;
-        $this->_campaignService = $campaignService;
     }
 
     public function detail(Urun $product)
@@ -33,26 +29,31 @@ class UrunController extends Controller
         $featuredProductTitle = "Benzer Ürünler";
         $bestSellers = collect($this->model->getBestSellersProducts($product->categories[0]->id, 6, $product->id));
         $discount = $product->discount_price;
-        $comments = $product->comments()->latest()->take(5)->get();
+        $comments = $product->comments()->latest()->where('active',1)->take(5)->get();
         return view('site.urun.product', compact('product', 'discount', 'featuredProducts', 'featuredProductTitle', 'bestSellers', 'comments'));
     }
 
-    public function addNewComment(Request $request)
+    /**
+     * @param Request $request
+     * @param Urun $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createComment(Request $request, Urun $product)
     {
-        $productSlug = $request->get('product_slug');
-        try {
-            $message = $request->get('message');
-            $user = $request->user()->id;
-            $product = $request->get('product_id');
-            UrunYorum::create(['message' => substr($message, 0, 255), 'product_id' => $product, 'user_id' => $user]);
-            session()->flash('message', "Yorum eklendi yönetici onayından sonra burada görüntülenecektir");
-            return redirect()->route('product.detail', $productSlug);
-
-        } catch (\Exception $e) {
-            session()->flash('message', "Yorum eklenirken bir hata oluştu");
-            session()->flash('message_type', "danger");
-            return redirect()->route('product.detail', $productSlug);
+        $validated = $request->validate([
+            'message' => 'required|max:255',
+            'point' => 'numeric|min:1,max:5'
+        ]);
+        if (UrunYorum::where(['product_id' => $product->id, 'user_id' => $request->user()->id])->count()) {
+            return back()->withErrors(__('lang.you_have_already_added_comment'));
         }
+        UrunYorum::create(array_merge($validated, [
+            'user_id' => $request->user()->id,
+            'product_id' => $product->id
+        ]));
+        success(__('lang.product_comment_added'));
+
+        return back();
     }
 
     /**

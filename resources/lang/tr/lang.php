@@ -81,7 +81,11 @@ return [
     'profile_updated' => 'Profil başarıyla güncellendi',
 
     // Favoriler
-    'product_removed_favorites' => 'Ürün favorilerimden kaldırıldı'
+    'product_removed_favorites' => 'Ürün favorilerimden kaldırıldı',
+
+    // Yorum
+    'you_have_already_added_comment' => 'Bu ürüne zaten yorum eklendi',
+    'product_comment_added' => 'Yorum eklendi yönetici onayından sonra burada görüntülenecektir'
 
 
 ];

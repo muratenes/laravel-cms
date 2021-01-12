@@ -21,6 +21,7 @@ class CreateUrunYorumsTable extends Migration
             $table->boolean('active')->default(0);
             $table->boolean('is_read')->default(0);
             $table->string('message', 255);
+            $table->unsignedTinyInteger('point')->default(5);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('urunler')->onDelete('cascade');

@@ -132,7 +132,7 @@ Route::get('lang/{locale}','AnasayfaController@setLanguage')->name('home.setLoca
 Route::get('{product:slug}', 'UrunController@detail')->name('product.detail');
 Route::get('urun/quickView/{product:slug}', 'UrunController@quickView')->name('product.quickView');
 Route::get('kategori/{categorySlug}', 'KategoriController@index')->name('category.detail');
-Route::post('urun/yorum-ekle', 'UrunController@addNewComment')->name('product.comments.add')->middleware('auth');
+Route::post('product/add-comment/{product:id}', 'UrunController@createComment')->name('product.comments.add')->middleware('auth');
 
 
 
