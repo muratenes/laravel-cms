@@ -57,20 +57,29 @@ class SiparisController extends Controller
     }
 
     /**
-     * @param Siparis $order
+     * @param int $orderId
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function newOrEditOrder(Siparis $order)
+    public function newOrEditOrder(int $orderId)
     {
+        $order = Siparis::with(['basket' => function ($query) {
+            $query->withTrashed();
+        }, 'basket.basket_items' => function ($query) {
+            $query->withTrashed();
+        }, 'basket.basket_items.product' => function ($query) {
+            $query->withTrashed();
+        }])->find($orderId);
+
         if ($order->is_payment == 0) {
             error("Dikkat bu işlem 3D security kısmını geçememiştir.Ödeme İşlemi gerçekleşmemiştir");
         }
-        $logs = $this->getOrderAllLogs($order->id, $order->sepet_id);
-        $filter_types = Siparis::listStatusWithId();
-        $item_filter_types = SepetUrun::listStatusWithId();
-        $basket = $order->basket;
-        $currencySymbol = Ayar::getCurrencySymbolById($order->currency_id);
-        return view('admin.order.new_edit_order', compact('order', 'filter_types', 'item_filter_types', 'logs', 'basket', 'currencySymbol'));
+
+        return view('admin.order.new_edit_order', [
+            'logs' => $this->getOrderAllLogs($order->id, $order->sepet_id),
+            'filter_types' => Siparis::listStatusWithId(),
+            'item_filter_types' => SepetUrun::listStatusWithId(),
+            'order' => $order,
+            'currencySymbol' => Ayar::getCurrencySymbolById($order->currency_id)]);
     }
 
     public function save(Request $request, Siparis $order)

@@ -169,6 +169,7 @@ return [
         'surname' => "Soyisim",
         'adres' => "Adres",
         'holderName' => "Kart Üzerindeki İsim",
+        'refundAmount' => 'Iade edilebilir tutar'
     ],
 
     'credit_card' => [

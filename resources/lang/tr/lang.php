@@ -55,7 +55,7 @@ return [
     'your_refund_has_been_processed_successfully' => 'İade işleminiz başarıyla gerçekleşti',
     'order_refund_text' => ":code no'lu siparişinizin iptal / değişim / iadesine istinaden :price TL'lik tutar, :date tarihinde ödeme yaptığınız bankaya tarafımızdan ödenmiştir.",
     'order_refund_bank_text' => 'Bankanızın bu tutarı kredi kartınıza/banka kartınıza yansıtma süresi :day iş günüdür. Bu süre banka tarafından belirlendiği için geri ödeme işlemiyle ilgili bankanızla iletişim kurmanızı tavsiye ederiz.',
-
+    'order_can_not_cancel_basket_item' => 'Sipariş durumu ":status" olduğu için iptal edilemez',
 
     // Sepet
     'can_not_cancel_basket_item' => 'Ürün durumu ":status" olduğu için iptal edilemez',
