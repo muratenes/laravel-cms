@@ -173,7 +173,7 @@ class ElSiparisDal implements SiparisInterface
             SepetUrun::STATUS_IADE_EDILDI,
             SepetUrun::STATUS_IPTAL_EDILDI,
         ];
-//        if (in_array($basketItem->status, $checkStatus)) return $this->response(false, __('messages.can_not_cancel_basket_item', ['status' => $basketItem->statusLabel()]));
+        if (in_array($basketItem->status, $checkStatus)) return $this->response(false, __('messages.can_not_cancel_basket_item', ['status' => $basketItem->statusLabel()]));
         $now = Carbon::now();
         $afterTwoWeek = $basketItem->created_at->addDays(14);
         if ($afterTwoWeek <= $now) {
@@ -259,5 +259,20 @@ class ElSiparisDal implements SiparisInterface
         if (!in_array($order->status, $checkStatus)) return $this->response(false, __('lang.can_not_cancel_basket_item', ['status' => $order->statusLabel()]));
 
         return $this->response(true, __('messages.can_be_canceled'));
+    }
+
+    public function checkCanRefundBasketItemFromAdmin(SepetUrun $basketItem, float $refundAmount)
+    {
+        if (($refundAmount + $basketItem->refunded_amount) > $basketItem->total) {
+            return $this->response(false, __('lang.the_amount_refunded_cannot_be_greater_than_the_grand_total', ['refunded_amount' => $refundAmount + $basketItem->refunded_amount]));
+        }
+        $checkStatus = [
+            SepetUrun::STATUS_BASARISIZ,
+            SepetUrun::STATUS_GERI_ODEME,
+            SepetUrun::STATUS_IADE_EDILDI,
+            SepetUrun::STATUS_IPTAL_EDILDI,
+        ];
+        if (in_array($basketItem->status, $checkStatus)) return $this->response(false, __('messages.can_not_cancel_basket_item', ['status' => $basketItem->statusLabel()]));
+        return $this->response(true, __('lang.can_be_canceled'));
     }
 }

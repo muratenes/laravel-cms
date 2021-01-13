@@ -129,10 +129,21 @@ class SepetUrun extends Model
     {
         return $this->qty * ($this->price + $this->cargo_price);
     }
+
     /**
      * sepetteki ürünün kargo toplam fiyatını belirler.
      */
-    public function getCargoTotalAttribute() {
+    public function getCargoTotalAttribute()
+    {
         return $this->cargo_price * $this->qty;
+    }
+
+    /**
+     * iade edilebilir tutar
+     * @return float
+     */
+    public function getRefundableAmountAttribute()
+    {
+        return $this->total - $this->refunded_amount;
     }
 }

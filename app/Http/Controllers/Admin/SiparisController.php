@@ -161,18 +161,16 @@ class SiparisController extends Controller
      */
     public function refundItem(Request $request)
     {
-        $validated = $request->validate(['refundAmount' => 'required|numeric', 'id' => 'required|numeric']);
+        $basketItem = SepetUrun::withTrashed()->find($request->get('id'));
+        $validated = $request->validate(['refundAmount' => 'required|numeric|between:0,' . $basketItem->refundable_amount, 'id' => 'required|numeric']);
         $refundAmount = (float)$validated['refundAmount'];
-        $item = SepetUrun::withTrashed()->find($validated['id']);
-        // todo : sadece kullanıcı için kontrol et
-        $canRefundResponse = $this->model->checkCanRefundBasketItem($item, $refundAmount);
+        $canRefundResponse = $this->model->checkCanRefundBasketItemFromAdmin($basketItem, $refundAmount);
         if (!$canRefundResponse['status']) {
             return back()->withErrors($canRefundResponse['message']);
         }
-        dd(1);
-        $iyzicoResponse = $this->model->refundBasketItemFromIyzico($item, $refundAmount);
+        $iyzicoResponse = $this->model->refundBasketItemFromIyzico($basketItem, $refundAmount);
         if ($iyzicoResponse['status']) {
-            Log::addIyzicoLog(__('log.admin.order_item_successfully_refunded_message', ['id' => $item->id, 'refundAmount' => $refundAmount]), json_encode($canRefundResponse), $item->sepet_id);
+            Log::addIyzicoLog(__('log.admin.order_item_successfully_refunded_message', ['id' => $basketItem->id, 'refundAmount' => $refundAmount]), json_encode($canRefundResponse), $basketItem->sepet_id);
             success($iyzicoResponse['message']);
         } else {
             error($iyzicoResponse['message']);

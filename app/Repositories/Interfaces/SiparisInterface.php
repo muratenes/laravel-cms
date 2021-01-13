@@ -30,6 +30,15 @@ interface SiparisInterface extends BaseRepositoryInterface
      */
     public function checkCanRefundBasketItem(SepetUrun $basketItem,float $refundAmount);
 
+
+    /**
+     * admin sipariş ürün iade edebilir mi ?
+     * @param SepetUrun $basketItem
+     * @param float $refundAmount iade edilmek istenen tutar
+     * @return array
+     */
+    public function checkCanRefundBasketItemFromAdmin(SepetUrun $basketItem,float $refundAmount);
+
     /**
      * sepetteki ürünü iyzico tarafından iptal eder
      * @param SepetUrun $basketItem
