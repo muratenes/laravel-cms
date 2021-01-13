@@ -99,11 +99,10 @@
             <div class="col-lg-7 order-lg-first">
                 <div class="checkout-payment">
                     <h2 class="step-title">Ödeme Bilgileri:</h2>
-                    <form action="{{ route('odemeView') }}" method="post" style="width: 100% !important;" id="paymentForm">
+                    <form action="{{ route('payment.create') }}" method="POST" style="width: 100% !important;" id="paymentForm">
+                        @csrf
                         <div class="col-md-12">
-
                             <input type="hidden" id="taksit_sayisi" name="taksit_sayisi" value="1">
-                            {{ csrf_field() }}
                             <div class="row">
 
                                 <div class="col-md-12">

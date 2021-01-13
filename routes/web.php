@@ -60,7 +60,7 @@ Route::group(['prefix' => 'sepet','middleware' => 'throttle:20'], function () {
 Route::group(['prefix' => 'odeme/', 'middleware' => ['auth','throttle:20']], function () {
     Route::get('adres', 'AddressController@addresses')->name('odeme.adres');
     Route::get('review', 'OdemeController@index')->name('odemeView');
-    Route::post('review', 'OdemeController@payment');
+    Route::post('review', 'OdemeController@payment')->name('payment.create');
     Route::get('taksit-getir', 'OdemeController@getIyzicoInstallmentCount')->name('odgetIyzicoInstallmentCount');
 
     Route::get('threeDSecurityRequest', 'OdemeController@threeDSecurityRequest')->name('odeme.threeDSecurityRequest');
