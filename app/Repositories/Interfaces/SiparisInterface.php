@@ -45,6 +45,14 @@ interface SiparisInterface extends BaseRepositoryInterface
      */
     public function checkCanCancelAllOrder(Siparis $order);
 
+
+    /**
+     * admin siparişi tamamıyla iade  edilebilir mi ?
+     * @param Siparis $order
+     * @return array
+     */
+    public function checkCanCancelAllOrderFromAdmin(Siparis $order) : array;
+
     /**
      * siparişi tamamıyla iade et
      * @param Siparis $order

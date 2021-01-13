@@ -1,10 +1,3 @@
-function cancelBasketItem(orderID, basketItemID) {
-    $.post(`/admin/order/cancel-order-item/${basketItemID}`)
-        .then(response => {
-            console.log(response)
-        })
-}
-
 function refundBasketItem(basketItem,basketItemID) {
     var table = $("#tableBasketItemRefund");
     $.post(`/admin/order/basket/${basketItemID}`)

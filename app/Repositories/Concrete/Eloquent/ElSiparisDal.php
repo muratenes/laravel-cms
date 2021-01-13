@@ -246,4 +246,18 @@ class ElSiparisDal implements SiparisInterface
 
         return json_decode(\Iyzipay\Model\Cancel::create($request, Iyzico::getOptions())->getRawResult(), true);
     }
+
+    public function checkCanCancelAllOrderFromAdmin(Siparis $order): array
+    {
+        $checkStatus = [
+            Siparis::STATUS_ONAY_BEKLIYOR,
+            Siparis::STATUS_SIPARIS_ALINDI,
+            Siparis::STATUS_HAZIRLANIYOR,
+            Siparis::STATUS_HAZIRLANDI,
+            Siparis::STATUS_TAMAMLANDI,
+        ];
+        if (!in_array($order->status, $checkStatus)) return $this->response(false, __('lang.can_not_cancel_basket_item', ['status' => $order->statusLabel()]));
+
+        return $this->response(true, __('messages.can_be_canceled'));
+    }
 }

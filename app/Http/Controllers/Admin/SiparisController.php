@@ -131,26 +131,15 @@ class SiparisController extends Controller
 
 
     /**
-     * ürün iptal etmek için aynı gün içinde saat 5'ten önce
-     * @param SepetUrun $item
-     * @return array
-     */
-    public function cancelOrderItem(SepetUrun $item)
-    {
-        // todo : refund amount hatası var eklenecek
-        return $this->model->refundBasketItemFromIyzico($item);
-    }
-
-    /**
      * tüm siparişi iyzicodan iptal eder
      * @param Siparis $order
      */
     public function cancelOrder(Siparis $order)
     {
-        $canCancelResponse = $this->model->checkCanCancelAllOrder($order);
-//        if (!$canCancelResponse['status']) {
-//            return back()->withErrors($canCancelResponse['message']);
-//        }
+        $canCancelResponse = $this->model->checkCanCancelAllOrderFromAdmin($order);
+        if (!$canCancelResponse['status']) {
+            return back()->withErrors($canCancelResponse['message']);
+        }
         $response = $this->model->cancelOrderFromIyzico($order, Locale::TR);
         if ($response['status'] == "failure") {
             Log::addIyzicoLog(__('log.admin.error_when_order_cancel'), json_encode($response), $order->id, Log::TYPE_ORDER);
@@ -180,6 +169,7 @@ class SiparisController extends Controller
         if (!$canRefundResponse['status']) {
             return back()->withErrors($canRefundResponse['message']);
         }
+        dd(1);
         $iyzicoResponse = $this->model->refundBasketItemFromIyzico($item, $refundAmount);
         if ($iyzicoResponse['status']) {
             Log::addIyzicoLog(__('log.admin.order_item_successfully_refunded_message', ['id' => $item->id, 'refundAmount' => $refundAmount]), json_encode($canRefundResponse), $item->sepet_id);
