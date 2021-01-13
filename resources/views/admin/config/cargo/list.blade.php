@@ -7,10 +7,10 @@
             <div class="row">
                 <div class="col-md-10">
                     <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › Ayarlar
+                    › Kargolar
                 </div>
                 <div class="col-md-2 text-right mr-3">
-                    <a href="{{ route('admin.cargo.show', 0) }}"> <i class="fa fa-plus"></i> Yeni Kargo Ekle</a>&nbsp;
+                    <a href="{{ route('admin.cargo.create') }}"> <i class="fa fa-plus"></i> Yeni Kargo Ekle</a>&nbsp;
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
         <div class="col-xs-12">
             <div class="box ">
                 <div class="box-header">
-                    <h3 class="box-title">Ayarlar</h3>
+                    <h3 class="box-title">Kargolar</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -27,37 +27,32 @@
                         <tbody>
                         <tr>
                             <th>ID</th>
-                            <th>Site Başlık</th>
-                            <th>Domain</th>
-                            <th>Logo</th>
-                            <th>Icon</th>
-                            <th>Telefon</th>
-                            <th>Mail</th>
-                            <th>Varsayılan Kargo Fiyatı</th>
-                            <th>Dil</th>
-                            {{--                            <th>#</th>--}}
+                            <th>Başlık</th>
+                            <th>Ülke</th>
+                            <th>Takip URL</th>
+                            <th>Ücretsiz Taşıma</th>
+                            <th>#</th>
                         </tr>
                         @if(count($list) > 0)
                             @foreach($list as $l)
                                 <tr>
                                     <td>{{ $l ->id }}</td>
-                                    <td><a href="{{ route('admin.config.show', $l->id) }}"> {{ $l->title }}</a></td>
-                                    <td>{{ $l ->domain }}</td>
-                                    <td>{{ $l ->logo }}</td>
-                                    <td>{{ $l ->icon }}</td>
-                                    <td>{{ $l ->tel }}</td>
-                                    <td>{{ $l ->mail }}</td>
-                                    <td>{{ $l ->cargo_price }}</td>
-                                    <td><img src="{{ langIcon($l->lang)  }}" alt=""></td>
-                                    <td><a href="{{ route('admin.config.show',$l->id) }}"><i class="fa fa-edit text-green"></i></a></td>
-                                    {{--                                    <td><a href="{{ route('admin.config.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i--}}
-                                    {{--                                                class="fa fa-trash text-red"></i></a>--}}
-                                    {{--                                    </td>--}}
+                                    <td><a href="{{ route('admin.cargo.show', $l->id) }}"> {{ $l->title }}</a></td>
+                                    <td>{{ $l ->country ? $l->country->title : '' }}</td>
+                                    <td>{{  $l ->cargo_tracking_url }}</td>
+                                    <td>{{  $l ->cargo_free_amount }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.cargo.destroy',$l->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('Silmek istediğine emin misin ?')"><i class="fa fa-trash text-red"></i></button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="11" class="text-center"><h5>Ayar Bulunamadı</h5></td>
+                                <td colspan="11" class="text-center"><h5>Kargo Bulunamadı</h5></td>
                             </tr>
                         @endif
                         </tbody>
