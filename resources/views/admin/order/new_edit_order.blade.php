@@ -205,23 +205,23 @@
                                 <th>İade</th>
                             </tr>
 
-                            @foreach($order->snapshot['basket']['basket_items'] as $cart_item)
+                            @foreach($order->basket->basket_items as $cart_item)
                                 <tr>
-                                    <td>{{ $cart_item['id'] }}</td>
-                                    <td><a target="_blank" href="{{ route('admin.product.edit',$cart_item['product_id']) }}">{{ $cart_item['product']['title'] }}</a></td>
-                                    <td><img src="{{ imageUrl('public/products',$cart_item['product']['image']) }}" width="50" height="50"></td>
-                                    <td>{{ $cart_item['attributes_text']  }}</td>
-                                    <td>{{ $cart_item['price'] }} {{ $currencySymbol }}</td>
-                                    <td>{{ $cart_item['qty']  }}</td>
+                                    <td>{{ $cart_item->id }}</td>
+                                    <td><a target="_blank" href="{{ route('admin.product.edit',$cart_item->product->id) }}">{{ $cart_item->product->title }}</a></td>
+                                    <td><img src="{{ imageUrl('public/products',$cart_item->product->image) }}" width="50" height="50"></td>
+                                    <td>{{ $cart_item->attributes_text  }}</td>
+                                    <td>{{ $cart_item->price }} {{ $currencySymbol }}</td>
+                                    <td>{{ $cart_item->qty  }}</td>
                                     <td>
-                                        <span class="text-success">+{{ $cart_item['cargo_price'] }} {{ $currencySymbol }}</span>
+                                        <span class="text-success">+{{ $cart_item->cargo_price }} {{ $currencySymbol }}</span>
                                     </td>
-                                    <td>{{ $cart_item['total']. ' '.$currencySymbol  }}</td>
+                                    <td>{{ $cart_item->total. ' '.$currencySymbol  }}</td>
                                     <td>
                                         <select name="orderItem{{ $cart_item['id'] }}" class="form-control">
                                             <option value="">---Ürün Durum Seçiniz --</option>
                                             @foreach($item_filter_types as $itemType)
-                                                <option value="{{ $itemType[0] }}" {{ $itemType[0] == $cart_item['status'] ? 'selected' : '' }} {{ !$itemType[2] ? 'disabled' :'' }}>
+                                                <option value="{{ $itemType[0] }}" {{ $itemType[0] == $cart_item->status ? 'selected' : '' }} {{ !$itemType[2] ?'disabled' :'' }}>
                                                     {{ $itemType[1]  }}
                                                 </option>
                                             @endforeach
