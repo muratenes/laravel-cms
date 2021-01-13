@@ -118,7 +118,7 @@ trait PaymentConcern
      * @param Siparis $order
      */
     private function takeSnapshot(Siparis $order) {
-        $order = Siparis::with(['basket.basket_items.product', 'basket.user'])->find($order->id)->first();
+        $order = Siparis::with(['basket.basket_items.product', 'basket.user'])->find($order->id);
         $order->basket->setAppends(['total', 'sub_total', 'cargo_total', 'coupon_price']);
         foreach ($order->basket->basket_items as $basketItem) {
             $basketItem->setAppends(['total', 'sub_total', 'cargo_total']);
