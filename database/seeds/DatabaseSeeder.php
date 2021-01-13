@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UrunAttributeTableSeeder::class);
         $this->call(AyarlarTableSeeder::class);
         $this->call(CityTownTableSeeder::class);
+        $this->call(CargoSeeder::class);
 //        $this->call(AddressSeeder::class);
     }
 }
