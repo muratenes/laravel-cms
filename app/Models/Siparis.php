@@ -28,7 +28,6 @@ class Siparis extends Model
     ];
 
     const STATUS_BASARISIZ = 1;
-    const STATUS_GERI_ODEME = 2;
     const STATUS_ONAY_BEKLIYOR = 3;
     const STATUS_SIPARIS_ALINDI = 4;
     const STATUS_HAZIRLANIYOR = 5;
@@ -95,7 +94,6 @@ class Siparis extends Model
         return [
             // value => [ value,label,can_editable]
             self::STATUS_BASARISIZ => [Siparis::STATUS_BASARISIZ, "Sipariş Başarısız", false],
-            self::STATUS_GERI_ODEME => [Siparis::STATUS_GERI_ODEME, "Sipariş Geri Ödeme Yapıldı", false],
             self::STATUS_ONAY_BEKLIYOR => [Siparis::STATUS_ONAY_BEKLIYOR, "Sipariş Onay Bekliyor", true],
             self::STATUS_SIPARIS_ALINDI => [Siparis::STATUS_SIPARIS_ALINDI, "Sipariş Alındı", true],
             self::STATUS_HAZIRLANIYOR => [Siparis::STATUS_HAZIRLANIYOR, "Sipariş Hazırlanıyor", true],

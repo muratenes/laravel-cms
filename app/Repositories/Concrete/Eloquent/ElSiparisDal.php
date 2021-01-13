@@ -169,7 +169,6 @@ class ElSiparisDal implements SiparisInterface
         }
         $checkStatus = [
             SepetUrun::STATUS_BASARISIZ,
-            SepetUrun::STATUS_GERI_ODEME,
             SepetUrun::STATUS_IADE_EDILDI,
             SepetUrun::STATUS_IPTAL_EDILDI,
         ];
@@ -198,7 +197,7 @@ class ElSiparisDal implements SiparisInterface
             return $this->response(false, $refundResponse['errorMessage']);
         }
         $basketItem->refunded_amount += $refundAmount;
-        $basketItem->status = SepetUrun::STATUS_IADE_EDILDI;
+        $basketItem->status = $basketItem->refunded_amount == $basketItem->total ? SepetUrun::STATUS_IADE_EDILDI : SepetUrun::STATUS_KISMI_IADE;
         $basketItem->save();
 
         return $this->response(
@@ -268,7 +267,6 @@ class ElSiparisDal implements SiparisInterface
         }
         $checkStatus = [
             SepetUrun::STATUS_BASARISIZ,
-            SepetUrun::STATUS_GERI_ODEME,
             SepetUrun::STATUS_IADE_EDILDI,
             SepetUrun::STATUS_IPTAL_EDILDI,
         ];
