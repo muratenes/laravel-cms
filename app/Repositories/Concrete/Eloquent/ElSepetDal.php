@@ -4,6 +4,7 @@ use App\Models\Sepet;
 use App\Models\SepetUrun;
 use App\Models\Product\Urun;
 use App\Models\Product\UrunVariant;
+use App\Models\Siparis;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\SepetInterface;
 
@@ -90,4 +91,11 @@ class ElSepetDal implements SepetInterface
     }
 
 
+    public function cancelBasketItems(Siparis $order)
+    {
+        $basketItems = SepetUrun::withTrashed()->where('sepet_id', $order->sepet_id)->get();
+        foreach ($basketItems as $basketItem) {
+            $basketItem->update(['status' => SepetUrun::STATUS_IPTAL_EDILDI, 'refunded_amount' => $basketItem->total]);
+        }
+    }
 }
