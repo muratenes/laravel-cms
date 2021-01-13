@@ -35,7 +35,7 @@ class UrunlerTableSeeder extends Seeder
             $slug = \Illuminate\Support\Str::slug($product_name);
             $imageName = $slug . '.jpg';
             Storage::put('public/products/' . $imageName, file_get_contents(
-                "https://picsum.photos/600/800"
+                "https://source.unsplash.com/random/600x800?sig=incrementingIdentifie"
             ));
 
             $product = Urun::create([

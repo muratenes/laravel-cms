@@ -25,14 +25,6 @@ class CreateFirmalarTable extends Migration
 
         });
 
-        Schema::create('kampanya_markalar', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('campaign_id');
-            $table->unsignedInteger('company_id');
-
-            $table->foreign('campaign_id')->references('id')->on('kampanyalar')->onDelete('cascade');
-            $table->foreign('company_id')->references('id')->on('firmalar')->onDelete('cascade');
-        });
     }
 
     /**
@@ -43,6 +35,5 @@ class CreateFirmalarTable extends Migration
     public function down()
     {
         Schema::dropIfExists('firmalar');
-        Schema::dropIfExists('kampanya_markalar');
     }
 }

@@ -32,23 +32,7 @@ class CreateCampaignsTable extends Migration
 
         });
 
-        Schema::create('kampanya_urunler', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('campaign_id');
-            $table->unsignedInteger('product_id');
 
-            $table->foreign('campaign_id')->references('id')->on('kampanyalar')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('urunler')->onDelete('cascade');
-        });
-
-        Schema::create('kampanya_kategoriler', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('campaign_id');
-            $table->unsignedInteger('category_id');
-
-            $table->foreign('campaign_id')->references('id')->on('kampanyalar')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('kategoriler')->onDelete('cascade');
-        });
 
     }
 
@@ -60,7 +44,6 @@ class CreateCampaignsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('kampanyalar');
-        Schema::dropIfExists('kampanya_urunler');
-        Schema::dropIfExists('kampanya_kategoriler');
+
     }
 }
