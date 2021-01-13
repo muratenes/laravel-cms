@@ -67,6 +67,14 @@ class Siparis extends Model
         return $this->belongsTo(Sepet::class, 'sepet_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class);
+    }
+
     public function iyzico()
     {
         return $this->hasOne(Iyzico::class, 'siparis_id', 'id')->withDefault();

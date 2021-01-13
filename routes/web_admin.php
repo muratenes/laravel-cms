@@ -103,7 +103,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('/iyzico-fails/{id}', 'IyzicoController@iyzicoErrorOrderDetail')->name('admin.orders.iyzico_logs_detail');
             Route::get('snapshot/{order:id}', 'SiparisController@snapshot')->name('admin.orders.snapshot');
             Route::get('edit/{orderId}', 'SiparisController@newOrEditOrder')->name('admin.order.edit');
-            Route::post('save/{order:id}', 'SiparisController@save')->name('admin.order.save');
+            Route::post('save/{orderId}', 'SiparisController@save')->name('admin.order.save');
             Route::get('delete/{id}', 'SiparisController@deleteOrder')->name('admin.order.delete');
 
             // iyzico cancel

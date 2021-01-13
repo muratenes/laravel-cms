@@ -147,9 +147,39 @@
                 <div class="row">
                     <div class="box box-primary">
                         <div class="box-header with-border">
+                            <h3 class="box-title">Kargo Bilgileri</h3>
+                            <div class="box-tools">
+                                @if ($order->cargo_id and $order->cargo_code and $order->cargo)
+                                    <a target="_blank" href="{{ $order->cargo->cargo_tracking_url }}{{ $order->cargo_code }}"><i class="fa fa-eye" title="Kargo takip sayfası"></i></a>
+                                @endif
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="exampleInputEmail1">Kargo</label>
+                                    <select name="cargo_id" class="form-control" id="">
+                                        <option value="">Kargo Seçiniz</option>
+                                        @foreach($cargos as $cargo)
+                                            <option value="{{ $cargo->id }}" {{ $order->cargo_id == $cargo->id ? 'selected' : '' }}>{{ $cargo->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <label for="exampleInputEmail1">Kargo Takip Kodu</label>
+                                    <input type="text" class="form-control" name="cargo_code" placeholder="Kargo takip için kodu giriniz" value="{{ $order->cargo_code }}">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box box-primary collapsed-box">
+                        <div class="box-header with-border">
                             <h3 class="box-title">Kullanıcı Bilgileri</h3>
                             <div class="box-tools">
                                 <a href="{{ route('admin.user.edit',$order->basket->user->id )}}"><i class="fa fa-edit"></i></a>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
@@ -244,9 +274,12 @@
             </div>
 
             <div class="col-md-6">
-                <div class="box box-primary">
+                <div class="box box-primary collapsed-box">
                     <div class="box-header with-border">
                         <h3 class="box-title">İyzico Bilgileri</h3>
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                        </div>
                     </div>
                     <div class="box-body">
                         <div class="form-row">

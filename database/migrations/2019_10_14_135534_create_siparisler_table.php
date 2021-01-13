@@ -55,6 +55,10 @@ class CreateSiparislerTable extends Migration
             $table->string('phone_invoice', 20)->nullable();
             $table->string('email_invoice', 40)->nullable();
 
+            // cargo columns
+            $table->unsignedSmallInteger('cargo_id')->nullable();
+            $table->string('cargo_code',100)->nullable();
+
             $table->json('snapshot')->nullable();
 
 
@@ -64,6 +68,7 @@ class CreateSiparislerTable extends Migration
             $table->foreign('sepet_id')->references('id')->on('sepet')->onDelete('cascade');
             $table->foreign('delivery_address_id')->references('id')->on('kullanici_adres')->onDelete('cascade');
             $table->foreign('invoice_address_id')->references('id')->on('kullanici_adres')->onDelete('cascade');
+            $table->foreign('cargo_id')->references('id')->on('cargos')->onDelete('cascade');
         });
     }
 

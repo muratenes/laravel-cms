@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Filters\OrderFilter;
 use App\Models\Ayar;
+use App\Models\Cargo;
 use App\Models\Log;
 use App\Models\Product\Urun;
 use App\Models\Product\UrunFirma;
@@ -62,13 +63,7 @@ class SiparisController extends Controller
      */
     public function newOrEditOrder(int $orderId)
     {
-        $order = Siparis::with(['basket' => function ($query) {
-            $query->withTrashed();
-        }, 'basket.basket_items' => function ($query) {
-            $query->withTrashed();
-        }, 'basket.basket_items.product' => function ($query) {
-            $query->withTrashed();
-        }])->find($orderId);
+        $order = $this->getOrderWithTrashed($orderId);
 
         if ($order->is_payment == 0) {
             error("Dikkat bu işlem 3D security kısmını geçememiştir.Ödeme İşlemi gerçekleşmemiştir");
@@ -79,16 +74,19 @@ class SiparisController extends Controller
             'filter_types' => Siparis::listStatusWithId(),
             'item_filter_types' => SepetUrun::listStatusWithId(),
             'order' => $order,
+            'cargos' => Cargo::all(),
             'currencySymbol' => Ayar::getCurrencySymbolById($order->currency_id)]);
     }
 
-    public function save(Request $request, Siparis $order)
+    public function save(Request $request, $orderId)
     {
+        $order = $this->getOrderWithTrashed($orderId);
+        $validated = $request->validate(['status' => 'nullable|numeric', 'cargo_id' => 'numeric|nullable', 'cargo_code' => 'string|nullable|max:100']);
         $status = $request->get('status');
         $this->checkBasketItemsStatus($request, $order);
         $orderStatus = $order->status;
 
-        $order->update(['status' => $request->get('status')]);
+        $order->update($validated);
 
         if ($status != $orderStatus) {
             $order->basket->user->notify(new OrderStatusChangedNotification($order));
@@ -186,6 +184,22 @@ class SiparisController extends Controller
         }
 
         return back();
+    }
+
+    /**
+     *  siparişin silinmiş relationları ile birlikte getirir.
+     * @param $orderId
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     */
+    private function getOrderWithTrashed($orderId)
+    {
+        return Siparis::with(['basket' => function ($query) {
+            $query->withTrashed();
+        }, 'basket.basket_items' => function ($query) {
+            $query->withTrashed();
+        }, 'basket.basket_items.product' => function ($query) {
+            $query->withTrashed();
+        }])->find($orderId);
     }
 
 }
