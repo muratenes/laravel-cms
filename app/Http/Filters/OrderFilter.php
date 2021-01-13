@@ -17,13 +17,13 @@ class OrderFilter extends Filter
     {
         if (config('admin.product.multiple_category')) {
             return $this->builder->whereHas('basket.basket_items.product.categories', function ($q) use ($value) {
-                $q->where('category_id', $value);
+                $q->withTrashed()->where('category_id', $value);
             });
         }
 
         return $this->builder->whereHas('basket.basket_items.product', function ($q) use ($value) {
             $q->where(function ($query) use ($value) {
-                $query->where('parent_category_id', $value)->orWhere('sub_category_id', $value);
+                $query->withTrashed()->where('parent_category_id', $value)->orWhere('sub_category_id', $value);
             });
         });
     }
@@ -46,7 +46,7 @@ class OrderFilter extends Filter
     public function state(string $value = null): Builder
     {
         return $this->builder->whereHas('delivery_address', function ($q) use ($value) {
-            $q->where('state_id', $value);
+            $q->withTrashed()->where('state_id', $value);
         });
     }
 
@@ -58,7 +58,7 @@ class OrderFilter extends Filter
     public function company(string $value = null): Builder
     {
         return $this->builder->whereHas('basket.basket_items.product', function ($q) use ($value) {
-            $q->where('company_id', $value);
+            $q->withTrashed()->where('company_id', $value);
         });
     }
 
