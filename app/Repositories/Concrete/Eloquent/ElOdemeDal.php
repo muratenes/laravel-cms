@@ -96,8 +96,8 @@ class ElOdemeDal implements OdemeInterface
         $request = new \Iyzipay\Request\CreatePaymentRequest();
         $request->setLocale(currentCurrencyID() == Ayar::LANG_TR ? 'tr' : 'en');
         $request->setConversationId($basket->id);
-        $request->setPrice($basket->sub_total);
-        $request->setPaidPrice($basket->total);
+        $request->setPrice($basket->total);
+        $request->setPaidPrice($basket->total); // todo : order price gelmesi gerek
         $request->setCurrency(Ayar::getCurrencyIyzicoConstById($order->currency_id));
         $request->setInstallment($order->installment_count);
         $request->setBasketId($basket->id);
