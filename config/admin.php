@@ -19,6 +19,7 @@ $data = [
         'e_bulten' => true,
         'gallery' => true,
         'order' => true,
+        'cargo' => true,
         'product' => true,
         'log' => true,
         'sss' => true,
@@ -261,7 +262,21 @@ $data['menus'] = [
             'permission' => 'Ayarlar@list',
             'title' => 'Ayarlar',
             'routeName' => 'admin.config.list',
-            'active' => $data['module_status']['setting']
+            'active' => $data['module_status']['setting'],
+            'subs' => [
+                ['icon' => 'fa fa-key',
+                    'permission' => 'Ayarlar@list',
+                    'title' => 'Genel',
+                    'routeName' => 'admin.config.list',
+                    'active' => $data['module_status']['setting']
+                ],
+                ['icon' => 'fa fa-truck',
+                    'permission' => 'Cargo@index',
+                    'title' => 'Kargo',
+                    'routeName' => 'admin.cargo.index',
+                    'active' => $data['module_status']['cargo']
+                ],
+            ]
         ],
         'product_brands' => [
             'icon' => 'fa fa-medium',

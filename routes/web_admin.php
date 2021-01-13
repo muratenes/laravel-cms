@@ -47,7 +47,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('delete/{product:id}', 'UrunController@deleteProduct')->name('admin.product.delete');
 
             // ajax
-            Route::get('ajax','UrunController@ajax');
+            Route::get('ajax', 'UrunController@ajax');
             Route::get('getAllProductsForSearch', 'UrunController@getAllProductsForSearchAjax');
             Route::get('deleteProductDetailById/{id}', 'UrunController@deleteProductDetailById')->name('deleteProductDetailById');
             Route::get('getProductDetailWithSubAttributes/{product_id}', 'UrunController@getProductDetailWithSubAttributes')->name('getProductDetailWithSubAttributes');
@@ -101,7 +101,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('/', 'SiparisController@list')->name('admin.orders');
             Route::get('/iyzico-fails', 'IyzicoController@iyzicoErrorOrderList')->name('admin.orders.iyzico_logs');
             Route::get('/iyzico-fails/{id}', 'IyzicoController@iyzicoErrorOrderDetail')->name('admin.orders.iyzico_logs_detail');
-            Route::get('snapshot/{order:id}','SiparisController@snapshot')->name('admin.orders.snapshot');
+            Route::get('snapshot/{order:id}', 'SiparisController@snapshot')->name('admin.orders.snapshot');
             Route::get('edit/{order:id}', 'SiparisController@newOrEditOrder')->name('admin.order.edit');
             Route::post('save/{order:id}', 'SiparisController@save')->name('admin.order.save');
             Route::get('delete/{id}', 'SiparisController@deleteOrder')->name('admin.order.delete');
@@ -131,6 +131,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('list', 'AyarlarController@list')->name('admin.config.list');
             Route::get('show/{id}', 'AyarlarController@show')->name('admin.config.show');
             Route::post('save/{id}', 'AyarlarController@save')->name('admin.config.save');
+
+            Route::resource('cargo', 'CargoController', ['as' => 'admin']);
         });
 
         //----- Admin/Logs/..
