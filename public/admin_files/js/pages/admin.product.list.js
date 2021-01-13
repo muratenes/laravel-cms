@@ -93,7 +93,7 @@ $(document).ready(function () {
             },
             {
                 data: 'tl_discount_price', name: 'tl_discount_price', render: function (data) {
-                    return data ? `${tl_discount_price} ₺` : '-'
+                    return data ? `${data} ₺` : '-'
                 }
             },
             {
