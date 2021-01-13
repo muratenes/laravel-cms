@@ -10,8 +10,8 @@ function refundBasketItem(basketItem, totalPrice) {
     table.find('#refundAmountInput').removeAttr('max').val(0);
     table.find('#productName').text(basketItem.product.title);
     table.find('#totalPrice').text(totalPrice);
-    table.find('#totalRefundableAmount').text(basketItem.paid_price);
-    table.find('#canRefundAmount').text(basketItem.paid_price - basketItem.refunded_amount);
+    table.find('#totalRefundableAmount').text(totalPrice);
+    table.find('#canRefundAmount').text(totalPrice - basketItem.refunded_amount);
     table.find('#basketRefundedAmount').text(basketItem.refunded_amount);
     // table.find('#refundAmountInput').attr('max', basketItem.paid_price - basketItem.refunded_amount);
     table.find('#basketItemID').val(basketItem.id);
