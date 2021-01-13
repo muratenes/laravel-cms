@@ -154,6 +154,7 @@ class SiparisController extends Controller
             return back()->withErrors($response['errorMessage']);
         }
         $order->update(['status' => Siparis::STATUS_IPTAL_EDILDI]);
+        SepetUrun::withTrashed()->where('sepet_id', $order->sepet_id)->update(['status' => SepetUrun::STATUS_IPTAL_EDILDI]);
         Log::addIyzicoLog(__('log.admin.order_successfully_cancelled_from_admin'), json_encode($response), $order->id, Log::TYPE_ORDER);
         $order->notify(new OrderCancelledNotification($order));
         success(__('log.admin.order_successfully_cancelled_message'));
@@ -168,17 +169,21 @@ class SiparisController extends Controller
      */
     public function refundItem(Request $request)
     {
-        $request->validate(['refundAmount' => 'required|numeric', 'id' => 'required|numeric']);
-        $refundAmount = (float)$request->get('refundAmount');
-        $item = SepetUrun::find($request->get('id'));
+        $validated = $request->validate(['refundAmount' => 'required|numeric', 'id' => 'required|numeric']);
+        $refundAmount = (float)$validated['refundAmount'];
+        $item = SepetUrun::withTrashed()->find($validated['id']);
         // todo : sadece kullanıcı için kontrol et
         $canRefundResponse = $this->model->checkCanRefundBasketItem($item, $refundAmount);
         if (!$canRefundResponse['status']) {
             return back()->withErrors($canRefundResponse['message']);
         }
         $iyzicoResponse = $this->model->refundBasketItemFromIyzico($item, $refundAmount);
-        $iyzicoResponse['status'] ? success($iyzicoResponse['message']) : error($iyzicoResponse['message']);
-        Log::addIyzicoLog(__('log.admin.order_item_successfully_refunded_message', ['id' => $item->id, 'refundAmount' => $refundAmount]), json_encode($canRefundResponse), $item->sepet_id);
+        if ($iyzicoResponse['status']) {
+            Log::addIyzicoLog(__('log.admin.order_item_successfully_refunded_message', ['id' => $item->id, 'refundAmount' => $refundAmount]), json_encode($canRefundResponse), $item->sepet_id);
+            success($iyzicoResponse['message']);
+        } else {
+            error($iyzicoResponse['message']);
+        }
 
         return back();
     }
