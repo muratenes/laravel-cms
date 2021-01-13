@@ -15,6 +15,7 @@ use App\Notifications\order\OrderItemStatusChangedNotification;
 use App\Notifications\order\OrderStatusChangedNotification;
 use App\Repositories\Interfaces\CityTownInterface;
 use App\Repositories\Interfaces\KategoriInterface;
+use App\Repositories\Interfaces\SepetInterface;
 use App\Repositories\Interfaces\SiparisInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\ResponseTrait;
@@ -32,13 +33,15 @@ class SiparisController extends Controller
     protected UrunFirma $productCompanyService;
     protected KategoriInterface $categoryService;
     protected CityTownInterface $cityTownService;
+    protected SepetInterface $basketService;
 
-    public function __construct(SiparisInterface $model, UrunFirma $productCompanyService, KategoriInterface $categoryService, CityTownInterface $cityTownService)
+    public function __construct(SiparisInterface $model, UrunFirma $productCompanyService, KategoriInterface $categoryService, CityTownInterface $cityTownService, SepetInterface $basketService)
     {
         $this->model = $model;
         $this->productCompanyService = $productCompanyService;
         $this->categoryService = $categoryService;
         $this->cityTownService = $cityTownService;
+        $this->basketService = $basketService;
     }
 
 
@@ -154,7 +157,7 @@ class SiparisController extends Controller
             return back()->withErrors($response['errorMessage']);
         }
         $order->update(['status' => Siparis::STATUS_IPTAL_EDILDI]);
-        SepetUrun::withTrashed()->where('sepet_id', $order->sepet_id)->update(['status' => SepetUrun::STATUS_IPTAL_EDILDI]);
+        $this->basketService->cancelBasketItems($order);
         Log::addIyzicoLog(__('log.admin.order_successfully_cancelled_from_admin'), json_encode($response), $order->id, Log::TYPE_ORDER);
         $order->notify(new OrderCancelledNotification($order));
         success(__('log.admin.order_successfully_cancelled_message'));
