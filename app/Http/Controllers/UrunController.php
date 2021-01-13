@@ -25,9 +25,9 @@ class UrunController extends Controller
 
     public function detail(Urun $product)
     {
-        $featuredProducts = $this->model->getFeaturedProducts($product->categories[0]->id, 5, $product->id, 'detail', ['title', 'tl_price', 'tl_discount_price', 'image', 'slug', 'id']);
+        $featuredProducts = [];// $this->model->getFeaturedProducts($product->categories[0]->id, 5, $product->id, 'detail', ['title', 'tl_price', 'tl_discount_price', 'image', 'slug', 'id']);
         $featuredProductTitle = "Benzer Ürünler";
-        $bestSellers = collect($this->model->getBestSellersProducts($product->categories[0]->id, 6, $product->id));
+        $bestSellers = []; //collect($this->model->getBestSellersProducts($product->categories[0]->id, 6, $product->id));
         $discount = $product->discount_price;
         $comments = $product->comments()->latest()->where('active',1)->take(5)->get();
         return view('site.urun.product', compact('product', 'discount', 'featuredProducts', 'featuredProductTitle', 'bestSellers', 'comments'));

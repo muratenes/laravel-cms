@@ -1,46 +1,46 @@
 @extends('site.layouts.base')
 @section('header')
-    <meta name="csrf-token" content="{{csrf_token()}}">
-    <title>{{$product->title_lang }} | {{ $site->title }}</title>
+{{--    <meta name="csrf-token" content="{{csrf_token()}}">--}}
+{{--    <title>{{$product->title_lang }} | {{ $site->title }}</title>--}}
 
-    <meta name="description"
-          content="{{ is_null($product->spot) ? $site->title.' sayesinde '. $product->categories[0]->title .' kategorisinde bulunan ' . $product->title .' ürünlerine indirimlerle sahip  olabilirsiniz' : $product->spot }}"/>
-    <meta name="keywords" content="{{ $product->categories[0]->title.','.@$product->categories[1]->title.','.@$product->categories[2]->title }}"/>
-    <meta property="og:type" content="product"/>
-    <meta property="og:url" content="{{ route('product.detail',$product->slug)  }}"/>
-    <meta property="og:title" content="{{ $product->title .' | '. $site->title }}"/>
-    <meta name="og:description" content="{{ $product->title }} {{ $product->spot }}"/>
-    <meta property="og:image" content="{{ $site->domain }}/uploads/products/{{ $product->image }}"/>
-    <meta name="twitter:card" content="product"/>
-    <meta name="twitter:site" content="@siteadi"/>
-    <meta name="twitter:creator" content="@siteadi"/>
-    <meta name="twitter:title" content="{{ $product->title .' | '. $site->title }}"/>
-    <meta name="twitter:description" content="{{ $product->title }} {{ $product->spot }}"/>
-    <meta name="twitter:image:src" content="{{ $site->domain }}/uploads/products/{{ $product->image }}"/>
-    <meta name="twitter:data1" content="{{ !is_null($product->discount_price) ? $product->discount_price : $product->price }}"/>
-    <meta name="twitter:label1" content="{{ $site->title }} Fiyati"/>
-    <meta name="twitter:domain" content="{{$site->domain}}"/>
-    <link rel="canonical" href="{{ route('product.detail',$product->slug)  }}"/>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "{{ $product->title }}",
-      "image": "{{ $site->domain }}/uploads/products/{{ $product->image }}",
-      "description": "{{ is_null($product->spot) ? $site->title.' sayesinde '. $product->categories[0]->title .' kategorisinde bulunan ' . $product->title .' ürünlerine indirimlerle sahip  olabilirsiniz' : $product->spot }}",
-      "brand": "{{ $product->brand ? $product->brand->title : '' }}",
-      "offers": {
-        "@type": "Offer",
-        "url": "{{ route('product.detail',$product->slug)  }}",
-        "priceCurrency": "TRY",
-        "price": "{{ $product->current_price  }}",
-        "availability": "https://schema.org/InStock",
-        "itemCondition": "https://schema.org/NewCondition"
-      }
-    }
+{{--    <meta name="description"--}}
+{{--          content="{{ is_null($product->spot) ? $site->title.' sayesinde '. $product->categories[0]->title .' kategorisinde bulunan ' . $product->title .' ürünlerine indirimlerle sahip  olabilirsiniz' : $product->spot }}"/>--}}
+{{--    <meta name="keywords" content="{{ $product->categories[0]->title.','.@$product->categories[1]->title.','.@$product->categories[2]->title }}"/>--}}
+{{--    <meta property="og:type" content="product"/>--}}
+{{--    <meta property="og:url" content="{{ route('product.detail',$product->slug)  }}"/>--}}
+{{--    <meta property="og:title" content="{{ $product->title .' | '. $site->title }}"/>--}}
+{{--    <meta name="og:description" content="{{ $product->title }} {{ $product->spot }}"/>--}}
+{{--    <meta property="og:image" content="{{ $site->domain }}/uploads/products/{{ $product->image }}"/>--}}
+{{--    <meta name="twitter:card" content="product"/>--}}
+{{--    <meta name="twitter:site" content="@siteadi"/>--}}
+{{--    <meta name="twitter:creator" content="@siteadi"/>--}}
+{{--    <meta name="twitter:title" content="{{ $product->title .' | '. $site->title }}"/>--}}
+{{--    <meta name="twitter:description" content="{{ $product->title }} {{ $product->spot }}"/>--}}
+{{--    <meta name="twitter:image:src" content="{{ $site->domain }}/uploads/products/{{ $product->image }}"/>--}}
+{{--    <meta name="twitter:data1" content="{{ !is_null($product->discount_price) ? $product->discount_price : $product->price }}"/>--}}
+{{--    <meta name="twitter:label1" content="{{ $site->title }} Fiyati"/>--}}
+{{--    <meta name="twitter:domain" content="{{$site->domain}}"/>--}}
+{{--    <link rel="canonical" href="{{ route('product.detail',$product->slug)  }}"/>--}}
+{{--    <script type="application/ld+json">--}}
+{{--    {--}}
+{{--      "@context": "https://schema.org/",--}}
+{{--      "@type": "Product",--}}
+{{--      "name": "{{ $product->title }}",--}}
+{{--      "image": "{{ $site->domain }}/uploads/products/{{ $product->image }}",--}}
+{{--      "description": "{{ is_null($product->spot) ? $site->title.' sayesinde '. $product->categories[0]->title .' kategorisinde bulunan ' . $product->title .' ürünlerine indirimlerle sahip  olabilirsiniz' : $product->spot }}",--}}
+{{--      "brand": "{{ $product->brand ? $product->brand->title : '' }}",--}}
+{{--      "offers": {--}}
+{{--        "@type": "Offer",--}}
+{{--        "url": "{{ route('product.detail',$product->slug)  }}",--}}
+{{--        "priceCurrency": "TRY",--}}
+{{--        "price": "{{ $product->current_price  }}",--}}
+{{--        "availability": "https://schema.org/InStock",--}}
+{{--        "itemCondition": "https://schema.org/NewCondition"--}}
+{{--      }--}}
+{{--    }--}}
 
 
-    </script>
+{{--    </script>--}}
 @endsection
 @section('title','Urunler')
 
