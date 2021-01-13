@@ -52,7 +52,7 @@ class AddressController extends Controller
         }
 
         $user = $request->user();
-        $states = State::select(['id', 'title'])->where('country_id', 1)->orderBy('title')->get();
+        $states = State::select(['id', 'title'])->where('country_id', State::TURKEY)->orderBy('title')->get();
         $districts = $address->state_id ? District::select(['id', 'title'])->where('state_id', $address->state_id)->get() : [];
 
         return view('site.kullanici.address-detail', compact('address', 'user', 'states', 'districts'));

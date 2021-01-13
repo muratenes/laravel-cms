@@ -19,7 +19,7 @@ class CityTownTableSeeder extends Seeder
         $germany = Country::where('title', "Germany")->first();
 
         // turkey city inserts
-//        $this->insertTurkeyCities($turkey);
+        $this->insertTurkeyCities($turkey);
 //        $this->insertGermanyCountries($germany);
 
 
