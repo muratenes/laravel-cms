@@ -116,14 +116,14 @@
                                  @if(isset($item['subs']))
                                         <i class="fa fa-angle-left pull-right"></i>
                                     @endif
-                         </span>
+                                </span>
                             </a>
                             @if(isset($item['subs']))
 
                                 <ul class="treeview-menu" style="display: block">
                                     @foreach($item['subs'] as $sub)
                                         @if($sub['active'])
-                                            <li><a href="{{ route($sub['routeName']) }}"><i class="{{ $sub['icon'] }}"></i> {{ $sub['title'] }}</a></li>
+                                            <li><a href="{{ route($sub['routeName']) }}{{ $sub['param'] ?? '' }}"><i class="{{ $sub['icon'] }}"></i> {{ $sub['title'] }}</a></li>
                                         @endif
                                     @endforeach
                                 </ul>

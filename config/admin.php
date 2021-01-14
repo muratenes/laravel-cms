@@ -204,7 +204,22 @@ $data['menus'] = [
             'permission' => 'Siparis@list',
             'title' => 'Siparişler',
             'routeName' => 'admin.orders',
-            'active' => $data['module_status']['order']
+            'active' => $data['module_status']['order'],
+            'subs' => [
+                ['icon' => 'fa fa-circle-o',
+                    'permission' => 'Urun@listProducts',
+                    'title' => 'Siparişler',
+                    'routeName' => 'admin.orders',
+                    'active' => $data['module_status']['product']
+                ],
+                ['icon' => 'fa fa-undo',
+                    'permission' => 'Urun@listProducts',
+                    'title' => 'İade Talepleri',
+                    'routeName' => 'admin.orders',
+                    'param' => '?pendingRefund=1',
+                    'active' => $data['module_status']['product']
+                ],
+            ]
         ],
         'references' => [
             'icon' => 'fa fa-list-alt',
