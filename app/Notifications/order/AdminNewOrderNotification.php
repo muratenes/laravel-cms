@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class AdminNewOrderNotification extends Notification
+class AdminNewOrderNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -51,7 +51,7 @@ class AdminNewOrderNotification extends Notification
             ->subject('Yeni sipariş alındı')
             ->line("{$this->order->order_total_price} {$this->order->currency_symbol} tutarında Yeni sipariş var")
             ->line(new HtmlString('<strong>Sipariş Bilgileri</strong>'))
-            ->line("Sipariş Kodu : SP-{$this->order->id}")
+            ->line("Sipariş Kodu : {$this->order->code}")
             ->line("Sipariş Tarihi : {$this->order->created_at}")
             ->line(new HtmlString('<strong>Fiyat Bilgileri</strong>'))
             ->line("Alt Toplam : {$this->order->order_price} {$this->order->currency_symbol}")

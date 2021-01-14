@@ -22,24 +22,15 @@ class TestController extends Controller
     public function index(Request $request)
     {
         $basket = Sepet::getCurrentBasket();
-        $order = Siparis::where('id',11)->first();
-        $orderIyzico = $order->iyzico;
-        $user = User::first();
-        $basketItem = SepetUrun::first();
-//        dd($request->user()->email);
+        $order = Siparis::with(['basket.basket_items.product', 'basket.user'])->first();
+
+
+        //
 //        Mail::to($request->user())->send(new OrderCreateadMail($order));
-//        $request->user()->notify(new AdminNewOrderNotification($order));
-//        $this->dispatch(new NewOrderAddedJob($order));
-//        $user->notify(new OrderItemStatusChangedNotification($order, $basketItem));
-//        $order->notify(new OrderCancelledNotification($order));
-
-        dump($orderIyzico->iyzicoJson && $orderIyzico['status'] == 'success');
-       foreach($orderIyzico->iyzicoJson['itemTransactions'] as $item){
-           dump($item);
-           SepetUrun::where('id',$item['itemId'])->update(['payment_transaction_id' => $item['paymentTransactionId']]);
-       }
-
-        dd($basket->total);
+        return new \App\Mail\Order\OrderCreateadMail($order);
+        dd('a');
+        $order->notify(new NewOrder($order));
+        dd('sn');
     }
 
 }

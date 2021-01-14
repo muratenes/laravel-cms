@@ -36,31 +36,38 @@
             letter-spacing: .1em;
             text-transform: uppercase;
         }
+
         .success-message {
             color: green;
             font-size: 20px
         }
-        .order-code-table{
+
+        .order-code-table {
             width: 100%;
             border: 1px solid red;
         }
-        .app-title{
+
+        .app-title {
             align-content: center;
             justify-content: center;
             text-align: center;
-            font-size:23px;
+            font-size: 23px;
             font-weight: 600;
         }
-        .bold{
+
+        .bold {
             font-weight: bold;
             color: black;
         }
+
         body {
             font-size: 100%
         }
+
         .addressText {
             font-size: 1.1em;
         }
+
         @media screen and (max-width: 600px) {
             .table {
                 border: 0;
@@ -120,8 +127,8 @@
 <table>
     <tr>
         <td><b>{{ __('lang.order_code') }} :</b></td>
-        <td>SP-{{ $order->id }}</td>
-   </tr>
+        <td>{{ $order->code }} <a href="{{ route('user.orders.detail',$order->id) }}">{{ __('lang.show_order') }}</a></td>
+    </tr>
     <tr>
         <td><b>@lang('lang.order_date') :</b></td>
         <td>{{ $order->created_at }}</td>
@@ -134,26 +141,26 @@
     <thead>
     <tr>
         <th scope="col" class="bold">@lang('lang.product')</th>
-        <th scope="col"  class="bold">@lang('lang.price')</th>
-        <th scope="col"  class="bold">@lang('lang.qty')</th>
-        <th scope="col"  class="bold">@lang('lang.cargo_price')</th>
-        <th scope="col"  class="bold">@lang('lang.total')</th>
+        <th scope="col" class="bold">@lang('lang.price')</th>
+        <th scope="col" class="bold">@lang('lang.qty')</th>
+        <th scope="col" class="bold">@lang('lang.cargo_price')</th>
+        <th scope="col" class="bold">@lang('lang.total')</th>
     </tr>
     </thead>
     <tbody>
-        @foreach ($basket->basket_items as $item)
-            <tr>
-                <td data-label="product">
-                    <a href="{{ route('product.detail',$item->product->slug) }}">
-                        {{ $item->product->title }}
-                    </a>
-                </td>
-                <td data-label="Due Date">{{ $item->price }} {{ getCurrencySymbolById($order->currency_id) }}</td>
-                <td data-label="Amount">{{ $item->qty }}</td>
-                <td data-label="Amount">{{ $item->cargo_price }} {{ getCurrencySymbolById($order->currency_id) }}</td>
-                <td data-label="Period">{{ $item->total }} {{ getCurrencySymbolById($order->currency_id) }}</td>
-            </tr>
-        @endforeach
+    @foreach ($basket->basket_items as $item)
+        <tr>
+            <td data-label="product">
+                <a href="{{ route('product.detail',$item->product->slug) }}">
+                    {{ $item->product->title }}
+                </a>
+            </td>
+            <td data-label="Due Date">{{ $item->price }} {{ getCurrencySymbolById($order->currency_id) }}</td>
+            <td data-label="Amount">{{ $item->qty }}</td>
+            <td data-label="Amount">{{ $item->cargo_price }} {{ getCurrencySymbolById($order->currency_id) }}</td>
+            <td data-label="Period">{{ $item->total }} {{ getCurrencySymbolById($order->currency_id) }}</td>
+        </tr>
+    @endforeach
     </tbody>
 </table>
 <!-- genel özet -->
@@ -163,7 +170,7 @@
 
     <tr>
         <th class="bold">@lang('lang.sub_total')</th>
-        <td >{{ getCurrencySymbolById($order->currency_id) }} {{ $order->order_price }}</td>
+        <td>{{ getCurrencySymbolById($order->currency_id) }} {{ $order->order_price }}</td>
     </tr>
     <tr>
         <th class="bold">@lang('lang.cargo_price')</th>
@@ -179,7 +186,7 @@
 
     <tr>
         <th class="bold">@lang('lang.total_amount')</th>
-        <td >{{ getCurrencySymbolById($order->currency_id) }} {{  $order->order_total_price }}</td>
+        <td>{{ getCurrencySymbolById($order->currency_id) }} {{  $order->order_total_price }}</td>
     </tr>
     </tbody>
 </table>
@@ -193,14 +200,14 @@
     </tr>
     <tr>
         <td style="border:3px solid #e7e7e7">
-           <p style="text-align: center" class="addressText">
-               {{ $order->adres }}
-           </p>
+            <p style="text-align: center" class="addressText">
+                {{ $order->adres }}
+            </p>
         </td>
-        <td  style="border:3px solid #e7e7e7"  >
-           <p  style="=text-align: center;" class="addressText">
-               {{ $order->fatura_adres }}
-           </p>
+        <td style="border:3px solid #e7e7e7">
+            <p style="=text-align: center;" class="addressText">
+                {{ $order->fatura_adres }}
+            </p>
         </td>
     </tr>
 

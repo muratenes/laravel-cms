@@ -22,10 +22,10 @@ function getUrlVars() {
 $(document).ready(function () {
     const pendingOrderCount = $("#pendingOrderCount").val()
     const pendingRefundRequests = $("#pendingRefundRequests").val()
-    if (pendingOrderCount) {
+    if (pendingOrderCount != "0") {
         $("#label_pendingOrderCount").append(`<span class="pull-right-container"><small class="label pull-right bg-green" title="Bekleyen siparişler">${pendingOrderCount}</small></span>`);
     }
-    if (pendingRefundRequests) {
+    if (pendingRefundRequests != "0") {
         $("#label_pendingRefundRequests").append(`<span class="pull-right-container"><small class="label pull-right bg-red" title="İade talebi oluşturulanlar">${pendingRefundRequests}</small></span>`);
     }
 
