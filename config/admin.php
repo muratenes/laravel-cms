@@ -210,14 +210,16 @@ $data['menus'] = [
                     'permission' => 'Urun@listProducts',
                     'title' => 'Siparişler',
                     'routeName' => 'admin.orders',
-                    'active' => $data['module_status']['product']
+                    'key' => 'pendingOrderCount',
+                    'active' => $data['module_status']['order']
                 ],
                 ['icon' => 'fa fa-undo',
                     'permission' => 'Urun@listProducts',
                     'title' => 'İade Talepleri',
                     'routeName' => 'admin.orders',
                     'param' => '?pendingRefund=1',
-                    'active' => $data['module_status']['product']
+                    'key' => 'pendingRefundRequests',
+                    'active' => $data['module_status']['order']
                 ],
             ]
         ],

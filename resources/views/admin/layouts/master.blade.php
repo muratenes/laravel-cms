@@ -50,7 +50,8 @@
     @yield('header')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-
+<input id="pendingOrderCount" type="hidden" value="{{ $pendingOrderCount }}">
+<input id="pendingRefundRequests" type="hidden" value="{{ $pendingRefundRequestCount }}">
 <div class="wrapper">
 
 @include('admin.layouts.partials.navbar')

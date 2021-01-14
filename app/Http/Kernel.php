@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminOrderCountMW;
 use App\Http\Middleware\CheckModuleActive;
 use App\Http\Middleware\RolesAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -66,6 +67,7 @@ class Kernel extends HttpKernel
         // custom middleware
         'admin' => \App\Http\Middleware\Admin::class,
         'admin.module' => CheckModuleActive::class,
-        'role' => RolesAuth::class
+        'role' => RolesAuth::class,
+        'admin.order.counts' => AdminOrderCountMW::class
     ];
 }

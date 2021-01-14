@@ -109,7 +109,7 @@
                 @foreach($menu as $subI=>$item)
                     @if($subI != 'title' && $item['active'])
                         <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
-                            <a href="{{route($item['routeName']) }}">
+                            <a href="{{route($item['routeName']) }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
                                 <i class="{{ $item['icon'] }}"></i>
                                 <span>{{ $item['title'] }}</span>
                                 <span class="pull-right-container">
@@ -123,7 +123,11 @@
                                 <ul class="treeview-menu" style="display: block">
                                     @foreach($item['subs'] as $sub)
                                         @if($sub['active'])
-                                            <li><a href="{{ route($sub['routeName']) }}{{ $sub['param'] ?? '' }}"><i class="{{ $sub['icon'] }}"></i> {{ $sub['title'] }}</a></li>
+                                            <li>
+                                                <a href="{{ route($sub['routeName']) }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
+                                                    <i class="{{ $sub['icon'] }}"></i> {{ $sub['title'] }}
+                                                </a>
+                                            </li>
                                         @endif
                                     @endforeach
                                 </ul>
