@@ -111,7 +111,13 @@
                                     <tr>
                                         <td><a href="{{ route('admin.order.edit',$l->id) }}">SP-{{ $l->id }}</a></td>
                                         <td><a href="{{ route('admin.order.edit',$l->id) }}"> {{ $l->full_name }}</a></td>
-                                        <td><a href="{{ route('admin.user.edit',$l->basket->user->id) }}">{{ $l->basket->user->full_name }} &nbsp; <i class="fa fa-edit"></i></a></td>
+                                        <td>
+                                            @if ($l->basket and $l->basket->user)
+                                                <a href="{{ route('admin.user.edit',$l->basket->user->id) }}">
+                                                    {{ $l->basket->user->full_name }} &nbsp;
+                                                    <i class="fa fa-edit"></i></a>
+                                            @endif
+                                        </td>
                                         <td>{{ $l ->adres }}</td>
                                         <td>{{ $l ->phone }}</td>
                                         <td>{{ $l ->bank }} </td>
