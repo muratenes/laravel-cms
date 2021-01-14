@@ -12,6 +12,7 @@ $(document).ready(function () {
                 state: $("#state").val(),
                 company: $("#company").val(),
                 category: $("#category").val(),
+                pendingRefund: getUrlVars()["pendingRefund"],
             }
         },
         "language": {

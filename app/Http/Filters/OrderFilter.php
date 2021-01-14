@@ -2,6 +2,7 @@
 
 namespace App\Http\Filters;
 
+use App\Models\SepetUrun;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -81,20 +82,13 @@ class OrderFilter extends Filter
     }
 
     /**
-     *
      * @param string|null $value
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function appointmentDate(string $value = null): Builder
+    public function pendingRefund(string $value = null)
     {
-        if ($value) {
-            $start = isset(explode('-', $value)[0]) ? str_replace(" ", "", explode('-', $value)[0]) : null;
-            $end = isset(explode('-', $value)[1]) ? str_replace(" ", "", explode('-', $value)[1]) : null;
-            return $this->builder->whereBetween('appointment_date', [
-                Carbon::createFromDate($start)->format('Y-m-d'),
-                Carbon::createFromDate($end)->format('Y-m-d')
-            ]);
-        }
-        return $this->builder;
+        return $this->builder->whereHas('basket.basket_items', function ($q) use ($value) {
+            $q->withTrashed()->where('status', SepetUrun::STATUS_IADE_TALEP);
+        });
     }
 }
