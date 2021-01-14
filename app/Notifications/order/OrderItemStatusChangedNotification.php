@@ -70,10 +70,14 @@ class OrderItemStatusChangedNotification extends Notification implements ShouldQ
 
             ->line(__('lang.hello_username', ['username' => $user->full_name]))
             ->line(__('lang.order_item_status_changed', ['product' => $this->product->title, 'status' => SepetUrun::statusLabelStatic($this->basketItem->status)]))
+            ->line(new HtmlString("<b>" . __('lang.order_code') . "</b> : {$this->order->code}"))
             ->line(new HtmlString("<b>" . __('lang.status') . "</b> : {$statusLabel}"))
             ->line(new HtmlString("<b>" . __('lang.product') . "</b> : <a href={$productUrl}>{$this->product->title}</a>"))
-            ->line(new HtmlString("<b>" . __('lang.price') . "</b> : {$this->basketItem->price} {$this->basketItem->basket->currency_symbol}"))
+            ->line(new HtmlString("<b>" . __('lang.price') . "</b> : {$this->basketItem->price} {$this->order->currency_symbol}"))
+            ->line(new HtmlString("<b>" . __('lang.qty') . "</b> : {$this->basketItem->qty}"))
+            ->line(new HtmlString("<b>" . __('lang.cargo_price') . "</b> : {$this->basketItem->cargo_total} {$this->order->currency_symbol}"))
+            ->line(new HtmlString("<b>" . __('lang.product_total') . "</b> : {$this->basketItem->total} {$this->order->currency_symbol}"))
 
-            ->action(__('lang.show_order'), url(route('user.orders', $this->order->id)));
+            ->action(__('lang.show_order'), url(route('user.orders.detail', $this->order->id)));
     }
 }

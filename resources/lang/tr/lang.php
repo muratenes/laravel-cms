@@ -26,6 +26,7 @@ return [
 
 
     //=============== Email ===============
+    'hello' => 'Merhaba',
     'order_code' => 'Sipariş Kodu',
     'order_date' => 'Sipariş Tarihi',
     'product' => 'Ürün',
@@ -34,6 +35,7 @@ return [
     'qty' => 'Adet',
     'cargo_price' => 'Kargo Fiyatı',
     'total' => 'Toplam',
+    'product_total' => 'Ürün Toplam',
     'total_amount' => 'Toplam Tutar',
     'coupon_total' => 'Kupon Toplam',
     'sub_total' => 'Alt Toplam',
@@ -44,7 +46,7 @@ return [
     'order_successfully_received' => 'siparişiniz başarılı şekilde alındı',
 
     //OrderItemStatusChangedNotify
-    'order_item_status_changed' => ':product durumu :status olarak güncellendi',
+    'order_item_status_changed' => ':product durumu ":status" olarak güncellendi',
     'show_order' => 'Siparişi Göster',
 
     // OrderStatusChangedNotification

@@ -23,11 +23,15 @@ class TestController extends Controller
     {
         $basket = Sepet::getCurrentBasket();
         $order = Siparis::with(['basket.basket_items.product', 'basket.user'])->first();
+        $user = $request->user();
+        $basketItem = $order->basket->basket_items->first();
+        // initial
 
+        $user->notify(new OrderItemStatusChangedNotification($order,$order->basket->basket_items->first() ));
 
         //
 //        Mail::to($request->user())->send(new OrderCreateadMail($order));
-        return new \App\Mail\Order\OrderCreateadMail($order);
+//        return new \App\Mail\Order\OrderCreateadMail($order);
         dd('a');
         $order->notify(new NewOrder($order));
         dd('sn');

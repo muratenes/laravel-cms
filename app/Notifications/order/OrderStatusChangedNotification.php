@@ -61,11 +61,12 @@ class OrderStatusChangedNotification extends Notification implements ShouldQueue
             ->subject(__('lang.order_status_changed', ['status' => $statusLabel]))
             ->line(__('lang.hello_username', ['username' => $this->user->full_name]))
             ->line(__('lang.order_status_changed', ['status' => $statusLabel]))
+            ->line(__('lang.order_code') . ": {$this->order->order_code}")
             ->line(__('lang.sub_total') . ": {$this->order->order_price} {$this->order->currency_symbol}")
             ->line(__('lang.cargo_price') . " : {$this->order->cargo_price} {$this->order->currency_symbol}")
             ->line(__('lang.coupon_total') . ": {$this->order->coupon_price} {$this->order->currency_symbol}")
             ->line(new HtmlString("<strong>" . __('lang.total_amount') . "</strong> : {$this->order->order_total_price} {$this->order->currency_symbol}"))
-            ->action(__('lang.show_order'), url(route('user.orders', $this->order->id)));
+            ->action(__('lang.show_order'), url(route('user.orders.detail', $this->order->id)));
     }
 
 }
