@@ -29,7 +29,7 @@ class ElAccountDal extends BaseRepository implements AccountInterface
      */
     public function getUserDefaultAddress($userId)
     {
-        $user = User::find($userId);
+        $user = $this->model->find($userId);
         if (!$user) return null;
         return KullaniciAdres::with(['state', 'district', 'user'])->find($user->default_address_id);
     }

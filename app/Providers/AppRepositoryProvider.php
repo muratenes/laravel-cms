@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Repositories\Concrete\Eloquent\ElAccountDal;
-use App\Repositories\Concrete\Eloquent\ElAracMarkaDal;
 use App\Repositories\Concrete\Eloquent\ElAyarlarDal;
 use App\Repositories\Concrete\Eloquent\ElBannerDal;
 use App\Repositories\Concrete\Eloquent\ElBlogDal;
