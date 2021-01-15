@@ -3,7 +3,7 @@
 use App\Models\KullaniciAdres;
 use App\User;
 
-interface AccountInterface extends BaseRepositoryInterface
+interface AccountInterface
 {
     public function getUserAddresses($userId, $addressType);
 
