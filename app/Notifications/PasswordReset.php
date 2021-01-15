@@ -10,6 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class PasswordReset extends Notification
 {
     use Queueable;
+
     public $token;
 
     /**
@@ -42,21 +43,9 @@ class PasswordReset extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Bu e-postayı, hesabınız için bir şifre sıfırlama isteği aldığımız için alıyorsunuz.')
-            ->action('Parola Sıfırla', url('password/reset', $this->token))
-            ->line('Parola sıfırlama isteğinde bulunmadıysanız, bu maili dikkate almayınız');
+            ->line(__('lang.you_are_receiving_this_email_because_we_have_received'))
+            ->action(__('lang.reset_password'), url("password/reset/{$this->token}"))
+            ->line(__('lang.if_you_have_not_requested_a_password_reset_ignore_this_email'));
     }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
+    
 }

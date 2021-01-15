@@ -5,7 +5,9 @@ namespace App;
 use App\Models\Auth\Role;
 use App\Models\Favori;
 use App\Models\KullaniciAdres;
+use App\Notifications\PasswordReset;
 use App\Utils\Concerns\Models\UserNotifications;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,6 +16,7 @@ class User extends Authenticatable implements HasLocalePreference
 {
     use Notifiable;
     use UserNotifications;
+    use CanResetPassword;
 
     protected $fillable = [
         'name', 'surname', 'email', 'password', 'activation_code', 'is_active', 'is_admin', 'role_id', 'locale', 'default_address_id', 'default_invoice_address_id'
@@ -98,5 +101,14 @@ class User extends Authenticatable implements HasLocalePreference
     public function preferredLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * parola sıfırlama isteği gönderir
+     * @param $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordReset($token));
     }
 }

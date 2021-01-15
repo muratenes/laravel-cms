@@ -120,13 +120,6 @@ Route::get('kampanyalar/{slug}', 'KampanyaController@detail')->name('campaigns.d
 Route::get('kampanyalar/{slug}/{category}', 'KampanyaController@detail')->name('campaigns.detail');
 Route::get('campaignsFilterWithAjax', 'KampanyaController@campaignsFilterWithAjax')->name('campaigns.filterWithAjax');
 
-//=================Ajax Routes ==============
-Route::get('getActiveBrands', 'UrunController@getActiveProductBrandsJson');
-//---------- Car Brand Routes
-Route::group(['prefix' => 'brands'], function () {
-    Route::get('getAllActiveCarBrands', 'AracMarkaController@getAllActiveCarBrands');
-    Route::get('getModelsByBrandId/{id}', 'AracMarkaController@getModelsByMarkaId');
-});
 Route::get('lang/{locale}','AnasayfaController@setLanguage')->name('home.setLocale');
 // ------------Product Routes ----------------
 Route::get('{product:slug}', 'UrunController@detail')->name('product.detail');

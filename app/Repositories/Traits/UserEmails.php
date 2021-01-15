@@ -7,7 +7,6 @@ namespace App\Repositories\Traits;
 use App\Mail\OrderStatusOnChangedMail;
 use App\Models\SepetUrun;
 use App\Models\Siparis;
-use App\Notifications\OrderItemStatusChangedNotification;
 use App\Notifications\PasswordReset;
 
 trait UserEmails

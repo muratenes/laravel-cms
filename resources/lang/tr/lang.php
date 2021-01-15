@@ -59,6 +59,11 @@ return [
     'order_refund_bank_text' => 'Bankanızın bu tutarı kredi kartınıza/banka kartınıza yansıtma süresi :day iş günüdür. Bu süre banka tarafından belirlendiği için geri ödeme işlemiyle ilgili bankanızla iletişim kurmanızı tavsiye ederiz.',
     'order_can_not_cancel_basket_item' => 'Sipariş durumu ":status" olduğu için iptal edilemez',
 
+    // PasswordReset Notification
+    'you_are_receiving_this_email_because_we_have_received' => 'Bu e-postayı, hesabınız için bir şifre sıfırlama isteği aldığımız için alıyorsunuz.',
+    'reset_password' => 'Parola Sıfırla',
+    'if_you_have_not_requested_a_password_reset_ignore_this_email' => 'Parola sıfırlama isteğinde bulunmadıysanız, bu maili dikkate almayınız',
+
     // Sepet
     'can_not_cancel_basket_item' => 'Ürün durumu ":status" olduğu için iptal edilemez',
     'the_order_cannot_be_canceled_because_it_is_not_on_the_same_day' => 'Sipariş aynı gün olmadığı için yada saat geçtiği için iptal edilemez iade talebi oluşturunuz',

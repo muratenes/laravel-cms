@@ -9,8 +9,6 @@ use App\Notifications\order\OrderCreatedNotification;
 trait UserNotifications
 {
     /**
-     * sendPasswordResetNotification.
-     *
      * @param Siparis $order
      */
     public function sendOrderCreatedNotification(Siparis $order)
