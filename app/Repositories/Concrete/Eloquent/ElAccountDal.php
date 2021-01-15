@@ -22,11 +22,6 @@ class ElAccountDal extends BaseRepository implements AccountInterface
         return KullaniciAdres::with(['country', 'state', 'district', 'neighborhood'])->where(['user_id' => $userId, 'type' => $addressType])->orderByDesc('id')->get();
     }
 
-    public function getAddressById($addressId)
-    {
-        return KullaniciAdres::find($addressId);
-    }
-
     /**
      * kullanıcının varsayılan adresini gönderir
      * @param $userId

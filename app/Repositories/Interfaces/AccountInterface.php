@@ -23,7 +23,6 @@ interface AccountInterface
 
     public function setUserDefaultInvoiceAddress($userId, $addressId);
 
-    public function getAddressById($addressId);
 
     public function updateOrCreateUserAddress(int $id, array $data, int $userId);
 
