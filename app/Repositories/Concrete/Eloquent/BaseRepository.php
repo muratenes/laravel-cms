@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Concrete\Eloquent;
 
 use App\Repositories\EloquentRepositoryInterface;
@@ -22,6 +23,15 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * @param $id
+     * @return Model
+     */
+    public function find($id): ?Model
+    {
+        return $this->model->find($id);
+    }
+
+    /**
      * @param array $attributes
      *
      * @return Model
@@ -32,11 +42,21 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
+     * @param array $attributes
+     *
      * @return Model
      */
-    public function find($id): ?Model
+    public function update(int $id, array $attributes): Model
     {
+        $this->model->update($attributes);
         return $this->model->find($id);
     }
+
+    public function delete(int $id): bool
+    {
+        return $this->model->delete($id);
+    }
+
+
 }

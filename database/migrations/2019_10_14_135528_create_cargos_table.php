@@ -16,7 +16,7 @@ class CreateCargosTable extends Migration
         $turkey = \App\Models\Region\Country::where('title', 'Turkey')->first();
 
         Schema::create('cargos', function (Blueprint $table) use ($turkey) {
-            $table->smallIncrements();
+            $table->smallIncrements('id');
             $table->string('title');
             $table->unsignedSmallInteger('country_id')->default($turkey ? $turkey->id : null);
             $table->string('cargo_tracking_url')->nullable();
