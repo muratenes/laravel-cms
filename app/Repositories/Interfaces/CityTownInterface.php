@@ -1,6 +1,6 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface CityTownInterface extends BaseRepositoryInterface
+interface CityTownInterface
 {
     public function getTownsByCityId($cityId);
 }

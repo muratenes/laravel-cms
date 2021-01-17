@@ -71,9 +71,11 @@ class BaseRepository implements EloquentRepositoryInterface
     {
         return $this->model->when($relations, function ($query) use ($relations) {
             return $query->with($relations);
-        })->select($columns)->when($filter, function ($query) use ($filter) {
+        })
+        ->select($columns)
+        ->when($filter, function ($query) use ($filter) {
             return $query->where($filter);
-        })->orderByDesc($orderBy)->all();
+        })->orderByDesc($orderBy)->get();
     }
 
     public function allWithPagination(array $filter = null, array $columns = ["*"], int $perPageItem = null, array $relations = null): LengthAwarePaginator
