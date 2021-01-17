@@ -29,9 +29,10 @@ class KategoriController extends AdminController
         if ($query || $main_cat) {
             $list = $this->model->getCategoriesByHasCategoryAndFilterText($main_cat, $query, true);
         } else {
-            $list = $this->model->with('parent_category', null, true);
+            $list = $this->model->allWithPagination(null, ["*"], null, ['parent_category']);
         }
         $main_categories = $this->model->all([['parent_category_id', null]]);
+
         return view('admin.category.list_categories', compact('list', 'main_categories'));
     }
 
@@ -48,7 +49,7 @@ class KategoriController extends AdminController
 
     public function saveCategory(AdminCategoryRequest $request, $category_id = 0)
     {
-        $request_data = $request->only('title', 'parent_category', 'icon', 'spot', 'row');
+        $request_data = $request->only('title', 'parent_category_id', 'icon', 'spot', 'row');
         $request_data['active'] = activeStatus();
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request->title, $category_id);
         if ($category_id != 0) {
@@ -56,7 +57,6 @@ class KategoriController extends AdminController
         } else {
             $entry = $this->model->create($request_data);
         }
-        Kategori::clearCache();
 
         if ($entry) {
             if ($request->hasFile('image')) {
@@ -97,7 +97,6 @@ class KategoriController extends AdminController
     public function deleteCategory($category_id)
     {
         $this->model->delete($category_id);
-        Kategori::clearCache();
         return redirect(route('admin.categories'));
     }
 

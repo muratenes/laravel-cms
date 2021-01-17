@@ -18,6 +18,7 @@ class KategoriController extends Controller
 
     public function index($categorySlug)
     {
+        // todo : get by column ekle
         $category = $this->model->getByColumn('slug', $categorySlug, null, ['sub_categories']);
         $data = $this->model->getProductsAndAttributeSubAttributesByCategory($category, $category->sub_categories);
         $bestSellers = $this->_productService->getBestSellersProducts($category->id);

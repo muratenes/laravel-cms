@@ -84,6 +84,6 @@ class BaseRepository implements EloquentRepositoryInterface
             return $query->with($relations);
         })->select($columns)->when($filter, function ($query) use ($filter) {
             return $query->where($filter);
-        })->latest()->paginate($perPageItem);
+        })->latest('id')->paginate($perPageItem);
     }
 }

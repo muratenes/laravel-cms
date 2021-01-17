@@ -99,12 +99,10 @@ class ElKullaniciDal implements KullaniciInterface
     public function deleteRole($id)
     {
         $role = Role::find($id);
-        if ($role) {
-            $role->permissions()->detach();
-            $role->delete();
-            return true;
-        } else {
-            return false;
-        }
+        if (!$role) return false;
+
+        $role->permissions()->detach();
+        $role->delete();
+        return true;
     }
 }

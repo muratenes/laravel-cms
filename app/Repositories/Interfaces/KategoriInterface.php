@@ -2,7 +2,7 @@
 
 use App\Models\Kategori;
 
-interface KategoriInterface extends BaseRepositoryInterface
+interface KategoriInterface
 {
     public function getSubCategoriesByCategoryId($categoryId, $count = 10, $orderBy = null);
 

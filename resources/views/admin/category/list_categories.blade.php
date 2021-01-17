@@ -69,10 +69,10 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if($l->parent_cat)
-                                            <a href="{{ route('admin.category.edit',$l->parent_cat->id) }}"
-                                               title="{{ $l->parent_cat->main_category ? $l->parent_cat->main_category->title  : $l->parent_cat->title }}">
-                                                <span> {{ $l->parent_cat->title }} <i class="fa fa-external-link"></i></span>
+                                        @if($l->parent_category)
+                                            <a href="{{ route('admin.category.edit',$l->parent_category->id) }}"
+                                               title="{{ $l->parent_category->title }}">
+                                                <span> {{ $l->parent_category->title }} <i class="fa fa-external-link"></i></span>
                                             </a>
                                         @else
                                             -
@@ -82,7 +82,7 @@
                                     <td>{{ $l -> row}}</td>
                                     <td>{{ $l ->slug }}</td>
                                     <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
-                                    <td><a href="{{ route('admin.category.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
+                                    <td><a href="{{ route('admin.category.delete',$l->id) }}" onclick="return confirm('Kategoriye ait tüm ürünler silinecek, yinede kategoriyi silmek istediğine emin misin ?')"><i
                                                 class="fa fa-trash text-red"></i></a></td>
                                 </tr>
                             @endforeach

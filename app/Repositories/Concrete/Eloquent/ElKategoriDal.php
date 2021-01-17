@@ -16,27 +16,19 @@ use App\Repositories\Interfaces\UrunlerInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class ElKategoriDal implements KategoriInterface
+class ElKategoriDal extends BaseRepository implements KategoriInterface
 {
 
     protected $model;
-    private $_productService;
+    private UrunlerInterface $productService;
+
 
     public function __construct(Kategori $model, UrunlerInterface $productService)
     {
-        $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
-        $this->_productService = $productService;
+        $this->productService = $productService;
+        parent::__construct($model);
     }
 
-    public function all($filter = null, $columns = array("*"), $relations = null)
-    {
-        return $this->model->all($filter, $columns, $relations)->get();
-    }
-
-    public function allWithPagination($filter = null, $columns = array("*"), $perPageItem = null, $relations = null)
-    {
-
-    }
 
     public function getById($id, $columns = array('*'), $relations = null)
     {
@@ -48,30 +40,15 @@ class ElKategoriDal implements KategoriInterface
         return $this->model->getByColumn($field, $value, $columns, $relations);
     }
 
-    public function create(array $data)
-    {
-        return $this->model->create($data);
-    }
-
-    public function update(array $data, $id)
-    {
-        return $this->model->update($data, $id);
-    }
-
-    public function delete($id)
+    public function delete($id) : bool
     {
         $category = $this->model->delete($id);
         $category->getProducts()->detach();
         $category->slug = Str::random(16);
         $category->save();
-        return $category;
+        return (bool) $category;
     }
 
-
-    public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
-    {
-        return $this->model->with($relations, $filter, $paginate, $perPageItem);
-    }
 
     public function getSubCategoriesByCategoryId($categoryId, $count = 10, $orderBy = null)
     {
@@ -143,7 +120,7 @@ class ElKategoriDal implements KategoriInterface
 
     public function getProductsAttributesSubAttributesProductFilterWithAjax($categorySlug, $orderType, $selectedSubAttributeIdList, $selectedBrandIdList, $currentPage = 1)
     {
-        $newProductIdList = $this->_productService->filterProductsFilterBySelectedSubAttributeIdList($selectedSubAttributeIdList);
+        $newProductIdList = $this->productService->filterProductsFilterBySelectedSubAttributeIdList($selectedSubAttributeIdList);
         $category = Kategori::with('sub_categories')->whereSlug($categorySlug)->first();
         $products = Urun::with('detail')->select('id', 'title', 'slug', 'tl_price', 'image', 'tl_discount_price')->whereHas('categories', function ($query) use ($categorySlug, $category) {
             if (count($category->sub_categories) > 0) {
