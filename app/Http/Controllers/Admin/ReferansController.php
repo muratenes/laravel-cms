@@ -14,20 +14,20 @@ class ReferansController extends Controller
 {
     use ImageUploadTrait;
 
-    private ReferenceInterface $_referenceService;
+    private ReferenceInterface $referenceService;
 
     public function __construct(ReferenceInterface $referenceService)
     {
-        $this->_referenceService = $referenceService;
+        $this->referenceService = $referenceService;
     }
 
     public function list()
     {
         $query = request('q');
         if ($query) {
-            $list = $this->_referenceService->allWithPagination([['title', 'like', "%$query%"]]);
+            $list = $this->referenceService->allWithPagination([['title', 'like', "%$query%"]]);
         } else {
-            $list = $this->_referenceService->allWithPagination();
+            $list = $this->referenceService->allWithPagination();
         }
         return view('admin.references.listReferences', compact('list'));
     }
@@ -36,24 +36,28 @@ class ReferansController extends Controller
     {
         $item = new Referance();
         if ($id != 0) {
-            $item = $this->_referenceService->getById($id);
+            $item = $this->referenceService->find($id);
         }
         return view('admin.references.newOrEditReference', compact('item'));
     }
 
-    public function save(Request $request,$id = 0)
+    public function save(Request $request, $id = 0)
     {
         $request_data = $request->only('title', 'desc', 'link');
-        $request_data['slug'] =  Str::slug($request->get('title'));
-        $request_data['slug'] =  createSlugByModelAndTitle($this->_referenceService,$request->title,$id);
+        $request_data['slug'] = Str::slug($request->get('title'));
+        $request_data['slug'] = createSlugByModelAndTitle($this->referenceService, $request->title, $id);
         $request_data['active'] = request()->has('active') ? 1 : 0;
         if ($id != 0) {
-            $entry = $this->_referenceService->update($request_data, $id);
+            $entry = $this->referenceService->update($request_data, $id);
         } else {
-            $entry = $this->_referenceService->create($request_data);
+            $entry = $this->referenceService->create($request_data);
         }
-        if ($entry){
-            $this->uploadImage($request->file('image'),$entry->title,'public/referanslar',$entry->image,Referance::MODULE_NAME);
+        if ($entry) {
+            $entry->update([
+                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/references', $entry->image, Referance::MODULE_NAME)
+            ]);
+
+            success();
             return redirect(route('admin.reference.edit', $entry->id));
         }
 
@@ -62,7 +66,8 @@ class ReferansController extends Controller
 
     public function delete($id)
     {
-        $this->_referenceService->delete($id);
+        $this->referenceService->delete($id);
+        success();
         return redirect(route('admin.reference'));
     }
 }

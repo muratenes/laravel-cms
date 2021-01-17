@@ -19,13 +19,10 @@
     <div class="row">
         <!-- left column -->
         <div class="col-md-12">
-            <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Referans Detay</h3>
                 </div>
-                <!-- /.box-header -->
-                <!-- form start -->
                 <form role="form" method="post" action="{{ route('admin.reference.save',$item->id != null ? $item->id : 0) }}" id="form" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="box-body">
@@ -44,8 +41,11 @@
                                 <label for="image">Fotoğraf</label><br>
                                 <input type="file" class="form-control" name="image">
                                 @if($item->image)
-                                    <span class="help-block"><a target="_blank"
-                                                                href="{{ config('constants.image_paths.reference_image_folder_path') }}{{ $item->image }}">{{ $item->image }}</a></span>
+                                    <span class="help-block">
+                                        <a target="_blank" href="{{ imageUrl('public/references',$item->image)}}">
+                                            {{ $item->image }}
+                                        </a>
+                                    </span>
                                 @endif
                             </div>
                             <div class="form-group col-md-2">
@@ -60,8 +60,6 @@
                         </div>
 
                     </div>
-                    <!-- /.box-body -->
-
                     <div class="box-footer text-right">
                         <button type="submit" class="btn btn-success">Kaydet</button>
                     </div>

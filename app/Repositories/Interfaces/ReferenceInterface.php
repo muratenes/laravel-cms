@@ -1,6 +1,5 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface ReferenceInterface extends BaseRepositoryInterface
+interface ReferenceInterface
 {
-    public function uploadMainImage($reference, $image_file);
 }
