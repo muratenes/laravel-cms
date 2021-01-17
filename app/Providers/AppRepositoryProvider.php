@@ -28,7 +28,6 @@ use App\Repositories\Concrete\Eloquent\ElUrunMarkaDal;
 use App\Repositories\Concrete\Eloquent\ElUrunOzellikDal;
 use App\Repositories\Concrete\Eloquent\ElUrunYorumDal;
 use App\Repositories\Interfaces\AccountInterface;
-use App\Repositories\Interfaces\AyarlarInterface;
 use App\Repositories\Interfaces\BannerInterface;
 use App\Repositories\Interfaces\BlogInterface;
 use App\Repositories\Interfaces\CityTownInterface;
@@ -73,7 +72,6 @@ class AppRepositoryProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(AyarlarInterface::class, ElAyarlarDal::class);
         $this->app->bind(KategoriInterface::class, ElKategoriDal::class);
         $this->app->bind(UrunlerInterface::class, ElUrunlerDal::class);
         $this->app->bind(SiparisInterface::class, ElSiparisDal::class);
