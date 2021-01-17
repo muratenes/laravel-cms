@@ -8,6 +8,11 @@ use App\Repositories\Interfaces\CityTownInterface;
 class ElCityTownDal extends BaseRepository implements CityTownInterface
 {
 
+    public function __construct(State $model)
+    {
+        parent::__construct($model);
+    }
+
     public function all(array $filter = null, $columns = array('*'), $relations = null, $orderBy = 'id')
     {
         if ($relations) return State::with($relations)->where($filter)->orderBy('title')->get();

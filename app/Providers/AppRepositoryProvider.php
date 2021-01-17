@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use App\Repositories\Concrete\Eloquent\ElAccountDal;
-use App\Repositories\Concrete\Eloquent\ElAyarlarDal;
 use App\Repositories\Concrete\Eloquent\ElBannerDal;
 use App\Repositories\Concrete\Eloquent\ElBlogDal;
 use App\Repositories\Concrete\Eloquent\ElCityTownDal;
 use App\Repositories\Concrete\Eloquent\ElEBultenDal;
-use App\Repositories\Concrete\Eloquent\ElFavorilerDal;
 use App\Repositories\Concrete\Eloquent\ElFotoGalleryDal;
 use App\Repositories\Concrete\Eloquent\ElIcerikYonetimDal;
 use App\Repositories\Concrete\Eloquent\ElKampanyaDal;
@@ -32,7 +30,6 @@ use App\Repositories\Interfaces\BannerInterface;
 use App\Repositories\Interfaces\BlogInterface;
 use App\Repositories\Interfaces\CityTownInterface;
 use App\Repositories\Interfaces\EBultenInterface;
-use App\Repositories\Interfaces\FavorilerInterface;
 use App\Repositories\Interfaces\FotoGalleryInterface;
 use App\Repositories\Interfaces\IcerikYonetimInterface;
 use App\Repositories\Interfaces\KampanyaInterface;
