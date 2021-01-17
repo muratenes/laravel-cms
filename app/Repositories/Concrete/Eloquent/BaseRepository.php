@@ -24,12 +24,16 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param $value
+     * @param string $column
+     * @param array|null $relations
      * @return Model
      */
-    public function find($id): ?Model
+    public function find($value, string $column = 'id', array $relations = null): ?Model
     {
-        return $this->model->find($id);
+        return $this->model->where($column, $value)->when($relations, function ($q, $relations) {
+            $q->with($relations);
+        })->first();
     }
 
     /**
@@ -72,10 +76,10 @@ class BaseRepository implements EloquentRepositoryInterface
         return $this->model->when($relations, function ($query) use ($relations) {
             return $query->with($relations);
         })
-        ->select($columns)
-        ->when($filter, function ($query) use ($filter) {
-            return $query->where($filter);
-        })->orderByDesc($orderBy)->get();
+            ->select($columns)
+            ->when($filter, function ($query) use ($filter) {
+                return $query->where($filter);
+            })->orderByDesc($orderBy)->get();
     }
 
     public function allWithPagination(array $filter = null, array $columns = ["*"], int $perPageItem = null, array $relations = null): LengthAwarePaginator

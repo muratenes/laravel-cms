@@ -8,20 +8,19 @@ use App\Repositories\Interfaces\UrunlerInterface;
 class KategoriController extends Controller
 {
     protected KategoriInterface $model;
-    private UrunlerInterface $_productService;
+    private UrunlerInterface $productService;
 
     public function __construct(KategoriInterface $model, UrunlerInterface $productService)
     {
         $this->model = $model;
-        $this->_productService = $productService;
+        $this->productService = $productService;
     }
 
     public function index($categorySlug)
     {
-        // todo : get by column ekle
-        $category = $this->model->getByColumn('slug', $categorySlug, null, ['sub_categories']);
+        $category = $this->model->find($categorySlug, 'slug', ['sub_categories']);
         $data = $this->model->getProductsAndAttributeSubAttributesByCategory($category, $category->sub_categories);
-        $bestSellers = $this->_productService->getBestSellersProducts($category->id);
+        $bestSellers = $this->productService->getBestSellersProducts($category->id);
 
         return view('site.kategori.kategori', compact('category', 'data', 'bestSellers'));
     }

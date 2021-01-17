@@ -19,10 +19,12 @@ interface EloquentRepositoryInterface
     public function create(array $attributes): Model;
 
     /**
-     * @param $id
+     * @param $value
+     * @param string $column
+     * @param array|null $relations
      * @return Model
      */
-    public function find($id): ?Model;
+    public function find($value, string $column = 'id', array $relations = null): ?Model;
 
     /**
      * @param int $id
@@ -30,7 +32,7 @@ interface EloquentRepositoryInterface
      *
      * @return Model
      */
-    public function update(array $attributes,int $id): Model;
+    public function update(array $attributes, int $id): Model;
 
     /**
      * delete record from database by id
@@ -59,5 +61,5 @@ interface EloquentRepositoryInterface
      * @param array|null $relations
      * @return LengthAwarePaginator
      */
-    public function allWithPagination(array $filter = null, array $columns = ["*"], int $perPageItem = null, array $relations = null) : LengthAwarePaginator;
+    public function allWithPagination(array $filter = null, array $columns = ["*"], int $perPageItem = null, array $relations = null): LengthAwarePaginator;
 }
