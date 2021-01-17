@@ -49,13 +49,20 @@ class BaseRepository implements EloquentRepositoryInterface
      */
     public function update(int $id, array $attributes): Model
     {
-        $this->model->update($attributes);
-        return $this->model->find($id);
+        $item = $this->model->find($id);
+        $item->update($attributes);
+        return $item;
     }
 
+    /**
+     * delete record from database by id
+     * @param int $id
+     * @return bool
+     */
     public function delete(int $id): bool
     {
-        return $this->model->delete($id);
+        $item = $this->model->find($id);
+        return (bool) $item->delete();
     }
 
 
