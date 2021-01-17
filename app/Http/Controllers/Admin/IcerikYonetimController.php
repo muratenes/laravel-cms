@@ -53,7 +53,7 @@ class IcerikYonetimController extends AdminController
         }
         if ($entry) {
             $entry->update([
-                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', Content::MODULE_NAME)
+                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', $entry->image, Content::MODULE_NAME)
             ]);
             success();
 

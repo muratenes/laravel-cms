@@ -57,7 +57,7 @@ $data = [
         // attributes
         'max_sub_attribute_count' => 10
     ],
-    'use_album_gallery' => true,
+    'use_album_gallery' => false,
 
     // multi lang
     'MULTI_LANG' => true,
@@ -79,10 +79,10 @@ $data = [
     'check_campaign_prev_minute' => 5,
 
     'iyzico' => [
-        'order_url' => env("IYZIPAY_ORDER_URL","https://sandbox-merchant.iyzipay.com/transactions/"),
-        'api_key' => env('IYZIPAY_API_KEY',"DEFAULT_KEY"),
-        'api_secret' => env('IYZIPAY_API_SECRET',"DEFAULT_SECRET_KEY"),
-        'base_url' => env('IYZIPAY_BASE_URL',"DEFAULT_BASE_URL"),
+        'order_url' => env("IYZIPAY_ORDER_URL", "https://sandbox-merchant.iyzipay.com/transactions/"),
+        'api_key' => env('IYZIPAY_API_KEY', "DEFAULT_KEY"),
+        'api_secret' => env('IYZIPAY_API_SECRET', "DEFAULT_SECRET_KEY"),
+        'base_url' => env('IYZIPAY_BASE_URL', "DEFAULT_BASE_URL"),
     ],
     // image quality %x if value is null image not be resized
     'image_quality' => [
@@ -97,6 +97,7 @@ $data = [
         'coupon' => null,
         'campaign' => null,
         'gallery' => null,
+        'gallery_item' => 60
     ],
     // admin account
     'username' => 'admin@admin.com',

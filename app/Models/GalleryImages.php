@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GalleryImages extends Model
 {
+    const MODULE_NAME = 'gallery_item';
     public $timestamps = false;
     protected $perPage = 20;
     protected $guarded = [];

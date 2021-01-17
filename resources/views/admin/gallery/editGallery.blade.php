@@ -44,8 +44,11 @@
                                 <label for="image">Fotoğraf</label><br>
                                 <input type="file" class="form-control" name="image">
                                 @if($item->image)
-                                    <span class="help-block"><a target="_blank"
-                                                                href="/{{ config('constants.image_paths.gallery_main_image_folder_path') }}{{ $item->image }}">{{ $item->image }}</a></span>
+                                    <span class="help-block">
+                                        <a target="_blank" href="{{ imageUrl('public/gallery',$item->image) }}">
+                                            {{ $item->image }}
+                                        </a>
+                                    </span>
                                 @endif
                             </div>
                             <div class="form-group col-md-2">
@@ -72,20 +75,22 @@
                             </div>
                             <div class="box-body">
                                 <div class="row">
-                                    @foreach($images as $image)
-                                        <div class="col-md-2" id="productImageCartItem{{$image->id}}">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <a href="{{ route('admin.gallery.image.delete',$image->id) }}" class="btn btn-danger btn-xs pull-right">X</a>
-                                                    <a target="_blank" href="/{{ config('constants.image_paths.gallery_images_folder_path').$image->image }}">
-                                                        <img src="/{{ config('constants.image_paths.gallery_images_folder_path').$image->image }}" height="170" width="170"
-                                                             class="card-img-top" style="width: 100%"
-                                                             alt="...">
-                                                    </a>
+                                    @if ($item->images)
+                                        @foreach($item->images as $image)
+                                            <div class="col-md-2" id="productImageCartItem{{$image->id}}">
+                                                <div class="card">
+                                                    <div class="card-body" style="border: 1px solid #6d6d6d">
+                                                        <a href="{{ route('admin.gallery.image.delete',$image->id) }}" class="btn btn-danger btn-xs pull-right">X</a>
+                                                        <a target="_blank" href="{{ imageUrl('public/gallery/items',$image->image) }}">
+                                                            <img src="{{ imageUrl('public/gallery/items',$image->image) }}"
+                                                                 class="card-img-top img-fluid" style="width: 100%">
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    @endif
+
                                 </div>
 
                             </div>

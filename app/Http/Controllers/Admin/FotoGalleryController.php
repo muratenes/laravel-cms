@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Content;
 use App\Models\Gallery;
+use App\Models\GalleryImages;
 use App\Repositories\Interfaces\FotoGalleryInterface;
+use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class FotoGalleryController extends Controller
 {
+    use ImageUploadTrait;
+
     protected FotoGalleryInterface $model;
 
     public function __construct(FotoGalleryInterface $model)
@@ -35,50 +41,42 @@ class FotoGalleryController extends Controller
     {
         $images = [];
         $item = new Gallery();
-        if (!config('admin.use_album_gallery')) {
-            $galleries = $this->model->all();
-            if (count($galleries) > 0) {
-                $item = $this->model->getById($galleries[count($galleries) - 1])[0];
-                $images = $item->images;
+        // multiple image gallery
+        if (config('admin.use_album_gallery')) {
+            if ($id != 0) {
+                $item = $this->model->find($id);
             }
         } else {
-            if ($id != 0) {
-                $item = $this->model->getById($id);
-                if ($item)
-                    $images = $item->images;
-            }
+            $firstItem = Gallery::first();
+            $item = $firstItem ?: $item;
         }
         return view('admin.gallery.editGallery', compact('item', 'images'));
     }
 
-    public function save($id = 0)
+    public function save(Request $request, $id = 0)
     {
-        $request_data = \request()->only('title');
-        $request_data['slug'] =  Str::slug(request('title'));
-        $i = 0;
-        while ($this->model->all([['slug', $request_data['slug']], ['id', '!=', $id]], ['id'])->count() > 0) {
-            $request_data['slug'] = $request_data['slug'] . '-' . $i;
-            $i++;
-        }
-        $request_data['active'] = request()->has('active') ? 1 : 0;
+        $request_data['title'] = $request->get('title');
+        $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
+        $request_data['active'] = activeStatus();
         if ($id != 0) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
         }
         if ($entry) {
-            if (request()->hasFile('image') && $entry) {
-                $this->validate(request(), [
-                    'image' => 'image|mimes:jpg,png,jpeg,gif|max:' . config('admin.max_upload_size')
-                ]);
-                $this->model->uploadMainImage($entry, request()->file('image'));
-            }
+            $entry->update([
+                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/gallery', $entry->image, Gallery::MODULE_NAME)
+            ]);
             if (request()->hasFile('imageGallery')) {
-                $this->validate(request(), [
-                    'imageGallery.*' => 'image|mimes:jpg,png,jpeg,gif|max:' . config('admin.max_upload_size')
-                ]);
-                $this->model->uploadImageGallery($entry->id, request()->file('imageGallery'), $entry);
+                foreach ($request->file('imageGallery') as $imageItem) {
+                    $uploadedPath = $this->uploadImage($imageItem, $request_data['title'], 'public/gallery/items', null, GalleryImages::MODULE_NAME);
+                    $entry->images()->create([
+                        'image' => $uploadedPath
+                    ]);
+                }
             }
+            success();
+
             return redirect(route('admin.gallery.edit', $entry->id));
         }
         return back()->withInput();
@@ -92,7 +90,14 @@ class FotoGalleryController extends Controller
 
     public function deleteGalleryImage($id)
     {
-        $response = $this->model->deleteGalleryImage($id);
-        return back()->with('message_type', $response['alert'])->with('message', $response['message']);
+        $item = GalleryImages::findOrFail($id);
+        $imagePath = "public/gallery/items/{$item->image}";
+        if (Storage::exists($imagePath)) {
+            Storage::delete($imagePath);
+        }
+        $item->delete();
+        success();
+
+        return back();
     }
 }
