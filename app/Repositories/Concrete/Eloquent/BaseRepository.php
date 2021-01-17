@@ -47,7 +47,7 @@ class BaseRepository implements EloquentRepositoryInterface
      *
      * @return Model
      */
-    public function update(int $id, array $attributes): Model
+    public function update(array $attributes,int $id): Model
     {
         $item = $this->model->find($id);
         $item->update($attributes);

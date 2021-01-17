@@ -22,4 +22,19 @@ interface EloquentRepositoryInterface
      * @return Model
      */
     public function find($id): ?Model;
+
+    /**
+     * @param int $id
+     * @param array $attributes
+     *
+     * @return Model
+     */
+    public function update(array $attributes,int $id): Model;
+
+    /**
+     * delete record from database by id
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool;
 }
