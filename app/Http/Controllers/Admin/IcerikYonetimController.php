@@ -23,9 +23,9 @@ class IcerikYonetimController extends AdminController
     {
         $query = request('q');
         if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%$query%"]], null, null, 'parentContent');
+            $list = $this->model->allWithPagination([['title', 'like', "%$query%"]], [], null, ['parent']);
         } else {
-            $list = $this->model->allWithPagination(null, null, null, 'parentContent');
+            $list = $this->model->allWithPagination(null, ["*"], null, ['parent']);
         }
         return view('admin.content.listContents', compact('list'));
     }
@@ -35,7 +35,7 @@ class IcerikYonetimController extends AdminController
         $item = new Content();
         $contents = $this->model->all();
         if ($id != 0) {
-            $item = $this->model->getById($id);
+            $item = $this->model->find($id);
         }
         $languages = $this->languages();
         return view('admin.content.newOrEditContent', compact('item', 'languages', 'contents'));
@@ -43,16 +43,20 @@ class IcerikYonetimController extends AdminController
 
     public function save(ContentManagementRequest $request, $id = 0)
     {
-        $request_data = $request->only('title', 'spot', 'desc', 'lang', 'parent');
+        $request_data = $request->validated();
         $request_data['active'] = activeStatus();
-        $request_data['slug'] = createSlugByModelAndTitle($this->model,$request_data['title'],$id);
+        $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
         if ($id != 0) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
         }
-        if ($entry){
-            $this->uploadImage($request->file('image'),$entry->title,'public/icerik-yonetim',Content::MODULE_NAME);
+        if ($entry) {
+            $entry->update([
+                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', Content::MODULE_NAME)
+            ]);
+            success();
+
             return redirect(route('admin.content.edit', $entry->id));
         }
 

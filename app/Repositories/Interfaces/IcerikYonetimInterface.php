@@ -1,6 +1,5 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface IcerikYonetimInterface extends BaseRepositoryInterface
+interface IcerikYonetimInterface
 {
-    public function uploadMainImage($content, $image_file);
 }

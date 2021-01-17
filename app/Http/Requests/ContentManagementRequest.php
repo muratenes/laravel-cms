@@ -27,6 +27,7 @@ class ContentManagementRequest extends FormRequest
             'title' => 'required|max:100',
             'spot'=>'max:255',
             'desc'=>'max:65000',
+            'parent' => 'nullable'
         ];
     }
 }

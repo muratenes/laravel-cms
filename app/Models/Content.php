@@ -14,10 +14,17 @@ class Content extends Model
     const  IMAGE_QUALITY = 60;
     const  IMAGE_RESIZE = null;
 
-    public function parentContent()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
     {
         return $this->belongsTo(Content::class, 'parent', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function subContents()
     {
         return $this->hasMany(Content::class, 'parent', 'id');
