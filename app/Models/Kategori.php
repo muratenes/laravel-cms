@@ -14,7 +14,7 @@ class Kategori extends Model
     use SoftDeletes;
     use CategoryLanguageAttributeConcern;
 
-    protected $appends = ['title_lang','spot_lang'];
+    protected $appends = ['title_lang', 'spot_lang'];
 
     const MODULE_NAME = 'category';
 
@@ -49,7 +49,13 @@ class Kategori extends Model
         return $this->hasMany(Kategori::class, 'parent_category_id')->orderBy('row');
     }
 
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Urun::class, 'kategori_urun', 'category_id', 'product_id');
+    }
 
 
 }

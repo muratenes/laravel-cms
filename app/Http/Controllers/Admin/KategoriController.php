@@ -97,6 +97,7 @@ class KategoriController extends AdminController
     public function deleteCategory($category_id)
     {
         $this->model->delete($category_id);
+        success();
         return redirect(route('admin.categories'));
     }
 

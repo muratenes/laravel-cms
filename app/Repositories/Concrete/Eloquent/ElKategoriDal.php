@@ -42,9 +42,9 @@ class ElKategoriDal extends BaseRepository implements KategoriInterface
 
     public function delete($id) : bool
     {
-        $category = $this->model->delete($id);
-        $category->getProducts()->detach();
-        $category->slug = Str::random(16);
+        $category = $this->model->find($id);
+        //$category->products()->detach();
+        $category->slug = Str::random();
         $category->save();
         return (bool) $category;
     }
