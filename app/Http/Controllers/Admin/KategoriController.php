@@ -93,7 +93,6 @@ class KategoriController extends AdminController
         }
     }
 
-    // kaldır
     public function deleteCategory($category_id)
     {
         $this->model->delete($category_id);

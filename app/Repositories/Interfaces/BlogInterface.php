@@ -1,6 +1,5 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface BlogInterface extends BaseRepositoryInterface
+interface BlogInterface
 {
-    public function uploadImage($entry, $image_file);
 }

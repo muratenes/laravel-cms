@@ -36,7 +36,7 @@ class BlogController extends Controller
         $item = new Blog();
         $selected_categories = [];
         if ($id != 0) {
-            $item = $this->model->getById($id);
+            $item = $this->model->find($id);
             $selected_categories = $item->categories()->pluck('category_id')->all();
         }
         $categories = BlogCategory::all();
@@ -56,6 +56,7 @@ class BlogController extends Controller
         if ($entry) {
             $filePath = $this->uploadImage($request->file('image'), $entry->title, 'public/blog', $entry->image, Blog::MODULE_NAME);
             $entry->update(['image' => $filePath]);
+            success();
             return redirect(route('admin.blog.edit', $entry->id));
         } else
             return back()->withInput();
