@@ -1,5 +1,5 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface BannerInterface extends BaseRepositoryInterface
+interface BannerInterface
 {
 }

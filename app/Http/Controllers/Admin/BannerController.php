@@ -34,7 +34,7 @@ class BannerController extends Controller
     {
         $banner = new Banner();
         if ($id != 0) {
-            $banner = $this->model->getById($id);
+            $banner = $this->model->find($id);
         }
         return view('admin.banner.newOrEditBanner', compact('banner'));
     }
@@ -52,13 +52,16 @@ class BannerController extends Controller
             $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/banners', $entry->image, Banner::MODULE_NAME);
             $entry->update(['image' => $imageName]);
             return redirect(route('admin.banners.edit', $entry->id));
-        } else
-            return back()->withInput();
+        }
+
+        return back()->withInput();
     }
 
     public function delete($id)
     {
         $this->model->delete($id);
+        success();
+
         return redirect(route('admin.banners'));
     }
 }

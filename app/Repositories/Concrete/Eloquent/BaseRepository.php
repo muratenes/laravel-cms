@@ -4,6 +4,7 @@ namespace App\Repositories\Concrete\Eloquent;
 
 use App\Repositories\EloquentRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BaseRepository implements EloquentRepositoryInterface
 {
@@ -47,7 +48,7 @@ class BaseRepository implements EloquentRepositoryInterface
      *
      * @return Model
      */
-    public function update(array $attributes,int $id): Model
+    public function update(array $attributes, int $id): Model
     {
         $item = $this->model->find($id);
         $item->update($attributes);
@@ -62,8 +63,25 @@ class BaseRepository implements EloquentRepositoryInterface
     public function delete(int $id): bool
     {
         $item = $this->model->find($id);
-        return (bool) $item->delete();
+        return (bool)$item->delete();
     }
 
 
+    public function all(array $filter = null, $columns = array('*'), $relations = null, $orderBy = 'id')
+    {
+        return $this->model->when($relations, function ($query) use ($relations) {
+            return $query->with($relations);
+        })->select($columns)->when($filter, function ($query) use ($filter) {
+            return $query->where($filter);
+        })->orderByDesc($orderBy)->all();
+    }
+
+    public function allWithPagination(array $filter = null, array $columns = ["*"], int $perPageItem = null, array $relations = null): LengthAwarePaginator
+    {
+        return $this->model->when($relations, function ($query) use ($relations) {
+            return $query->with($relations);
+        })->select($columns)->when($filter, function ($query) use ($filter) {
+            return $query->where($filter);
+        })->latest()->paginate($perPageItem);
+    }
 }

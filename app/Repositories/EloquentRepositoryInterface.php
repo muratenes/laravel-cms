@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Interface EloquentRepositoryInterface
@@ -37,4 +38,26 @@ interface EloquentRepositoryInterface
      * @return bool
      */
     public function delete(int $id): bool;
+
+    /**
+     * returns all records
+     *
+     * @param array|null $filter
+     * @param string[] $columns
+     * @param null $relations
+     * @param string $orderBy
+     * @return mixed
+     */
+    public function all(array $filter = null, $columns = array('*'), $relations = null, $orderBy = 'id');
+
+    /**
+     * returns all filtered data with pagination
+     *
+     * @param array|null $filter
+     * @param array|string[] $columns
+     * @param int|null $perPageItem
+     * @param array|null $relations
+     * @return LengthAwarePaginator
+     */
+    public function allWithPagination(array $filter = null, array $columns = ["*"], int $perPageItem = null, array $relations = null) : LengthAwarePaginator;
 }

@@ -8,13 +8,9 @@ use App\Models\Log;
 use App\Models\Sepet;
 use App\Models\Product\Urun;
 use App\Repositories\Concrete\ElBaseRepository;
-use App\Repositories\Interfaces\BannerInterface;
 use App\Repositories\Interfaces\KuponInterface;
-use App\Repositories\Interfaces\LogInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Session;
-use Intervention\Image\ImageManagerStatic as Image;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class ElKuponDal implements KuponInterface

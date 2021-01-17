@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Banner;
 use App\Models\SSS;
-use App\Repositories\Interfaces\BannerInterface;
 use App\Repositories\Interfaces\SSSInterface;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SSSController extends Controller
