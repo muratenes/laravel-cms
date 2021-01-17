@@ -8,13 +8,13 @@ use Illuminate\Cache\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class ElAyarlarDal implements AyarlarInterface
+class ElAyarlarDal extends BaseRepository implements AyarlarInterface
 {
     public $model;
 
     public function __construct(Ayar $model)
     {
-        $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
+        parent::__construct($model);
     }
 
     public function getCachedConfig()
@@ -22,22 +22,6 @@ class ElAyarlarDal implements AyarlarInterface
         return \Cache::get('siteConfig');
     }
 
-    public function update(array $data, $id)
-    {
-        $this->model->update($data, $id);
-        $entry = $this->model->getById($id);
-        $this->logoIconUploadedForUpdateCreateStatement($entry);
-        Ayar::setCache($entry);
-        return $entry;
-    }
-
-    public function create(array $data)
-    {
-        $entry = $this->model->create($data);
-        $this->logoIconUploadedForUpdateCreateStatement($entry);
-        Ayar::setCache($entry);
-        return $entry;
-    }
 
     private function logoIconUploadedForUpdateCreateStatement($entry)
     {
@@ -92,10 +76,5 @@ class ElAyarlarDal implements AyarlarInterface
         $deletedRecord = $this->model->delete($id);
         $config = Ayar::orderByDesc('id')->first();
         Ayar::setCache($config);
-    }
-
-    public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
-    {
-
     }
 }

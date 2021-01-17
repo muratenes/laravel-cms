@@ -1,6 +1,6 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface AyarlarInterface extends BaseRepositoryInterface
+interface AyarlarInterface
 {
     public function getCachedConfig();
 }

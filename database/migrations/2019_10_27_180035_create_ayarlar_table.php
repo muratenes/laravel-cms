@@ -17,7 +17,7 @@ class CreateAyarlarTable extends Migration
             $table->increments('id');
             $table->string('title', 100)->nullable();
             $table->string('desc', 500)->nullable();
-            $table->string('domain', 40)->nullable()->default("http://127.0.0.1:8000");
+            $table->string('domain', 50)->nullable()->default("http://127.0.0.1:8000");
             $table->string('logo', 255)->nullable();
             $table->string('footer_logo', 255)->nullable();
             $table->string('icon', 255)->nullable();
@@ -40,7 +40,7 @@ class CreateAyarlarTable extends Migration
             $table->string('company_phone', 50)->nullable();
             $table->string('fax', 255)->nullable();
 
-            $table->unsignedSmallInteger('lang')->unique();
+            $table->unsignedSmallInteger('lang')->unique()->default(\App\Models\Ayar::LANG_TR);
         });
     }
 

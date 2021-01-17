@@ -28,7 +28,6 @@ use App\Repositories\Concrete\Eloquent\ElUrunMarkaDal;
 use App\Repositories\Concrete\Eloquent\ElUrunOzellikDal;
 use App\Repositories\Concrete\Eloquent\ElUrunYorumDal;
 use App\Repositories\Interfaces\AccountInterface;
-use App\Repositories\Interfaces\AracMarkaInterface;
 use App\Repositories\Interfaces\AyarlarInterface;
 use App\Repositories\Interfaces\BannerInterface;
 use App\Repositories\Interfaces\BlogInterface;

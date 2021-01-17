@@ -39,7 +39,7 @@
                             <div class="form-group col-md-3">
                                 <label for="exampleInputEmail1">Domain</label>
                                 <input type="text" class="form-control" name="domain" placeholder="Domain ex:http://google.com"
-                                       value="{{ old('domain', $config->domain) }}">
+                                       value="{{ old('domain', $config->domain) }}" maxlength="50">
                             </div>
 
                             <div class="form-group col-md-3">

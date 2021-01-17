@@ -39,28 +39,20 @@ class AyarlarController extends Controller
      */
     public function save(Request $request, $id = 0)
     {
-        $data = $request->only('title', 'desc', 'domain', 'keywords', 'facebook', 'instagram',
-            'twitter', 'instagram', 'youtube', 'footer_text', 'phone', 'mail',
-            'adres', 'cargo_price', 'about',
-            'full_name', 'company_address', 'company_phone', 'fax', 'lang'
-        );
+        $data = $this->validateRequest($request);
+        $data['active'] = activeStatus();
         $sameLangConfig = Ayar::where('lang', $data['lang'])->where('id', '!=', $id)->first();
 
         if ($sameLangConfig) {
-            error('Seçilen  dilde bir ayar  mevcut lütfen farklı dil seçmeyi deneyiniz');
-            return back()->withInput();
+            $sameLangConfig->update($data);
+            success();
+            return redirect(route('admin.config.show', $sameLangConfig->id));
         }
         if ($id) {
             $entry = Ayar::find($id);
             $entry->update($data);
         } else {
-            if ($sameLangConfig) {
-                $sameLangConfig->update($data);
-                $entry = $sameLangConfig;
-                error('Aynı dilde ayarlar olduğu için bu bilger ile güncellendi');
-            } else {
-                $entry = Ayar::create($data);
-            }
+            $entry = Ayar::create($data);
         }
 
         if ($entry) {
@@ -76,6 +68,31 @@ class AyarlarController extends Controller
             Ayar::setCache($entry, $entry->lang);
         }
         return redirect(route('admin.config.show', $entry->id))->with('message', 'güncellendi');
+    }
+
+    private function validateRequest(Request $request)
+    {
+        return $request->validate([
+            'title' => 'required|max:100',
+            'desc' => 'nullable|max:500',
+            'domain' => 'nullable|max:50',
+            'keywords' => 'nullable|max:255',
+            'facebook' => 'nullable|max:255',
+            'twitter' => 'nullable|max:255',
+            'instagram' => 'nullable|max:255',
+            'youtube' => 'nullable|max:255',
+            'footer_text' => 'nullable|max:255',
+            'phone' => 'nullable|max:50',
+            'mail' => 'nullable|max:50',
+            'adres' => 'nullable|max:255',
+            'about' => 'nullable',
+            'cargo_price' => 'nullable',
+            'full_name' => 'nullable|max:100',
+            'company_address' => 'nullable|max:250',
+            'company_phone' => 'nullable|max:50',
+            'fax' => 'nullable|max:255',
+            'lang' => 'nullable|numeric',
+        ]);
     }
 
 }
