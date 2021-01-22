@@ -174,7 +174,7 @@
                     <div class="col-md-{{ config('admin.product.use_attribute') ? '6': '12' }}">
                         <div class="box box-primary">
                             <div class="box-header" data-widget="collapse" data-toggle="tooltip">
-                                <h3 class="box-title">@lang('admin.product.product.desc')
+                                <h3 class="box-title">@lang('admin.product.product_desc')
                                     <small>@lang('admin.product.desc_of_product')</small>
                                 </h3>
                                 <div class="pull-right box-tools">
