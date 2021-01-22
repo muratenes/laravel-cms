@@ -113,88 +113,88 @@ $data['menus'] = [
         'users' => [
             'icon' => 'fa fa-user',
             'permission' => 'Kullanici@listUsers',
-            'title' => 'Kullanicilar',
+            'title' => 'users',
             'routeName' => 'admin.users',
             'active' => $data['module_status']['user']
         ],
         'roles' => [
             'icon' => 'fa fa-user-times',
             'permission' => 'Role@list',
-            'title' => 'Rol Yönetimi',
+            'title' => 'role_management',
             'routeName' => 'admin.roles',
             'active' => $data['module_status']['user']
         ],
         'banner' => [
             'icon' => 'fa fa-image',
             'permission' => 'Banner@list',
-            'title' => 'Banner',
+            'title' => 'banner',
             'routeName' => 'admin.banners',
             'active' => $data['module_status']['banner']
         ],
         'blog' => [
             'icon' => 'fa fa-book',
             'permission' => 'Blog@list',
-            'title' => 'Blog',
+            'title' => 'blog',
             'routeName' => 'admin.blog',
             'active' => $data['module_status']['blog']
         ],
         'blog_category' => [
             'icon' => 'fa fa-align-center',
             'permission' => 'BlogCategory@list',
-            'title' => 'Blog Kategori',
+            'title' => 'blog_category',
             'routeName' => 'admin.blog_category',
             'active' => $data['blog']['use_categories']
         ],
         'our_team' => [
             'icon' => 'fa fa-users',
             'permission' => 'OurTeam@list',
-            'title' => 'Takımımız',
+            'title' => 'our_team',
             'routeName' => 'admin.our_team',
             'active' => $data['module_status']['our_team']
         ],
         'contact' => [
             'icon' => 'fa fa-phone',
             'permission' => 'Contact@list',
-            'title' => 'İletişim',
+            'title' => 'contact',
             'routeName' => 'admin.contact',
             'active' => $data['module_status']['contact']
         ],
         'e_bulten' => [
             'icon' => 'fa fa-envelope',
             'permission' => 'EBulten@list',
-            'title' => 'E-Bülten',
+            'title' => 'e_bulten',
             'routeName' => 'admin.ebulten',
             'active' => $data['module_status']['e_bulten']
         ],
         'category' => [
             'icon' => 'fa fa-files-o',
             'permission' => 'Kategori@listCategories',
-            'title' => 'Kategoriler',
+            'title' => 'categories',
             'routeName' => 'admin.categories',
             'active' => $data['product']['use_category']
         ],
         'products' => [
             'icon' => 'fa fa-list',
             'permission' => 'Urun@listProducts',
-            'title' => 'Ürünler',
+            'title' => 'products',
             'routeName' => 'admin.products',
             'active' => $data['module_status']['product'],
             'subs' => [
                 ['icon' => 'fa fa-circle-o',
                     'permission' => 'Urun@listProducts',
-                    'title' => 'Ürün Listesi',
+                    'title' => 'product_list',
                     'routeName' => 'admin.products',
                     'active' => $data['module_status']['product']
                 ],
                 ['icon' => 'fa fa-circle-o',
                     'permission' => 'UrunOzellik@list',
-                    'title' => 'Ürün Özellikleri',
+                    'title' => 'product_features',
                     'routeName' => 'admin.product.attribute.list',
                     'active' => $data['product']['use_attribute']
                 ],
                 ['icon' => 'fa fa-circle-o',
                     'permission' => 'UrunYorum@list',
-                    'title' => 'Ürün Yorumları',
+                    'title' => 'product_comments',
                     'routeName' => 'admin.product.comments.list',
                     'active' => $data['product']['use_comment']
                 ],
@@ -203,20 +203,20 @@ $data['menus'] = [
         'orders' => [
             'icon' => 'fa fa-shopping-bag',
             'permission' => 'Siparis@list',
-            'title' => 'Siparişler',
+            'title' => 'orders',
             'routeName' => 'admin.orders',
             'active' => $data['module_status']['order'],
             'subs' => [
                 ['icon' => 'fa fa-circle-o',
                     'permission' => 'Urun@listProducts',
-                    'title' => 'Siparişler',
+                    'title' => 'orders',
                     'routeName' => 'admin.orders',
                     'key' => 'pendingOrderCount',
                     'active' => $data['module_status']['order']
                 ],
                 ['icon' => 'fa fa-undo',
                     'permission' => 'Urun@listProducts',
-                    'title' => 'İade Talepleri',
+                    'title' => 'refund_requests',
                     'routeName' => 'admin.orders',
                     'param' => '?pendingRefund=1',
                     'key' => 'pendingRefundRequests',
@@ -227,49 +227,49 @@ $data['menus'] = [
         'references' => [
             'icon' => 'fa fa-list-alt',
             'permission' => 'Referans@list',
-            'title' => 'Referanslar',
+            'title' => 'references',
             'routeName' => 'admin.reference',
             'active' => $data['module_status']['reference']
         ],
         'content_management' => [
             'icon' => 'fa fa-align-center',
             'permission' => 'IcerikYonetim@list',
-            'title' => 'İçerik Yönetim',
+            'title' => 'content_management',
             'routeName' => 'admin.content',
             'active' => $data['module_status']['content_management']
         ],
         'gallery' => [
             'icon' => 'fa fa-camera',
             'permission' => 'FotoGallery@list',
-            'title' => 'Galeri Yönetim',
+            'title' => 'gallery_management',
             'routeName' => 'admin.gallery',
             'active' => $data['module_status']['gallery']
         ],
         'error_orders' => [
             'icon' => 'fa fa-exclamation',
             'permission' => 'Siparis@iyzicoErrorOrderList',
-            'title' => 'Hatalı Siparişler',
+            'title' => 'failed_orders',
             'routeName' => 'admin.orders.iyzico_logs',
             'active' => $data['module_status']['order']
         ],
         'coupons' => [
             'icon' => 'fa fa-tags',
             'permission' => 'Kupon@list',
-            'title' => 'Kuponlar',
+            'title' => 'coupons',
             'routeName' => 'admin.coupons',
             'active' => $data['module_status']['coupon']
         ],
         'campaign' => [
             'icon' => 'fa fa-percent',
             'permission' => 'Kampanya@list',
-            'title' => 'Kampanyalar',
+            'title' => 'campaigns',
             'routeName' => 'admin.campaigns',
             'active' => $data['module_status']['campaign']
         ],
         'logs' => [
             'icon' => 'fa fa-exclamation',
             'permission' => 'Log@list',
-            'title' => 'Hata Yönetimi',
+            'title' => 'error_management',
             'routeName' => 'admin.logs',
             'active' => $data['module_status']['log']
         ],
@@ -278,19 +278,19 @@ $data['menus'] = [
         'settings' => [
             'icon' => 'fa fa-key',
             'permission' => 'Ayarlar@list',
-            'title' => 'Ayarlar',
+            'title' => 'configs',
             'routeName' => 'admin.config.list',
             'active' => $data['module_status']['setting'],
             'subs' => [
                 ['icon' => 'fa fa-key',
                     'permission' => 'Ayarlar@list',
-                    'title' => 'Genel',
+                    'title' => 'general',
                     'routeName' => 'admin.config.list',
                     'active' => $data['module_status']['setting']
                 ],
                 ['icon' => 'fa fa-truck',
                     'permission' => 'Cargo@index',
-                    'title' => 'Kargo',
+                    'title' => 'cargo',
                     'routeName' => 'admin.cargo.index',
                     'active' => $data['module_status']['cargo']
                 ],
@@ -299,21 +299,21 @@ $data['menus'] = [
         'product_brands' => [
             'icon' => 'fa fa-medium',
             'permission' => 'UrunMarka@list',
-            'title' => 'Ürün Markaları',
+            'title' => 'product_brands',
             'routeName' => 'admin.product.brands.list',
             'active' => $data['product']['use_brand']
         ],
         'product_companies' => [
             'icon' => 'fa fa-building',
             'permission' => 'UrunFirma@list',
-            'title' => 'Ürün Firmaları',
+            'title' => 'product_companies',
             'routeName' => 'admin.product.company.list',
             'active' => $data['product']['use_companies']
         ],
         'sss' => [
             'icon' => 'fa fa-info',
             'permission' => 'SSS@list',
-            'title' => 'Sık Sorulan Sorular',
+            'title' => 'faq',
             'routeName' => 'admin.sss',
             'active' => $data['module_status']['sss']
         ],

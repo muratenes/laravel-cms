@@ -111,7 +111,7 @@
                         <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
                             <a href="{{route($item['routeName']) }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
                                 <i class="{{ $item['icon'] }}"></i>
-                                <span>{{ $item['title'] }}</span>
+                                <span>{{ __("admin.navbar.{$item['title']}") }}</span>
                                 <span class="pull-right-container">
                                  @if(isset($item['subs']))
                                         <i class="fa fa-angle-left pull-right"></i>
@@ -125,7 +125,7 @@
                                         @if($sub['active'])
                                             <li>
                                                 <a href="{{ route($sub['routeName']) }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
-                                                    <i class="{{ $sub['icon'] }}"></i> {{ $sub['title'] }}
+                                                    <i class="{{ $sub['icon'] }}"></i> {{ __("admin.navbar.{$sub['title']}") }}
                                                 </a>
                                             </li>
                                         @endif
