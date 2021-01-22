@@ -2,9 +2,9 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">Ürün Galerisi</h3>
+                <h3 class="box-title">@lang('admin.product.gallery')</h3>
                 <div class="box-tools">
-                    <label for="">Dosya Ekle</label>
+                    <label for="">@lang('admin.product.gallery')</label>
                     <input type="file" name="imageGallery[]" multiple>
                 </div>
             </div>

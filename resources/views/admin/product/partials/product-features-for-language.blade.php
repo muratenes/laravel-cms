@@ -13,15 +13,15 @@
                     <!-- Attr item -->
                         <div class="box-body product-item-language-{{ $description->lang }}" id="product-property-container-{{$description->lang}}-{{$i}}">
                             <div class="form-group col-md-6">
-                                <label>Başlık</label>
+                                <label>@lang('admin.title')</label>
                                 <input type="text" class="form-control" name="{{ $description->lang }}_properties[{{ $i }}][key]" placeholder="Özellik Adı" value="{{$properties['key']}}">
                             </div>
                             <div class="form-group col-md-5">
-                                <label>Açıklama</label>
+                                <label>@lang('admin.description')</label>
                                 <input type="text" class="form-control" name="{{ $description->lang }}_properties[{{ $i }}][value]" placeholder="Açıklama" value="{{$properties['value'] ?? ''}}">
                             </div>
                             <div class="form-group col-md-1">
-                                <label>Sil</label><br>
+                                <label>@lang('admin.delete')</label><br>
                                 <a onclick="deleteProductPropertiesByLanguage({{$i}},{{$description->lang}})"><i class="fa fa-trash"></i></a>
                             </div>
                         </div>

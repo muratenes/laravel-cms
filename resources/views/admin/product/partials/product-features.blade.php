@@ -2,9 +2,9 @@
     <div class="col-md-6">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Özellikler <small>Ürüne ait yeni özellikler oluşturabilirsiniz</small></h3>
+                <h3 class="box-title">@lang('admin.product.specifications') <small>@lang('admin.product.you_can_create_new_features_of_the_product')</small></h3>
                 <div class="box-tools">
-                    <button type="button" class="btn btn-default btn-sm" title="Yeni Özellik Ekle" onclick="addToNewProperty()">
+                    <button type="button" class="btn btn-default btn-sm" title="@lang('admin.product.add_new_attribute')" onclick="addToNewProperty()">
                         <i class="fa fa-plus"></i>
                     </button>
 {{--                    <button type="button" title="varsayılanları koy" onclick="cloneDefaultProps()">--}}
@@ -18,15 +18,15 @@
                     <!-- Attr item -->
                         <div class="box-body itemOzellikler" id="productPropertyContainer{{$i}}" data-index="{{ $i }}">
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Başlık</label>
+                                <label for="exampleInputEmail1">@lang('admin.title')</label>
                                 <input type="text" class="form-control" name="properties[{{ $i }}][key]" placeholder="Özellik Adı" value="{{$properties['key']}}">
                             </div>
                             <div class="form-group col-md-5">
-                                <label>Açıklama</label>
+                                <label>@lang('admin.description')</label>
                                 <input type="text" class="form-control" name="properties[{{ $i }}][value]" placeholder="Açıklama" value="{{$properties['value'] ?? ''}}">
                             </div>
                             <div class="form-group col-md-1">
-                                <label>Sil</label><br>
+                                <label>@lang('admin.delete')</label><br>
                                 <a onclick="deleteProductProperties({{$i}})"><i class="fa fa-trash"></i></a>
                             </div>
                         </div>

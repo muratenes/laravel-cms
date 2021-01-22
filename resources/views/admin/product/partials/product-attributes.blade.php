@@ -2,11 +2,11 @@
 <div class="col-md-6">
     <div class="box box-primary">
         <div class="box-header">
-            <h3 class="box-title">Ürün Detay
-                <small>Ürün hakkında özellik bilgileri</small>
+            <h3 class="box-title">@lang('admin.product.detail')
+                <small>@lang('admin.product.attributes_info')</small>
             </h3>
             <div class="pull-right box-tools">
-                <button type="button" class="btn btn-default btn-sm" title="Yeni Özellik Ekle" onclick="addNewProductDetail()">
+                <button type="button" class="btn btn-default btn-sm" title="@lang('admin.product.add_new_attribute')" onclick="addNewProductDetail()">
                     <i class="fa fa-plus"></i>
                 </button>
             </div>
@@ -15,7 +15,7 @@
                 <!-- product detail item -->
                     <div class="form-row row productDetailAttribute" data-index="{{ $index }}">
                         <div class="form-group col-md-5">
-                            <label for="exampleInputEmail1">Ürün Özellik Adı</label>
+                            <label for="exampleInputEmail1">@lang('admin.product.attribute_title')</label>
                             <select name="attribute{{$index}}" id="attributes{{$index}}" class="form-control"
                                     onchange="getAndFillSubAttributeByAttributeID(this.value,'#subAttributes{{$index}}')">
                                 @foreach($data['attributes'] as $attr)
@@ -25,7 +25,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-5">
-                            <label for="exampleInputEmail1">Alt Özellikler</label>
+                            <label for="exampleInputEmail1">@lang('admin.product.sub_attributes')</label>
                             <select name="subAttributes{{$index}}[]" id="subAttributes{{$index}}" class="form-control" multiple required>
                                 @foreach($data['subAttributes'] as $subAttribute)
                                     @if($subAttribute->parent_attribute == $detail['parent_attribute'])

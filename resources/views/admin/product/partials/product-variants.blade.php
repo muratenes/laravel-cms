@@ -2,11 +2,11 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">Ürün Varyantları
-                    <small>Ürün özelliklerine göre fiyat belirlenebilir</small>
+                <h3 class="box-title">@lang('admin.product.variants')
+                    <small>@lang('admin.product.you_can_define_variants_by_attribute')</small>
                 </h3>
                 <div class="pull-right box-tools">
-                    <button type="button" class="btn btn-default btn-sm" title="Yeni Varyant Ekle" onclick="addNewProductVariantItem({{$product->id}})">
+                    <button type="button" class="btn btn-default btn-sm" title="@lang('admin.proudct.add_new_variant')" onclick="addNewProductVariantItem({{$product->id}})">
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>
@@ -65,7 +65,7 @@
                                 </div>
                                 <!-- ./variant currency -->
                                 <div class="col-md-1">
-                                    <td><label for="">Fiyat</label>
+                                    <td><label for="">@lang('admin.price')</label>
                                         <i class="fa fa-question-circle" title="Ürünün girilen özelliklere ait fiyatı"></i>
                                     </td>
                                     <td>
@@ -73,7 +73,7 @@
                                     </td>
                                 </div>
                                 <div class="col-md-1">
-                                    <td><label>Adet</label>
+                                    <td><label>@lang('admin.qty')</label>
                                         <i class="fa fa-question-circle" title="Seçilen özelliklere ait adet sayısı"></i>
                                     </td>
                                     <td><input type="number" class="form-control" value="{{$variant->qty}}" name="variants[{{ $index }}][qty]" required></td>
