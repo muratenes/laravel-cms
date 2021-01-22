@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Admin\SetUserLocaleMW;
 use App\Http\Middleware\AdminOrderCountMW;
 use App\Http\Middleware\CheckModuleActive;
 use App\Http\Middleware\RolesAuth;
@@ -68,6 +69,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Admin::class,
         'admin.module' => CheckModuleActive::class,
         'role' => RolesAuth::class,
-        'admin.order.counts' => AdminOrderCountMW::class
+        'admin.order.counts' => AdminOrderCountMW::class,
+        'admin.language' => SetUserLocaleMW::class
     ];
 }

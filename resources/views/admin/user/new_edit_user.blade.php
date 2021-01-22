@@ -5,8 +5,8 @@
         <div class="box-body with-border">
             <div class="row">
                 <div class="col-md-10">
-                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › <a href="{{ route('admin.users') }}"> Kullanıcılar</a>
+                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> @lang('admin.home')</a>
+                    › <a href="{{ route('admin.users') }}"> @lang('admin.users')</a>
                     › {{ $user->full_name }}
                 </div>
             </div>
@@ -18,7 +18,7 @@
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Kullanıcı Detay</h3>
+                    <h3 class="box-title">@lang('admin.user_detail')</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
