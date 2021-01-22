@@ -7,20 +7,10 @@
     <input type="hidden" id="useCompany" value="{{ config('admin.product.use_companies') ? 1 : 0 }}">
     <input type="hidden" id="useBrand" value="{{ config('admin.product.use_brand') ? 1 : 0 }}">
 
-    <div class="box box-default">
-        <div class="box-body with-border">
-            <div class="row">
-                <div class="col-md-10">
-                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › Ürünler
-                </div>
-                <div class="col-md-2 text-right mr-3">
-                    <a href="{{ route('admin.product.new') }}"> <i class="fa fa-plus"></i> Yeni Ürün Ekle</a>&nbsp;
-                    <a href="{{ route('admin.products') }}"><i class="fa fa-refresh"></i>&nbsp;Yenile</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-breadcrumb :first="__('admin.products')">
+        <a href="{{ route('admin.user.new') }}"> <i class="fa fa-plus"></i> @lang('admin.product.add_new_product')</a>
+        <a href="{{ route('admin.products') }}"> <i class="fa fa-refresh"></i> @lang('admin.refresh')</a>
+    </x-breadcrumb>
     <!-- filtreleme -->
     <div class="box box-default">
         <!-- /.box-header -->
@@ -28,10 +18,10 @@
             <div class="row">
                 <form action="{{ route('admin.products') }}" method="get" id="form">
                     <div class="col-md-12">
-                        <div class="col-md-1" style="padding-top: 8px"><strong>Filtrele : </strong></div>
+                        <div class="col-md-1" style="padding-top: 8px"><strong>@lang('admin.filter') : </strong></div>
                         <div class="col-md-2">
                             <select name="category" class="form-control" id="category_filter">
-                                <option value="">--Kategori Seçiniz--</option>
+                                <option value="">--@lang('admin.product.select_category')--</option>
                                 @foreach($categories as $cat)
                                     <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
                                         {{ $cat->title  }} {{ $cat->parent_cat ? "({$cat->parent_cat->title})"  : '' }}
@@ -42,7 +32,7 @@
                         @if(config('admin.product.use_companies'))
                             <div class="col-md-2">
                                 <select name="company" class="form-control" id="company_filter">
-                                    <option value="">--Mağazaya Göre Filtrele--</option>
+                                    <option value="">--@lang('admin.product.filter_by_company')--</option>
                                     @foreach($companies as $com)
                                         <option value="{{ $com->id }}" {{ request('company') == $com->id ? 'selected' : '' }}>{{ $com->title }}</option>
                                     @endforeach
@@ -52,7 +42,7 @@
                         @if(config('admin.product.use_brand'))
                             <div class="col-md-2">
                                 <select name="brand" class="form-control" id="brand_filter">
-                                    <option value="">--Markaya Göre Filtrele--</option>
+                                    <option value="">--@lang('admin.product.filter_by_brand')--</option>
                                     @foreach($brands as $brand)
                                         <option value="{{ $brand->id }}" {{ request('brand') == $brand->id ? 'selected' : '' }}>{{ $brand->title }}</option>
                                     @endforeach
@@ -60,8 +50,8 @@
                             </div>
                         @endif
                         <div class="col-md-2">
-                            <button class="btn btn-sm btn-success">Filtrele</button>
-                            <a href="{{ route('admin.products') }}" class="btn btn-sm btn-danger">Temizle</a>
+                            <button class="btn btn-sm btn-success">@lang('admin.filter')</button>
+                            <a href="{{ route('admin.products') }}" class="btn btn-sm btn-danger">@lang('admin.clear')</a>
                         </div>
 
                     </div>
@@ -80,20 +70,20 @@
                     <table class="table table-hover table-bordered display" id="productList">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Başlık</th>
-                            <th class="{{ config('admin.product.multiple_category') ? '' : 'hidden' }}">Kategoriler <i class="fa fa-external-link"></i></th>
-                            <th class="{{ config('admin.product.multiple_category') ? 'hidden' : '' }}">Üst Kategori <i class="fa fa-external-link"></i></th>
-                            <th class="{{ config('admin.product.multiple_category') ? 'hidden' : '' }}">Alt Kategori <i class="fa fa-external-link"></i></th>
+                            <th>@lang('admin.id')</th>
+                            <th>@lang('admin.title')</th>
+                            <th class="{{ config('admin.product.multiple_category') ? '' : 'hidden' }}">@lang('admin.categories') <i class="fa fa-external-link"></i></th>
+                            <th class="{{ config('admin.product.multiple_category') ? 'hidden' : '' }}">@lang('admin.parent_category') <i class="fa fa-external-link"></i></th>
+                            <th class="{{ config('admin.product.multiple_category') ? 'hidden' : '' }}">@lang('admin.sub_category') <i class="fa fa-external-link"></i></th>
                             <th>Slug <i class="fa fa-question-circle" title="web sitesinde görüntüle"></i></th>
-                            <th class="{{ config('admin.product.use_companies') ? '' : 'hidden' }}">Firma</th>
-                            <th class="{{ config('admin.product.use_brand') ? '' : 'hidden' }}">Marka</th>
-                            <th>Stok</th>
-                            <th>Fiyat</th>
-                            <th>İndirimli</th>
-                            <th>Fotoğraf</th>
-                            <th>Durum</th>
-                            <th>Oluşturma</th>
+                            <th class="{{ config('admin.product.use_companies') ? '' : 'hidden' }}">@lang('admin.company')</th>
+                            <th class="{{ config('admin.product.use_brand') ? '' : 'hidden' }}">@lang('admin.brand')</th>
+                            <th>@lang('admin.stock')</th>
+                            <th>@lang('admin.price')</th>
+                            <th>@lang('admin.discount')</th>
+                            <th>@lang('admin.image')</th>
+                            <th>@lang('admin.status')</th>
+                            <th>@lang('admin.created_at')</th>
                         </tr>
                         </thead>
                     </table>

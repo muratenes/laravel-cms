@@ -20,6 +20,20 @@ return [
     'password' => 'Parola',
     'phone' => 'Telefon',
     'save' => 'Kaydet',
+    'products' => 'Ürünler',
+    'refresh' => 'Yenile',
+    'categories' => 'Kategoriler',
+    'parent_category' => 'Üst Kategori',
+    'sub_category' => 'Alt Kategori',
+    'company' => 'Firma',
+    'brand' => 'Marka',
+    'stock' => 'Stok',
+    'price' => 'Fiyat',
+    'discount' => 'Indirimli',
+    'image' => 'Fotoğraf',
+    'filter' => 'Filtrele',
+    'clear' => 'Temizle',
+
     // NAVBAR
     'navbar' => [
         'users' => 'Kullanıcılar',
@@ -56,6 +70,13 @@ return [
         'select_a_role' => 'Rol Seçiniz',
         'user_language' =>  'Kullanıcı Dil',
         'is_admin' => 'Admin Mi ?'
+    ],
+    // Product
+    'product' => [
+        'add_new_product' => 'Yeni Ürün Ekle',
+        'select_category' => 'Kategori Seçiniz',
+        'filter_by_brand' => 'Markaya Göre Filtrele',
+        'filter_by_company' => 'Firmaya Göre Filtrele',
     ],
     'user_detail' => 'Kullanıcı Detay',
     'add_new_user' => 'Yeni Kullanıcı ekle',
