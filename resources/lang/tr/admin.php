@@ -6,6 +6,20 @@ return [
     // COMMON
     'home' => 'Anasayfa',
     'users' => 'Kullanıcılar',
+    'id' => 'ID',
+    'title' => 'Başlık',
+    'slug' => 'Slug',
+    'name' => 'Ad',
+    'surname' => 'Soyad',
+    'email' => 'Email',
+    'updated_at' => 'Güncelleme Tarihi',
+    'created_at' => 'Oluşturma Tarihi',
+    'admin' => 'Admin',
+    'role' => 'Rol',
+    'status' => 'Durum',
+    'password' => 'Parola',
+    'phone' => 'Telefon',
+    'save' => 'Kaydet',
     // NAVBAR
     'navbar' => [
         'users' => 'Kullanıcılar',
@@ -38,7 +52,13 @@ return [
         'faq' => 'Sık Sorulan Sorular',
     ],
     // USER
+    'user' => [
+        'select_a_role' => 'Rol Seçiniz',
+        'user_language' =>  'Kullanıcı Dil',
+        'is_admin' => 'Admin Mi ?'
+    ],
     'user_detail' => 'Kullanıcı Detay',
+    'add_new_user' => 'Yeni Kullanıcı ekle',
     // CONFIG
     'has_same_language_for_selected' => 'Seçilen  dilde bir ayar  mevcut lütfen farklı dil seçmeyi deneyiniz',
     'language_updated_with_existing' => 'Aynı dilde ayarlar olduğu için bu bilger ile güncellendi',

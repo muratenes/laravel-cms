@@ -1,17 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', is_null($user) ? 'kullanıcı ekle' : $user->name.' değiştir')
 @section('content')
-    <div class="box box-default">
-        <div class="box-body with-border">
-            <div class="row">
-                <div class="col-md-10">
-                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> @lang('admin.home')</a>
-                    › <a href="{{ route('admin.users') }}"> @lang('admin.users')</a>
-                    › {{ $user->full_name }}
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-breadcrumb :first="__('admin.users')" first-route="admin.users" :second="$user->full_name"/>
     <div class="row">
         <!-- left column -->
         <div class="col-md-12">
@@ -27,24 +17,24 @@
                     <div class="box-body">
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Ad</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Kullanıcı Adı"
+                                <label for="exampleInputEmail1">@lang('admin.name')</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="@lang('admin.name')"
                                        value="{{ old('name', $user->name) }}">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Soyad</label>
-                                <input type="text" class="form-control" id="surname" name="surname" placeholder="Soyad"
+                                <label for="exampleInputEmail1">@lang('admin.surname')</label>
+                                <input type="text" class="form-control" id="surname" name="surname" placeholder="@lang('admin.surname')"
                                        value="{{ old('surname', $user->surname) }}">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="exampleInputPassword1">Parola</label>
+                                <label for="exampleInputPassword1">@lang('admin.password')</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <div class="form-group col-md-4">
-                                    <label for="exampleInputEmail1">Email</label>
+                                    <label for="exampleInputEmail1">@lang('admin.email')</label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Adresi" value="{{ old('password',$user->email)  }}"
                                            required>
                                 </div>
@@ -52,7 +42,7 @@
                             <div class="form-group">
 
                                 <div class="form-group col-md-3">
-                                    <label>Telefon:</label>
+                                    <label>@lang('admin.phone'):</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
@@ -62,10 +52,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label>Role:</label>
+                                    <label>@lang('admin.role'):</label>
                                     <div class="input-group">
                                         <select name="role_id" id="" class="form-control" required>
-                                            <option value="">Role Seçiniz</option>
+                                            <option value="">@lang('admin.user.select_a_role')</option>
                                             @foreach($roles as $role)
                                                 <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                             @endforeach
@@ -73,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label>Kullanıcı Dil:</label>
+                                    <label>@lang('admin.user.user_language'):</label>
                                     <div class="input-group">
                                         <select name="locale"  class="form-control" required>
                                             @foreach($activeLanguages as $language)
@@ -87,22 +77,22 @@
                         <div class="form-row">
 
                             <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Aktif Mi ?</label><br>
+                                <label for="exampleInputEmail1">@lang('admin.status') ?</label><br>
                                 <input type="checkbox" class="minimal" id="is_active" name="is_active" {{ $user->is_active == 1 ? 'checked': '' }}>
                             </div>
 
                             <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Admin Mi ?</label><br>
+                                <label for="exampleInputEmail1">@lang('admin.user.is_admin')</label><br>
                                 <input type="checkbox" class="minimal" id="is_admin" name="is_admin" {{ $user->is_admin == 1 ? 'checked': '' }}>
                             </div>
                             <div class="form-group col-md-3">
-                                <label>Oluşturma Tarihi:</label>
+                                <label>@lang('admin.created_at'):</label>
 
                                 <p> {{ $user->created_at }}</p>
                             </div>
                             <!-- /.input group -->
                             <div class="form-group col-md-3">
-                                <label>Son Güncellenme Tarihi:</label>
+                                <label>@lang('admin.updated_at'):</label>
 
                                 <p> {{ $user->updated_at }}</p>
                             </div>
@@ -114,7 +104,7 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer text-right">
-                        <button type="submit" class="btn btn-success">Kaydet</button>
+                        <button type="submit" class="btn btn-success">@lang('admin.save')</button>
                     </div>
                 </form>
             </div>
