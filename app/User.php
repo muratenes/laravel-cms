@@ -18,8 +18,8 @@ class User extends Authenticatable implements HasLocalePreference
     use UserNotifications;
     use CanResetPassword;
 
-    protected $fillable = [
-        'name', 'surname', 'email', 'password', 'activation_code', 'is_active', 'is_admin', 'role_id', 'locale', 'default_address_id', 'default_invoice_address_id'
+    protected $guarded = [
+        'id', 'created_at', 'updated_at'
     ];
 
     protected $hidden = [

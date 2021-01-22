@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Auth\Role;
+use App\Models\Ayar;
 use App\Models\Log;
 use App\User;
 use Illuminate\Http\Request;
@@ -78,32 +79,38 @@ class KullaniciController extends Controller
                 return back()->withErrors('yetkiniz yok');
 
         }
+        $activeLanguages = Ayar::activeLanguages();
 
-        return view('admin.user.new_edit_user', compact('user', 'roles'));
+        return view('admin.user.new_edit_user', compact('user', 'roles', 'activeLanguages'));
     }
 
 
-    public function saveUser($user_id = 0)
+    public function saveUser(Request $request,$user_id = 0)
     {
 
         $email_validate = (int)$user_id == 0 ? 'email|unique:users' : 'email';
-        $this->validate(request(), [
+        $validated = $request->validate([
             'name' => 'required|min:3|max:50',
             'surname' => 'required|min:3|max:50',
             'email' => $email_validate,
+            'locale' => 'string',
+            'role_id' => 'nullable|numeric',
+            'phone' => 'string|nullable'
         ]);
-        $request_data = request()->only('name', 'surname', 'email', 'role_id','phone');
-        if (\request()->filled('password'))
+
+        if (\request()->filled('password')){
             $request_data['password'] = Hash::make(request('password'));
-        $request_data['is_active'] = request()->has('is_active') ? 1 : 0;
-        $request_data['is_admin'] = request()->has('is_admin') ? 1 : 0;
+        }
+        $validated['is_active'] = (bool) $request->has('is_active');
+        $validated['is_admin'] = request()->has('is_admin') ? 1 : 0;
         if ($user_id > 0) { // update
             $user = User::where('id', $user_id)->firstOrFail();
-            $user->update($request_data);
+            $user->update($validated);
         } else {
-            $user = User::create($request_data);
+            $user = User::create($validated);
         }
-        session()->flash('message', 'İşlem başarılı şekilde gerçekleşti');
+        success();
+
         return redirect(route('admin.user.edit', $user->id));
     }
 
@@ -115,7 +122,8 @@ class KullaniciController extends Controller
         $user->email = $user->email . '|' . Str::random(10);
         $user->save();
         $user->delete();
-        session()->flash('message', ' isimli kullanıcı başarıyla silindi');
+        success();
+
         return redirect(route('admin.users'));
     }
 

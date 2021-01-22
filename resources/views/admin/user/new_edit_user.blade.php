@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="exampleInputEmail1">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Adresi" value="{{ old('password',$user->email)  }}"
                                            required>
@@ -64,7 +64,7 @@
                                 <div class="form-group col-md-3">
                                     <label>Role:</label>
                                     <div class="input-group">
-                                        <select name="role_id" id="" class="form-control col-md-6" required>
+                                        <select name="role_id" id="" class="form-control" required>
                                             <option value="">Role Seçiniz</option>
                                             @foreach($roles as $role)
                                                 <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
@@ -72,20 +72,26 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!-- /.input group -->
+                                <div class="form-group col-md-3">
+                                    <label>Kullanıcı Dil:</label>
+                                    <div class="input-group">
+                                        <select name="locale"  class="form-control" required>
+                                            @foreach($activeLanguages as $language)
+                                                <option value="{{ $language[3] }}" {{ $user->locale == $language[3] ? 'selected' : '' }}>{{ $language[1] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Adres</label>
-                                <textarea rows="5" class="form-control" name="adres">{{ old('adres',$user->adres ) }}</textarea>
-                            </div>
-                            <div class="form-group col-md-3">
+
+                            <div class="form-group col-md-1">
                                 <label for="exampleInputEmail1">Aktif Mi ?</label><br>
                                 <input type="checkbox" class="minimal" id="is_active" name="is_active" {{ $user->is_active == 1 ? 'checked': '' }}>
                             </div>
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-1">
                                 <label for="exampleInputEmail1">Admin Mi ?</label><br>
                                 <input type="checkbox" class="minimal" id="is_admin" name="is_admin" {{ $user->is_admin == 1 ? 'checked': '' }}>
                             </div>
