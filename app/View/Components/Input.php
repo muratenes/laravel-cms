@@ -20,12 +20,6 @@ class Input extends Component
      */
     public string $type;
 
-    /**
-     * html input max length
-     *
-     * @var string
-     */
-    public string $maxLength;
 
     /**
      * html input classses
@@ -34,12 +28,6 @@ class Input extends Component
      */
     public string $class;
 
-    /**
-     * html input min length
-     *
-     * @var string
-     */
-    public string $minLength;
 
     /**
      * input container with
@@ -74,19 +62,15 @@ class Input extends Component
      *
      * @param string $name
      * @param string $type
-     * @param string $maxLength
-     * @param string $minLength
      * @param string $class
      * @param string $width
      * @param string $label
      * @param string $value
      * @param string $placeholder
      */
-    public function __construct(string $name, $type = 'text', $maxLength = '255', $minLength = '0', $class = 'form-control', $width = '3',$label = '',$value = '',$placeholder = '')
+    public function __construct(string $name, $type = 'text', $class = 'form-control', $width = '3',$label = '',$value = '',$placeholder = '')
     {
         $this->type = $type;
-        $this->maxLength = $maxLength;
-        $this->minLength = $minLength;
         $this->class = $class;
         $this->name = $name;
         $this->width = $width;

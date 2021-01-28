@@ -27,7 +27,7 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="row">
-                            <x-input name="title" label="Yeni Başlık" width="3" :value="$banner->title" class="form-control flex-md-column" />
+                            <x-input name="title" label="Başlık" width="3" :value="$banner->title" required maxlength="50"/>
                             <div class="form-group col-md-3">
                                 <label for="exampleInputEmail1">Başlık</label>
                                 <input type="text" class="form-control" name="title" placeholder="başlık" required maxlength="50"
