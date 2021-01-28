@@ -8,7 +8,7 @@
     <input type="hidden" id="useBrand" value="{{ config('admin.product.use_brand') ? 1 : 0 }}">
 
     <x-breadcrumb :first="__('admin.products')">
-        <a href="{{ route('admin.user.new') }}"> <i class="fa fa-plus"></i> @lang('admin.product.add_new_product')</a>
+        <a href="{{ route('admin.product.new') }}"> <i class="fa fa-plus"></i> @lang('admin.product.add_new_product')</a>
         <a href="{{ route('admin.products') }}"> <i class="fa fa-refresh"></i> @lang('admin.refresh')</a>
     </x-breadcrumb>
     <!-- filtreleme -->
