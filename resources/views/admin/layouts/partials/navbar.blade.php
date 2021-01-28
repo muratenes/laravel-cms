@@ -136,6 +136,19 @@
                     @endif
                 @endforeach
             @endforeach
+            <!-- creator -->
+            <li class="header">Creator</li>
+            <li>
+                <a href="">
+                    <i class="fa fa-wrench"></i> Menü
+                </a>
+            </li>
+                <li>
+                    <a href="">
+                        <i class="fa fa-gavel"></i> Tema
+                    </a>
+                </li>
+
         </ul>
     </section>
     <!-- /.sidebar -->
