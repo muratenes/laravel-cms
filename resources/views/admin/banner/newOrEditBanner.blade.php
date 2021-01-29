@@ -32,18 +32,11 @@
                             <x-input name="image" type="file" label="Görsel" width="2" :value="$banner->image"  path="banners" />
                             <x-input name="active" type="checkbox" label="Aktif Mi ?" width="1" :value="$banner->active" class="minimal"/>
                             <x-input name="sub_title" type="text" label="Alt Başlık" width="6" :value="$banner->sub_title" maxlength="255"/>
-                            <x-input name="sub_title" type="text" label="2. Alt Başlık" width="6" :value="$banner->sub_title_2" maxlength="255"/>
+                            <x-input name="sub_title_2" type="text" label="2. Alt Başlık" width="6" :value="$banner->sub_title_2" maxlength="255"/>
                         </div>
                         <div class="row">
                             @if(config('admin.MULTI_LANG'))
-                                <div class="form-group col-md-2">
-                                    <label for="exampleInputEmail1">Dil</label>
-                                    <select name="lang" id="languageSelect" class="form-control">
-                                        @foreach($languages as $lang)
-                                            <option value="{{ $lang[0] }}" {{ $banner->lang == $lang[0] ? 'selected' : '' }}> {{ $lang[1] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <x-select name="lang" label="Dil" :value="$banner->lang" :options="$languages" key="0" option-value="1" />
                             @endif
                         </div>
                     </div>
