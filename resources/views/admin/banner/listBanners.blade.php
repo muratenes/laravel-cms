@@ -7,12 +7,12 @@
         <div class="box-body with-border">
             <div class="row">
                 <div class="col-md-10">
-                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › Banner
+                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> @lang('admin.home')</a>
+                    › @lang('admin.navbar.banner')
                 </div>
                 <div class="col-md-2 text-right mr-3">
-                    <a href="{{ route('admin.banners.new') }}"> <i class="fa fa-plus"></i> Yeni Banner Ekle</a>&nbsp;
-                    <a href="{{ route('admin.banners') }}"><i class="fa fa-refresh"></i>&nbsp;Yenile</a>
+                    <a href="{{ route('admin.banners.new') }}"> <i class="fa fa-plus"></i> @lang('admin.add')</a>&nbsp;
+                    <a href="{{ route('admin.banners') }}"><i class="fa fa-refresh"></i>&nbsp;@lang('admin.refresh')</a>
                 </div>
             </div>
         </div>

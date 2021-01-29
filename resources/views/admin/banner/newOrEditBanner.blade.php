@@ -21,8 +21,6 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Banner Detay</h3>
                 </div>
-                <!-- /.box-header -->
-                <!-- form start -->
                 <form role="form" method="post" action="{{ route('admin.banners.save',$banner->id != null ? $banner->id : 0) }}" id="form" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="box-body">
@@ -36,7 +34,7 @@
                         </div>
                         <div class="row">
                             @if(config('admin.MULTI_LANG'))
-                                <x-select name="lang" label="Dil" :value="$banner->lang" :options="$languages" key="0" option-value="1" />
+                                <x-select name="lang" label="Dil" :value="$banner->lang" :options="$languages" key="0" option-value="1" nohint />
                             @endif
                         </div>
                     </div>
@@ -45,10 +43,6 @@
                     </div>
                 </form>
             </div>
-            <!-- /.box -->
-
         </div>
-        <!--/.col (left) -->
-
     </div>
 @endsection

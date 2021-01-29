@@ -22,6 +22,7 @@ return [
     'save' => 'Kaydet',
     'products' => 'Ürünler',
     'refresh' => 'Yenile',
+    'add' => 'Ekle',
     'categories' => 'Kategoriler',
     'parent_category' => 'Üst Kategori',
     'sub_category' => 'Alt Kategori',
@@ -36,7 +37,6 @@ return [
     'is_active' => 'Aktif Mi ?',
     'delete' => 'Sil',
     'description' => 'Açıklama',
-
     // NAVBAR
     'navbar' => [
         'users' => 'Kullanıcılar',
