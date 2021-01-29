@@ -43,16 +43,9 @@
                     <table class="table table-hover table-bordered">
                         <tbody>
                         <tr>
-                            <th>ID</th>
-                            <th>Başlık</th>
-                            <th>Alt Başlık</th>
-                            <th>Resim</th>
-                            <th>Link</th>
-                            @if(config('admin.MULTI_LANG'))
-                                <th>Dil</th>
-                            @endif
-                            <th>Durum</th>
-                            <th>#</th>
+                            @foreach(config('modules.banner.columns') as $column)
+                                <th>{{ $column['label'] }}</th>
+                            @endforeach
                         </tr>
                         @if(count($list) > 0)
                             @foreach($list as $l)
@@ -66,9 +59,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $l -> link}}</td>
-                                    @if(config('admin.MULTI_LANG'))
-                                        <th><img src="{{ langIcon($l->lang) }}" alt=""></th>
-                                    @endif
+                                    <th><img src="{{ langIcon($l->lang) }}" alt=""></th>
                                     <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
                                     <td><a href="{{ route('admin.banners.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
                                                 class="fa fa-trash text-red"></i></a></td>
