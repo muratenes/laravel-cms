@@ -1,4 +1,4 @@
-<div class="form-group col-md-{{ $attributes['class'] ?? '2' }}">
+<div class="form-group col-md-{{ $attributes['width'] ?? '2' }}">
     <label for="id_{{ $name }}">{{ $label }}</label>
     <select name="{{ $name }}" id="id_{{ $name }}" class="{{ $attributes['class'] ?? 'form-control' }}">
         @if(!isset($attributes['nohint']))
