@@ -22,44 +22,18 @@
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">firma Detay</h3>
+                    <h3 class="box-title">Firma Detay</h3>
                 </div>
-                <!-- /.box-header -->
-                <!-- form start -->
                 <form role="form" method="post" action="{{ route('admin.product.company.save',$item->id != null ? $item->id : 0) }}" id="form" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-row">
-                            <div class="form-group col-md-2">
-                                <label for="exampleInputEmail1">Başlık</label>
-                                <input type="text" class="form-control" name="title" placeholder="başlık" required maxlength="50"
-                                       value="{{ old('title', $item->title) }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="exampleInputEmail1">Mail</label>
-                                <input type="text" class="form-control" name="email" placeholder="mail" maxlength="50"
-                                       value="{{ old('email', $item->email) }}">
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Slug</label>
-                                <input type="text" class="form-control" placeholder="link" disabled value="{{ $item->slug }}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Adres</label>
-                                <input type="text" class="form-control" name="address" placeholder="adres" required maxlength="50"
-                                       value="{{ old('address', $item->address) }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="exampleInputEmail1">Telefon</label>
-                                <input type="text" class="form-control" name="phone" placeholder="telefon" maxlength="50"
-                                       value="{{ old('phone', $item->phone) }}">
-                            </div>
-
-
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Aktif Mi ?</label><br>
-                                <input type="checkbox" class="minimal" name="active" {{ old('active',$item->active) == 1 ? 'checked': '' }}>
-                            </div>
+                            <x-input name="title" label="Firma Adı" width="3" :value="$item->title" required maxlength="50"/>
+                            <x-input name="email" type="email" label="Email" width="2" :value="$item->email"  maxlength="50"/>
+                            <x-input name="slug" type="text" label="Slug" width="2" :value="$item->slug"  disabled/>
+                            <x-input name="address" type="text" label="Adres" width="4" :value="$item->address"  maxlength="250"/>
+                            <x-input name="phone" type="phone" label="Telefon" width="3" :value="$item->phone"  maxlength="30"/>
+                            <x-input name="active" type="checkbox" label="Aktif Mi ?" width="1" :value="$item->active" class="minimal"/>
                             <div class="form-group col-md-1">
                                 <label for="exampleInputEmail1">Kayıt Tarihi</label>
                                 <p>{{$item->created_at}}</p>
@@ -76,10 +50,6 @@
                     </div>
                 </form>
             </div>
-            <!-- /.box -->
-
         </div>
-        <!--/.col (left) -->
-
     </div>
 @endsection
