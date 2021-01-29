@@ -1,6 +1,5 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface FavorilerInterface extends BaseRepositoryInterface
+interface FavorilerInterface
 {
-    public function getAnomimUserFavoritesList($productIdList);
 }
