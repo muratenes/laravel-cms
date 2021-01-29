@@ -10,54 +10,14 @@ use App\Models\Sepet;
 use App\Models\Siparis;
 use App\Repositories\Interfaces\OdemeInterface;
 
-class ElOdemeDal implements OdemeInterface
+class ElOdemeDal extends BaseRepository implements OdemeInterface
 {
 
-//    protected $model;
-//
-//    public function __construct(Log $model)
-//    {
-//        $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
-//    }
+    protected $model;
 
-    public function all($filter = null, $columns = array("*"), $relations = null)
+    public function __construct(Log $model)
     {
-
-    }
-
-    public function allWithPagination($filter = null, $columns = array("*"), $perPageItem = null, $relations = null)
-    {
-//        return $this->model->allWithPagination($filter, $columns, $perPageItem);
-    }
-
-
-    public function getById($id, $columns = array('*'), $relations = null)
-    {
-    }
-
-    public function getByColumn(string $field, $value, $columns = array('*'), $relations = null)
-    {
-
-    }
-
-    public function create(array $data)
-    {
-
-    }
-
-    public function update(array $data, $id)
-    {
-
-    }
-
-    public function delete($id)
-    {
-
-    }
-
-    public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
-    {
-
+        parent::__construct($model);
     }
 
     public function getIyzicoInstallmentCount($creditCartNumber, $totalPrice)
@@ -156,9 +116,9 @@ class ElOdemeDal implements OdemeInterface
         $request->setBasketItems($basketItems);
         $request->setCallbackUrl(route('odeme.threeDSecurityResponse'));
         // todo : kredi kartı bilgilerini sil
-        Log::addIyzicoLog('makeIyzicoPayment request atıldı',json_encode($request->getJsonObject()),$basket->id);
+        Log::addIyzicoLog('makeIyzicoPayment request atıldı', json_encode($request->getJsonObject()), $basket->id);
         $response = \Iyzipay\Model\ThreedsInitialize::create($request, $options);
-        Log::addIyzicoLog('makeIyzicoPayment response alındı',$response->getRawResult(),$basket->id);
+        Log::addIyzicoLog('makeIyzicoPayment response alındı', $response->getRawResult(), $basket->id);
         return json_decode($response->getRawResult(), true);
     }
 
@@ -210,8 +170,7 @@ class ElOdemeDal implements OdemeInterface
      * kullanıcının ödemesi tamamlanmamış siparişleri siliniyor
      * @param $userId
      */
-    public
-    function deleteUserOldNotPaymentOrderTransactions($userId)
+    public function deleteUserOldNotPaymentOrderTransactions($userId)
     {
         Siparis::where('is_payment', 0)->whereHas('basket', function ($query) use ($userId) {
             $query->user_id = $userId;

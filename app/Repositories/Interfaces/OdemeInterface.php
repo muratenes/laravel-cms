@@ -5,7 +5,7 @@ use App\Models\KullaniciAdres;
 use App\Models\Sepet;
 use App\Models\Siparis;
 
-interface OdemeInterface extends BaseRepositoryInterface
+interface OdemeInterface
 {
     public function getIyzicoInstallmentCount($creditCartNumber, $totalPrice);
 
