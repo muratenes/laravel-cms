@@ -59,6 +59,7 @@ $data = [
     ],
     'use_album_gallery' => false,
 
+
     // multi lang
     'MULTI_LANG' => true,
     'multi_currency' => true,

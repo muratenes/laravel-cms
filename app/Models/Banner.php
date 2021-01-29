@@ -9,7 +9,7 @@ class Banner extends Model
 {
     const MODULE_NAME = "banner";
 
-    protected $perPage = 1;
+    protected $perPage = 20;
     protected $table = "banner";
     public $timestamps = true;
     public $guarded = [];
