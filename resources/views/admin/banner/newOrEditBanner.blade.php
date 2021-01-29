@@ -28,40 +28,11 @@
                     <div class="box-body">
                         <div class="row">
                             <x-input name="title" label="Başlık" width="3" :value="$banner->title" required maxlength="50"/>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Başlık</label>
-                                <input type="text" class="form-control" name="title" placeholder="başlık" required maxlength="50"
-                                       value="{{ old('title', old('title',$banner->title)) }}">
-                            </div>
-
-
-                            <div class="form-group col-md-2">
-                                <label for="exampleInputEmail1">Link</label>
-                                <input type="text" class="form-control" name="link" placeholder="Yönlendirelecek link"
-                                       value="{{ old('link', $banner->link) }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="image">Fotoğraf</label><br>
-                                <input type="file" class="form-control" name="image">
-                                @if($banner->image)
-                                    <span class="help-block">
-                                        <a href="{{ imageUrl('public/banners',$banner->image) }}" target="_blank">{{ $banner->image }}</a></span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Aktif Mi ?</label><br>
-                                <input type="checkbox" class="minimal" name="active" {{ $banner->active == 1 ? 'checked': '' }}>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Alt Başlık</label>
-                                <input type="text" class="form-control" name="sub_title" placeholder="Alt Başlık" maxlength="255"
-                                       value="{{ old('sub_title', $banner->sub_title) }}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">2. Alt Başlık</label>
-                                <input type="text" class="form-control" name="sub_title_2" placeholder="İkinci Başlık" maxlength="255"
-                                       value="{{ old('sub_title_2', $banner->sub_title_2) }}">
-                            </div>
+                            <x-input name="link" label="Link" width="3" :value="$banner->link" maxlength="255" placeholder="Yönlendirelecek link" />
+                            <x-input name="image" type="file" label="Görsel" width="2" :value="$banner->image"  path="banners" />
+                            <x-input name="active" type="checkbox" label="Aktif Mi ?" width="1" :value="$banner->active" class="minimal"/>
+                            <x-input name="sub_title" type="text" label="Alt Başlık" width="6" :value="$banner->sub_title" maxlength="255"/>
+                            <x-input name="sub_title" type="text" label="2. Alt Başlık" width="6" :value="$banner->sub_title_2" maxlength="255"/>
                         </div>
                         <div class="row">
                             @if(config('admin.MULTI_LANG'))
@@ -75,11 +46,7 @@
                                 </div>
                             @endif
                         </div>
-
-
                     </div>
-                    <!-- /.box-body -->
-
                     <div class="box-footer text-right">
                         <button type="submit" class="btn btn-success">Kaydet</button>
                     </div>

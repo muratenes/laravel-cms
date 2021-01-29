@@ -46,9 +46,9 @@ class Input extends Component
     /**
      * input default value
      *
-     * @var string
+     * @var null|string
      */
-    public string $value;
+    public ?string $value;
 
     /**
      * input placeholder
