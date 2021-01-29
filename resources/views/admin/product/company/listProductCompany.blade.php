@@ -7,12 +7,12 @@
         <div class="box-body with-border">
             <div class="row">
                 <div class="col-md-10">
-                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
+                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> @lang('admin.home')</a>
                     › Firmalar
                 </div>
                 <div class="col-md-2 text-right mr-3">
-                    <a href="{{ route('admin.product.company.new') }}"> <i class="fa fa-plus"></i> Yeni Firma Ekle</a>&nbsp;
-                    <a href="{{ route('admin.product.company.list') }}"><i class="fa fa-refresh"></i>&nbsp;Yenile</a>
+                    <a href="{{ route('admin.product.company.new') }}"> <i class="fa fa-plus"></i> @lang('admin.add')</a>&nbsp;
+                    <a href="{{ route('admin.product.company.list') }}"><i class="fa fa-refresh"></i>&nbsp;@lang('admin.refresh')</a>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
         <div class="col-xs-12">
             <div class="box ">
                 <div class="box-header">
-                    <h3 class="box-title">Firmalar</h3>
+                    <h3 class="box-title">@lang('admin.modules.product_company.plural')</h3>
 
                     <div class="box-tools">
                         <form action="{{ route('admin.product.company.list') }}" method="get" id="form">
@@ -42,16 +42,16 @@
                 <div class="box-body table-responsive">
                     <table class="table table-hover table-bordered">
                         <tbody>
-                        <tr>
-                            <th>ID</th>
-                            <th>Firma Adı</th>
-                            <th>Slug</th>
-                            <th>Telefon</th>
-                            <th>Email</th>
-                            <th>Adres</th>
-                            <th>Durum</th>
-                            <th>#</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Firma Adı</th>
+                                <th>Slug</th>
+                                <th>Telefon</th>
+                                <th>Email</th>
+                                <th>Adres</th>
+                                <th>Durum</th>
+                                <th>#</th>
+                            </tr>
                         @if(count($list) > 0)
                             @foreach($list as $l)
                                 <tr>
@@ -71,17 +71,11 @@
                                 <td colspan="7" class="text-center"><h5>Firma Bulunamadı</h5></td>
                             </tr>
                         @endif
-
                         </tbody>
-
                     </table>
                     <div class="text-right"> {{ $list->appends(['q' => request('q')])->links() }}</div>
                 </div>
-
-                <!-- /.box-body -->
             </div>
-
-            <!-- /.box -->
         </div>
     </div>
 @endsection

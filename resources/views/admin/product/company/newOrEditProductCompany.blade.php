@@ -6,12 +6,12 @@
         <div class="box-body with-border">
             <div class="row">
                 <div class="col-md-10">
-                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › <a href="{{ route('admin.product.company.list') }}"> Firmalar</a>
+                    <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> @lang('admin.home')</a>
+                    › <a href="{{ route('admin.product.company.list') }}"> @lang('admin.modules.product_company.plural')</a>
                     › {{ $item->title }}
                 </div>
                 <div class="col-md-2 text-right mr-3">
-                    <a type="submit" onclick="document.getElementById('form').submit()" class="btn btn-success btn-sm">Kaydet</a>
+                    <a type="submit" onclick="document.getElementById('form').submit()" class="btn btn-success btn-sm">@lang('admin.save')</a>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Firma Detay</h3>
+                    <h3 class="box-title">@lang('admin.modules.product_company.title') Detay</h3>
                 </div>
                 <form role="form" method="post" action="{{ route('admin.product.company.save',$item->id != null ? $item->id : 0) }}" id="form" enctype="multipart/form-data">
                     {{ csrf_field() }}
@@ -42,11 +42,10 @@
                                 <label for="exampleInputEmail1">Son Güncelleme</label>
                                 <p>{{$item->updated_at}}</p>
                             </div>
-
                         </div>
                     </div>
                     <div class="box-footer text-right">
-                        <button type="submit" class="btn btn-success">Kaydet</button>
+                        <button type="submit" class="btn btn-success">@lang('admin.save')</button>
                     </div>
                 </form>
             </div>

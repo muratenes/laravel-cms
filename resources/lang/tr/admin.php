@@ -68,6 +68,13 @@ return [
         'product_companies' => 'Ürün Firmaları',
         'faq' => 'Sık Sorulan Sorular',
     ],
+    // MODULES
+    'modules' => [
+        'product_company' => [
+            'title' => 'Firma',
+            'plural' => 'Firmalar'
+        ],
+    ],
     // USER
     'user' => [
         'select_a_role' => 'Rol Seçiniz',
