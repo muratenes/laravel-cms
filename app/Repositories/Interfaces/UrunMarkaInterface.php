@@ -1,7 +1,6 @@
 <?php namespace App\Repositories\Interfaces;
 
 
-interface UrunMarkaInterface extends BaseRepositoryInterface
+interface UrunMarkaInterface
 {
-    public function uploadBrandMainImage($brand, $image_file);
 }

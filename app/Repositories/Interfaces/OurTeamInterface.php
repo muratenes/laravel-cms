@@ -1,6 +1,5 @@
 <?php namespace App\Repositories\Interfaces;
 
-interface OurTeamInterface extends BaseRepositoryInterface
+interface OurTeamInterface
 {
-    public function uploadImage($entry, $image_file);
 }

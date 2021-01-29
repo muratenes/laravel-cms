@@ -10,8 +10,8 @@ class UrunMarka extends Model
     protected $table = "markalar";
     protected $guarded = [];
     public $timestamps = false;
-    const  IMAGE_QUALITY = 90;
-    const  IMAGE_RESIZE = null;
+
+
     public static function getActiveBrandsCache()
     {
         $cache = Cache::get('cacheActiveBrands');

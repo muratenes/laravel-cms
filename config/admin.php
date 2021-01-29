@@ -92,6 +92,7 @@ $data = [
         'category' => null,
         'product' => null,
         'product_image' => null,
+        'product_company' => null,
         'content' => null,
         'reference' => null,
         'coupon' => null,

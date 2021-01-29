@@ -8,4 +8,5 @@ class UrunFirma extends Model
 {
     protected $table = "firmalar";
     protected $guarded = [];
+    const MODULE_NAME = 'product_company';
 }
