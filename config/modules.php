@@ -27,6 +27,11 @@ return [
             ['label' => 'Dil'],
             ['label' => 'Durum'],
             ['label' => '#'],
+        ],
+        'detail' => [
+            'fields' => [
+                ['name' => 'title', 'component' => 'input', 'type' => 'text', 'label' => 'Başlık', 'width' => '3']
+            ]
         ]
     ]
 ];
