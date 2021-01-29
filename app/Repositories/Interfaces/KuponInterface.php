@@ -2,7 +2,7 @@
 
 use App\Models\Sepet;
 
-interface KuponInterface extends BaseRepositoryInterface
+interface KuponInterface
 {
     /**
      * kupon tarih,aktiflik vs. kontrol eder eğer uygunsa sepete uygular
@@ -15,5 +15,10 @@ interface KuponInterface extends BaseRepositoryInterface
      */
     public function checkCoupon(array $productIdList, string $couponCode, float $cartSubTotalPrice, int $currency, ?Sepet $basket);
 
+    /**
+     * kupon adet düşürür
+     * @param null|int $couponId kupon id
+     * @return Boolean
+     */
     public function decrementCouponQty($couponId = null);
 }
