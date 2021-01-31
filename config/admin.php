@@ -6,7 +6,7 @@ $data = [
     'short_title' => 'CMS',
     'creator' => 'NeAjans',
     'creator_link' => 'http://google.com',
-    'version' => 'v1.0.2',
+    'version' => 'v1.1.0',
     'max_upload_size' => 3024,
     // module status
     'module_status' => [
