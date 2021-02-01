@@ -5,14 +5,14 @@
 @section('content')
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">
+            <div>
                 <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
                 › Kategoriler
-            </h3>
+            </div>
 
             <div class="box-tools pull-right">
 
-                    <a class="btn btn-box-tool" title="yenile" href="{{ route('admin.categories') }}"><i class="fa fa-retweet"></i>
+                <a class="btn btn-box-tool" title="yenile" href="{{ route('admin.categories') }}"><i class="fa fa-retweet"></i></a>
                         <a class="btn btn-box-tool" title="kategori ekle" href="{{ route('admin.category.new') }}"><i class="fa fa-plus"></i></a>
             </div>
         </div>
