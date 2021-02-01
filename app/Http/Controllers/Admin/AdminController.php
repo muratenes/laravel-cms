@@ -39,4 +39,13 @@ class AdminController extends BaseController
     {
         return Ayar::activeCurrencies();
     }
+
+    /**
+     * sitede bulunan aktif para birimleri
+     * @return array[]
+     */
+    public function currencies()
+    {
+        return Ayar::currencies();
+    }
 }

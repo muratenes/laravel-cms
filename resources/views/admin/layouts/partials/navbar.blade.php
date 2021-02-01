@@ -107,7 +107,7 @@
             @foreach(admin('menus') as $index=>$menu)
                 <li class="header">{{ $menu['title'] }}</li>
                 @foreach($menu as $subI=>$item)
-{{--                    todo : module durumlarını kontrol et --}}
+                    {{--                    todo : module durumlarını kontrol et --}}
                     @if($subI != 'title' && admin($item['status']))
                         <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
                             <a href="{{route($item['routeName']) }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
@@ -134,21 +134,21 @@
                                 </ul>
                             @endif
                         </li>
-                    @endif
-                @endforeach
+                @endif
             @endforeach
-            <!-- creator -->
+        @endforeach
+        <!-- creator -->
             <li class="header">Creator</li>
             <li>
                 <a href="">
                     <i class="fa fa-wrench"></i> Menü
                 </a>
             </li>
-                <li>
-                    <a href="">
-                        <i class="fa fa-gavel"></i> Tema
-                    </a>
-                </li>
+            <li>
+                <a href="{{ route('admin.builder.edit') }}">
+                    <i class="fa fa-gavel"></i> Admin & Tema
+                </a>
+            </li>
 
         </ul>
     </section>
