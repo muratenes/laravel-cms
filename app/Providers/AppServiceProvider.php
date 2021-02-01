@@ -44,14 +44,7 @@ class AppServiceProvider extends ServiceProvider
         Siparis::observe(OrderObserver::class);
 
         Blade::if('admin', function ($value) {
-            $values = explode('.',$value);
-            $admin = Admin::getCache()->toArray();
-            $lastVal = null;
-            foreach ($values as $index => $value){
-                $lastVal = $admin[$value] ?? $lastVal[$value];
-            }
-//            dd($lastVal);
-            return $lastVal;
+            return admin($value);
         });
     }
 

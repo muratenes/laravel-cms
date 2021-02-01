@@ -24,7 +24,7 @@
     <!-- Main content -->
     <section class="content">
         <!-- Small boxes (Stat box) -->
-        @admin('dashboard.show_order_widgets')
+        @admin('title')
             <div class="row">
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->

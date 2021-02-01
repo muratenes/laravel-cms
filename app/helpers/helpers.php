@@ -125,11 +125,13 @@ function error($message = null)
  */
 function admin($value)
 {
+    if (!$value) return null;
+
     $values = explode('.',$value);
     $admin = Admin::getCache()->toArray();
     $lastVal = null;
     foreach ($values as $index => $value){
-        $lastVal = $admin[$value] ?? $lastVal[$value];
+        $lastVal = $admin[$value] ?? $lastVal[$value] ?? $admin[$value];
     }
     return $lastVal;
 }

@@ -26,6 +26,28 @@ class AdminSeeder extends Seeder
             'force_lang_currency' => false,
         ];
         $data['modules'] = [
+            'product' => [
+                'use_comment' => true,
+                'use_attribute' => true, // product detail ex: color - green
+                'use_category' => true,
+                'multiple_category' => false,
+                'use_brand' => true,
+                'use_companies' => true,
+                'use_gallery' => true,
+                // features
+                'features' => true,
+                'variants' => true,
+                'gallery' => true,
+                'auto_code' => false, // generate random auto code
+                'qty' => true,
+                'use_image' => true,
+                'use_tags' => true,
+                'buying_price' => true,
+                'prices' => true,
+                'cargo_price' => true,
+                // attributes
+                'max_sub_attribute_count' => 10
+            ],
             'icon' => 'fa fa-user',
             'permission' => 'Kullanici@listUsers',
             'title' => 'users',
@@ -69,10 +91,6 @@ class AdminSeeder extends Seeder
             'campaign' => null,
             'gallery' => null,
             'gallery_item' => 60,
-            'another' => [
-                'some1' => 12,
-                'some2' => 13
-            ]
         ];
 //        dd($data);
         $admin = \App\Models\Admin::create($data);

@@ -2,9 +2,9 @@
     <!-- Logo -->
     <a href="{{ route('admin.home_page') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini">{{ config('admin.short_title') }}</span>
+        <span class="logo-mini">{{ admin('short_title') }}</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">{{ config('admin.title') }}</span>
+        <span class="logo-lg">{{ admin('title') }}</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -16,7 +16,7 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
-                @if(config('admin.product.use_comment'))
+                @if(admin('modules.product.use_comment'))
                     <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
@@ -107,6 +107,7 @@
             @foreach($menus as $index=>$menu)
                 <li class="header">{{ $menu['title'] }}</li>
                 @foreach($menu as $subI=>$item)
+{{--                    todo : module durumlarını kontrol et --}}
                     @if($subI != 'title' && $item['active'])
                         <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
                             <a href="{{route($item['routeName']) }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
