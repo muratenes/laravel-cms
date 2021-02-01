@@ -34,7 +34,7 @@
                                 <label for="exampleInputEmail1">Aktif Mi ?</label><br>
                                 <input type="checkbox" class="minimal" name="active" {{ $item->active == 1 ? 'checked': '' }}>
                             </div>
-                            @if(config('admin.blog.use_image'))
+                            @if(admin('modules.blog.image'))
                                 <div class="form-group col-md-2">
                                     <label for="image">Fotoğraf</label><br>
                                     <input type="file" class="form-control" name="image">
@@ -44,7 +44,7 @@
                                     @endif
                                 </div>
                             @endif
-                            @if(config('admin.MULTI_LANG'))
+                            @if(admin('multi_lang'))
                                 <div class="form-group col-md-1">
                                     <label for="exampleInputEmail1">Dil</label>
                                     <select name="lang" id="languageSelect" class="form-control">
@@ -54,7 +54,7 @@
                                     </select>
                                 </div>
                             @endif
-                            @if(config('admin.blog.use_tags'))
+                            @if(admin('modules.blog.tag'))
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Kelimeler(Tags)</label>
                                     <select class="form-control" multiple="multiple" id="tags" name="tags[]">
@@ -66,7 +66,7 @@
                                     </select>
                                 </div>
                             @endif
-                            @if(config('admin.blog.use_categories'))
+                            @if(admin('modules.blog.category'))
                                 <div class="form-group col-md-4">
                                     <label for="exampleInputEmail1">Kategoriler</label>
                                     <select name="categories[]" id="categories" class="form-control" multiple required>

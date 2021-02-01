@@ -44,10 +44,10 @@
                             <th>Başlık</th>
                             <th>Açıklama</th>
                             <th>Durum</th>
-                            @if(config('admin.blog.use_image'))
+                            @if(admin('modules.blog.image'))
                                 <th>Fotoğraf</th>
                             @endif
-                            @if(config('admin.MULTI_LANG'))
+                            @if(admin('multi_lang'))
                                 <th>Dil</th>
                             @endif
                             <th>#</th>
@@ -59,7 +59,7 @@
                                     <td><a href="{{ route('admin.blog.edit',$l->id) }}"> {{ $l->title }}</a></td>
                                     <td>{{ strip_tags(substr($l -> desc,0,100))}}</td>
                                     <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
-                                    @if(config('admin.blog.use_image'))
+                                    @if(admin('modules.blog.image'))
                                         <td>
                                             @if($l->image)
                                                 <a target="_blank" href="{{ imageUrl('public/blog',$l ->image) }}">
@@ -67,7 +67,7 @@
                                             @endif
                                         </td>
                                     @endif
-                                    @if(config('admin.MULTI_LANG'))
+                                    @if(admin('multi_lang'))
                                         <th><img src="{{ langIcon($l->lang) }}" alt=""></th>
                                     @endif
                                     <td><a href="{{ route('admin.blog.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
