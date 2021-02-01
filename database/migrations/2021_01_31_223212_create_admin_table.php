@@ -29,6 +29,7 @@ class CreateAdminTable extends Migration
             $table->string('default_currency_prefix',10)->default('tl');
             $table->boolean('force_lang_currency')->default(false);
             $table->json('dashboard')->nullable();
+            $table->json('menus')->nullable();
             $table->json('image_quality')->nullable(); // banner,blog ... image quality
 
             $table->timestamps();

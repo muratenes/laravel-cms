@@ -15,11 +15,12 @@ class CheckModuleActive
      */
     public function handle($request, Closure $next)
     {
-        $moduleConfigName = $this->_getModuleConfigName($request);
-        $url = $request->url();
-        if (!$moduleConfigName)
-            return $next($request);
-        elseif (config('admin.' . $moduleConfigName) == true || route('admin.home_page') == $url)
+        // todo : module status olayı kontrol edilecek
+//        $moduleConfigName = $this->_getModuleConfigName($request);
+//        $url = $request->url();
+//        if (!$moduleConfigName)
+//            return $next($request);
+//        elseif (admin($moduleConfigName) == true || route('admin.home_page') == $url)
             return $next($request);
         return redirect(route('admin.home_page'))->withErrors('Bu modül aktif değil');
     }
@@ -30,28 +31,28 @@ class CheckModuleActive
 
         switch ($url) {
             case $url == route('admin.banners');
-                $moduleConfigName = 'module_status.banner';
+                $moduleConfigName = 'modules_status.banner';
                 break;
             case $url == route('admin.sss');
-                $moduleConfigName = 'module_status.sss';
+                $moduleConfigName = 'modules_status.sss';
                 break;
             case $url == route('admin.products');
-                $moduleConfigName = 'module_status.product';
+                $moduleConfigName = 'modules.product';
                 break;
             case $url == route('admin.product.comments.list');
-                $moduleConfigName = 'product.use_comment';
+                $moduleConfigName = 'modules.product.comment';
                 break;
             case $url == route('admin.product.brands.list');
-                $moduleConfigName = 'product.use_brand';
+                $moduleConfigName = 'modules.product.brand';
                 break;
             case $url == route('admin.categories');
-                $moduleConfigName = 'product.use_category';
+                $moduleConfigName = 'modules.product.category';
                 break;
             case $url == route('admin.blog');
-                $moduleConfigName = 'module_status.blog';
+                $moduleConfigName = 'modules_status.blog';
                 break;
             case $url == route('admin.blog_category');
-                $moduleConfigName = 'blog.use_categories';
+                $moduleConfigName = 'modules.blog.use_categories';
                 break;
             default;
                 $moduleConfigName = null;

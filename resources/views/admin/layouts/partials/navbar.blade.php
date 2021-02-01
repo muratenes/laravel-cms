@@ -16,7 +16,7 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
-                @if(admin('modules.product.use_comment'))
+                @if(admin('modules.product.comment'))
                     <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
@@ -104,11 +104,11 @@
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            @foreach($menus as $index=>$menu)
+            @foreach(admin('menus') as $index=>$menu)
                 <li class="header">{{ $menu['title'] }}</li>
                 @foreach($menu as $subI=>$item)
 {{--                    todo : module durumlarını kontrol et --}}
-                    @if($subI != 'title' && $item['active'])
+                    @if($subI != 'title' && admin($item['status']))
                         <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
                             <a href="{{route($item['routeName']) }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
                                 <i class="{{ $item['icon'] }}"></i>
@@ -123,7 +123,7 @@
 
                                 <ul class="treeview-menu" style="display: block">
                                     @foreach($item['subs'] as $sub)
-                                        @if($sub['active'])
+                                        @if(admin($sub['status']))
                                             <li>
                                                 <a href="{{ route($sub['routeName']) }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
                                                     <i class="{{ $sub['icon'] }}"></i> {{ __("admin.navbar.{$sub['title']}") }}
