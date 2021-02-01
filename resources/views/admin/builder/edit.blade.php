@@ -57,8 +57,12 @@
                                     @php
                                         $name = "modules_status[{$key}]"
                                     @endphp
-                                    <input type="hidden" name="{{ $name }}" value="0">
-                                    <x-input :name="$name" type="checkbox" :label="$key" width="1" :value="$value" class="minimal"/>
+                                    <div class="form-group col-md-1">
+                                        <input type="hidden" name="{{ $name }}" value="0">
+                                        <label for=""> {{ $key }}</label><br>
+                                        <input type="checkbox" name="{{ $name }}" {{ $value == 1 ? 'checked' : '' }}>
+                                    </div>
+                                    {{--                                    <x-input :name="$name" type="checkbox" :label="$key" width="1" :value="$value" class="minimal"/>--}}
                                 @endforeach
                             </div>
                         </div>

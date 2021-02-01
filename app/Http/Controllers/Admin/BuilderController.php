@@ -23,6 +23,7 @@ class BuilderController extends AdminController
         foreach ($data['modules_status'] as $index => $status) {
             $data['modules_status'][$index] = (bool) $status;
         }
+//        dd($data['modules_status']);
         $admin->update($data);
         success();
 
