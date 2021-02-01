@@ -33,7 +33,7 @@ $(document).ready(function () {
                     });
                     return categoriesHtml;
                 },
-                visible: $("#useMultipleCategory").val() == 1
+                visible: $("#useCategory").val() == 1 && $("#useMultipleCategory").val() == 1
             },
             {
                 data: 'parent_category_id', name: 'parent_category_id',
@@ -42,7 +42,7 @@ $(document).ready(function () {
                         ? `<a href="/admin/category/edit/${data}">${row.parent_category.title}</a>`
                         : ``
                 },
-                visible: $("#useMultipleCategory").val() == 0
+                visible: $("#useCategory").val() == 1 && $("#useMultipleCategory").val() == 0
             },
             {
                 data: 'sub_category_id', name: 'sub_category_id',
@@ -51,7 +51,7 @@ $(document).ready(function () {
                         ? `<a href="/admin/category/edit/${data}">${row.sub_category.title}</a>`
                         : ``
                 },
-                visible: $("#useMultipleCategory").val() == 0
+                visible: $("#useCategory").val() == 1 && $("#useMultipleCategory").val() == 0
             },
             {
                 data: 'slug', name: 'slug',
@@ -84,17 +84,20 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     return `<span class="${data > 10 ? 'text-green' : 'text-danger'}">${data}</span>`
                 },
+                visible: $("#useQty").val() == 1
             },
             {
                 data: 'tl_price', name: 'tl_price',
                 render: function (data) {
                     return `${data} ₺`
-                }
+                },
+                visible: $("#usePrice").val() == 1
             },
             {
                 data: 'tl_discount_price', name: 'tl_discount_price', render: function (data) {
                     return data ? `${data} ₺` : '-'
-                }
+                },
+                visible: $("#usePrice").val() == 1
             },
             {
                 data: 'image', name: 'image',
@@ -103,7 +106,8 @@ $(document).ready(function () {
                     return data
                         ? `<a target="_blank" href="${productImagePrefix}${data}">${data}</a>`
                         : ''
-                }
+                },
+                visible: $("#useImage").val() == 1
             },
             {
                 data: 'active', name: 'active',

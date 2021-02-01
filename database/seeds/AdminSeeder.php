@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
     {
         \App\Models\Admin::truncate();
         $data = [
-            'title' => config('app:.name'),
+            'title' => config('app.name'),
             'short_title' => 'CMS',
             'creator' => 'muratenes',
             'creator_link' => 'https://github.com/muratenes',
@@ -31,14 +31,14 @@ class AdminSeeder extends Seeder
                 'attribute' => true, // product detail ex: color - green
                 'category' => true,
                 'multiple_category' => false,
-                'brand' => true,
+                'brand' => false,
                 'company' => true,
                 // features
                 'feature' => false,
                 'variant' => false,
                 'gallery' => true,
                 'auto_code' => false, // generate random auto code
-                'qty' => true,
+                'qty' => false,
                 'image' => true,
                 'tag' => false,
                 'buying_price' => true,
