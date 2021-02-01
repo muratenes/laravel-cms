@@ -1,4 +1,4 @@
-@if (config('admin.product.multiple_category'))
+@if(admin('modules.product.multiple_category'))
     <div class="form-group col-md-4">
         <label for="exampleInputEmail1">Kategoriler</label>
         <select name="categories[]" id="categories" class="form-control" multiple required>

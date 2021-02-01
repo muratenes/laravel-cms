@@ -7,7 +7,7 @@
                     <input type="text" class="form-control" name="title_{{ $description->lang }}" placeholder="@lang('admin.product.title')"
                            value="{{ old("title_{{ $description->lang }", $description->title) }}">
                 </div>
-                @if(config('admin.product.use_tags'))
+                @if(admin('modules.product.tag'))
                     <div class="form-group col-md-6 key-container">
                         <label for="tags_{{ $description->lang }}">@lang('admin.product.keywords')</label>
                         <select class="form-control" multiple="multiple" id="tags_{{ $description->lang }}" name="tags_{{ $description->lang }}[]">
@@ -19,7 +19,7 @@
                         </select>
                     </div>
                 @endif
-                @if(config('admin.product.cargo_price'))
+                @if(admin('modules.product.cargo_price'))
                     <div class="form-group col-md-2">
                         <label for="cargo_price">@lang('admin.product.cargo_price')
                             <i class="fa fa-question-circle"

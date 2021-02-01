@@ -17,7 +17,7 @@
         <x-breadcrumb :first="__('admin.products')" first-route="admin.products" :second="$product->title">
             @if(!is_null($product->slug))
                 <a target="_blank" href="{{ route('product.detail',$product->slug) }}">@lang('admin.product.show_on_site') <i class="fa fa-eye"></i></a>&nbsp;&nbsp;&nbsp;
-            &nbsp;@endif
+                &nbsp;@endif
         </x-breadcrumb>
 
         <div class="row">
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="exampleInputEmail1">@lang('admin.product.code')</label>
-                                    <input type="text" class="form-control" name="code" placeholder="ürün kodu otomatik oluşur" {{ config('admin.product_auto_code') ? 'disabled' :'' }}
+                                    <input type="text" class="form-control" name="code" placeholder="ürün kodu otomatik oluşur" {{ admin('modules.product.auto_code') ? 'disabled' :'' }}
                                     value="{{ old('code', $product->code) }}">
                                 </div>
 
@@ -64,22 +64,24 @@
                                     <label for="exampleInputEmail1">@lang('admin.is_active')</label><br>
                                     <input type="checkbox" class="minimal" name="active" {{ $product->active == 1 ? 'checked': '' }}>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label for="image">@lang('admin.image')</label><br>
-                                    <input type="file" class="form-control" name="image">
-                                    @if($product->image)
-                                        <span class="help-block"><a
-                                                href="{{ imageUrl('public/products',$product->image) }}">{{ $product->image }}</a></span>
-                                    @endif
-                                </div>
-                                @if(config('admin.product.buying_price'))
+                                @if(admin('modules.product.image'))
+                                    <div class="form-group col-md-2">
+                                        <label for="image">@lang('admin.image')</label><br>
+                                        <input type="file" class="form-control" name="image">
+                                        @if($product->image)
+                                            <span class="help-block"><a
+                                                    href="{{ imageUrl('public/products',$product->image) }}">{{ $product->image }}</a></span>
+                                        @endif
+                                    </div>
+                                @endif
+                                @if(admin('modules.product.buying_price'))
                                     <div class="form-group col-md-1">
                                         <label for="exampleInputEmail1">@lang('admin.product.buying_price')</label>
                                         <input type="number" class="form-control" name="buying_price" placeholder="firmadan alış fiyatı"
                                                value="{{ old('buying_price', $product->buying_price) }}">
                                     </div>
                                 @endif
-                                @if(config('admin.product.cargo_price'))
+                                @if(admin('modules.product.cargo_price'))
                                     <div class="form-group col-md-2">
                                         <label for="cargo_price">@lang('admin.product.cargo_price')
                                             <i class="fa fa-question-circle" title="@lang('admin.product.cargo_if_empty')"></i>
@@ -90,7 +92,7 @@
                                 @endif
                             </div>
                             <div class="row">
-                                @if(config('admin.product.qty'))
+                                @if(admin('modules.product.qty'))
                                     <div class="form-group col-md-1">
                                         <label for="exampleInputEmail1">@lang('admin.product.qty')</label>
                                         <input type="number" class="form-control" id="qty" name="qty" placeholder="@lang('admin.product.qty')"
@@ -99,7 +101,7 @@
                                 @else
                                     <input type="hidden" name="qty" value="1">
                                 @endif
-                                @if(config('admin.product.use_brand'))
+                                @if(admin('modules.product.brand'))
                                     <div class="form-group col-md-1">
                                         <label for="exampleInputEmail1">
                                             @lang('admin.brand')
@@ -117,7 +119,7 @@
                                         </select>
                                     </div>
                                 @endif
-                                @if(config('admin.product.use_companies'))
+                                @if(admin('modules.product.company'))
                                     <div class="form-group col-md-1">
                                         <label for="exampleInputEmail1">@lang('admin.product.suppliers')
                                             &nbsp;@if($product->company_id)
@@ -134,7 +136,10 @@
                                         </select>
                                     </div>
                                 @endif
-                              @include('admin.product.partials.product-categories')
+                                @if(admin('modules.product.category'))
+                                    @include('admin.product.partials.product-categories')
+                                @endif
+
 
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">@lang('admin.product.short_description')</label>
@@ -143,7 +148,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                @if(config('admin.product.use_tags'))
+                                @if(admin('modules.product.tag'))
                                     <div class="form-group col-md-6">
                                         <label for="exampleInputEmail1">@lang('admin.product.keywords')</label>
                                         <select class="form-control" multiple="multiple" id="tags" name="tags[]">
@@ -162,7 +167,7 @@
                     <!-- /.tab-content -->
                 </div>
                 <!-- ürün fiyat bilgileri -->
-                @if(config('admin.product.prices'))
+                @if(admin('modules.product.prices'))
                     <div class="row">
                         <div class="col-md-12">
                             @include('admin.product.partials.product-prices')
@@ -171,7 +176,7 @@
                 @endif
             <!-- Ürün Açıklama -->
                 <div class="row">
-                    <div class="col-md-{{ config('admin.product.use_attribute') ? '6': '12' }}">
+                    <div class="col-md-{{ admin('modules.product.attribute') ? '6': '12' }}">
                         <div class="box box-primary">
                             <div class="box-header" data-widget="collapse" data-toggle="tooltip">
                                 <h3 class="box-title">@lang('admin.product.product_desc')
@@ -190,17 +195,17 @@
                             </div>
                         </div>
                     </div>
-                    @if(config('admin.product.use_attribute'))
+                    @if(admin('modules.product.attribute'))
                         @include('admin.product.partials.product-attributes')
                     @endif
                 </div>
-                @if(config('admin.product.features'))
+                @if(admin('modules.product.feature'))
                     @include('admin.product.partials.product-features')
                 @endif
-                @if(config('admin.product.variants'))
+                @if(admin('modules.product.variant'))
                     @include('admin.product.partials.product-variants')
                 @endif
-                @if(config('admin.product.use_gallery'))
+                @if(admin('modules.product.gallery'))
                     @include('admin.product.partials.product-gallery')
                 @endif
             </div>
@@ -259,7 +264,7 @@
                 filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
                 filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
                 filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
-                allowedContent : true
+                allowedContent: true
             };
             CKEDITOR.replace('editor1', options);
             CKEDITOR.replace('editor_lang_2', options);

@@ -34,15 +34,15 @@ class AdminSeeder extends Seeder
                 'brand' => true,
                 'company' => true,
                 // features
-                'feature' => true,
-                'variant' => true,
+                'feature' => false,
+                'variant' => false,
                 'gallery' => true,
                 'auto_code' => false, // generate random auto code
                 'qty' => true,
                 'image' => true,
-                'tag' => true,
+                'tag' => false,
                 'buying_price' => true,
-                'prices' => true,
+                'prices' => false,
                 'cargo_price' => true,
                 // attributes
                 'max_sub_attribute_count' => 10

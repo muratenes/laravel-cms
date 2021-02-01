@@ -43,23 +43,25 @@ class AdminProductSaveRequest extends FormRequest
         ];
 
         // single category
-        if (!config('admin.product.multiple_category')) {
-            $rule['parent_category_id'] = 'required|numeric';
-            $rule['sub_category_id'] = 'required|numeric';
+        if (admin('modules.product.category')) {
+            if (! admin('modules.product.multiple_category')) {
+                $rule['parent_category_id'] = 'required|numeric';
+                $rule['sub_category_id'] = 'required|numeric';
+            }
         }
         // prices
-        if (config('admin.product.prices')) {
+        if (admin('modules.product.prices')) {
             $rule['tl_price'] = 'required|numeric|min:1,max:99999';
             $rule['tl_discount_price'] = 'nullable|numeric|min:1,max:99999';
 
-            if (config('admin.multi_currency')) {
+            if (admin('multi_currency')) {
                 $rule['usd_price'] = 'required|numeric|min:1,max:99999';
                 $rule['usd_discount_price'] = 'nullable|numeric|min:1,max:99999';
                 $rule['eur_price'] = 'required|numeric|min:1,max:99999';
                 $rule['eur_discount_price'] = 'nullable|numeric|min:1,max:99999';
             }
         }
-        if (config('admin.product.cargo_price')) {
+        if (admin('modules.product.cargo_price')) {
             $rule['cargo_price'] = 'nullable|numeric|min:0,max:99999';
         }
         return $rule;
