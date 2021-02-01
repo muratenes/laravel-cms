@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\Admin;
 use App\Models\Ayar;
 use Illuminate\Support\Str;
 
@@ -69,7 +70,8 @@ function currentCurrencyID()
  * @param int|string $currencyID para birimi id
  * @return mixed|string
  */
-function getCurrencySymbolById($currencyID){
+function getCurrencySymbolById($currencyID)
+{
     return Ayar::getCurrencySymbolById($currencyID);
 }
 
@@ -116,9 +118,27 @@ function error($message = null)
 }
 
 /**
+ * get value by key from admin table
+ *
+ * @param string|null $value
+ * @return mixed|null
+ */
+function admin($value)
+{
+    $values = explode('.',$value);
+    $admin = Admin::getCache()->toArray();
+    $lastVal = null;
+    foreach ($values as $index => $value){
+        $lastVal = $admin[$value] ?? $lastVal[$value];
+    }
+    return $lastVal;
+}
+
+/**
  * tarih formatı
  * @param string $dateTime
  */
-function createdAt($dateTime) {
+function createdAt($dateTime)
+{
     return $dateTime->format('d/m/yy H:m');
 }

@@ -68,9 +68,14 @@ class AdminSeeder extends Seeder
             'coupon' => null,
             'campaign' => null,
             'gallery' => null,
-            'gallery_item' => 60
+            'gallery_item' => 60,
+            'another' => [
+                'some1' => 12,
+                'some2' => 13
+            ]
         ];
 //        dd($data);
-        \App\Models\Admin::create($data);
+        $admin = \App\Models\Admin::create($data);
+        \App\Models\Admin::setCache($admin);
     }
 }

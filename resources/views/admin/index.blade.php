@@ -7,6 +7,10 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
+{{--        @admin('image_quality.another.some2')--}}
+{{--            <h2>Multi Lang</h2>--}}
+{{--        @endadmin--}}
+
         <h1>
             Admin
             <small>Kontrol Paneli</small>
@@ -20,7 +24,7 @@
     <!-- Main content -->
     <section class="content">
         <!-- Small boxes (Stat box) -->
-        @if(config('admin.homepage.show_orders_widgets'))
+        @admin('dashboard.show_order_widgets')
             <div class="row">
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
@@ -86,10 +90,10 @@
                 </div>
                 <!-- ./col -->
             </div>
-        @endif
+        @endadmin
     <!-- /.row -->
         <div class="row">
-            @if(config('admin.homepage.show_orders'))
+            @admin('dashboard.show_orders')
                 <div class="col-md-8">
                     <div class="box box-primary">
                         <div class="box box-header"><h3 class="box-title">Siparişler</h3></div>
@@ -136,9 +140,9 @@
                         </div>
                     </div>
                 </div>
-            @endif
-            @if(config('admin.homepage.show_products'))
-                <div class="col-md-{{ config('admin.homepage.show_orders') == false ? '12' : '4' }}">
+            @endadmin
+            @admin('dashboard.show_products')
+                <div class="col-md-{{ admin('dashboard.show_orders') == false ? '12' : '4' }}">
                     <div class="box box-primary">
                         <div class="box box-header"><h3 class="box-title">Ürünler</h3></div>
                         <div class="box-body table-responsive">
@@ -179,9 +183,9 @@
                         </div>
                     </div>
                 </div>
-            @endif
+            @endadmin
         </div>
-        @if(config('admin.homepage.show_orders'))
+        @admin('dashboard.show_orders')
             <div class="row">
                 <div class="col-md-6">
                     <div class="box box-default">
@@ -202,7 +206,7 @@
 
 
             </div>
-        @endif
+        @endadmin
 
     </section>
 

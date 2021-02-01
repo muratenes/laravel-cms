@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
 use App\User;
 use App\Listeners\LoggingListener;
 use App\Models\Auth\Role;
@@ -12,6 +13,7 @@ use App\Models\Product\Urun;
 use App\Observers\OrderObserver;
 use App\Observers\UrunObserver;
 use App\Repositories\Concrete\ElBaseRepository;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,6 +42,17 @@ class AppServiceProvider extends ServiceProvider
         });
         Urun::observe(UrunObserver::class);
         Siparis::observe(OrderObserver::class);
+
+        Blade::if('admin', function ($value) {
+            $values = explode('.',$value);
+            $admin = Admin::getCache()->toArray();
+            $lastVal = null;
+            foreach ($values as $index => $value){
+                $lastVal = $admin[$value] ?? $lastVal[$value];
+            }
+//            dd($lastVal);
+            return $lastVal;
+        });
     }
 
     /**
