@@ -57,6 +57,7 @@
                                     @php
                                         $name = "modules_status[{$key}]"
                                     @endphp
+                                    <input type="hidden" name="{{ $name }}" value="0">
                                     <x-input :name="$name" type="checkbox" :label="$key" width="1" :value="$value" class="minimal"/>
                                 @endforeach
                             </div>

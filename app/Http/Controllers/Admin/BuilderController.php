@@ -19,8 +19,10 @@ class BuilderController extends AdminController
     public function save(Request $request)
     {
         $data = $request->all();
-//        dd($data);
         $admin = Admin::first();
+        foreach ($data['modules_status'] as $index => $status) {
+            $data['modules_status'][$index] = (bool) $status;
+        }
         $admin->update($data);
         success();
 
