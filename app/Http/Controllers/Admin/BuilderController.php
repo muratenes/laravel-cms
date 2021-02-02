@@ -21,10 +21,10 @@ class BuilderController extends AdminController
             'item' => Admin::first(),
             'currencies' => $this->currencies(),
             'themes' => array_map('basename', File::directories(resource_path('views/themes'))),
-            'banners' => $theme['name'] ? array_map('basename',File::files(resource_path("views/themes/{$theme['name']}/partials/banner"))) : [],
-            'headers' => $theme['name'] ? array_map('basename',File::files(resource_path("views/themes/{$theme['name']}/partials/header"))) : [],
-            'footers' => $theme['name'] ? array_map('basename',File::files(resource_path("views/themes/{$theme['name']}/partials/footer"))) : [],
-            'contacts' => $theme['name'] ? array_map('basename',File::files(resource_path("views/themes/{$theme['name']}/partials/contact"))) : [],
+            'banners' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/banner"))) : [],
+            'headers' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/header"))) : [],
+            'footers' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/footer"))) : [],
+            'contacts' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/contact"))) : [],
         ]);
     }
 
@@ -37,18 +37,20 @@ class BuilderController extends AdminController
         }
         foreach ($data['modules'] as $index => $status) {
             foreach ($data['modules'][$index] as $subIndex => $value) {
-                if ($value == "on" || $value == 0) {
-                    $data['modules'][$index][$subIndex] = (boolean)$value;
-                }elseif ($this->isJson($value)) {
+                $isStringArray = stripos($value, "|") > 0;
+                if ($this->isJson($value) && !in_array($value, [0, 1])) {
                     $data['modules'][$index][$subIndex] = json_decode($value);
-                }
-                else {
+                } elseif ($isStringArray) {
+                    $data['modules'][$index][$subIndex] = $value;
+                } elseif ($value == "on" || $value == 0) {
+                    $data['modules'][$index][$subIndex] = (boolean)$value;
+                } else {
                     $data['modules'][$index][$subIndex] = $value;
                 }
             }
             $data['modules_status'][$index] = (bool)$status;
         }
-        dd($data);
+//        dd($data['modules']['contact']);
         $admin->update($data);
         success();
 
@@ -91,7 +93,8 @@ class BuilderController extends AdminController
         }
     }
 
-    private function isJson($string) {
+    private function isJson($string)
+    {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
     }

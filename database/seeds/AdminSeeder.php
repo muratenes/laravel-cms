@@ -102,8 +102,8 @@ class AdminSeeder extends Seeder
                 'cargo' => true
             ],
             'contact' => [
-                'columns' => 'name,subject,email,phone,message',
-                'fields' => 'Başlık,Konu,Email,Telefon,Mesaj',
+                'columns' => 'name|subject|email|phone|message',
+                'fields' => 'Başlık|Konu|Email|Telefon|Mesaj',
                 'validations' => [
                     'email' => 'required|max:100',
                     'name' => 'required|max:100',
