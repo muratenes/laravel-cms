@@ -5,8 +5,8 @@ $("#theme").on('change', function () {
             console.log(response);
             fillSelect("#banner", response.data.banners)
             fillSelect("#header", response.data.headers)
-            fillSelect("#footer", response.data.headers)
-            fillSelect("#contact", response.data.headers)
+            fillSelect("#footer", response.data.footers)
+            fillSelect("#contact", response.data.contacts)
         }).catch(error => {
         fillSelect("#banner", {});
         fillSelect("#header", {});
