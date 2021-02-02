@@ -105,18 +105,37 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Görsel Ayarları <i class="fa fa-question-circle" title="Modüllerin görselleri yüzde kaç küçültülsün?"></i></h3>
+                <!-- image quality -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Görsel Ayarları <i class="fa fa-question-circle" title="Modüllerin görselleri yüzde kaç küçültülsün?"></i></h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    @foreach($item->image_quality as $key => $image)
+                                        @php
+                                            $name = "image_quality[{$key}]"
+                                        @endphp
+                                        <x-input :name="$name" type="number" :label="$key" width="3" :value="$image" max="100"/>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="box-body">
-                        <div class="row">
-                            @foreach($item->image_quality as $key => $image)
-                                @php
-                                    $name = "image_quality[{$key}]"
-                                @endphp
-                                <x-input :name="$name" type="number" :label="$key" width="3" :value="$image" max="100"/>
-                            @endforeach
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Tema Ayarları <i class="fa fa-question-circle" title="Tema,Banner,Footer ayarları"></i></h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
