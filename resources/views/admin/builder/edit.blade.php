@@ -80,10 +80,10 @@
                                         $name = "modules[{$keyModule}]"
                                     @endphp
                                     <div class="row">
-                                        <h5><strong>{{ $keyModule }}</strong></h5>
+                                        <h5><strong>----{{ mb_strtoupper($keyModule) }}-----</strong></h5>
 
                                         @foreach($item->modules[$keyModule] as $subKey => $subValue)
-                                            <div class="form-group col-md-{{ is_bool($subValue) ? 2 : 2 }} ">
+                                            <div class="form-group col-md-{{ is_bool($subValue) ? 2 : (is_array($subValue) ? 5 : 3)  }} ">
                                                 @php
                                                     $subName = $name.'['.$subKey.']';
                                                 @endphp
@@ -91,6 +91,8 @@
                                                     <input type="hidden" name="{{ $subName }}" value="0">
                                                     <label for=""> {{ $subKey }}</label><br>
                                                     <input type="checkbox" name="{{ $subName }}" {{ $subValue == 1 ? 'checked' : '' }}>
+                                                @elseif (is_array($subValue))
+                                                    <x-input :name="$subName" :label="$subKey" width="12" :value="json_encode($subValue)"/>
                                                 @else
                                                     <x-input :name="$subName" :label="$subKey" width="12" :value="$subValue"/>
                                                 @endif

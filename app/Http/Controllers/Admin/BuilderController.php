@@ -39,12 +39,16 @@ class BuilderController extends AdminController
             foreach ($data['modules'][$index] as $subIndex => $value) {
                 if ($value == "on" || $value == 0) {
                     $data['modules'][$index][$subIndex] = (boolean)$value;
-                } else {
+                }elseif ($this->isJson($value)) {
+                    $data['modules'][$index][$subIndex] = json_decode($value);
+                }
+                else {
                     $data['modules'][$index][$subIndex] = $value;
                 }
             }
             $data['modules_status'][$index] = (bool)$status;
         }
+        dd($data);
         $admin->update($data);
         success();
 
@@ -85,5 +89,10 @@ class BuilderController extends AdminController
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage());
         }
+    }
+
+    private function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }

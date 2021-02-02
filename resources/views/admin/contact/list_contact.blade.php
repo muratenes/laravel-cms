@@ -24,15 +24,13 @@
                 <div class="box-body table-responsive">
                     <table class="table table-hover table-bordered" id="contactTable">
                         <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Ad</th>
-                                <th>Email</th>
-                                <th>Konu</th>
-                                <th>Telefon</th>
-                                <th>Mesaj</th>
-                                <th>Oluşturulma Tarihi</th>
-                            </tr>
+                        <tr>
+                            <th>Id</th>
+                            @foreach(explode(',',admin('modules.contact.fields')) as $field)
+                                <th>{{ $field  }}</th>
+                            @endforeach
+                            <th>Oluşturulma Tarihi</th>
+                        </tr>
                         </thead>
                     </table>
                 </div>
@@ -45,5 +43,32 @@
     </div>
 @endsection
 @section('footer')
-    <script src="/admin_files/js/pages/admin.contact.js"></script>
+    <script>
+        $('#contactTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/admin/contact/ajax'
+            },
+            "language": {
+                "url": "/admin_files/plugins/jquery-datatable/language-tr.json"
+            },
+            columns: [
+                {data: 'id', name: 'id'},
+                    @foreach(explode(',',admin('modules.contact.columns')) as $field)
+                {
+                    data: '{{ $field }}', name: '{{ $field }}'
+                },
+                    @endforeach
+                {
+                    data: 'created_at', name: 'created_at',
+                    render: function (data, type, row) {
+                        return createdAt(data)
+                    }
+                }
+            ],
+            order: [0, 'desc'],
+            pageLength: 10
+        });
+    </script>
 @endsection

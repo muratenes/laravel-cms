@@ -26,15 +26,7 @@ class AdminSeeder extends Seeder
             'force_lang_currency' => false,
         ];
         $data['modules'] = $this->modules();
-        $data['site'] = [
-            'theme' => [
-                'name' => 'theme_1',
-                'banner' => 'banner_1.blade.php',
-                'header' => 'header_1.blade.php',
-                'footer' => 'footer_1.blade.php',
-                'contact' => 'contact_1.blade.php',
-            ],
-        ];
+        $data['site'] = $this->getSiteConfig();
         $data['modules_status'] = $this->moduleStatus();
         $data['dashboard'] = [
             'show_products' => true,
@@ -60,6 +52,19 @@ class AdminSeeder extends Seeder
 //        dd($data);
         $admin = \App\Models\Admin::create($data);
         \App\Models\Admin::setCache($admin);
+    }
+
+    private function getSiteConfig()
+    {
+        return [
+            'theme' => [
+                'name' => 'theme_1',
+                'banner' => 'banner_1.blade.php',
+                'header' => 'header_1.blade.php',
+                'footer' => 'footer_1.blade.php',
+                'contact' => 'contact_1.blade.php',
+            ],
+        ];
     }
 
     private function modules()
@@ -96,6 +101,18 @@ class AdminSeeder extends Seeder
                 'iyzico_logs' => true,
                 'cargo' => true
             ],
+            'contact' => [
+                'columns' => 'name,subject,email,phone,message',
+                'fields' => 'Başlık,Konu,Email,Telefon,Mesaj',
+                'validations' => [
+                    'email' => 'required|max:100',
+                    'name' => 'required|max:100',
+                    'message' => 'required|max:250',
+                    'phone' => 'required|max:30',
+                ],
+                'map' => true,
+                'form' => false
+            ]
         ];
     }
 
