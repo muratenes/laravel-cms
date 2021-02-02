@@ -15,6 +15,7 @@ class Admin extends Model
         'dashboard' => 'array',
         'image_quality' => 'array',
         'menus' => 'array',
+        'site' => 'array',
     ];
 
     /**

@@ -26,26 +26,16 @@ class AdminSeeder extends Seeder
             'force_lang_currency' => false,
         ];
         $data['modules'] = $this->modules();
-        $data['modules_status'] = [
-            'banner' => true,
-            'blog' => true,
-            'coupon' => true,
-            'content_management' => true,
-            'contact' => true,
-            'campaign' => true,
-            'e_bulten' => true,
-            'gallery' => true,
-            'order' => true,
-            'cargo' => true,
-            'product' => true,
-            'log' => true,
-            'sss' => true,
-            'setting' => true,
-            'reference' => true,
-            'user' => true,
-            'role' => true,
-            'our_team' => true
+        $data['site'] = [
+            'theme' => [
+                'name' => 'theme_1',
+                'banner' => 'banner_1.blade.php',
+                'header' => 'header_1.blade.php',
+                'footer' => 'footer_1.blade.php',
+                'contact' => 'contact_1.blade.php',
+            ],
         ];
+        $data['modules_status'] = $this->moduleStatus();
         $data['dashboard'] = [
             'show_products' => true,
             'show_orders' => true,
@@ -331,6 +321,30 @@ class AdminSeeder extends Seeder
                 ],
             ],
 
+        ];
+    }
+
+    private function moduleStatus()
+    {
+        return [
+            'banner' => true,
+            'blog' => true,
+            'coupon' => true,
+            'content_management' => true,
+            'contact' => true,
+            'campaign' => true,
+            'e_bulten' => true,
+            'gallery' => true,
+            'order' => true,
+            'cargo' => true,
+            'product' => true,
+            'log' => true,
+            'sss' => true,
+            'setting' => true,
+            'reference' => true,
+            'user' => true,
+            'role' => true,
+            'our_team' => true
         ];
     }
 }

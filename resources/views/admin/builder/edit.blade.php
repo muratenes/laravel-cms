@@ -133,7 +133,47 @@
                             </div>
                             <div class="box-body">
                                 <div class="row">
-
+                                    <div class="form-group col-md-6">
+                                        <label for="">Tema</label>
+                                        <select name="site[theme][name]" id="theme" class="form-control">
+                                            <option value="">--</option>
+                                            @foreach($themes as $theme)
+                                                <option value="{{ $theme }}" {{ $theme == $item->site['theme']['name']  ? 'selected' : '' }}>{{ $theme }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Banner</label>
+                                        <select name="site[theme][banner]" id="banner" class="form-control">
+                                            @foreach($banners as $banner)
+                                                <option value="{{ $banner }}" {{ $banner == $item->site['theme']['banner']  ? 'selected' : '' }}>{{ $banner }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Header</label>
+                                        <select name="site[theme][header]" id="header" class="form-control">
+                                            @foreach($headers as $header)
+                                                <option value="{{ $header }}" {{ $header == $item->site['theme']['header']  ? 'selected' : '' }}>{{ $header }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Footer</label>
+                                        <select name="site[theme][footer]" id="footer" class="form-control">
+                                            @foreach($footers as $footer)
+                                                <option value="{{ $footer }}" {{ $footer == $item->site['theme']['footer']  ? 'selected' : '' }}>{{ $footer }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Contact</label>
+                                        <select name="site[theme][contact]" id="contact" class="form-control">
+                                            @foreach($contacts as $contact)
+                                                <option value="{{ $contact }}" {{ $header == $item->site['theme']['contact']  ? 'selected' : '' }}>{{ $contact }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,4 +183,7 @@
         </div>
 
     </form>
+@endsection
+@section('footer')
+    <script src="/admin_files/js/pages/admin.builder.js"></script>
 @endsection

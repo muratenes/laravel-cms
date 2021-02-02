@@ -29,6 +29,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::group(['prefix' => 'builder/'], function () {
             Route::get('edit', 'BuilderController@edit')->name('admin.builder.edit');
             Route::post('save', 'BuilderController@save')->name('admin.builder.save');
+
+            // ajax
+            Route::post('get-view-folders/{theme}', 'BuilderController@getAllFilesByTheme');
+            Route::get('get-view-folders/{theme}/{folder}', 'BuilderController@getFilesByTheme');
         });
 
         //----- Admin/category/..
