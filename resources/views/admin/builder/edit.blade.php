@@ -68,6 +68,42 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Modüller <i class="fa fa-question-circle" title="Modüllerin içerisindeki konfigürasyonlar"></i></h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-12">
+                                @foreach($item->modules as $keyModule => $valueModule)
+                                    @php
+                                        $name = "modules[{$keyModule}]"
+                                    @endphp
+                                    <div class="row">
+                                        <h5><strong>{{ $keyModule }}</strong></h5>
+
+                                        @foreach($item->modules[$keyModule] as $subKey => $subValue)
+                                            <div class="form-group col-md-2">
+                                                @php
+                                                    $subName = $name.'['.$subKey.']';
+                                                @endphp
+
+                                                @if (is_bool($subValue))
+                                                    <input type="hidden" name="{{ $subName }}" value="0">
+                                                    <label for=""> {{ $subKey }}</label><br>
+                                                    <input type="checkbox" name="{{ $subName }}" {{ $subValue == 1 ? 'checked' : '' }}>
+                                                @else
+                                                    <x-input :name="$subName" :label="$subKey" width="12" :value="$subValue"/>
+                                                @endif
+
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="box box-primary">

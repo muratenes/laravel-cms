@@ -21,9 +21,18 @@ class BuilderController extends AdminController
         $data = $request->all();
         $admin = Admin::first();
         foreach ($data['modules_status'] as $index => $status) {
-            $data['modules_status'][$index] = (bool) $status;
+            $data['modules_status'][$index] = (bool)$status;
         }
-//        dd($data['modules_status']);
+        foreach ($data['modules'] as $index => $status) {
+            foreach ($data['modules'][$index] as $subIndex => $value) {
+                if ($value == "on" || $value == 0) {
+                    $data['modules'][$index][$subIndex] = (boolean)$value;
+                } else {
+                    $data['modules'][$index][$subIndex] = $value;
+                }
+            }
+            $data['modules_status'][$index] = (bool)$status;
+        }
         $admin->update($data);
         success();
 
