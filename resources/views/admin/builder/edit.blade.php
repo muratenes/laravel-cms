@@ -83,11 +83,10 @@
                                         <h5><strong>{{ $keyModule }}</strong></h5>
 
                                         @foreach($item->modules[$keyModule] as $subKey => $subValue)
-                                            <div class="form-group col-md-2">
+                                            <div class="form-group col-md-{{ is_bool($subValue) ? 2 : 2 }} ">
                                                 @php
                                                     $subName = $name.'['.$subKey.']';
                                                 @endphp
-
                                                 @if (is_bool($subValue))
                                                     <input type="hidden" name="{{ $subName }}" value="0">
                                                     <label for=""> {{ $subKey }}</label><br>
@@ -116,7 +115,7 @@
                                 @php
                                     $name = "image_quality[{$key}]"
                                 @endphp
-                                <x-input :name="$name" type="number" :label="$key" width="6" :value="$image" max="100" help="Resim kalitesidir. boş bırakılırsa resim ölçeklendirmez"/>
+                                <x-input :name="$name" type="number" :label="$key" width="3" :value="$image" max="100"/>
                             @endforeach
                         </div>
                     </div>
