@@ -48,9 +48,9 @@ class BuilderController extends AdminController
                     $data['modules'][$index][$subIndex] = $value;
                 }
             }
-            $data['modules_status'][$index] = (bool)$status;
+//            $data['modules'][$index] = (bool)$status;
         }
-//        dd($data['modules']['contact']);
+        dd($data);
         $admin->update($data);
         success();
 
