@@ -23,7 +23,7 @@ class Select extends Component
      * @param string $key
      * @param string $optionValue
      */
-    public function __construct($name,string $label = '', string $value = '', array $options = [], string $key = 'id', string $optionValue = 'title')
+    public function __construct($name, $label = '', $value = '', $options = [], $key = 'id', $optionValue = 'title')
     {
         $this->name = $name;
         $this->value = $value;
