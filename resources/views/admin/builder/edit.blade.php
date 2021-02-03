@@ -83,13 +83,13 @@
                                         <h5><strong>----{{ mb_strtoupper($keyModule) }}-----</strong></h5>
 
                                         @foreach($item->modules[$keyModule] as $subKey => $subValue)
-                                            <div class="form-group col-md-{{ is_bool($subValue) ? 2 : (is_array($subValue) ? 5 : 3)  }} ">
+                                            <div class="form-group col-md-{{ is_bool($subValue) ? 1 : (is_array($subValue) ? 5 : 3)  }} ">
                                                 @php
                                                     $subName = $name.'['.$subKey.']';
                                                 @endphp
                                                 @if (is_bool($subValue))
                                                     <input type="hidden" name="{{ $subName }}" value="0">
-                                                    <label for=""> {{ $subKey }}</label><br>
+                                                    <label for="" style="font-size: 12px"> {{ $subKey }}</label><br>
                                                     <input type="checkbox" name="{{ $subName }}" {{ $subValue == 1 ? 'checked' : '' }}>
                                                 @elseif (is_array($subValue))
                                                     <x-input :name="$subName" :label="$subKey" width="12" :value="json_encode($subValue)"/>
