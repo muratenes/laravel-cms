@@ -15,7 +15,7 @@ class Menu extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(self::class);
+        return $this->belongsTo(Menu::class);
     }
 
     /**

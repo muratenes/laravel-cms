@@ -25,14 +25,7 @@ class CreateMenusTable extends Migration
             $table->foreign('parent_id')->references('id')->on('menus');
         });
 
-        Schema::create('menus_descriptions', function (Blueprint $table) {
-            $table->smallIncrements('id');
-            $table->unsignedSmallInteger('menu_id');
-            $table->string('title', 40);
-            $table->string('href', 255)->nullable();
 
-            $table->foreign('menu_id')->references('id')->on('menus');
-        });
     }
 
     /**
@@ -42,7 +35,6 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus_descriptions');
         Schema::dropIfExists('menus');
     }
 }
