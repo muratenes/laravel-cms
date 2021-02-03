@@ -25,16 +25,16 @@
                 <div class="box-body table-responsive">
                     <table class="table table-hover table-bordered" id="serviceTable">
                         <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Başlık</th>
-                                <th>Link</th>
-                                <th>Üst Menü</th>
-                                <th>Sıra</th>
-                                <th>Modül</th>
-                                <th>Durum</th>
-                                <th>#</th>
-                            </tr>
+                        <tr>
+                            <th>Id</th>
+                            <th>Başlık</th>
+                            <th>Link</th>
+                            <th>Üst Menü</th>
+                            <th>Sıra</th>
+                            <th>Modül</th>
+                            <th>Durum</th>
+                            <th>#</th>
+                        </tr>
                         </thead>
                         <tbody>
                         @foreach($list as $l)
@@ -42,13 +42,9 @@
                                 <td>{{ $l ->id }}</td>
                                 <td><a href="{{ route('admin.builder.menus.edit',$l->id) }}"> {{ $l->title }}</a></td>
                                 <td>{{ $l->href}}</td>
-                                <td>
-                                    @if($l->image)
-                                        <a href="{{ imageUrl('public/banners', $l->image) }}"><i class="fa fa-image"></i></a>
-                                    @endif
-                                </td>
-                                <td>{{ $l -> link}}</td>
-                                <th><img src="{{ langIcon($l->lang) }}" alt=""></th>
+                                <td>{{ $l->parent ? $l->parent->title : '' }}</td>
+                                <td>{{ $l->order}}</td>
+                                <td>{{ $l->module}}</td>
                                 <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
                                 <td><a href="{{ route('admin.banners.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
                                             class="fa fa-trash text-red"></i></a></td>
