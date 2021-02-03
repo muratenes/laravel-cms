@@ -50,7 +50,7 @@ class BuilderController extends AdminController
             }
 //            $data['modules'][$index] = (bool)$status;
         }
-        dd($data);
+//        dd($data);
         $admin->update($data);
         success();
 
