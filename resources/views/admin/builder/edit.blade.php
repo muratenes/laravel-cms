@@ -69,9 +69,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="box box-primary">
+                    <div class="box box-primary collapsed-box">
                         <div class="box-header with-border">
                             <h3 class="box-title">Modüller <i class="fa fa-question-circle" title="Modüllerin içerisindeki konfigürasyonlar"></i></h3>
+                            <div class="pull-right box-tools">
+                                <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="" style="margin-right: 5px;" data-original-title="Collapse">
+                                    <i class="fa fa-plus"></i></button>
+                            </div>
                         </div>
                         <div class="box-body">
                             <div class="col-md-12">

@@ -118,7 +118,10 @@ class AdminSeeder extends Seeder
 
     private function menus()
     {
-        return [];
+        return [
+            ['title' => 'Anasayfa', 'href' => '/', 'status' => true, 'order' => 1, 'module' => null],
+            ['title' => 'Hakkımızda', 'href' => '/hakkimizda', 'status' => true, 'order' => 2, 'module' => null],
+        ];
     }
 
     private function moduleStatus()
