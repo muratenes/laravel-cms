@@ -16,7 +16,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $list = Menu::orderBy('title')->with(['children', 'parent'])->whereNull('parent_id')->paginate(100);
+        $list = Menu::orderBy('order')->with(['children', 'parent'])->whereNull('parent_id')->paginate(100);
 
         return view('admin.builder.menus.list', compact('list'));
     }

@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Hizmetler/Oteller')
+@section('title',__('admin.navbar.menu'))
 @section('content')
     <input type="hidden" value="/storage/services/" id="imagePrefix">
     <div class="box box-default">
@@ -40,12 +40,12 @@
                         @foreach($list as $l)
                             <tr>
                                 <td>{{ $l ->id }}</td>
-                                <td><a href="{{ route('admin.builder.menus.edit',$l->id) }}"> {{ $l->title }}</a></td>
+                                <td><b><a href="{{ route('admin.builder.menus.edit',$l->id) }}"> {{ $l->title }}</a></b></td>
                                 <td>{{ $l->href}}</td>
                                 <td>{{ $l->parent ? $l->parent->title : '' }}</td>
                                 <td>{{ $l->order}}</td>
                                 <td>{{ $l->module}}</td>
-                                <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
+                                <td><i class="fa fa-{{ $l -> status == false ? 'times text-red' : 'check text-green' }}"></i></td>
                                 <td><a href="{{ route('admin.builder.menus.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
                                             class="fa fa-trash text-red"></i></a></td>
                             </tr>
@@ -57,7 +57,7 @@
                                     <td>{{ $child->parent ? $child->parent->title : '' }}</td>
                                     <td>{{ $child->order}}</td>
                                     <td>{{ $child->module}}</td>
-                                    <td><i class="fa fa-{{ $child -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
+                                    <td><i class="fa fa-{{ $child -> status == false ? 'times text-red' : 'check text-green' }}"></i></td>
                                     <td><a href="{{ route('admin.builder.menus.delete',$child->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
                                                 class="fa fa-trash text-red"></i></a></td>
                                 </tr>
