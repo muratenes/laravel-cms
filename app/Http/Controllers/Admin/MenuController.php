@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +16,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $list = Menu::orderBy('title')->paginate(100);
+        $list = Menu::orderBy('title')->with(['children', 'parent'])->whereNull('parent_id')->paginate(100);
 
         return view('admin.builder.menus.list', compact('list'));
     }
@@ -23,56 +24,62 @@ class MenuController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return view('admin.builder.menus.create',[
+            'items' => Menu::orderBy('title')->get()->toArray(),
+            'modules' => Menu::MODULES,
+            'item' => new Menu()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['status'] = activeStatus('status');
+        $item = Menu::create($data);
+        success();
+
+        return redirect(route('admin.builder.menus.edit', $item->id));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param Menu $item
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Menu $item)
     {
-        //
+        $items = Menu::orderBy('title')->get()->toArray();
+        $modules = Menu::MODULES;
+        return view('admin.builder.menus.create', compact('item', 'items', 'modules'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Menu $item
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Menu $item)
     {
-        //
+        $data = $request->all();
+        $data['status'] = activeStatus('status');
+        $item->update($data);
+        success();
+
+        return back();
     }
 
     /**

@@ -67,6 +67,7 @@ return [
         'product_brands' => 'Ürün Markaları',
         'product_companies' => 'Ürün Firmaları',
         'faq' => 'Sık Sorulan Sorular',
+        'menu' => 'Menü',
     ],
     // MODULES
     'modules' => [

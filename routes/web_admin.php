@@ -38,10 +38,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::group(['prefix' => 'menus/'], function () {
                 Route::get('/', 'MenuController@index')->name('admin.builder.menus');
                 Route::get('create', 'MenuController@create')->name('admin.builder.menus.new');
-                Route::get('edit/{id}', 'MenuController@newOrEditUser')->name('admin.builder.menus.edit');
-                Route::put('update/{menu:id}', 'MenuController@update')->name('admin.builder.menus.update');
+                Route::get('edit/{item:id}', 'MenuController@edit')->name('admin.builder.menus.edit');
+                Route::put('update/{item:id}', 'MenuController@update')->name('admin.builder.menus.update');
                 Route::post('store', 'MenuController@store')->name('admin.builder.menus.store');
-                Route::get('delete/{menu:id}', 'MenuController@deleteUser')->name('admin.builder.menus.delete');
+                Route::get('delete/{item:id}', 'MenuController@deleteUser')->name('admin.builder.menus.delete');
             });
         });
 

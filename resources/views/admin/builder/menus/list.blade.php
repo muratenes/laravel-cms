@@ -46,9 +46,22 @@
                                 <td>{{ $l->order}}</td>
                                 <td>{{ $l->module}}</td>
                                 <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
-                                <td><a href="{{ route('admin.banners.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
+                                <td><a href="{{ route('admin.builder.menus.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
                                             class="fa fa-trash text-red"></i></a></td>
                             </tr>
+                            @foreach($l->children as $child)
+                                <tr>
+                                    <td class="">{{ $child ->id }}</td>
+                                    <td> &nbsp;&nbsp; <i class="fa fa-angle-double-right"></i> <a href="{{ route('admin.builder.menus.edit',$child->id) }}"> {{ $child->title }}</a></td>
+                                    <td>{{ $child->href}}</td>
+                                    <td>{{ $child->parent ? $child->parent->title : '' }}</td>
+                                    <td>{{ $child->order}}</td>
+                                    <td>{{ $child->module}}</td>
+                                    <td><i class="fa fa-{{ $child -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
+                                    <td><a href="{{ route('admin.builder.menus.delete',$child->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
+                                                class="fa fa-trash text-red"></i></a></td>
+                                </tr>
+                            @endforeach
                         @endforeach
                         </tbody>
                     </table>

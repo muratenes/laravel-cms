@@ -7,7 +7,12 @@
             <option value="">Lütfen Seçiniz</option>
         @endif
         @foreach($options as $option)
-            <option value="{{ $option[$key] }}" {{ $value == $option[$key] ? 'selected' : '' }}> {{ $option[$optionValue] }}</option>
+            @isset ($attributes['nokey'])
+                    <option value="{{ $option }}" {{ $value == $option ? 'selected' : '' }}> {{ $option }}</option>
+            @else
+                    <option value="{{ $option[$key] }}" {{ $value == $option[$key] ? 'selected' : '' }}> {{ $option[$optionValue] }}</option>
+            @endisset
+
         @endforeach
     </select>
 </div>

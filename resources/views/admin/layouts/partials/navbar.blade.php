@@ -139,7 +139,7 @@
         <!-- creator -->
             <li class="header">Creator</li>
             <li>
-                <a href="">
+                <a href="{{ route('admin.builder.menus') }}">
                     <i class="fa fa-wrench"></i> Menü
                 </a>
             </li>
