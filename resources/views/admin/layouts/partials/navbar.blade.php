@@ -145,7 +145,7 @@
             </li>
             <li>
                 <a href="{{ route('admin.builder.edit') }}">
-                    <i class="fa fa-gavel"></i> Tema
+                    <i class="fa fa-gavel"></i> Tema & Admin
                 </a>
             </li>
 

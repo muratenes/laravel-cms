@@ -35,6 +35,9 @@ class BuilderController extends AdminController
         foreach ($data['modules_status'] as $index => $status) {
             $data['modules_status'][$index] = (bool)$status;
         }
+        foreach (['multi_lang', 'multi_currency', 'force_lang_currency'] as $check) {
+            $data[$check] = activeStatus($check);
+        }
         foreach ($data['modules'] as $index => $status) {
             foreach ($data['modules'][$index] as $subIndex => $value) {
                 $isStringArray = stripos($value, "|") > 0;
