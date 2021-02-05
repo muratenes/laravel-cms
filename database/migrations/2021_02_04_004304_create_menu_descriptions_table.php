@@ -15,7 +15,7 @@ class CreateMenuDescriptionsTable extends Migration
     {
         Schema::create('menu_descriptions', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->string('title', 40);
+            $table->string('title', 40)->nullable();
             $table->string('href', 255)->nullable();
             $table->unsignedTinyInteger('lang')->default(\App\Models\Ayar::LANG_TR);
 

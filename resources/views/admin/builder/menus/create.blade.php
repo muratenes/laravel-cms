@@ -14,32 +14,79 @@
         </div>
     </div>
     <div class="row">
-        <form role="form" method="POST" action="{{ $item->id != null ? route('admin.builder.menus.update',$item->id) : route('admin.builder.menus.store') }}" id="form" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            @method($item->id ? 'PUT' : 'POST')
         <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Menu Detay</h3>
-                    </div>
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary no-border">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab_category_default_language" data-toggle="tab">
+                                <img src="{{ langIcon(defaultLangID()) }}"/>
+                            </a>
+                        </li>
+                        @foreach($item->descriptions as $index => $description)
+                            <li>
+                                <a href="#tab_category_{{ $index }}" data-toggle="tab">
+                                    <img src="{{ langIcon($description->lang) }}"/>
+                                </a>
+                            </li>
+                        @endforeach
+                        <li class="pull-right header small" style="font-size:14px"> Menü Detay</li>
 
-                    <div class="box-body">
-                        <div class="row">
-                            <x-input name="title" label="Başlık" width="3" :value="$item->title" required maxlength="255"/>
-                            <x-input name="href" label="Yönlendir" width="3" :value="$item->href" maxlength="255" placeholder="Yönlenecek Url"/>
-                            <x-input name="order" label="Sıra" width="1" :value="$item->order" max="255"/>
-                            <x-input name="status" type="checkbox" label="Aktif Mi ?" width="1" :value="$item->status" class="minimal"/>
-                            <x-select name="parent_id" label="Üst Menü" :options="$items" :value="$item->parent_id"/>
-                            <x-select name="module" label="Modül" :options="$modules" :value="$item->module" nokey />
+                    </ul>
+                    <form role="form" method="POST" action="{{ $item->id != null ? route('admin.builder.menus.update',$item->id) : route('admin.builder.menus.store') }}" id="form" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        @method($item->id ? 'PUT' : 'POST')
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_category_default_language">
+                                <div class="box-body">
+                                    <x-input name="title" label="Başlık" width="3" :value="$item->title" required maxlength="255"/>
+                                    <x-input name="href" label="Yönlendir" width="3" :value="$item->href" maxlength="255" placeholder="Yönlenecek Url"/>
+                                    <x-input name="order" label="Sıra" width="1" :value="$item->order" max="255"/>
+                                    <x-input name="status" type="checkbox" label="Aktif Mi ?" width="1" :value="$item->status" class="minimal"/>
+                                    <x-select name="parent_id" label="Üst Menü" :options="$items" :value="$item->parent_id"/>
+                                    <x-select name="module" label="Modül" :options="$modules" :value="$item->module" nokey />
+                                </div>
+                                <!-- /.box-body -->
+
+                                <div class="box-footer text-right">
+                                    <button type="submit" class="btn btn-success">Kaydet</button>
+                                </div>
+
+                            </div>
+                            <!-- /.tab-pane -->
+                            @foreach($item->descriptions as $index => $description)
+                                <div class="tab-pane" id="tab_category_{{ $index }}">
+                                    <div class="box-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3">
+                                                <label>Başlık</label>
+                                                <input type="text" class="form-control" name="title_{{ $description->lang }}" placeholder="Kategori başlık"
+                                                       value="{{ old("title_{{ $description->lang }", $description->title) }}">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>Yönlendir</label>
+                                                <input type="text" class="form-control" name="href_{{ $description->lang }}" placeholder="Yönlenecek Url"
+                                                       value="{{ old("href_{{ $description->lang }", $description->href) }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                    </div>
-                    <div class="box-footer text-right">
-                        <button type="submit" class="btn btn-success">Kaydet</button>
-                    </div>
+                    </form>
+
+
+                    <!-- /.tab-pane -->
                 </div>
+                <!-- /.tab-content -->
             </div>
-        </form>
+            <!-- /.box-header -->
+            <!-- form start -->
+
+        </div>
+        <!-- /.box -->
+
     </div>
 @endsection

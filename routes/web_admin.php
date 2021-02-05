@@ -41,7 +41,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::get('edit/{item:id}', 'MenuController@edit')->name('admin.builder.menus.edit');
                 Route::put('update/{item:id}', 'MenuController@update')->name('admin.builder.menus.update');
                 Route::post('store', 'MenuController@store')->name('admin.builder.menus.store');
-                Route::get('delete/{item:id}', 'MenuController@deleteUser')->name('admin.builder.menus.delete');
+                Route::get('delete/{item:id}', 'MenuController@destroy')->name('admin.builder.menus.delete');
             });
         });
 

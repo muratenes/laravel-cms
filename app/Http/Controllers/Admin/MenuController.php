@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Menu;
+use App\Models\Builder\MenuDescription;
 use Illuminate\Http\Request;
 
-class MenuController extends Controller
+class MenuController extends AdminController
 {
 
     /**
@@ -16,7 +17,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $list = Menu::orderBy('order')->with(['children', 'parent'])->whereNull('parent_id')->paginate(100);
+        $list = Menu::orderBy('order')->with(['children', 'parent', 'descriptions'])->whereNull('parent_id')->paginate(100);
 
         return view('admin.builder.menus.list', compact('list'));
     }
@@ -28,7 +29,7 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('admin.builder.menus.create',[
+        return view('admin.builder.menus.create', [
             'items' => Menu::orderBy('title')->get()->toArray(),
             'modules' => Menu::MODULES,
             'item' => new Menu()
@@ -74,9 +75,10 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $item)
     {
-        $data = $request->all();
+        $data = $request->only(['title', 'href', 'order', 'parent_id', 'module']);
         $data['status'] = activeStatus('status');
         $item->update($data);
+        $this->syncLanguages($request, $item);
         success();
 
         return back();
@@ -85,11 +87,37 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Menu $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Menu $item)
     {
-        //
+        $item->delete();
+        success();
+
+        return back();
+    }
+
+    /**
+     * @param Request $request
+     * @param Menu $item
+     */
+    private function syncLanguages(Request $request, Menu $item)
+    {
+        foreach ($this->otherActiveLanguages() as $language) {
+            if ($request->has("title_" . $language[0])) {
+                $titleLang = $request->get("title_$language[0]");
+                $hrefLang = $request->get("href_$language[0]");
+                MenuDescription::updateOrCreate(
+                    ['lang' => $language[0], 'menu_id' => $item->id],
+                    ['title' => $titleLang, 'href' => $hrefLang]
+                );
+            } else {
+                MenuDescription::create([
+                    'lang' => $language[0],
+                    'menu_id' => $item->id
+                ]);
+            }
+        }
     }
 }
