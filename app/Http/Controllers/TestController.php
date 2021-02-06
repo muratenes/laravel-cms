@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\NewOrderAddedJob;
 use App\Mail\Order\OrderCreateadMail;
+use App\Models\Builder\Menu;
 use App\Models\Sepet;
 use App\Models\SepetUrun;
 use App\Models\Siparis;

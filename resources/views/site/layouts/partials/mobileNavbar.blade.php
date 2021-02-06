@@ -7,7 +7,6 @@
             <ul class="mobile-menu">
                 <li class="active"><a href="{{ route('homeView') }}">Anasayfa</a></li>
                 @foreach($cacheCategories as $index=>$cat)
-
                     <li>
                         <a href="{{ route('categoryDetail',$cat->slug) }}">{{ $cat->title }}</a>
                         @if(count($cat->sub_categories) > 0)

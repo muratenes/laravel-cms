@@ -19,7 +19,7 @@
                             {{--                            <li><a href="blog.html">Blog</a></li>--}}
                             <li><a href="{{ route('iletisim') }}">Iletisim</a></li>
                             <li>
-                               <a href="{{ route('home.setLocale','en') }}">English</a>
+                                <a href="{{ route('home.setLocale','en') }}">English</a>
                                 <a href="{{ route('home.setLocale','tr') }}">Turkish</a>
                                 <a href="{{ route('home.setLocale','de') }}">Germany</a>
                             </li>
@@ -140,6 +140,27 @@
             <nav class="main-nav">
                 <ul class="menu sf-arrows">
                     <li class="active"><a href="{{ route('homeView') }}">{{ __('lang.home') }}</a></li>
+                    @foreach($menus as $menu)
+                        <li class="megamenu-container">
+                            <a href="">{{ $menu->lang['title'] }}</a>
+                            @if (count($menu->children))
+                                <div class="megamenu">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <ul>
+                                                    @foreach($menu->children as $child)
+                                                        <li><a href="{{ $child->href }}">{{ $child->lang['title'] }} |</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                        </li>
+                    @endforeach
                     @foreach($cacheCategories as $index=>$cat)
                         <li class="megamenu-container">
                             <a href="{{ route('category.detail',$cat->slug) }}" class="{{ count($cat->sub_categories)>0 ? 'sf-with-ul' : '' }}">{{ $cat->title_lang }}</a>
