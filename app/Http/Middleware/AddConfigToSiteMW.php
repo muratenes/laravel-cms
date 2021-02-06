@@ -18,7 +18,7 @@ class AddConfigToSiteMW
     public function handle($request, Closure $next)
     {
 
-        $menu = Menu::where(['parent_id' => null, 'status' => true])->with('children:id,title,href,parent_id')->get(); // todo : get from cache
+        $menu = Menu::where(['parent_id' => null, 'status' => true])->with('children:id,title,href,parent_id')->get();
         View::share('menus', $menu);
 
         return $next($request);
