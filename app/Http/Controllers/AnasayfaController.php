@@ -9,7 +9,6 @@ use App\Models\Kategori;
 use App\Models\Product\Urun;
 use App\Models\Sepet;
 use App\Models\SSS;
-use App\Models\Vehicles\AracMarka;
 use App\Repositories\Interfaces\KampanyaInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\SepetSupportTrait;
@@ -32,11 +31,10 @@ class AnasayfaController extends Controller
 
     public function index()
     {
-        $categories = Kategori::all();
         $banners = Banner::whereActive(true)->take(6)->orderByDesc('id')->get();
-        $camps = $this->_campService->getLatestActiveCampaigns(3);
+        $camps = []; // $this->_campService->getLatestActiveCampaigns(3);
 
-        return view("site.index", compact('categories', 'banners', 'camps'));
+        return view("site.index", compact('banners', 'camps'));
     }
 
     /**

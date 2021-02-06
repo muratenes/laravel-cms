@@ -58,9 +58,12 @@
                                 <select id="cat" name="cat">
                                     <option value="">Tüm Kategoriler</option>
                                     @foreach($cacheCategories as $cat)
-                                        <option value="{{$cat->id}}" {{ old('cat') == $cat->id ? 'selected' : '' }}>{{$cat->title_lang}}</option>
-                                        @foreach($cat->sub_categories as $sub)
-                                            <option value="{{$sub->id}}" {{ old('cat') == $sub->id ? 'selected' : '' }}> &nbsp;-{{$sub->title_lang}}</option>
+                                        <option value="{{ $cat['id'] }}" {{ old('cat') == $cat['id'] ? 'selected' : '' }}>
+                                            {{$cat['lang']['title'] }}
+{{--                                            {{ $cat['title'] }}--}}
+                                        </option>
+                                        @foreach($cat['sub_categories'] as $sub)
+                                            <option value="{{ $sub['id'] }}" {{ old('cat') == $sub['id'] ? 'selected' : '' }}> &nbsp;-{{$sub['lang']['title'] }}</option>
                                         @endforeach
                                     @endforeach
                                 </select>
@@ -143,7 +146,7 @@
                     @if (isset($menus))
                         @foreach($menus as $menu)
                             <li class="megamenu-container">
-                                <a href="">{{ $menu->lang['title'] }}</a>
+                                <a href="">{{ $menu->title }}</a>
                                 @if (count($menu->children))
                                     <div class="megamenu">
                                         <div class="row">
@@ -151,7 +154,7 @@
                                                 <div class="row">
                                                     <ul>
                                                         @foreach($menu->children as $child)
-                                                            <li><a href="{{ $child->href }}">{{ $child->lang['title'] }} |</a></li>
+                                                            <li><a href="{{ $child->href }}">{{ $child->title }} |</a></li>
                                                         @endforeach
                                                     </ul>
                                                 </div>
@@ -164,7 +167,7 @@
                     @endif
                     @foreach($cacheCategories as $index=>$cat)
                         <li class="megamenu-container">
-                            <a href="{{ route('category.detail',$cat->slug) }}" class="{{ count($cat->sub_categories)>0 ? 'sf-with-ul' : '' }}">{{ $cat->title_lang }}</a>
+                            <a href="{{ route('category.detail',$cat->slug) }}" class="{{ count($cat->sub_categories)>0 ? 'sf-with-ul' : '' }}">{{ $cat->lang['title'] }}</a>
                             @if(count($cat->sub_categories) > 0)
                                 <div class="megamenu">
                                     <div class="row">
@@ -173,11 +176,11 @@
                                                 @foreach($cat->sub_categories as $sub)
                                                     <div class="col-lg-4">
                                                         <div class="menu-title">
-                                                            <a href="{{ route('category.detail',$sub->slug) }}">{{ $sub->title_lang }}</a>
+                                                            <a href="{{ route('category.detail',$sub->slug) }}">{{ $sub->lang['title'] }}</a>
                                                         </div>
                                                         <ul>
                                                             @foreach($sub->sub_categories as $sub2)
-                                                                <li><a href="{{ route('category.detail',$sub2->slug) }}">{{ $sub2->title_lang }}</a></li>
+                                                                <li><a href="{{ route('category.detail',$sub2->slug) }}">{{ $sub2->lang['title'] }}</a></li>
                                                             @endforeach
                                                         </ul>
                                                     </div>

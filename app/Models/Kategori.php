@@ -14,7 +14,7 @@ class Kategori extends Model
     use SoftDeletes;
     use CategoryLanguageAttributeConcern;
 
-    protected $appends = ['title_lang', 'spot_lang'];
+    protected $appends = ['lang'];
 
     const MODULE_NAME = 'category';
 
@@ -57,5 +57,17 @@ class Kategori extends Model
         return $this->belongsToMany(Urun::class, 'kategori_urun', 'category_id', 'product_id');
     }
 
+
+    /**
+     * mevcut dildeki kategoriyi getirir.
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|mixed|object
+     */
+    public function getLangAttribute()
+    {
+        if (! $this->getRelationValue('descriptions')) return $this->getOriginal();
+        $langDescription = $this->getRelation('descriptions')->firstWhere('lang','=',curLangId());
+
+        return $langDescription ? array_merge($this->getOriginal(), $langDescription->getOriginal()) : $this->getOriginal();
+    }
 
 }

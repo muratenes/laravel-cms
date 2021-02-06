@@ -2,12 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Admin;
-use App\User;
+
 use App\Listeners\LoggingListener;
 use App\Models\Auth\Role;
 use App\Models\Ayar;
-use App\Models\Kategori;
 use App\Models\Siparis;
 use App\Models\Product\Urun;
 use App\Observers\OrderObserver;
@@ -26,12 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(['site.*'], function ($view) {
-            $site = Ayar::getCache();
-            $user = \Auth::user();
-            $cacheCategories = Kategori::where(['active' => 1, 'parent_category_id' => null])->get();
-            $view->with(compact('site', 'cacheCategories','user'));
-        });
         View::composer(['admin.*'], function ($view) {
             $unreadCommentsCount = 0;
             $lastUnreadComments = [];
