@@ -14,6 +14,9 @@ class BuilderController extends AdminController
 
     public function edit()
     {
+        if (config('admin.config_driver') == 'file') {
+            error('Config loaded from file,you can change from .env file');
+        }
         $admin = Admin::first();
         $theme = $admin['site']['theme'];
 

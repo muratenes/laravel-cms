@@ -48,7 +48,6 @@ class AdminSeeder extends Seeder
             'gallery' => null,
             'gallery_item' => 60,
         ];
-        $data['menus'] = $this->menus();
 //        dd($data);
         $admin = \App\Models\Admin::create($data);
         \App\Models\Admin::setCache($admin);
@@ -64,6 +63,10 @@ class AdminSeeder extends Seeder
                 'footer' => 'footer_1.blade.php',
                 'contact' => 'contact_1.blade.php',
             ],
+            'menu' => [
+                ['title' => 'Anasayfa', 'href' => '/', 'status' => true, 'order' => 1, 'module' => null],
+                ['title' => 'Hakkımızda', 'href' => '/hakkimizda', 'status' => true, 'order' => 2, 'module' => null],
+            ]
         ];
     }
 

@@ -126,11 +126,14 @@ function error($message = null)
 function admin($value)
 {
     if (!$value) return null;
+    if (config('admin.config_driver') === 'file') {
+        return config("admin." . $value);
+    }
 
-    $values = explode('.',$value);
+    $values = explode('.', $value);
     $admin = Admin::getCache()->toArray();
     $lastVal = null;
-    foreach ($values as $index => $value){
+    foreach ($values as $index => $value) {
         $lastVal = $admin[$value] ?? $lastVal[$value] ?? $admin[$value];
     }
     return $lastVal;

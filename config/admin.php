@@ -2,6 +2,9 @@
 
 // admin constants
 $data = [
+    // LOAD CONFIG FROM DATABASE OR FILE
+    'config_driver' => env('CONFIG_DRIVER', 'file'),
+
     'title' => 'CMS Yönetim',
     'short_title' => 'CMS',
     'creator' => 'NeAjans',
@@ -9,7 +12,7 @@ $data = [
     'version' => 'v1.1.0',
     'max_upload_size' => 3024,
     // module status
-    'module_status' => [
+    'modules_status' => [
         'banner' => true,
         'blog' => true,
         'coupon' => true,
@@ -28,48 +31,19 @@ $data = [
         'user' => true,
         'our_team' => false
     ],
-    'blog' => [
-        'use_tags' => true,
-        'use_image' => true,
-        'use_language' => false,
-        'use_categories' => false
-    ],
-    'product' => [
-        // sub modules
-        'use_comment' => true,
-        'use_attribute' => true, // product detail ex: color - green
-        'use_category' => true,
-        'multiple_category' => false,
-        'use_brand' => true,
-        'use_companies' => true,
-        'use_gallery' => true,
-        // features
-        'features' => true,
-        'variants' => true,
-        'gallery' => true,
-        'auto_code' => false, // generate random auto code
-        'qty' => true,
-        'use_image' => true,
-        'use_tags' => true,
-        'buying_price' => true,
-        'prices' => true,
-        'cargo_price' => true,
-        // attributes
-        'max_sub_attribute_count' => 10
-    ],
     'use_album_gallery' => false,
 
 
     // multi lang
-    'MULTI_LANG' => true,
+    'multi_lang' => true,
     'multi_currency' => true,
     'default_language' => 1, // Ayar::LANG_TR
     'default_currency' => 1, // Ayar::CURRENCY_TL
     'default_currency_prefix' => 'tl', // must be : tl,usd,eur
     'force_lang_currency' => true, // para birimini dile göre varsayılanı seçmeye zorlar
 
-    // index page configs
-    'homepage' => [
+    // DASHBOARD
+    'dashboard' => [
         'show_products' => true,
         'show_orders' => true,
         'show_order_widgets' => true,
@@ -108,8 +82,25 @@ $data = [
     'store_email' => 'customer@example.com',
     'store_password' => 'customer!1ıDnsnc',
 
+
+    // SITE CONFIG
+    'site' => [
+        'theme' => [
+            'name' => 'theme_1',
+            'banner' => 'banner_1.blade.php',
+            'header' => 'header_1.blade.php',
+            'footer' => 'footer_1.blade.php',
+            'contact' => 'contact_1.blade.php',
+        ],
+        'menu' => [
+            ['title' => 'Anasayfa', 'href' => '/', 'status' => true, 'order' => 1, 'module' => null],
+            ['title' => 'Hakkımızda', 'href' => '/hakkimizda', 'status' => true, 'order' => 2, 'module' => null],
+        ]
+    ]
+
 ];
-$data['menus'] =   [
+
+$data['menus'] = [
     0 => [
         'title' => 'Modüller',
         'user' => [
@@ -329,5 +320,50 @@ $data['menus'] =   [
         ],
     ],
 
-];;
+];
+$data['modules'] = [
+    'product' => [
+        'comment' => true,
+        'attribute' => true, // product detail ex: color - green
+        'category' => true,
+        'multiple_category' => false,
+        'brand' => true,
+        'company' => true,
+        // features
+        'feature' => false,
+        'variant' => false,
+        'gallery' => true,
+        'auto_code' => false, // generate random auto code
+        'qty' => false,
+        'image' => true,
+        'tag' => false,
+        'buying_price' => true,
+        'prices' => false,
+        'cargo_price' => true,
+        // attributes
+        'max_sub_attribute_count' => 10
+    ],
+    'blog' => [
+        'tag' => true,
+        'image' => true,
+        'language' => false,
+        'category' => false
+    ],
+    'order' => [
+        'iyzico_logs' => true,
+        'cargo' => true
+    ],
+    'contact' => [
+        'columns' => 'name|subject|email|phone|message',
+        'fields' => 'Başlık|Konu|Email|Telefon|Mesaj',
+        'validations' => [
+            'email' => 'required|max:100',
+            'name' => 'required|max:100',
+            'message' => 'required|max:250',
+            'phone' => 'required|max:30',
+        ],
+        'map' => true,
+        'form' => false
+    ]
+];
 return $data;
