@@ -23,8 +23,7 @@ class AddConfigToSiteMW
         $menu = Menu::where(['parent_id' => null, 'status' => true])->with('children:id,title,href,parent_id')->get();
         $site = Ayar::getCache();
         $user = \Auth::user();
-        $cacheCategories = Kategori::with(['descriptions','sub_categories.descriptions','sub_categories.sub_categories'])
-            ->where(['active' => 1, 'parent_category_id' => null])->get();
+        $cacheCategories = $this->getCategories();
 
         View::share('menus', $menu);
         View::share('site', $site);
@@ -32,5 +31,13 @@ class AddConfigToSiteMW
         View::share('cacheCategories', $cacheCategories);
 
         return $next($request);
+    }
+
+    private function getCategories()
+    {
+        return \Cache::remember('categories.all', 20, function () {
+            return Kategori::with(['descriptions', 'sub_categories.descriptions', 'sub_categories.sub_categories'])
+                ->where(['active' => 1, 'parent_category_id' => null])->get();
+        });
     }
 }
