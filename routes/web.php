@@ -25,7 +25,7 @@ Route::group(['middleware' => 'site.config'], function () {
     Route::post('referanslar', 'ReferenceController@list')->name('referanslar');
     Route::post('{content:slug}', 'IcerikYonetimController@detail')->name('content.detail');
     Route::post('referanslar/{reference:slug}', 'ReferenceController@detail')->name('referanslar.detail');
-    Route::post('galeri', 'GaleriController@detail')->name('gallery.list');
+    Route::get('galeri', 'GaleriController@detail')->name('gallery.list');
     Route::get('galeri/{gallery:slug}', 'GaleriController@detail')->name('gallery.detail');
     Route::get('haberler', 'BlogController@list')->name('blog.list');
     Route::get('haberler/{blog:slug}', 'BlogController@detail')->name('blog.detail');
