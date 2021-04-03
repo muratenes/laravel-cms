@@ -14,17 +14,12 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        PermissionRole::truncate();
-        Permission::truncate();
-        Role::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        DB::table('roles')->insert([
-            ['name' => 'super-admin'],
-            ['name' => 'store'],
-            ['name' => 'store-worker'],
-            ['name' => 'customer'],
-        ]);
+//        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+//        PermissionRole::truncate();
+//        Permission::truncate();
+//        Role::truncate();
+//        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->updateOrCreateRoles();
 
         $permission_ids = []; // an empty array of stored permission IDs
         // iterate though all routes
@@ -45,25 +40,40 @@ class RolesTableSeeder extends Seeder
                 $name = explode("\\", $controller);
                 $name = str_replace('Controller', '', end($name));
                 if (!$permission_check) {
-                    $permission = new Permission;
-                    $permission->controller = $controller;
-                    $permission->name = $name . '@' . $method;
-                    $permission->method = $method;
-                    $permission->save();
+                    $permission = Permission::firstOrCreate(
+                        ['name' => $name . '@' . $method],
+                        [
+                            'controller' => $controller,
+                            'method' => $method,
+                        ]
+                    );
                     // add stored permission id in array
                     $permission_ids[] = $permission->id;
                 }
             }
 
         }
-        // find admin role.
+        // SYNC ADMIN ROLES.
         $admin_role = Role::where('name', 'super-admin')->first();
-        // atache all permissions to admin role
-        $admin_role->permissions()->attach($permission_ids);
+        $adminPermissions = Permission::select('id')->whereNotIn('name', Permission::adminExcludePermissions())->get('id')->pluck('id')->toarray();
+        $admin_role->permissions()->sync($adminPermissions);
 
-        // customer roles
-        $justSuperAdminExcludedControllers = Permission::select('id')->whereNotIn('name',Permission::justSuperAdminAccessThisControllers())->get('id')->pluck('id')->toarray();
-        $customerRole = Role::where('name','customer')->first();
-        $customerRole->permissions()->attach($justSuperAdminExcludedControllers);
+        // SYNC STORE ROLES.
+        $storePermissions = Permission::select('id')->whereIn('name', Permission::storeRoles())->get('id')->pluck('id')->toarray();
+        $storeRole = Role::where('name', 'store')->first();
+        $storeRole->permissions()->sync($storePermissions);
+    }
+
+    private function updateOrCreateRoles()
+    {
+        $roles = [
+            ['name' => 'super-admin'],
+            ['name' => 'store'],
+            ['name' => 'store-worker'],
+            ['name' => 'company'],
+        ];
+        foreach ($roles as $role) {
+            Role::updateOrCreate(['name' => $role], $role);
+        }
     }
 }

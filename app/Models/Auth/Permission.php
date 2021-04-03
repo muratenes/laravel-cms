@@ -15,13 +15,58 @@ class Permission extends Model
         return $this->belongsToMany(Role::class);
     }
 
-    public static function justSuperAdminAccessThisControllers()
+
+    /**
+     * Role::STORE kontrol edebileceği roller
+     * @return string[]
+     */
+    public static function storeRoles()
     {
         return [
-            'Role@list',
-            'Role@newOrEditForm',
-            'Role@save',
-            'Role@delete'
+            'Anasayfa@index',
+            'Kullanici@login',
+            'Kullanici@logout',
+
+            // Service
+            'ServiceStore@index',
+            'Table@services',
+            'Service@services',
+            'Service@create',
+            'Service@update',
+            'Service@edit',
+            'Service@store',
+            'Service@destroy',
+            'Service@deleteImage',
+            'Service@appointments',
+            'Service@createStoreAppointment',
+            'Service@detail',
+            'Service@appointmentDetail',
+            'Service@updateStoreAppointment',
+            'Service@deleteStoreAppointment',
+
+            // ServiceComment
+            'ServiceComment@index',
+            'ServiceComment@edit',
+
+            // Tables
+            'Table@serviceComments'
+
+//            'Service@index',
+//            'CompanyService@index',
+//            'CompanyService@detail',
+//            'Table@companyServices',
+        ];
+    }
+
+    /**
+     * Süper admin görmemesi gereken izinler
+     * @return string[]
+     */
+    public static function adminExcludePermissions()
+    {
+        return [
+            'ServiceStore@index',
+//            'ServiceComment@index',
         ];
     }
 }
