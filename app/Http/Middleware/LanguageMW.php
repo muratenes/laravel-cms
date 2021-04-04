@@ -17,7 +17,7 @@ class LanguageMW
     public function handle($request, Closure $next)
     {
         $sessionValue = session()->get('locale', null);
-        if ($sessionValue && config('admin.MULTI_LANG')) {
+        if ($sessionValue && config('admin.multi_lang')) {
             App::setLocale($sessionValue);
         } else {
             App::setLocale(config('app.locale'));
