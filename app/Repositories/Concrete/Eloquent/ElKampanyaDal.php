@@ -1,9 +1,6 @@
 <?php namespace App\Repositories\Concrete\Eloquent;
 
-use App\Jobs\UpdateCompanyProductDiscountPriceByCategory;
 use App\Models\Kampanya;
-use App\Models\KampanyaKategori;
-use App\Models\KampanyaMarka;
 use App\Models\KampanyaUrun;
 use App\Models\Kategori;
 use App\Models\KategoriUrun;
@@ -48,6 +45,7 @@ class ElKampanyaDal implements KampanyaInterface
 
     public function getByColumn(string $field, $value, $columns = array('*'), $relations = null)
     {
+        // todo : remove
         return $this->model->getByColumn($field, $value, $columns, $relations);
     }
 
