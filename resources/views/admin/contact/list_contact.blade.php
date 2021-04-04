@@ -55,7 +55,7 @@
             },
             columns: [
                 {data: 'id', name: 'id'},
-                    @foreach(explode(',',admin('modules.contact.columns')) as $field)
+                    @foreach(explode('|',admin('modules.contact.columns')) as $field)
                 {
                     data: '{{ $field }}', name: '{{ $field }}'
                 },
