@@ -111,7 +111,8 @@ class SepetController extends Controller
                 'sub_total' => $this->getCardSubTotal(),
                 'total' => $this->getCartTotal(),
                 'cargo_price' => CartTrait::getCartTotalCargoAmount()
-            ]
+            ],
+            'html' => view('site.sepet.partials.basket-items')->render()
         ]);
 
     }
@@ -137,7 +138,8 @@ class SepetController extends Controller
                 'items' => $this->cartItems(),
                 'sub_total' => $this->getCardSubTotal(),
                 'total' => $this->getCartTotal()
-            ]
+            ],
+            'html' => view('site.sepet.partials.items')->render()
         ]);
 
     }
@@ -183,8 +185,9 @@ class SepetController extends Controller
                 'sub_total' => $this->getCardSubTotal(),
                 'total' => $this->getCartTotal(),
                 'cargo_price' => CartTrait::getCartTotalCargoAmount()
-            ]
-        ]);
+            ],
+            'html' => view('site.sepet.partials.items')->render()
+        ], __('lang.added_to_basket'));
     }
 
     /**
