@@ -90,7 +90,7 @@
                                     <option value="">---Kategori Seçiniz --</option>
                                     @foreach($categories as $cat)
                                         <option {{ collect(old('categories',$selected_categories))->contains($cat->id) ? 'selected' : '' }}
-                                                value="{{ $cat->id }}">{{ $cat->title }}</option>
+                                                value="{{ $cat->id }}">{{ $cat->title  }} {{ $cat->parent_category ? "({$cat->parent_category->title})" : '' }}</option>
                                     @endforeach
                                 </select>
                             </div>
