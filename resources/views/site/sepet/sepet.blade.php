@@ -31,8 +31,8 @@
                         <tbody id="sepetItemsContainer">
                         @if(cartItemCount() > 0)
                             @foreach(cartItems() as $cartItem)
-                                <tr class="product-row basketCartItem" data-value="{{$cartItem->rowId}}">
-                                    <input type="hidden" value="{{$cartItem->rowId}}" data-type="cartItemRow">
+                                <tr class="product-row basketCartItem" data-value="{{$cartItem->id}}">
+                                    <input type="hidden" value="{{$cartItem->id}}" data-type="cartItemRow">
                                     <td class="product-col">
                                         <figure class="product-image-container">
                                             <a href="{{ route('product.detail',$cartItem->attributes['product']['slug']) }}" class="product-image">
@@ -48,7 +48,7 @@
                                     <td>{{ $cartItem->price }} {{ currentCurrencySymbol() }}</td>
                                     <td>{{ $cartItem->attributes['cargo_price'] }} {{ currentCurrencySymbol() }}</td>
                                     <td>
-                                        <input class="vertical-quantity form-control" type="text" id="{{$cartItem->rowId}}" value="{{$cartItem->quantity}}">
+                                        <input class="vertical-quantity form-control" type="text" id="{{$cartItem->id}}" value="{{$cartItem->quantity}}">
                                     </td>
                                     <td><span class="itemTotalPrice">{{ getCartItemTotalByItem($cartItem)  }}</span> {{ currentCurrencySymbol() }}</td>
                                 </tr>
