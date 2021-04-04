@@ -45,6 +45,7 @@ class IcerikYonetimController extends AdminController
     {
         $request_data = $request->validated();
         $request_data['active'] = activeStatus();
+        $request_data['show_menu'] = activeStatus('show_menu');
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
         if ($id != 0) {
             $entry = $this->model->update($request_data, $id);

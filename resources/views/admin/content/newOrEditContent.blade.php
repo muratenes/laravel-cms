@@ -40,10 +40,11 @@
                                 @endif
                             </div>
 
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-1">
                                 <label for="exampleInputEmail1">Aktif Mi ?</label><br>
                                 <input type="checkbox" class="minimal" name="active" {{ old('active',$item->active) == 1 ? 'checked': '' }}>
                             </div>
+                            <x-input name="show_menu" type="checkbox" label="Menüde Göster ?" width="1" :value="$item->show_menu" class="minimal"/>
                             @if(config('admin.MULTI_LANG'))
                                 <div class="form-group col-md-2">
                                     <label for="exampleInputEmail1">Dil</label>
