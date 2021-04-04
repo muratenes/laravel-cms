@@ -52,6 +52,11 @@ class KategoriController extends AdminController
         $request_data = $request->only('title', 'parent_category_id', 'icon', 'spot', 'row');
         $request_data['active'] = activeStatus();
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request->title, $category_id);
+        if ($request_data['parent_category_id']) {
+            $parentCategory = Kategori::find($request_data['parent_category_id']);
+            $parentSlug = createSlugByModelAndTitle($this->model, $parentCategory->title, $request_data['parent_category_id']);
+            $request_data['slug'] = createSlugByModelAndTitle($this->model, $parentSlug . '-' . $request_data['slug'], $category_id);
+        }
         if ($category_id != 0) {
             $entry = $this->model->update($request_data, $category_id);
         } else {
