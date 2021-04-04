@@ -19,7 +19,7 @@ class CreateIcerikYonetimTable extends Migration
             $table->string('image', 200)->nullable();
             $table->string('slug', 130);
             $table->string('spot', 255)->nullable();
-            $table->unsignedInteger('parent')->nullable();
+            $table->unsignedInteger('parent_id')->nullable();
             $table->text('desc')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();

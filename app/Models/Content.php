@@ -19,7 +19,7 @@ class Content extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(Content::class, 'parent', 'id');
+        return $this->belongsTo(Content::class, 'parent_id', 'id');
     }
 
     /**
@@ -27,6 +27,6 @@ class Content extends Model
      */
     public function subContents()
     {
-        return $this->hasMany(Content::class, 'parent', 'id');
+        return $this->hasMany(Content::class, 'parent_id', 'id');
     }
 }
