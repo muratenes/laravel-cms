@@ -39,6 +39,8 @@ return [
     'description' => 'Açıklama',
     // NAVBAR
     'navbar' => [
+        'adverts' => 'Reklamlar',
+        'advert' => 'Reklam',
         'users' => 'Kullanıcılar',
         'role_management' => 'Rol Yönetimi',
         'banner' => 'Banner',

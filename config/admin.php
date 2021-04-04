@@ -61,6 +61,7 @@ $data = [
     ],
     // image quality %x if value is null image not be resized
     'image_quality' => [
+        'advert' => 70,
         'banner' => 90,
         'blog' => null,
         'our_team' => null,
@@ -130,6 +131,13 @@ $data['menus'] = [
             'title' => 'blog',
             'routeName' => 'admin.blog',
             'status' => 'modules_status.blog',
+        ],
+        'advert' => [
+            'icon' => 'fa fa-percent',
+            'permission' => 'Advert@index',
+            'title' => 'adverts',
+            'routeName' => 'admin.adverts.index',
+            'status' => 'modules_status.banner',
         ],
         'blog_category' => [
             'icon' => 'fa fa-align-center',

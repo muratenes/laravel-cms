@@ -33,5 +33,22 @@ return [
                 ['name' => 'title', 'component' => 'input', 'type' => 'text', 'label' => 'Başlık', 'width' => '3']
             ]
         ]
+    ],
+    'advert' => [
+        'columns' => [
+            ['label' => 'ID'],
+            ['label' => 'Başlık'],
+            ['label' => 'Alt Başlık'],
+            ['label' => 'Görsel'],
+            ['label' => 'Tür'],
+            ['label' => 'Dil'],
+            ['label' => 'Durum'],
+            ['label' => '#'],
+        ],
+        'detail' => [
+            'fields' => [
+                ['name' => 'title', 'component' => 'input', 'type' => 'text', 'label' => 'Başlık', 'width' => '3']
+            ]
+        ]
     ]
 ];

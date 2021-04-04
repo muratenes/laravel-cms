@@ -58,6 +58,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('sync-all-categories', 'KategoriController@syncParentCategoriesLanguages');
         });
 
+        // Adverts
+        Route::resource('adverts', 'AdvertController',['as' => 'admin']);
+
         //----- Admin/Products/..
         Route::group(['prefix' => 'product/'], function () {
             Route::get('/', 'UrunController@listProducts')->name('admin.products');
