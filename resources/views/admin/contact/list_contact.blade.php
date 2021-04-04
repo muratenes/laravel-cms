@@ -26,7 +26,7 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            @foreach(explode(',',admin('modules.contact.fields')) as $field)
+                            @foreach(explode('|',admin('modules.contact.fields')) as $field)
                                 <th>{{ $field  }}</th>
                             @endforeach
                             <th>Oluşturulma Tarihi</th>
