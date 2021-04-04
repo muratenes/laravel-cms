@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GalleryImages extends Model
+class GalleryImage extends Model
 {
     const MODULE_NAME = 'gallery_item';
     public $timestamps = false;

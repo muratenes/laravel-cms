@@ -14,11 +14,11 @@ class Gallery extends Model
 
     public function images()
     {
-        return $this->hasMany(GalleryImages::class, 'gallery_id', 'id')->orderByDesc('id');
+        return $this->hasMany(GalleryImage::class, 'gallery_id', 'id')->orderByDesc('id');
     }
 
     public function imagesCount()
     {
-        return $this->hasMany(GalleryImages::class, 'gallery_id', 'id')->count();
+        return $this->hasMany(GalleryImage::class, 'gallery_id', 'id')->count();
     }
 }

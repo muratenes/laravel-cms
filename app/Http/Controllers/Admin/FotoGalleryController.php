@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Content;
 use App\Models\Gallery;
-use App\Models\GalleryImages;
+use App\Models\GalleryImage;
 use App\Repositories\Interfaces\FotoGalleryInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class FotoGalleryController extends Controller
 {
@@ -69,7 +67,7 @@ class FotoGalleryController extends Controller
             ]);
             if (request()->hasFile('imageGallery')) {
                 foreach ($request->file('imageGallery') as $imageItem) {
-                    $uploadedPath = $this->uploadImage($imageItem, $request_data['title'], 'public/gallery/items', null, GalleryImages::MODULE_NAME);
+                    $uploadedPath = $this->uploadImage($imageItem, $request_data['title'], 'public/gallery/items', null, GalleryImage::MODULE_NAME);
                     $entry->images()->create([
                         'image' => $uploadedPath
                     ]);
@@ -90,7 +88,7 @@ class FotoGalleryController extends Controller
 
     public function deleteGalleryImage($id)
     {
-        $item = GalleryImages::findOrFail($id);
+        $item = GalleryImage::findOrFail($id);
         $imagePath = "public/gallery/items/{$item->image}";
         if (Storage::exists($imagePath)) {
             Storage::delete($imagePath);

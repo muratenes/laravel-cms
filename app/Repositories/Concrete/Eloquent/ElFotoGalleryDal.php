@@ -1,11 +1,9 @@
 <?php namespace App\Repositories\Concrete\Eloquent;
 
 use App\Models\Gallery;
-use App\Models\GalleryImages;
+use App\Models\GalleryImage;
 use App\Repositories\Interfaces\FotoGalleryInterface;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class ElFotoGalleryDal extends BaseRepository implements FotoGalleryInterface
 {
