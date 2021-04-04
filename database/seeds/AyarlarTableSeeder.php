@@ -32,7 +32,9 @@ class AyarlarTableSeeder extends Seeder
             $newConfig['lang'] = $language[0];
             $newConfig['cargo_price'] = random_int(1, 5) * 10;
             $newConfig['title'] = $language[1] . ' ' . $config['title'];
-            $data = Ayar::create($newConfig);
+            $data = Ayar::updateOrCreate([
+                'lang' => $language[0],
+            ], $newConfig);
             Ayar::setCache($data, $language[0]);
         }
 
