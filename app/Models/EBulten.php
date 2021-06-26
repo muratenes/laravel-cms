@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class EBulten extends Model
 {
-    protected $perPage = 20;
-    protected $table = "ebulten";
     public $timestamps = true;
     public $guarded = [];
+    protected $perPage = 20;
+    protected $table = 'ebulten';
 }

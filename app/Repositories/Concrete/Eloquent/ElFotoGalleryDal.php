@@ -1,7 +1,8 @@
-<?php namespace App\Repositories\Concrete\Eloquent;
+<?php
+
+namespace App\Repositories\Concrete\Eloquent;
 
 use App\Models\Gallery;
-use App\Models\GalleryImage;
 use App\Repositories\Interfaces\FotoGalleryInterface;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,7 +13,6 @@ class ElFotoGalleryDal extends BaseRepository implements FotoGalleryInterface
         parent::__construct($model);
     }
 
-
     public function delete($id): bool
     {
         $item = $this->find($id);
@@ -22,8 +22,7 @@ class ElFotoGalleryDal extends BaseRepository implements FotoGalleryInterface
                 \Storage::delete($image_path);
             }
         }
+
         return (bool) $item->delete();
     }
-
-
 }

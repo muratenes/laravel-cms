@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -14,20 +13,20 @@ class BuilderController extends AdminController
 
     public function edit()
     {
-        if (config('admin.config_driver') == 'file') {
+        if ('file' === config('admin.config_driver')) {
             error('Config loaded from file,you can change from .env file');
         }
         $admin = Admin::first();
         $theme = $admin['site']['theme'];
 
         return view('admin.builder.edit', [
-            'item' => Admin::first(),
+            'item'       => Admin::first(),
             'currencies' => $this->currencies(),
-            'themes' => array_map('basename', File::directories(resource_path('views/themes'))),
-            'banners' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/banner"))) : [],
-            'headers' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/header"))) : [],
-            'footers' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/footer"))) : [],
-            'contacts' => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/contact"))) : [],
+            'themes'     => array_map('basename', File::directories(resource_path('views/themes'))),
+            'banners'    => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/banner"))) : [],
+            'headers'    => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/header"))) : [],
+            'footers'    => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/footer"))) : [],
+            'contacts'   => $theme['name'] ? array_map('basename', File::files(resource_path("views/themes/{$theme['name']}/partials/contact"))) : [],
         ]);
     }
 
@@ -36,20 +35,20 @@ class BuilderController extends AdminController
         $data = $request->all();
         $admin = Admin::first();
         foreach ($data['modules_status'] as $index => $status) {
-            $data['modules_status'][$index] = (bool)$status;
+            $data['modules_status'][$index] = (bool) $status;
         }
         foreach (['multi_lang', 'multi_currency', 'force_lang_currency'] as $check) {
             $data[$check] = activeStatus($check);
         }
         foreach ($data['modules'] as $index => $status) {
             foreach ($data['modules'][$index] as $subIndex => $value) {
-                $isStringArray = stripos($value, "|") > 0;
-                if ($this->isJson($value) && !in_array($value, [0, 1])) {
+                $isStringArray = mb_stripos($value, '|') > 0;
+                if ($this->isJson($value) && ! \in_array($value, [0, 1], true)) {
                     $data['modules'][$index][$subIndex] = json_decode($value);
                 } elseif ($isStringArray) {
                     $data['modules'][$index][$subIndex] = $value;
-                } elseif ($value == "on" || $value == 0) {
-                    $data['modules'][$index][$subIndex] = (boolean)$value;
+                } elseif ('on' === $value || 0 === $value) {
+                    $data['modules'][$index][$subIndex] = (bool) $value;
                 } else {
                     $data['modules'][$index][$subIndex] = $value;
                 }
@@ -64,8 +63,9 @@ class BuilderController extends AdminController
     }
 
     /**
-     * @param string $theme theme name
+     * @param string $theme  theme name
      * @param string $folder container folder name
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getFilesByTheme($theme, $folder)
@@ -74,7 +74,7 @@ class BuilderController extends AdminController
 
         try {
             return $this->success([
-                'files' => array_map('basename', File::files(resource_path("views/themes/$theme/$path")))
+                'files' => array_map('basename', File::files(resource_path("views/themes/{$theme}/{$path}"))),
             ]);
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage());
@@ -83,16 +83,17 @@ class BuilderController extends AdminController
 
     /**
      * @param string $theme theme name
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getAllFilesByTheme($theme)
     {
         try {
             return $this->success([
-                'headers' => array_map('basename', File::files(resource_path("views/themes/$theme/partials/header"))),
-                'banners' => array_map('basename', File::files(resource_path("views/themes/$theme/partials/banner"))),
-                'footers' => array_map('basename', File::files(resource_path("views/themes/$theme/partials/footer"))),
-                'contacts' => array_map('basename', File::files(resource_path("views/themes/$theme/partials/contact"))),
+                'headers'  => array_map('basename', File::files(resource_path("views/themes/{$theme}/partials/header"))),
+                'banners'  => array_map('basename', File::files(resource_path("views/themes/{$theme}/partials/banner"))),
+                'footers'  => array_map('basename', File::files(resource_path("views/themes/{$theme}/partials/footer"))),
+                'contacts' => array_map('basename', File::files(resource_path("views/themes/{$theme}/partials/contact"))),
             ]);
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage());
@@ -102,6 +103,7 @@ class BuilderController extends AdminController
     private function isJson($string)
     {
         json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE);
+
+        return \JSON_ERROR_NONE === json_last_error();
     }
 }

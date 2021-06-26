@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Referance;
 use App\Repositories\Interfaces\ReferenceInterface;
-use Illuminate\Http\Request;
 
 class ReferenceController extends Controller
 {
@@ -18,6 +17,7 @@ class ReferenceController extends Controller
     public function list()
     {
         $list = $this->_referenceService->allWithPagination();
+
         return view('site.referans.listReferences', compact('list'));
     }
 
@@ -25,5 +25,4 @@ class ReferenceController extends Controller
     {
         return view('site.referans.referenceDetail', compact('reference'));
     }
-
 }

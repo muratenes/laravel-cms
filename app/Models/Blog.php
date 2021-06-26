@@ -6,21 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    const MODULE_NAME = 'blog';
-    protected $perPage = 20;
-    protected $table = "blog";
+    public const MODULE_NAME = 'blog';
+
+    public const IMAGE_QUALITY = 80;
+    public const IMAGE_RESIZE = null;
     public $timestamps = true;
     public $guarded = [];
+    protected $perPage = 20;
+    protected $table = 'blog';
 
     protected $casts = [
-        'tags' => 'array'
+        'tags' => 'array',
     ];
-
-    const  IMAGE_QUALITY = 80;
-    const  IMAGE_RESIZE = null;
 
     public function categories()
     {
-        return $this->belongsToMany(BlogCategory::class, 'category_blog', "blog_id", 'category_id');
+        return $this->belongsToMany(BlogCategory::class, 'category_blog', 'blog_id', 'category_id');
     }
 }

@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Content extends Model
 {
-    const MODULE_NAME = 'content';
+    public const MODULE_NAME = 'content';
+    public const IMAGE_QUALITY = 60;
+    public const IMAGE_RESIZE = null;
 
     protected $table = 'icerik_yonetim';
     protected $perPage = 20;
     protected $guarded = [];
-    const  IMAGE_QUALITY = 60;
-    const  IMAGE_RESIZE = null;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent()
     {
-        return $this->belongsTo(Content::class, 'parent_id', 'id');
+        return $this->belongsTo(self::class, 'parent_id', 'id');
     }
 
     /**
@@ -27,6 +27,6 @@ class Content extends Model
      */
     public function subContents()
     {
-        return $this->hasMany(Content::class, 'parent_id', 'id');
+        return $this->hasMany(self::class, 'parent_id', 'id');
     }
 }

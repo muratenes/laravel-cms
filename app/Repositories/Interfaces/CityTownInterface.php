@@ -1,4 +1,6 @@
-<?php namespace App\Repositories\Interfaces;
+<?php
+
+namespace App\Repositories\Interfaces;
 
 interface CityTownInterface
 {

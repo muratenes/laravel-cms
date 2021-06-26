@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-
     public $timestamps = false;
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

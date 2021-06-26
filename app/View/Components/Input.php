@@ -7,51 +7,49 @@ use Illuminate\View\Component;
 class Input extends Component
 {
     /**
-     * name of input
+     * name of input.
      *
      * @var string
      */
     public string $name;
 
     /**
-     * html input element type
+     * html input element type.
      *
      * @var string
      */
     public string $type;
 
-
     /**
-     * html input classses
+     * html input classses.
      *
      * @var string
      */
     public string $class;
 
-
     /**
-     * input container with
+     * input container with.
      *
      * @var string
      */
     public string $width;
 
     /**
-     * label of input
+     * label of input.
      *
      * @var string
      */
     public string $label;
 
     /**
-     * input default value
+     * input default value.
      *
      * @var null|string
      */
     public ?string $value;
 
     /**
-     * input placeholder
+     * input placeholder.
      *
      * @var string
      */
@@ -68,7 +66,7 @@ class Input extends Component
      * @param string $value
      * @param string $placeholder
      */
-    public function __construct(string $name, $type = 'text', $class = 'form-control', $width = '3',$label = '',$value = '',$placeholder = '')
+    public function __construct(string $name, $type = 'text', $class = 'form-control', $width = '3', $label = '', $value = '', $placeholder = '')
     {
         $this->type = $type;
         $this->class = $class;

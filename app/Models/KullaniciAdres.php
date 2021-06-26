@@ -13,13 +13,12 @@ class KullaniciAdres extends Model
 {
     use SoftDeletes;
 
-    protected $table = "kullanici_adres";
+    public const TYPE_DELIVERY = 1;
+    public const TYPE_INVOICE = 2;
+
+    protected $table = 'kullanici_adres';
     protected $guarded = ['id'];
     protected $perPage = 10;
-
-
-    const TYPE_DELIVERY = 1;
-    const TYPE_INVOICE = 2;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -62,14 +61,15 @@ class KullaniciAdres extends Model
     }
 
     /**
-     * adresin metin olarak getirir
+     * adresin metin olarak getirir.
      */
     public function getAddressTextAttribute()
     {
         $districtLabel = ($this->neighborhood ? $this->neighborhood->title : '') . ' ' . $this->district ? $this->district->title : '';
         $stateTitle = $this->state ? $this->state->title : '';
         $countryTitle = $this->country ? $this->country->title : '';
-        return "{$this->adres} $districtLabel {$stateTitle}/{$countryTitle}";
+
+        return "{$this->adres} {$districtLabel} {$stateTitle}/{$countryTitle}";
     }
 
     /**
@@ -79,6 +79,4 @@ class KullaniciAdres extends Model
     {
         return "{$this->name} {$this->surname}";
     }
-
-
 }

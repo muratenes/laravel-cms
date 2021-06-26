@@ -7,20 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kampanya extends Model
 {
-    const MODULE_NAME = 'campaign';
+    public const MODULE_NAME = 'campaign';
 
-    protected $table = "kampanyalar";
-    protected $guarded = [];
+    public const DISCOUNT_TYPE_PRICE = 1;
+    public const DISCOUNT_TYPE_PERCENT = 2;
     public $timestamps = false;
 
-    const DISCOUNT_TYPE_PRICE = 1;
-    const DISCOUNT_TYPE_PERCENT = 2;
-
+    protected $table = 'kampanyalar';
+    protected $guarded = [];
 
     public static function listStatus()
     {
         return [
-            self::DISCOUNT_TYPE_PRICE => 'Fiyat Indirimi',
+            self::DISCOUNT_TYPE_PRICE   => 'Fiyat Indirimi',
             self::DISCOUNT_TYPE_PERCENT => 'Yüzdelik Indirim',
         ];
     }
@@ -28,9 +27,9 @@ class Kampanya extends Model
     public function statusLabel()
     {
         $list = self::listStatus();
+
         return $list[$this->discount_type];
     }
-
 
     public function campaignProducts()
     {
@@ -53,16 +52,16 @@ class Kampanya extends Model
         $productIdList = $campaign->campaignProducts->pluck('id')->toArray();
         $companyIdList = $campaign->campaignCompanies->pluck('id')->toArray();
         $products = Urun::whereHas('categories', function ($query) use ($categoryIdList) {
-            return $query->whereIn('category_id', is_null($categoryIdList) ? [] : $categoryIdList);
-        })->when(count($productIdList) > 0, function ($query) use ($productIdList) {
+            return $query->whereIn('category_id', null === $categoryIdList ? [] : $categoryIdList);
+        })->when(\count($productIdList) > 0, function ($query) use ($productIdList) {
             $query->whereIn('id', $productIdList);
         })
-            ->when(count($companyIdList) > 0, function ($query) use ($companyIdList) {
+            ->when(\count($companyIdList) > 0, function ($query) use ($companyIdList) {
                 $query->WhereHas('info', function ($query) use ($companyIdList) {
-                    $query->whereIn('company_id', is_null($companyIdList) ? [] : $companyIdList);
+                    $query->whereIn('company_id', null === $companyIdList ? [] : $companyIdList);
                 });
-            })->when(!is_null($campaign->min_price), function ($query) use ($campaign, $oldCampaignMinPrice) {
-                $query->where([['price', '>=', is_null($oldCampaignMinPrice) ? $campaign->min_price : $oldCampaignMinPrice]]);
+            })->when(null !== $campaign->min_price, function ($query) use ($campaign, $oldCampaignMinPrice) {
+                $query->where([['price', '>=', null === $oldCampaignMinPrice ? $campaign->min_price : $oldCampaignMinPrice]]);
             });
         $products->update(['discount_price' => null]);
     }

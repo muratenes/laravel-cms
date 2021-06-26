@@ -11,13 +11,13 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderCreateadMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var Siparis
      */
     public Siparis $order;
-
 
     /**
      * @var Sepet
@@ -43,7 +43,7 @@ class OrderCreateadMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->view('emails.orders.created')
-            ->subject(__('lang.order_successfully_received'));
+            ->subject(__('lang.order_successfully_received'))
+        ;
     }
-
 }

@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAyarlarTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -17,7 +15,7 @@ class CreateAyarlarTable extends Migration
             $table->increments('id');
             $table->string('title', 100)->nullable();
             $table->string('desc', 500)->nullable();
-            $table->string('domain', 50)->nullable()->default("http://127.0.0.1:8000");
+            $table->string('domain', 50)->nullable()->default('http://127.0.0.1:8000');
             $table->string('logo', 255)->nullable();
             $table->string('footer_logo', 255)->nullable();
             $table->string('icon', 255)->nullable();
@@ -46,8 +44,6 @@ class CreateAyarlarTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

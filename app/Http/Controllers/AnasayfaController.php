@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Ayar;
 use App\Models\Banner;
 use App\Models\Kategori;
@@ -34,16 +33,18 @@ class AnasayfaController extends Controller
         $banners = Banner::whereActive(true)->take(6)->orderByDesc('id')->get();
         $camps = []; // $this->_campService->getLatestActiveCampaigns(3);
 
-        return view("site.index", compact('banners', 'camps'));
+        return view('site.index', compact('banners', 'camps'));
     }
 
     /**
-     * hakkımızda sayfası
+     * hakkımızda sayfası.
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function about()
     {
         $sss = SSS::where(['lang' => curLangId(), 'active' => 1])->orderByDesc('id')->get();
+
         return view('site.main.about', compact('sss'));
     }
 
@@ -53,6 +54,7 @@ class AnasayfaController extends Controller
         $categories = Kategori::orderBy('id', 'DESC')->take(1000)->get();
         $now = Carbon::now()->toAtomString();
         $content = view('site.sitemap', compact('products', 'now', 'categories'));
+
         return response($content)->header('Content-Type', 'application/xml');
     }
 

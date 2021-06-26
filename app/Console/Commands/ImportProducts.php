@@ -24,8 +24,6 @@ class ImportProducts extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -39,7 +37,8 @@ class ImportProducts extends Command
      */
     public function handle()
     {
-        Excel::import(new ProductsImports, storage_path('app/excel/products/products.ods'));
+        Excel::import(new ProductsImports(), storage_path('app/excel/products/products.ods'));
+
         return 0;
     }
 }

@@ -29,6 +29,7 @@ class AddressController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function addresses(Request $request)
@@ -43,12 +44,13 @@ class AddressController extends Controller
     /**
      * @param Request $request
      * @param $addressID
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detail(Request $request, $addressID)
     {
         $address = $addressID ? KullaniciAdres::findOrFail($addressID) : new KullaniciAdres();
-        if (Gate::denies('edit-address', $address) and $addressID) {
+        if (Gate::denies('edit-address', $address) && $addressID) {
             abort(403);
         }
 
@@ -60,37 +62,40 @@ class AddressController extends Controller
     }
 
     /**
-     * kullanıcı varsayılan adres atar
-     * @param Request $request
+     * kullanıcı varsayılan adres atar.
+     *
+     * @param Request        $request
      * @param KullaniciAdres $address
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function setDefaultAddress(Request $request, KullaniciAdres $address)
     {
         $request->user()->update(['default_address_id' => $address->id]);
         success();
+
         return back();
     }
 
-
     /**
      * @param Request $request
-     * @param int $addressID
+     * @param int     $addressID
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function save(Request $request, $addressID = 0)
     {
         $validated = $request->validate([
-            'title' => 'required|max:50',
-            'adres' => 'required|max:255|min:5',
-            'name' => 'required|max:50',
-            'surname' => 'required|max:50',
-            'phone' => ['required', 'max:20', new PhoneNumberRule($request->get('phone'))],
-            'state_id' => 'required|numeric',
-            'district_id' => 'required|numeric',
+            'title'           => 'required|max:50',
+            'adres'           => 'required|max:255|min:5',
+            'name'            => 'required|max:50',
+            'surname'         => 'required|max:50',
+            'phone'           => ['required', 'max:20', new PhoneNumberRule($request->get('phone'))],
+            'state_id'        => 'required|numeric',
+            'district_id'     => 'required|numeric',
             'neighborhood_id' => 'nullable|numeric',
-            'type' => 'required|in:1,2',
-            'email' => 'required|email|max:60'
+            'type'            => 'required|in:1,2',
+            'email'           => 'required|email|max:60',
         ]);
 
         $validated['country_id'] = 1;
@@ -100,23 +105,24 @@ class AddressController extends Controller
         if ($address) {
             success();
             if ($request->has('setAsDefault')) {
-                $request->user()->update([($validated['type'] == KullaniciAdres::TYPE_INVOICE ? 'default_invoice_address_id' : 'default_address_id') => $address->id]);
+                $request->user()->update([(KullaniciAdres::TYPE_INVOICE === $validated['type'] ? 'default_invoice_address_id' : 'default_address_id') => $address->id]);
             }
             if ($request->get('fromPage')) {
                 return redirect(route($request->get('fromPage')));
             }
+
             return redirect(route('user.address.edit', $address->id));
         }
 
         return back();
-
     }
 
-
     /**
-     * kullanıcı varsayılan fatura adresi atar
-     * @param Request $request
+     * kullanıcı varsayılan fatura adresi atar.
+     *
+     * @param Request        $request
      * @param KullaniciAdres $address
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function setDefaultInvoiceAddress(Request $request, KullaniciAdres $address)
@@ -134,12 +140,15 @@ class AddressController extends Controller
     {
         $address->delete();
         success();
+
         return back();
     }
 
     /**
-     * ajax request
+     * ajax request.
+     *
      * @param int $addressID
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(int $addressID)
@@ -150,5 +159,4 @@ class AddressController extends Controller
 
         return view('site.kullanici.partials.adres-detail-modal', compact('states', 'districts', 'address'));
     }
-
 }

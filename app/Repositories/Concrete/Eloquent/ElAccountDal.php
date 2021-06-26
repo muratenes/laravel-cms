@@ -1,4 +1,6 @@
-<?php namespace App\Repositories\Concrete\Eloquent;
+<?php
+
+namespace App\Repositories\Concrete\Eloquent;
 
 use App\Models\KullaniciAdres;
 use App\Repositories\Interfaces\AccountInterface;
@@ -6,7 +8,6 @@ use App\User;
 
 class ElAccountDal extends BaseRepository implements AccountInterface
 {
-
     /**
      * AccountRepository constructor.
      *
@@ -23,14 +24,19 @@ class ElAccountDal extends BaseRepository implements AccountInterface
     }
 
     /**
-     * kullanıcının varsayılan adresini gönderir
+     * kullanıcının varsayılan adresini gönderir.
+     *
      * @param $userId
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     *
+     * @return null|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function getUserDefaultAddress($userId)
     {
         $user = $this->model->find($userId);
-        if (!$user) return null;
+        if (! $user) {
+            return null;
+        }
+
         return KullaniciAdres::with(['state', 'district', 'user'])->find($user->default_address_id);
     }
 
@@ -39,46 +45,55 @@ class ElAccountDal extends BaseRepository implements AccountInterface
         $user = User::with('detail')->find($userId);
         if ($user) {
             $user->update(['default_address_id' => $addressId]);
+
             return true;
         }
+
         return false;
     }
 
     /**
-     * @param int $id adress id
-     * @param array $data App/Address model data
-     * @param int $userId user id
+     * @param int   $id     adress id
+     * @param array $data   App/Address model data
+     * @param int   $userId user id
+     *
      * @return mixed
      */
     public function updateOrCreateUserAddress(int $id, array $data, int $userId)
     {
-        $data['type'] = !isset($data['type']) ? KullaniciAdres::TYPE_DELIVERY : $data['type'];
+        $data['type'] = ! isset($data['type']) ? KullaniciAdres::TYPE_DELIVERY : $data['type'];
         $user = User::find($userId);
-        if (!$id) {
+        if (! $id) {
             $address = $user->addresses()->create($data);
         } else {
             $address = KullaniciAdres::find($id);
             $address->update($data);
         }
-        $typeColumn = ($data['type'] == KullaniciAdres::TYPE_DELIVERY) ? "default_address_id" : "default_invoice_address_id";
+        $typeColumn = (KullaniciAdres::TYPE_DELIVERY === $data['type']) ? 'default_address_id' : 'default_invoice_address_id';
         $existAddress = KullaniciAdres::find($user->{$typeColumn});
-        if (!$user->{$typeColumn} || is_null($existAddress)) {
+        if (! $user->{$typeColumn} || null === $existAddress) {
             $user->update([
-                $typeColumn => $address->id
+                $typeColumn => $address->id,
             ]);
         }
+
         return $address;
     }
 
     /**
-     * kullanıcının varsayılan fatura adresini gönderir
+     * kullanıcının varsayılan fatura adresini gönderir.
+     *
      * @param int $userId User id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     *
+     * @return null|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function getUserDefaultInvoiceAddress($userId)
     {
         $user = User::find($userId);
-        if (!$user) return null;
+        if (! $user) {
+            return null;
+        }
+
         return KullaniciAdres::with(['state', 'district', 'user'])->find($user->default_invoice_address_id);
     }
 
@@ -87,23 +102,26 @@ class ElAccountDal extends BaseRepository implements AccountInterface
         $user = User::with('detail')->find($userId);
         if ($user) {
             $user->update(['default_invoice_address_id' => $addressId]);
+
             return true;
         }
+
         return false;
     }
 
     /**
-     * kullanıcının gönderilen adreste varsayılan adres var mı yoksa bununla günceller
-     * @param User $user
+     * kullanıcının gönderilen adreste varsayılan adres var mı yoksa bununla günceller.
+     *
+     * @param User           $user
      * @param KullaniciAdres $address
      */
     public function checkUserDefaultAddress(User $user, KullaniciAdres $address)
     {
-        $typeColumn = $address->type == KullaniciAdres::TYPE_DELIVERY ? "default_address_id" : "default_invoice_address_id";
+        $typeColumn = KullaniciAdres::TYPE_DELIVERY === $address->type ? 'default_address_id' : 'default_invoice_address_id';
         $existAddress = KullaniciAdres::find($user->{$typeColumn});
-        if (!$user->{$typeColumn} || is_null($existAddress)) {
+        if (! $user->{$typeColumn} || null === $existAddress) {
             $user->update([
-                $typeColumn => $address->id
+                $typeColumn => $address->id,
             ]);
         }
     }

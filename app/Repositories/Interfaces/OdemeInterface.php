@@ -1,9 +1,11 @@
-<?php namespace App\Repositories\Interfaces;
+<?php
 
-use App\User;
+namespace App\Repositories\Interfaces;
+
 use App\Models\KullaniciAdres;
 use App\Models\Sepet;
 use App\Models\Siparis;
+use App\User;
 
 interface OdemeInterface
 {
@@ -18,5 +20,4 @@ interface OdemeInterface
     public function completeIyzico3DSecurityPayment($conversationId, $paymentId);
 
     public function deleteUserOldNotPaymentOrderTransactions($userId);
-
 }

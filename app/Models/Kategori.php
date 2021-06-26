@@ -7,25 +7,24 @@ use App\Models\Product\Urun;
 use App\Utils\Concerns\Admin\CategoryLanguageAttributeConcern;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
 
 class Kategori extends Model
 {
-    use SoftDeletes;
     use CategoryLanguageAttributeConcern;
+    use SoftDeletes;
 
-    protected $appends = ['lang'];
-
-    const MODULE_NAME = 'category';
-
-    protected $perPage = 20;
-    protected $table = "kategoriler";
+    public const MODULE_NAME = 'category';
     public $timestamps = false;
     public $guarded = ['id'];
 
+    protected $appends = ['lang'];
+
+    protected $perPage = 20;
+    protected $table = 'kategoriler';
 
     /**
-     * diğer dillerdeki kategori karşılıkları
+     * diğer dillerdeki kategori karşılıkları.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function descriptions()
@@ -38,7 +37,7 @@ class Kategori extends Model
      */
     public function parent_category()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(self::class);
     }
 
     /**
@@ -46,7 +45,7 @@ class Kategori extends Model
      */
     public function sub_categories()
     {
-        return $this->hasMany(Kategori::class, 'parent_category_id')->orderBy('row');
+        return $this->hasMany(self::class, 'parent_category_id')->orderBy('row');
     }
 
     /**
@@ -57,17 +56,18 @@ class Kategori extends Model
         return $this->belongsToMany(Urun::class, 'kategori_urun', 'category_id', 'product_id');
     }
 
-
     /**
      * mevcut dildeki kategoriyi getirir.
-     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|mixed|object
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed|Model|object
      */
     public function getLangAttribute()
     {
-        if (! $this->getRelationValue('descriptions')) return $this->getOriginal();
-        $langDescription = $this->getRelation('descriptions')->firstWhere('lang','=',curLangId());
+        if (! $this->getRelationValue('descriptions')) {
+            return $this->getOriginal();
+        }
+        $langDescription = $this->getRelation('descriptions')->firstWhere('lang', '=', curLangId());
 
         return $langDescription ? array_merge($this->getOriginal(), $langDescription->getOriginal()) : $this->getOriginal();
     }
-
 }

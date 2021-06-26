@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use App\Repositories\Interfaces\FotoGalleryInterface;
-use Illuminate\Http\Request;
 
 class GaleriController extends Controller
 {
@@ -17,10 +16,11 @@ class GaleriController extends Controller
 
     public function list()
     {
-        if (!config('admin.use_album_gallery')) {
+        if (! config('admin.use_album_gallery')) {
             return redirect(route('gallery.edit', 0));
         }
         $list = $this->_galleryService->allWithPagination();
+
         return view('gallery.listGallery', compact('list'));
     }
 

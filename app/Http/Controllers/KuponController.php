@@ -6,7 +6,6 @@ use App\Models\Sepet;
 use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Traits\CartTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class KuponController extends Controller
 {
@@ -21,6 +20,7 @@ class KuponController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function applyCoupon(Request $request)

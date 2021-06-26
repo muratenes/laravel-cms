@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\Admin;
 use App\Models\Ayar;
 use Illuminate\Support\Str;
@@ -8,15 +7,16 @@ use Illuminate\Support\Str;
 function changeUIPhoneNumberToDbFormat($phone)
 {
     $replacedText = ['(', ')', ' ', '-', '_'];
+
     return str_replace($replacedText, '', $phone);
 }
 
 function changeUIIbanNumberToDBFormat($ibanNumber)
 {
     $replacedText = ['(', ')', ' ', '-', '_', '/', '['];
+
     return str_replace($replacedText, '', $ibanNumber);
 }
-
 
 function curLang()
 {
@@ -28,7 +28,6 @@ function curLangId()
     return session()->get('lang_id', config('admin.default_language'));
 }
 
-
 function defaultLangID()
 {
     return config('admin.default_language');
@@ -36,7 +35,7 @@ function defaultLangID()
 
 function langIcon($langId)
 {
-    return "/admin_files/dist/img/langs/" . \App\Models\Ayar::getLanguageImageNameById($langId);
+    return '/admin_files/dist/img/langs/' . \App\Models\Ayar::getLanguageImageNameById($langId);
 }
 
 function langTitle($langId)
@@ -46,17 +45,20 @@ function langTitle($langId)
 
 // ====== PARA BİRİMLERİ =============
 /**
- * mevcut para birimi sembol getirir
+ * mevcut para birimi sembol getirir.
+ *
  * @return mixed
  */
 function currentCurrencySymbol()
 {
     $currencyID = session()->get('currency_id', config('admin.default_currency'));
+
     return Ayar::getCurrencySymbolById($currencyID);
 }
 
 /**
- * mevcut para birimi getirir
+ * mevcut para birimi getirir.
+ *
  * @return mixed
  */
 function currentCurrencyID()
@@ -64,10 +66,11 @@ function currentCurrencyID()
     return Ayar::getCurrencyId();
 }
 
-
 /**
- *  gönderilen para birimine göre sembol getirir
+ *  gönderilen para birimine göre sembol getirir.
+ *
  * @param int|string $currencyID para birimi id
+ *
  * @return mixed|string
  */
 function getCurrencySymbolById($currencyID)
@@ -85,17 +88,18 @@ function createSlugByModelAndTitle($model, $title, $itemID)
         $slug = Str::slug($title) . '-' . $i;
         $i++;
     }
+
     return $slug;
 }
 
 function activeStatus($column = 'active')
 {
-    return (boolean)request()->has($column);
+    return (bool) request()->has($column);
 }
 
 /**
- * @param string $folderPath public/categories
- * @param string|null $imageName imageName
+ * @param string      $folderPath public/categories
+ * @param null|string $imageName  imageName
  */
 function imageUrl(string $folderPath, $imageName = '')
 {
@@ -106,28 +110,31 @@ function imageUrl(string $folderPath, $imageName = '')
 
 function success($message = null)
 {
-    $message = $message ? $message : __('lang.success_message');
+    $message = $message ?: __('lang.success_message');
     session()->flash('message', $message);
 }
 
 function error($message = null)
 {
-    $message = $message ? $message : __('lang.error_message');
+    $message = $message ?: __('lang.error_message');
     session()->flash('message', $message);
     session()->flash('message_type', 'danger');
 }
 
 /**
- * get value by key from admin table
+ * get value by key from admin table.
  *
- * @param string|null $value
- * @return mixed|null
+ * @param null|string $value
+ *
+ * @return null|mixed
  */
 function admin($value)
 {
-    if (!$value) return null;
-    if (config('admin.config_driver') === 'file') {
-        return config("admin." . $value);
+    if (! $value) {
+        return null;
+    }
+    if ('file' === config('admin.config_driver')) {
+        return config('admin.' . $value);
     }
 
     $values = explode('.', $value);
@@ -136,11 +143,13 @@ function admin($value)
     foreach ($values as $index => $value) {
         $lastVal = $admin[$value] ?? $lastVal[$value] ?? $admin[$value];
     }
+
     return $lastVal;
 }
 
 /**
- * tarih formatı
+ * tarih formatı.
+ *
  * @param string $dateTime
  */
 function createdAt($dateTime)

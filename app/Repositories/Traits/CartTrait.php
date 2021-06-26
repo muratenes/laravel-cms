@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Repositories\Traits;
 
 use App\Models\Coupon;
@@ -11,7 +10,8 @@ trait CartTrait
     //============ SESSION CART ==============
 
     /**
-     * Session Sepetteki toplam ürün sayısı
+     * Session Sepetteki toplam ürün sayısı.
+     *
      * @return mixed
      */
     public function getBasketItemCount()
@@ -19,10 +19,9 @@ trait CartTrait
         return $this->cartItems()->count();
     }
 
-
-
     /**
-     *  sepetteki ürünlerin id listesini getirir
+     *  sepetteki ürünlerin id listesini getirir.
+     *
      * @return array
      */
     public function getProductIdList()
@@ -32,12 +31,12 @@ trait CartTrait
         })->toArray();
     }
 
-
-
     /**
-     * session sepet için ID oluşturur
-     * @param int $productID
-     * @param array|null $selectedSubAttributesIdList
+     * session sepet için ID oluşturur.
+     *
+     * @param int        $productID
+     * @param null|array $selectedSubAttributesIdList
+     *
      * @return mixed|string
      */
     public function getCartItemId(int $productID, ?array $selectedSubAttributesIdList)
@@ -45,12 +44,13 @@ trait CartTrait
         return $selectedSubAttributesIdList ? $productID . '-' . implode('_', $selectedSubAttributesIdList) : $productID;
     }
 
-
     // ========== CRUD ACTIONS =================
 
     /**
-     * sepetteki item getirmek için kullanılır
+     * sepetteki item getirmek için kullanılır.
+     *
      * @param null|int|string $id sepet id
+     *
      * @return mixed
      */
     public function getCartItem($id)
@@ -59,9 +59,11 @@ trait CartTrait
     }
 
     /**
-     * sepetteki item silmek için kullanılır
-     * @param null|int|string $id sepet id
-     * @param array $data
+     * sepetteki item silmek için kullanılır.
+     *
+     * @param null|int|string $id   sepet id
+     * @param array           $data
+     *
      * @return mixed
      */
     public function updateCartItem($id, array $data)
@@ -70,8 +72,10 @@ trait CartTrait
     }
 
     /**
-     * sepetteki item silmek için kullanılır
+     * sepetteki item silmek için kullanılır.
+     *
      * @param null|int|string $id sepet id
+     *
      * @return mixed
      */
     public function removeCartItem($id)
@@ -79,23 +83,26 @@ trait CartTrait
         return Cart::remove($id);
     }
 
-
     /**
-     * sepete eklenmiş ürünün adet bilgisini gönderir
-     * @param int $productID ürün id
-     * @param array|null $subAttributeIdList seçilmiş sub attribute ıd
+     * sepete eklenmiş ürünün adet bilgisini gönderir.
+     *
+     * @param int        $productID          ürün id
+     * @param null|array $subAttributeIdList seçilmiş sub attribute ıd
+     *
      * @return int
      */
     public function getAddedProductQtyFromCartItem(int $productID, ?array $subAttributeIdList)
     {
         $cartItem = $this->getCartItem($this->getCartItemId($productID, $subAttributeIdList));
+
         return $cartItem ? $cartItem->quantity : 0;
     }
 
     // ================== STATIC METHODS =======================
 
     /**
-     * Session Sepetteki toplam ürün sayısı
+     * Session Sepetteki toplam ürün sayısı.
+     *
      * @return mixed
      */
     public static function getCartTotalCargoAmount()
@@ -105,9 +112,9 @@ trait CartTrait
         });
     }
 
-
     /**
-     * sepetteki ürünler
+     * sepetteki ürünler.
+     *
      * @return mixed
      */
     public static function cartItems()
@@ -117,7 +124,9 @@ trait CartTrait
 
     /**
      * sepete eklenen ürünün adet bilgisini getirir.
+     *
      * @param $cartItem
+     *
      * @return mixed
      */
     public function getCartItemQuantity($cartItem)
@@ -131,20 +140,21 @@ trait CartTrait
     public function decrementItem($cartItem)
     {
         $quantity = $this->getCartItemQuantity($cartItem);
-        if ($quantity == 1) {
+        if (1 === $quantity) {
             $this->removeCartItem($cartItem->id);
         } else {
-            $this->updateCartItem($cartItem->id, array(
-                'quantity' => array(
+            $this->updateCartItem($cartItem->id, [
+                'quantity' => [
                     'relative' => false,
-                    'value' => $quantity - 1
-                ),
-            ));
+                    'value'    => $quantity - 1,
+                ],
+            ]);
         }
     }
 
     /**
-     * sepet alt toplam
+     * sepet alt toplam.
+     *
      * @return mixed
      */
     public static function getCardSubTotal()
@@ -153,19 +163,21 @@ trait CartTrait
     }
 
     /**
-     * sepet toplam
+     * sepet toplam.
+     *
      * @return mixed
      */
     public static function getCartTotal()
     {
         return self::cartItems()->sum(function ($item) {
-                return self::getCartItemTotalByItem($item);
-            })
+            return self::getCartItemTotalByItem($item);
+        })
             - Coupon::getCouponDiscountPrice();
     }
 
     /**
-     * gönderilen sepet ürünün toplam hesaplanmış tutarı gelir
+     * gönderilen sepet ürünün toplam hesaplanmış tutarı gelir.
+     *
      * @param $cartItem
      */
     public static function getCartItemTotalByItem($cartItem)

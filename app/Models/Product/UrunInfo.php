@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrunInfo extends Model
 {
-    protected $table = "urunler_info";
     public $timestamps = false;
+    protected $table = 'urunler_info';
     protected $guarded = ['id'];
 
     protected $casts = [
-        'properties' => 'array',
-        'oems' => 'array',
-        'supported_cars' => 'array'
+        'properties'     => 'array',
+        'oems'           => 'array',
+        'supported_cars' => 'array',
     ];
 
     public function product()
@@ -41,6 +41,4 @@ class UrunInfo extends Model
 ////        }
 ////        $this->attributes['properties'] = json_encode($properties);
 //    }
-
-
 }

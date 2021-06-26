@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Interfaces\SSSInterface;
-use Illuminate\Http\Request;
 
 class SSSController extends Controller
 {
@@ -17,6 +16,7 @@ class SSSController extends Controller
     public function list()
     {
         $list = $this->_sssService->allWithPagination();
+
         return view('site.sss.listSSS', compact('list'));
     }
 }

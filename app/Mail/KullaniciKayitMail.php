@@ -9,7 +9,8 @@ use Illuminate\Queue\SerializesModels;
 
 class KullaniciKayitMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
     public $kullanici;
 
     public function __construct(User $kullanici)
@@ -26,6 +27,7 @@ class KullaniciKayitMail extends Mailable
     {
         return $this
             ->subject(config('app.name') . ' - Kullanıcı Kaydi')
-            ->view('emails.kullanici_kayit');
+            ->view('emails.kullanici_kayit')
+        ;
     }
 }

@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrunYorum extends Model
 {
-    protected $table = "urun_yorumlar";
-    protected $guarded = [];
     public $timestamps = true;
+    protected $table = 'urun_yorumlar';
+    protected $guarded = [];
 
     public function product()
     {

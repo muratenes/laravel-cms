@@ -2,7 +2,6 @@
 
 namespace App\Utils\Concerns\Controllers;
 
-
 use App\Models\KullaniciAdres;
 use App\Models\Log;
 use App\Models\Product\Urun;
@@ -15,13 +14,14 @@ use Illuminate\Support\Str;
 
 trait PaymentConcern
 {
-
     /**
      *  kullanıcının invoice adresini gönderir kullanıcı farklı invoice eklemek isterse ekler
-     *  yoksa param olarak gönderilen getirir
-     * @param Request $request
-     * @param User $user
+     *  yoksa param olarak gönderilen getirir.
+     *
+     * @param Request        $request
+     * @param User           $user
      * @param KullaniciAdres $defaultAddress
+     *
      * @return mixed
      */
     protected function getOrCreateInvoiceAddress(Request $request, User $user, KullaniciAdres $defaultAddress)
@@ -34,14 +34,15 @@ trait PaymentConcern
             $invoiceAddress = $user->addresses()->create($invoiceAddressData);
             $this->accountService->checkUserDefaultAddress($user, $invoiceAddress);
         }
+
         return $invoiceAddress ? $invoiceAddress : $defaultAddress;
     }
-
 
     /**
      * @param KullaniciAdres $invoiceAddress
      * @param KullaniciAdres $defaultAddress
-     * @param Sepet $basket
+     * @param Sepet          $basket
+     *
      * @return Siparis
      */
     protected function createOrderFromRequest(KullaniciAdres $invoiceAddress, KullaniciAdres $defaultAddress, Sepet $basket)
@@ -49,40 +50,42 @@ trait PaymentConcern
         $validated = request()->only('taksit_sayisi', 'cardNumber', 'holderName', 'cardExpireDateMonth', 'cardExpireDateYear', 'ccv');
 
         $order = Siparis::create([
-            'sepet_id' => $basket->id,
-            'phone' => $defaultAddress->phone,
-            'installment_count' => $validated['taksit_sayisi'] ?? 1,
-            'status' => Siparis::STATUS_3D_BASLATILDI,
-            'order_price' => $basket->sub_total,
-            'cargo_price' => $basket->cargo_total,
-            'coupon_price' => $basket->coupon_price,
-            'order_total_price' => $basket->total,
-            'ip_adres' => \request()->ip(),
-            'adres' => $defaultAddress->address_text,
-            'fatura_adres' => $invoiceAddress->address_text,
-            'full_name' => "{$defaultAddress->name}  {$defaultAddress->surname}",
-            'currency_id' => currentCurrencyID(),
-            'hash' => Str::uuid(),
-            'email' => $defaultAddress->email,
-            'order_note' => request()->get('order_note'),
-            'full_name_invoice' => $invoiceAddress->full_name,
-            'phone_invoice' => $invoiceAddress->phone,
-            'email_invoice' => $invoiceAddress->email,
+            'sepet_id'            => $basket->id,
+            'phone'               => $defaultAddress->phone,
+            'installment_count'   => $validated['taksit_sayisi'] ?? 1,
+            'status'              => Siparis::STATUS_3D_BASLATILDI,
+            'order_price'         => $basket->sub_total,
+            'cargo_price'         => $basket->cargo_total,
+            'coupon_price'        => $basket->coupon_price,
+            'order_total_price'   => $basket->total,
+            'ip_adres'            => request()->ip(),
+            'adres'               => $defaultAddress->address_text,
+            'fatura_adres'        => $invoiceAddress->address_text,
+            'full_name'           => "{$defaultAddress->name}  {$defaultAddress->surname}",
+            'currency_id'         => currentCurrencyID(),
+            'hash'                => Str::uuid(),
+            'email'               => $defaultAddress->email,
+            'order_note'          => request()->get('order_note'),
+            'full_name_invoice'   => $invoiceAddress->full_name,
+            'phone_invoice'       => $invoiceAddress->phone,
+            'email_invoice'       => $invoiceAddress->email,
             'delivery_address_id' => $defaultAddress->id,
-            'invoice_address_id' => $invoiceAddress->id
+            'invoice_address_id'  => $invoiceAddress->id,
         ]);
 
         $this->takeSnapshot($order);
 
-        Log::addIyzicoLog('Sipariş Oluşturuldu',"order id : $order->id",$basket->id);
+        Log::addIyzicoLog('Sipariş Oluşturuldu', "order id : {$order->id}", $basket->id);
         session()->put('orderId', $order->id);
 
         return $order;
     }
 
     /**
-     * iyzico kredi kartı bilgilerini gönderir
+     * iyzico kredi kartı bilgilerini gönderir.
+     *
      * @param $request
+     *
      * @return array
      */
     protected function getCardInfoFromRequest(Request $request)
@@ -92,16 +95,17 @@ trait PaymentConcern
             'cardNumber',
             'cardExpireDateMonth',
             'cardExpireDateYear',
-            'cvv'
+            'cvv',
         ]);
     }
 
     /**
-     * ödeme işleminden sonra varyanta bakar ve stok durumunu günceller
-     * @param int $productID
-     * @param int $qty satın alınan ürün adet
-     * @param int $currencyID para birimi id
-     * @param array|null $subAttributeIdList ürün sub attribute id listesi
+     * ödeme işleminden sonra varyanta bakar ve stok durumunu günceller.
+     *
+     * @param int        $productID
+     * @param int        $qty                satın alınan ürün adet
+     * @param int        $currencyID         para birimi id
+     * @param null|array $subAttributeIdList ürün sub attribute id listesi
      */
     protected function checkProductVariantAndDecrementQty(int $productID, int $qty, $currencyID, ?array $subAttributeIdList)
     {
@@ -115,9 +119,11 @@ trait PaymentConcern
 
     /**
      * sipariş oluşturma esnasında gerekli bilgileri json olarak alır.
+     *
      * @param Siparis $order
      */
-    private function takeSnapshot(Siparis $order) {
+    private function takeSnapshot(Siparis $order)
+    {
         $order = Siparis::with(['basket.basket_items.product', 'basket.user'])->find($order->id);
         $order->basket->setAppends(['total', 'sub_total', 'cargo_total', 'coupon_price']);
         foreach ($order->basket->basket_items as $basketItem) {
@@ -127,5 +133,4 @@ trait PaymentConcern
         unset($orderArray['snapshot']);
         $order->update(['snapshot' => $orderArray]);
     }
-
 }

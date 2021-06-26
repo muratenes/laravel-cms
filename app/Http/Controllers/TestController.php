@@ -2,22 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Jobs\NewOrderAddedJob;
-use App\Mail\Order\OrderCreateadMail;
-use App\Models\Builder\Menu;
 use App\Models\Sepet;
-use App\Models\SepetUrun;
 use App\Models\Siparis;
-use App\Notifications\order\AdminNewOrderNotification;
-use App\Notifications\order\OrderCancelledNotification;
-use App\Notifications\order\OrderCreatedNotification;
-use App\Notifications\order\OrderItemStatusChangedNotification;
 use App\Repositories\Interfaces\AccountInterface;
-use App\User;
-use Cart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class TestController extends Controller
 {
@@ -45,5 +33,4 @@ class TestController extends Controller
         $order->notify(new NewOrder($order));
         dd('sn');
     }
-
 }

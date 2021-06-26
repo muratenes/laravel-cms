@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class KategoriDescription extends Model
 {
-    protected $guarded = ['id'];
     public $timestamps = false;
+    protected $guarded = ['id'];
 
     /**
-     * ana dilindeki sub attribute
+     * ana dilindeki sub attribute.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category()

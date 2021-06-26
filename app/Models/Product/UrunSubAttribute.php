@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Cache;
 
 class UrunSubAttribute extends Model
 {
-    protected $table = "urun_sub_attributes";
-    protected $guarded = [];
     public $timestamps = false;
-
+    protected $table = 'urun_sub_attributes';
+    protected $guarded = [];
 
     /**
-     * diğer dillerdeki sub attribute karşılıkları
+     * diğer dillerdeki sub attribute karşılıkları.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function descriptions()
@@ -25,23 +25,28 @@ class UrunSubAttribute extends Model
     {
         return $this->belongsTo(UrunAttribute::class, 'parent_attribute', 'id');
     }
+
     /**
-     * mevcut dildeki başlık getirir
-     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|mixed|object
+     * mevcut dildeki başlık getirir.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed|Model|object
      */
     public function getTitleLangAttribute()
     {
-        $langDescription = $this->descriptions()->where('lang',curLangId())->first();
-        return $langDescription ? ($langDescription->title ? $langDescription->title : $this->title) : $this->title;
+        $langDescription = $this->descriptions()->where('lang', curLangId())->first();
+
+        return $langDescription ? ($langDescription->title ?: $this->title) : $this->title;
     }
 
     public static function getActiveSubAttributesCache()
     {
         $cache = Cache::get('cacheActiveSubAttributesCache');
-        if (is_null($cache))
-            $cache = self::setCache(UrunSubAttribute::whereHas('attribute', function ($query) {
+        if (null === $cache) {
+            $cache = self::setCache(self::whereHas('attribute', function ($query) {
                 $query->where('active', 1);
             })->get());
+        }
+
         return $cache;
     }
 
@@ -55,8 +60,7 @@ class UrunSubAttribute extends Model
     public static function clearCache()
     {
         Cache::forget('cacheActiveSubAttributesCache');
+
         return self::getActiveSubAttributesCache();
     }
-
-
 }

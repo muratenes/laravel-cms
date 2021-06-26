@@ -14,12 +14,12 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements HasLocalePreference
 {
+    use CanResetPassword;
     use Notifiable;
     use UserNotifications;
-    use CanResetPassword;
 
     protected $guarded = [
-        'id', 'created_at', 'updated_at'
+        'id', 'created_at', 'updated_at',
     ];
 
     protected $hidden = [
@@ -33,7 +33,6 @@ class User extends Authenticatable implements HasLocalePreference
     {
         return $this->belongsTo(Role::class);
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -75,9 +74,9 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->belongsTo(KullaniciAdres::class, 'default_invoice_address_id', 'id');
     }
 
-
     /**
-     * get full name
+     * get full name.
+     *
      * @return string
      */
     public function getFullNameAttribute()
@@ -90,7 +89,7 @@ class User extends Authenticatable implements HasLocalePreference
      */
     public function getLocaleIyzicoAttribute()
     {
-        return $this->locale == 'tr' ? 'tr' : 'en';
+        return 'tr' === $this->locale ? 'tr' : 'en';
     }
 
     /**
@@ -104,7 +103,8 @@ class User extends Authenticatable implements HasLocalePreference
     }
 
     /**
-     * parola sıfırlama isteği gönderir
+     * parola sıfırlama isteği gönderir.
+     *
      * @param $token
      */
     public function sendPasswordResetNotification($token)

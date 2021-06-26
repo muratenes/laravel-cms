@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Listeners\LoggingListener;
 use App\Models\Log;
 use Exception;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Log\Events\MessageLogged;
@@ -12,9 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\ViewErrorBag;
 use JsonSerializable;
-use Throwable;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use function GuzzleHttp\Psr7\str;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -24,7 +24,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
     ];
 
     /**
@@ -38,9 +37,9 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * The unique incident ID code
+     * The unique incident ID code.
      *
-     * @var string|bool
+     * @var bool|string
      */
     protected $incidentCode = false;
 
@@ -48,7 +47,7 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * @param \Throwable $exception
-     * @return void
+     *
      * @throws Exception
      */
     public function report(Throwable $exception)
@@ -62,7 +61,7 @@ class Handler extends ExceptionHandler
                     return $item;
                 }
 
-                return (string)$item;
+                return (string) $item;
             });
             //Log::addLog(Log::TYPE_GENERAL, $logged->message, $logged->context, $this->incidentCode, request()->fullUrl());
             return $logged;
@@ -74,7 +73,8 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Throwable $exception
+     * @param \Throwable               $exception
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Throwable $exception)
@@ -96,6 +96,7 @@ class Handler extends ExceptionHandler
      * Render the given HttpException.
      *
      * @param \Throwable
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function renderHttpException(Throwable $e)
@@ -103,11 +104,12 @@ class Handler extends ExceptionHandler
         $this->registerErrorViewPaths();
         if (view()->exists($view = "errors::{$e->getStatusCode()}")) {
             return response()->view($view, [
-                'errors' => new ViewErrorBag,
-                'exception' => $e,
+                'errors'       => new ViewErrorBag(),
+                'exception'    => $e,
                 'incidentCode' => $this->incidentCode ?? false,
             ], $e->getStatusCode(), $e->getHeaders());
         }
+
         return $this->convertExceptionToResponse($e);
     }
 }

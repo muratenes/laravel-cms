@@ -11,6 +11,7 @@ class MenuDescription extends Model
 
     /**
      * üst menü
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function main()

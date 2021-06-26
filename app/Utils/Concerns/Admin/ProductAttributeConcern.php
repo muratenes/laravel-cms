@@ -2,7 +2,6 @@
 
 namespace App\Utils\Concerns\Admin;
 
-
 use App\Models\Product\UrunAttribute;
 use App\Models\Product\UrunSubAttribute;
 use App\Models\Product\UrunSubAttributeDescription;
@@ -11,8 +10,9 @@ use Illuminate\Http\Request;
 trait ProductAttributeConcern
 {
     /**
-     * ürün attribute diğer dillerdeki karşılıklarını oluşturur veya günceller
-     * @param Request $request
+     * ürün attribute diğer dillerdeki karşılıklarını oluşturur veya günceller.
+     *
+     * @param Request       $request
      * @param UrunAttribute $attribute
      */
     public function syncProductAttributeOtherLanguages(Request $request, UrunAttribute $attribute)
@@ -20,16 +20,17 @@ trait ProductAttributeConcern
         foreach ($this->otherActiveLanguages() as $language) {
             $title = $request->get('title_' . $language[0]);
             $attribute->descriptions()->updateOrCreate([
-                'lang' => $language[0]
+                'lang' => $language[0],
             ], [
-                'title' => $title
+                'title' => $title,
             ]);
         }
     }
 
     /**
-     * ürün sub attribute diğer dillerdeki karşılıklarını oluşturur veya günceller
-     * @param Request $request
+     * ürün sub attribute diğer dillerdeki karşılıklarını oluşturur veya günceller.
+     *
+     * @param Request       $request
      * @param UrunAttribute $attribute
      */
     public function syncProductSubAttributeOtherLanguages(Request $request, UrunAttribute $attribute)
@@ -37,10 +38,12 @@ trait ProductAttributeConcern
         foreach (range(0, config('admin.product.max_sub_attribute_count')) as $index) {
             $defaultLanguageSubAttributeTitle = $request->get("main_product_sub_attribute_title_{$index}");
             $defaultLanguageSubAttributeId = $request->get("main_product_sub_attribute_id_{$index}");
-            if (!$defaultLanguageSubAttributeTitle) break;
+            if (! $defaultLanguageSubAttributeTitle) {
+                break;
+            }
 
             // sub attribute ana dil
-            if ($defaultLanguageSubAttributeId != 0) {
+            if (0 !== $defaultLanguageSubAttributeId) {
                 UrunSubAttribute::find($defaultLanguageSubAttributeId)->update(['title' => $defaultLanguageSubAttributeTitle]);
             } else {
                 $defaultLanguageSubAttributeId = $attribute->subAttributes()

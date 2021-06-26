@@ -11,13 +11,12 @@ class BlogCategory extends Model
     public $timestamps = true;
     protected $guarded = ['id'];
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent_cat()
     {
-        return $this->belongsTo(BlogCategory::class, 'parent_category', 'id')->withDefault(['title' => '']);
+        return $this->belongsTo(self::class, 'parent_category', 'id')->withDefault(['title' => '']);
     }
 
     /**
@@ -25,6 +24,6 @@ class BlogCategory extends Model
      */
     public function sub_categories()
     {
-        return $this->hasMany(BlogCategory::class, 'parent_category')->orderBy('row');
+        return $this->hasMany(self::class, 'parent_category')->orderBy('row');
     }
 }

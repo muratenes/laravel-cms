@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\GalleryImage;
 use App\Repositories\Interfaces\FotoGalleryInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class FotoGalleryController extends Controller
@@ -23,15 +23,16 @@ class FotoGalleryController extends Controller
 
     public function list()
     {
-        if (!config('admin.use_album_gallery')) {
+        if (! config('admin.use_album_gallery')) {
             return redirect(route('admin.gallery.edit', 0));
         }
         $query = request('q');
         if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%$query%"]]);
+            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]]);
         } else {
             $list = $this->model->allWithPagination();
         }
+
         return view('admin.gallery.listGallery', compact('list'));
     }
 
@@ -41,13 +42,14 @@ class FotoGalleryController extends Controller
         $item = new Gallery();
         // multiple image gallery
         if (config('admin.use_album_gallery')) {
-            if ($id != 0) {
+            if (0 !== $id) {
                 $item = $this->model->find($id);
             }
         } else {
             $firstItem = Gallery::first();
             $item = $firstItem ?: $item;
         }
+
         return view('admin.gallery.editGallery', compact('item', 'images'));
     }
 
@@ -56,20 +58,20 @@ class FotoGalleryController extends Controller
         $request_data['title'] = $request->get('title');
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
         $request_data['active'] = activeStatus();
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
         }
         if ($entry) {
             $entry->update([
-                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/gallery', $entry->image, Gallery::MODULE_NAME)
+                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/gallery', $entry->image, Gallery::MODULE_NAME),
             ]);
             if (request()->hasFile('imageGallery')) {
                 foreach ($request->file('imageGallery') as $imageItem) {
                     $uploadedPath = $this->uploadImage($imageItem, $request_data['title'], 'public/gallery/items', null, GalleryImage::MODULE_NAME);
                     $entry->images()->create([
-                        'image' => $uploadedPath
+                        'image' => $uploadedPath,
                     ]);
                 }
             }
@@ -77,12 +79,14 @@ class FotoGalleryController extends Controller
 
             return redirect(route('admin.gallery.edit', $entry->id));
         }
+
         return back()->withInput();
     }
 
     public function delete($id)
     {
         $this->model->delete($id);
+
         return redirect(route('admin.gallery'));
     }
 

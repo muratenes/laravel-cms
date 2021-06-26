@@ -25,8 +25,9 @@ class BaseRepository implements EloquentRepositoryInterface
 
     /**
      * @param $value
-     * @param string $column
-     * @param array|null $relations
+     * @param string     $column
+     * @param null|array $relations
+     *
      * @return Model
      */
     public function find($value, string $column = 'id', array $relations = null): ?Model
@@ -47,7 +48,7 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
     /**
-     * @param int $id
+     * @param int   $id
      * @param array $attributes
      *
      * @return Model
@@ -56,22 +57,25 @@ class BaseRepository implements EloquentRepositoryInterface
     {
         $item = $this->model->find($id);
         $item->update($attributes);
+
         return $item;
     }
 
     /**
-     * delete record from database by id
+     * delete record from database by id.
+     *
      * @param int $id
+     *
      * @return bool
      */
     public function delete(int $id): bool
     {
         $item = $this->model->find($id);
-        return (bool)$item->delete();
+
+        return (bool) $item->delete();
     }
 
-
-    public function all(array $filter = null, $columns = array('*'), $relations = null, $orderBy = 'id')
+    public function all(array $filter = null, $columns = ['*'], $relations = null, $orderBy = 'id')
     {
         return $this->model->when($relations, function ($query) use ($relations) {
             return $query->with($relations);
@@ -82,7 +86,7 @@ class BaseRepository implements EloquentRepositoryInterface
             })->orderByDesc($orderBy)->get();
     }
 
-    public function allWithPagination(array $filter = null, array $columns = ["*"], int $perPageItem = null, array $relations = null): LengthAwarePaginator
+    public function allWithPagination(array $filter = null, array $columns = ['*'], int $perPageItem = null, array $relations = null): LengthAwarePaginator
     {
         return $this->model->when($relations, function ($query) use ($relations) {
             return $query->with($relations);

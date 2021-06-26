@@ -4,26 +4,28 @@ namespace App\Repositories\Traits;
 
 use App\Models\Kampanya;
 use App\Models\Product\Urun;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 trait CampaignTrait
 {
     /**
-     * hesaplanmış kampa ürün fiyatı
+     * hesaplanmış kampa ürün fiyatı.
+     *
      * @param Kampanya $campaign
-     * @param Urun $product
-     * @param string $productDiscountPriceField ürün para birimi indirimli sutun adı
+     * @param Urun     $product
+     * @param string   $productDiscountPriceField ürün para birimi indirimli sutun adı
+     *
      * @return float
      */
     public function getDiscountPrice(Kampanya $campaign, Urun $product, string $productDiscountPriceField)
     {
-        if ($campaign->discount_type == Kampanya::DISCOUNT_TYPE_PRICE) {
-            if ($campaign->discount_amount >= $product->{$productDiscountPriceField}) return null;
+        if (Kampanya::DISCOUNT_TYPE_PRICE === $campaign->discount_type) {
+            if ($campaign->discount_amount >= $product->{$productDiscountPriceField}) {
+                return null;
+            }
 
             return $product->{$productDiscountPriceField} - $campaign->discount_amount;
         }
+
         return $product->{$productDiscountPriceField} - ($product->{$productDiscountPriceField} * $campaign->discount_amount / 100);
     }
 

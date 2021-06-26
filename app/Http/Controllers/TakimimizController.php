@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Interfaces\OurTeamInterface;
-use Illuminate\Http\Request;
 
 class TakimimizController extends Controller
 {
@@ -17,6 +16,7 @@ class TakimimizController extends Controller
     public function list()
     {
         $list = $this->_teamService->all(['active' => 1]);
+
         return view('site.ourTeam.ourTeam', compact('list'));
     }
 }

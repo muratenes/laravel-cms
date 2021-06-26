@@ -1,6 +1,6 @@
-<?php namespace App\Repositories\Interfaces;
+<?php
 
-use App\Models\Kategori;
+namespace App\Repositories\Interfaces;
 
 interface KategoriInterface
 {
@@ -13,5 +13,4 @@ interface KategoriInterface
     public function getProductsAndAttributeSubAttributesByCategory($category, $sub_categories);
 
     public function getProductsAttributesSubAttributesProductFilterWithAjax($categorySlug, $orderType, $selectedSubAttributeIdList, $selectedBrandIdList, $currentPage = 1);
-
 }

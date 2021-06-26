@@ -3,7 +3,6 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use function GuzzleHttp\Psr7\str;
 
 class PhoneNumberRule implements Rule
 {
@@ -12,7 +11,7 @@ class PhoneNumberRule implements Rule
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param mixed $phone
      */
     public function __construct($phone)
     {
@@ -23,15 +22,19 @@ class PhoneNumberRule implements Rule
      * Determine if the validation rule passes.
      *
      * @param string $attribute
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        if (substr($this->_phone, 0, 1) == "0")
+        if ('0' === mb_substr($this->_phone, 0, 1)) {
             return false;
-        if (intval(strlen($this->_phone)) == 10)
+        }
+        if (10 === (int) (\mb_strlen($this->_phone))) {
             return true;
+        }
+
         return false;
     }
 

@@ -12,14 +12,12 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderStatusOnChangedMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
-     *
-     * @return void
      */
-
     public User $user;
     public Siparis $order;
     public Sepet $basket;
@@ -32,9 +30,8 @@ class OrderStatusOnChangedMail extends Mailable
         $this->order = $order;
         $this->basket = $order->basket;
         $this->site = Ayar::getCache();
-        $this->orderStatusText  = Siparis::statusLabelStatic($this->order->status);;
+        $this->orderStatusText = Siparis::statusLabelStatic($this->order->status);
     }
-
 
     /**
      * Build the message.
@@ -45,6 +42,7 @@ class OrderStatusOnChangedMail extends Mailable
     {
         return $this
             ->subject($this->site->title . '- ' . $this->orderStatusText)
-            ->view('emails.orderStatusChangeMail');
+            ->view('emails.orderStatusChangeMail')
+        ;
     }
 }

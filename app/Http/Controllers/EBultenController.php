@@ -22,6 +22,7 @@ class EBultenController extends Controller
             if ($item) {
                 return back()->with('message', __('lang.congratulations_you_have_successfully_registered_for_the_newsletter'));
             }
+
             return back()->withErrors(__('lang.error_message'));
         } catch (\Exception $exception) {
             return back()->withErrors(__('lang.error_message'));

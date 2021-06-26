@@ -1,12 +1,12 @@
-<?php namespace App\Repositories\Concrete\Eloquent;
+<?php
+
+namespace App\Repositories\Concrete\Eloquent;
 
 use App\Models\Log;
-use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\LogInterface;
 
 class ElLogDal extends BaseRepository implements LogInterface
 {
-
     protected $model;
 
     public function __construct(Log $model)

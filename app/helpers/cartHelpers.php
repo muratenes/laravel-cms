@@ -1,10 +1,12 @@
 <?php
+
 // ============= SESSION CART HELPERS ===============
 
 use App\Repositories\Traits\CartTrait;
 
 /**
- * Cart kargo toplam fiyat
+ * Cart kargo toplam fiyat.
+ *
  * @return mixed
  */
 function cartTotalCargoPrice()
@@ -13,7 +15,8 @@ function cartTotalCargoPrice()
 }
 
 /**
- * sepet total miktar
+ * sepet total miktar.
+ *
  * @return mixed
  */
 function cartTotalPrice()
@@ -22,7 +25,8 @@ function cartTotalPrice()
 }
 
 /**
- * sepet total miktar
+ * sepet total miktar.
+ *
  * @return mixed
  */
 function cartSubTotal()
@@ -31,7 +35,8 @@ function cartSubTotal()
 }
 
 /**
- * sepetteki tüm ürünleri getirir
+ * sepetteki tüm ürünleri getirir.
+ *
  * @return mixed
  */
 function cartItems()
@@ -40,7 +45,8 @@ function cartItems()
 }
 
 /**
- * sepetteki tüm ürünleri sayısı
+ * sepetteki tüm ürünleri sayısı.
+ *
  * @return mixed
  */
 function cartItemCount()
@@ -48,10 +54,11 @@ function cartItemCount()
     return count(CartTrait::cartItems());
 }
 
-
 /**
- * gönderilen sepet ürünün toplam hesaplanmış tutarı gelir
+ * gönderilen sepet ürünün toplam hesaplanmış tutarı gelir.
+ *
  * @param $cartItem
+ *
  * @return float|int
  */
 function getCartItemTotalByItem($cartItem)

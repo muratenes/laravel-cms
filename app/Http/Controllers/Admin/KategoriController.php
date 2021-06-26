@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 
 class KategoriController extends AdminController
 {
-    use ResponseTrait;
     use ImageUploadTrait;
+    use ResponseTrait;
 
     protected KategoriInterface $model;
 
@@ -29,7 +29,7 @@ class KategoriController extends AdminController
         if ($query || $main_cat) {
             $list = $this->model->getCategoriesByHasCategoryAndFilterText($main_cat, $query, true);
         } else {
-            $list = $this->model->allWithPagination(null, ["*"], null, ['parent_category']);
+            $list = $this->model->allWithPagination(null, ['*'], null, ['parent_category']);
         }
         $main_categories = $this->model->all([['parent_category_id', null]]);
 
@@ -40,7 +40,7 @@ class KategoriController extends AdminController
     {
         $category = new Kategori();
         $categories = Kategori::all();
-        if ($category_id != 0) {
+        if (0 !== $category_id) {
             $category = Kategori::with('descriptions')->findOrFail($category_id);
         }
 
@@ -57,7 +57,7 @@ class KategoriController extends AdminController
             $parentSlug = createSlugByModelAndTitle($this->model, $parentCategory->title, $request_data['parent_category_id']);
             $request_data['slug'] = createSlugByModelAndTitle($this->model, $parentSlug . '-' . $request_data['slug'], $category_id);
         }
-        if ($category_id != 0) {
+        if (0 !== $category_id) {
             $entry = $this->model->update($request_data, $category_id);
         } else {
             $entry = $this->model->create($request_data);
@@ -65,54 +65,59 @@ class KategoriController extends AdminController
 
         if ($entry) {
             if ($request->hasFile('image')) {
-                $imagePath = $this->uploadImage($request->file('image'), $entry->title, "public/categories", $entry->image, Kategori::MODULE_NAME);
+                $imagePath = $this->uploadImage($request->file('image'), $entry->title, 'public/categories', $entry->image, Kategori::MODULE_NAME);
                 $entry->update(['image' => $imagePath]);
             }
             $this->syncCategoriesForOtherLanguages($request, $entry);
+
             return redirect(route('admin.category.edit', $entry->id));
         }
-        return back()->withInput();
-    }
 
-    /**
-     *  kategori diğer diller için descriptionları oluşuturur
-     * @param Request $request
-     * @param Kategori $category
-     */
-    private function syncCategoriesForOtherLanguages(Request $request, Kategori $category)
-    {
-        foreach ($this->otherActiveLanguages() as $language) {
-            if ($request->has("title_" . $language[0])) {
-                $categoryTitleByLanguage = $request->get("title_$language[0]");
-                $categorySpotByLanguage = $request->get("spot_$language[0]");
-                KategoriDescription::updateOrCreate(
-                    ['lang' => $language[0], 'category_id' => $category->id],
-                    ['title' => $categoryTitleByLanguage, 'spot' => $categorySpotByLanguage]
-                );
-            } else {
-                KategoriDescription::create([
-                    'lang' => $language[0],
-                    'category_id' => $category->id
-                ]);
-            }
-        }
+        return back()->withInput();
     }
 
     public function deleteCategory($category_id)
     {
         $this->model->delete($category_id);
         success();
+
         return redirect(route('admin.categories'));
     }
 
     /**
      * @param int $categoryID
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getSubCategoriesByID(int $categoryID)
     {
         return $this->success([
-            'categories' => $this->model->getSubCategoriesByCategoryId($categoryID)
+            'categories' => $this->model->getSubCategoriesByCategoryId($categoryID),
         ]);
+    }
+
+    /**
+     *  kategori diğer diller için descriptionları oluşuturur.
+     *
+     * @param Request  $request
+     * @param Kategori $category
+     */
+    private function syncCategoriesForOtherLanguages(Request $request, Kategori $category)
+    {
+        foreach ($this->otherActiveLanguages() as $language) {
+            if ($request->has('title_' . $language[0])) {
+                $categoryTitleByLanguage = $request->get("title_{$language[0]}");
+                $categorySpotByLanguage = $request->get("spot_{$language[0]}");
+                KategoriDescription::updateOrCreate(
+                    ['lang' => $language[0], 'category_id' => $category->id],
+                    ['title' => $categoryTitleByLanguage, 'spot' => $categorySpotByLanguage]
+                );
+            } else {
+                KategoriDescription::create([
+                    'lang'        => $language[0],
+                    'category_id' => $category->id,
+                ]);
+            }
+        }
     }
 }

@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrunDetail extends Model
 {
-    protected $table = "urun_detail";
     public $timestamps = false;
+    protected $table = 'urun_detail';
     protected $guarded = [];
 
     public function subDetails()

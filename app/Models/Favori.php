@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favori extends Model
 {
-    protected $table = "favoriler";
-    protected $guarded = [];
     public $timestamps = false;
+    protected $table = 'favoriler';
+    protected $guarded = [];
 
     public function product()
     {

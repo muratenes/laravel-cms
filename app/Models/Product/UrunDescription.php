@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrunDescription extends Model
 {
-    protected $guarded = ['id'];
     public $timestamps = false;
+    protected $guarded = ['id'];
 
     protected $casts = [
-        'tags' => 'array',
-        'properties' => 'array'
+        'tags'       => 'array',
+        'properties' => 'array',
     ];
 
     /**

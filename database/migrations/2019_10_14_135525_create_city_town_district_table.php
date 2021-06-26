@@ -1,30 +1,28 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCityTownDistrictTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         // ülkeler ex:Turkey,Germany
         Schema::create('countries', function (Blueprint $table) {
             $table->smallIncrements('id')->index();
-            $table->string('title',100);
-            $table->string('code',4);
+            $table->string('title', 100);
+            $table->string('code', 4);
             $table->boolean('active')->default(1);
         });
 
         // şehirler ex:Istanbul,Saxony
         Schema::create('states', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title',100);
+            $table->string('title', 100);
             $table->boolean('active')->default(1);
             $table->unsignedSmallInteger('country_id');
 
@@ -35,7 +33,7 @@ class CreateCityTownDistrictTable extends Migration
         Schema::create('districts', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('active')->default(1);
-            $table->string('title',100);
+            $table->string('title', 100);
 
             $table->unsignedInteger('state_id');
 
@@ -45,7 +43,7 @@ class CreateCityTownDistrictTable extends Migration
         // Mahalle : Kozyatağı,Bernsdorf
         Schema::create('neighborhoods', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title',100);
+            $table->string('title', 100);
             $table->boolean('active')->default(1);
 
             $table->unsignedInteger('district_id');
@@ -56,8 +54,6 @@ class CreateCityTownDistrictTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -31,7 +29,6 @@ class CreateUsersTable extends Migration
             $table->integer('default_invoice_address_id')->nullable();
             $table->string('phone', 15)->nullable();
 
-
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -39,15 +36,11 @@ class CreateUsersTable extends Migration
             $table->string('locale', 10)->default('tr');
 
             $table->foreign('role_id')->references('id')->on('roles');
-
-
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

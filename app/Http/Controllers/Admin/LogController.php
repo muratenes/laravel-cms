@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Jobs\DeleteAllLogsJobs;
-use App\Jobs\SendUserVerificationMail;
 use App\Models\Log;
-use App\Repositories\Concrete\BaseRepository;
 use App\Repositories\Interfaces\LogInterface;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class LogController extends Controller
 {
@@ -21,22 +19,25 @@ class LogController extends Controller
 
     public function list()
     {
-        $filter = \request('q');
-        $type = \request()->get('type', null);
+        $filter = request('q');
+        $type = request()->get('type', null);
         $list = Log::when($filter, function ($query) use ($filter) {
-            return $query->where('code', 'like', "%$filter%")->orWhere('user_id', 'like', "$filter")
-                ->orWhere('message', 'like', "%$filter%")
-                ->orWhere('url', 'like', "%$filter%");
+            return $query->where('code', 'like', "%{$filter}%")->orWhere('user_id', 'like', "{$filter}")
+                ->orWhere('message', 'like', "%{$filter}%")
+                ->orWhere('url', 'like', "%{$filter}%")
+            ;
         })->when($type, function ($query) use ($type) {
             $query->where('type', $type);
         })->orderByDesc('id')->simplePaginate();
         $logTypes = Log::listTypesWithId();
+
         return view('admin.log.list_logs', compact('list', 'logTypes'));
     }
 
     public function show($id)
     {
         $log = $this->model->getById($id);
+
         return view('admin.log.show_log', compact('log'));
     }
 
@@ -48,6 +49,7 @@ class LogController extends Controller
     public function delete($id)
     {
         $this->model->delete($id);
+
         return redirect(route('admin.logs'));
     }
 
@@ -55,6 +57,7 @@ class LogController extends Controller
     {
 //        $this->dispatch(new DeleteAllLogsJobs());
         Log::truncate();
+
         return redirect(route('admin.logs'))->with('message', 'Bütün log kayıtları silindi');
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use LVR\CreditCard\CardCvc;
 use LVR\CreditCard\CardExpirationMonth;
 use LVR\CreditCard\CardExpirationYear;
-use LVR\CreditCard\CardNumber;
 
 class PaymentValidationRequest extends FormRequest
 {
@@ -28,17 +27,17 @@ class PaymentValidationRequest extends FormRequest
      */
     public function rules()
     {
-        $cardNumber = str_replace("-", "", request()->get('cardNumber'));
+        $cardNumber = str_replace('-', '', request()->get('cardNumber'));
         $phoneReplaces = ['(', ')', '-', ' '];
         request()->merge(['cardNumber' => $cardNumber]);
-        request()->merge(['phone' => str_replace($phoneReplaces, "", $this->get('phone')) ]);
+        request()->merge(['phone' => str_replace($phoneReplaces, '', $this->get('phone'))]);
 
         $rules = [
-            'cardNumber' => ['required', 'min:16'],
-            'holderName' => ['required', 'min:5', 'max:50'],
-            'cardExpireDateYear' => ['required', new CardExpirationYear($this->get('cardExpireDateMonth'))],
+            'cardNumber'          => ['required', 'min:16'],
+            'holderName'          => ['required', 'min:5', 'max:50'],
+            'cardExpireDateYear'  => ['required', new CardExpirationYear($this->get('cardExpireDateMonth'))],
             'cardExpireDateMonth' => ['required', new CardExpirationMonth($this->get('cardExpireDateYear'))],
-            'cvv' => ['required', new CardCvc($cardNumber)],
+            'cvv'                 => ['required', new CardCvc($cardNumber)],
         ];
 
         if (request()->has('differentBillAddress')) {

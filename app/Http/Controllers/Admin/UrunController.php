@@ -18,9 +18,9 @@ use Yajra\DataTables\DataTables;
 
 class UrunController extends AdminController
 {
-    use ResponseTrait;
     use ImageUploadTrait;
     use ProductConcern;
+    use ResponseTrait;
 
     protected UrunlerInterface $model;
     protected KategoriInterface $categoryService;
@@ -40,6 +40,7 @@ class UrunController extends AdminController
     {
         $query = request()->get('text');
         $data = $this->model->getProductsBySearchTextForAjax($query);
+
         return response()->json($data);
     }
 
@@ -52,45 +53,47 @@ class UrunController extends AdminController
         return view('admin.product.list_products', compact('categories', 'companies', 'brands'));
     }
 
-
     public function newOrEditProduct($product_id = 0)
     {
         $product = new Urun();
         $productDetails = $productVariants = $productSelectedSubAttributesIdsPerAttribute = $selectedAttributeIdList = $productSelectedSubAttributesIdsPerAttribute = [];
 
-        if ($product_id != 0) {
+        if (0 !== $product_id) {
             $product = $this->model->getById($product_id, null, ['categories', 'variants.urunVariantSubAttributes', 'descriptions']);
         }
         $data = [
-            'categories' => $this->categoryService->all(['parent_category_id' => null]),
-            'brands' => $this->_brandService->all(['active' => 1]),
-            'companies' => $this->_productCompanyService->all(['active' => 1]),
-            'attributes' => $this->model->getAllAttributes(),
+            'categories'    => $this->categoryService->all(['parent_category_id' => null]),
+            'brands'        => $this->_brandService->all(['active' => 1]),
+            'companies'     => $this->_productCompanyService->all(['active' => 1]),
+            'attributes'    => $this->model->getAllAttributes(),
             'subAttributes' => $this->model->getAllSubAttributes(),
-            'currencies' => $this->activeCurrencies(),
+            'currencies'    => $this->activeCurrencies(),
             'subCategories' => [],
-            'selected' => [
-                'categories' => $product->categories()->pluck('category_id')->toArray()
-            ]
+            'selected'      => [
+                'categories' => $product->categories()->pluck('category_id')->toArray(),
+            ],
         ];
 
-        if ($product_id != 0) {
+        if (0 !== $product_id) {
             $productDetails = $this->model->getProductDetailWithSubAttributes($product_id)['detail'];
             $productVariants = $product->variants;
-            $productSelectedSubAttributesIdsPerAttribute = array();
+            $productSelectedSubAttributesIdsPerAttribute = [];
             foreach ($productDetails as $index => $detail) {
-                $selectedAttributeIdList = array();
+                $selectedAttributeIdList = [];
                 foreach ($detail['sub_details'] as $subIndex => $subDetail) {
-                    array_push($selectedAttributeIdList, $subDetail['sub_attribute']);
+                    $selectedAttributeIdList[] = $subDetail['sub_attribute'];
                 }
                 $productSelectedSubAttributesIdsPerAttribute[$index] = $selectedAttributeIdList;
             }
-            if (!config('admin.product.multiple_category')) {
+            if (! config('admin.product.multiple_category')) {
                 $data['subCategories'] = Kategori::where('parent_category_id', $product->parent_category_id)->get();
             }
         }
-        return view('admin.product.new_edit_product',
-            compact('product', 'productDetails', 'productSelectedSubAttributesIdsPerAttribute', 'productVariants', 'data'));
+
+        return view(
+            'admin.product.new_edit_product',
+            compact('product', 'productDetails', 'productSelectedSubAttributesIdsPerAttribute', 'productVariants', 'data')
+        );
     }
 
     public function saveProduct(AdminProductSaveRequest $request, $product_id = 0)
@@ -99,36 +102,40 @@ class UrunController extends AdminController
 
         $productRequestData['slug'] = createSlugByModelAndTitle($this->model, $productRequestData['title'], $product_id);
         $productSelectedAttributesIdAnSubAttributeIdList = $this->getProductAttributeDetailFromRequest($request);
-        if ($product_id != 0) {
+        if (0 !== $product_id) {
             $entry = $this->model->updateWithCategory($productRequestData, $product_id, $request->categories, $productSelectedAttributesIdAnSubAttributeIdList);
         } else {
             $entry = $this->model->createWithCategory($productRequestData, $request->categories, $productSelectedAttributesIdAnSubAttributeIdList);
         }
-        if (!$entry) return back()->withInput();
+        if (! $entry) {
+            return back()->withInput();
+        }
 
         $this->saveProductVariants($entry, $request);
         $this->syncProductForOtherLanguages($request, $entry);
         $this->uploadProductMainImageAndGallery($request, $entry);
-        return redirect(route('admin.product.edit', $entry->id));
 
+        return redirect(route('admin.product.edit', $entry->id));
     }
 
     /**
      * @param ProductFilter $filter
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ajax(ProductFilter $filter)
     {
         return DataTables::of(
             Urun::with(['company:id,title', 'categories', 'parent_category', 'sub_category', 'brand:id,title'])->filter($filter)
         )->make(true);
-
     }
 
     public function deleteProduct(Urun $product)
     {
         $this->model->delete($product->id);
+
         return redirect(route('admin.products'));
     }
 

@@ -8,8 +8,6 @@ class CreateMenusTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -24,14 +22,10 @@ class CreateMenusTable extends Migration
 
             $table->foreign('parent_id')->references('id')->on('menus');
         });
-
-
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

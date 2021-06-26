@@ -2,33 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
-
+use App\Http\Controllers\Controller;
 use App\Http\Filters\OrderFilter;
 use App\Models\Ayar;
 use App\Models\Cargo;
 use App\Models\Log;
-use App\Models\Product\Urun;
 use App\Models\Product\UrunFirma;
 use App\Models\SepetUrun;
 use App\Models\Siparis;
 use App\Notifications\order\OrderCancelledNotification;
-use App\Notifications\order\OrderItemStatusChangedNotification;
 use App\Notifications\order\OrderStatusChangedNotification;
 use App\Repositories\Interfaces\CityTownInterface;
 use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\SepetInterface;
 use App\Repositories\Interfaces\SiparisInterface;
-use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\ResponseTrait;
 use App\Repositories\Traits\SiparisUrunTrait;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Iyzipay\Model\Locale;
 use Yajra\DataTables\DataTables;
 
 class SiparisController extends Controller
 {
-    use SiparisUrunTrait, ResponseTrait;
+    use ResponseTrait;
+    use SiparisUrunTrait;
 
     protected SiparisInterface $model;
     protected UrunFirma $productCompanyService;
@@ -45,7 +42,6 @@ class SiparisController extends Controller
         $this->basketService = $basketService;
     }
 
-
     public function list()
     {
         $filter_types = Siparis::listStatusWithId();
@@ -53,29 +49,29 @@ class SiparisController extends Controller
         $categories = $this->categoryService->all([['parent_category_id', null]], ['id', 'title', 'parent_category_id'], ['sub_categories']);
         $states = $this->cityTownService->all();
 
-
         return view('admin.order.list_orders', compact('filter_types', 'companies', 'categories', 'states'));
     }
 
     /**
      * @param int $orderId
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function newOrEditOrder(int $orderId)
     {
         $order = $this->getOrderWithTrashed($orderId);
 
-        if ($order->is_payment == 0) {
-            error("Dikkat bu işlem 3D security kısmını geçememiştir.Ödeme İşlemi gerçekleşmemiştir");
+        if (0 === $order->is_payment) {
+            error('Dikkat bu işlem 3D security kısmını geçememiştir.Ödeme İşlemi gerçekleşmemiştir');
         }
 
         return view('admin.order.new_edit_order', [
-            'logs' => $this->getOrderAllLogs($order->id, $order->sepet_id),
-            'filter_types' => Siparis::listStatusWithId(),
+            'logs'              => $this->getOrderAllLogs($order->id, $order->sepet_id),
+            'filter_types'      => Siparis::listStatusWithId(),
             'item_filter_types' => SepetUrun::listStatusWithId(),
-            'order' => $order,
-            'cargos' => Cargo::all(),
-            'currencySymbol' => Ayar::getCurrencySymbolById($order->currency_id)]);
+            'order'             => $order,
+            'cargos'            => Cargo::all(),
+            'currencySymbol'    => Ayar::getCurrencySymbolById($order->currency_id), ]);
     }
 
     public function save(Request $request, $orderId)
@@ -88,7 +84,7 @@ class SiparisController extends Controller
 
         $order->update($validated);
 
-        if ($status != $orderStatus) {
+        if ($status !== $orderStatus) {
             $order->basket->user->notify(new OrderStatusChangedNotification($order));
         }
 
@@ -97,22 +93,23 @@ class SiparisController extends Controller
 
     /**
      * @param OrderFilter $filter
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ajax(OrderFilter $filter)
     {
         return DataTables::of(
-            Siparis::with(['basket' => function ($query) {
-                    $query->withTrashed();
-                }, 'delivery_address' => function ($query) {
-                    $query->select(['id', 'title', 'state_id', 'district_id'])->with(['state', 'district'])->withTrashed();
-                }, 'basket.user:id,name,surname,email']
+            Siparis::with(
+                ['basket' => function ($query) {
+                $query->withTrashed();
+            }, 'delivery_address' => function ($query) {
+                $query->select(['id', 'title', 'state_id', 'district_id'])->with(['state', 'district'])->withTrashed();
+            }, 'basket.user:id,name,surname,email']
             )->filter($filter)
         )->make(true);
-
     }
-
 
     public function deleteOrder($id)
     {
@@ -121,8 +118,10 @@ class SiparisController extends Controller
     }
 
     /**
-     * sipariş oluşturulurken sepetteki ürünlerin kopyası alınır
+     * sipariş oluşturulurken sepetteki ürünlerin kopyası alınır.
+     *
      * @param Siparis $order
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function snapshot(Siparis $order)
@@ -130,26 +129,26 @@ class SiparisController extends Controller
         return response()->json($order->snapshot);
     }
 
-
     public function invoiceDetail(Siparis $order)
     {
         return view('site.siparis.invoice.invoiceDetail', compact('order'));
     }
 
-
     /**
-     * tüm siparişi iyzicodan iptal eder
+     * tüm siparişi iyzicodan iptal eder.
+     *
      * @param Siparis $order
      */
     public function cancelOrder(Siparis $order)
     {
         $canCancelResponse = $this->model->checkCanCancelAllOrderFromAdmin($order);
-        if (!$canCancelResponse['status']) {
+        if (! $canCancelResponse['status']) {
             return back()->withErrors($canCancelResponse['message']);
         }
         $response = $this->model->cancelOrderFromIyzico($order, Locale::TR);
-        if ($response['status'] == "failure") {
+        if ('failure' === $response['status']) {
             Log::addIyzicoLog(__('log.admin.error_when_order_cancel'), json_encode($response), $order->id, Log::TYPE_ORDER);
+
             return back()->withErrors($response['errorMessage']);
         }
         $order->update(['status' => Siparis::STATUS_IPTAL_EDILDI]);
@@ -162,17 +161,19 @@ class SiparisController extends Controller
     }
 
     /**
-     * tüm siparişi iyzicodan iptal eder
+     * tüm siparişi iyzicodan iptal eder.
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function refundItem(Request $request)
     {
         $basketItem = SepetUrun::withTrashed()->find($request->get('id'));
         $validated = $request->validate(['refundAmount' => 'required|numeric|between:0,' . $basketItem->refundable_amount, 'id' => 'required|numeric']);
-        $refundAmount = (float)$validated['refundAmount'];
+        $refundAmount = (float) $validated['refundAmount'];
         $canRefundResponse = $this->model->checkCanRefundBasketItemFromAdmin($basketItem, $refundAmount);
-        if (!$canRefundResponse['status']) {
+        if (! $canRefundResponse['status']) {
             return back()->withErrors($canRefundResponse['message']);
         }
         $iyzicoResponse = $this->model->refundBasketItemFromIyzico($basketItem, $refundAmount);
@@ -188,8 +189,10 @@ class SiparisController extends Controller
 
     /**
      *  siparişin silinmiş relationları ile birlikte getirir.
+     *
      * @param $orderId
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     *
+     * @return null|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     private function getOrderWithTrashed($orderId)
     {
@@ -201,5 +204,4 @@ class SiparisController extends Controller
             $query->withTrashed();
         }])->find($orderId);
     }
-
 }

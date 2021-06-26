@@ -28,18 +28,18 @@ class AdminProductSaveRequest extends FormRequest
         $this->request->set('properties', $this->request->get('properties') ?? []);
 
         $rule = [
-            'title' => 'required|max:90',
-            'slug' => 'nullable|string|max:150',
-            'active' => 'nullable',
-            'desc' => 'nullable',
-            'tags' => 'nullable|array',
+            'title'        => 'required|max:90',
+            'slug'         => 'nullable|string|max:150',
+            'active'       => 'nullable',
+            'desc'         => 'nullable',
+            'tags'         => 'nullable|array',
             'buying_price' => 'nullable|numeric|min:0',
-            'company_id' => 'nullable|numeric',
-            'brand_id' => 'nullable|numeric',
-            'spot' => 'nullable|string',
-            'properties' => 'nullable|array',
-            'qty' => 'nullable|numeric|min:0',
-            'code' => 'max:50',
+            'company_id'   => 'nullable|numeric',
+            'brand_id'     => 'nullable|numeric',
+            'spot'         => 'nullable|string',
+            'properties'   => 'nullable|array',
+            'qty'          => 'nullable|numeric|min:0',
+            'code'         => 'max:50',
         ];
 
         // single category
@@ -64,24 +64,22 @@ class AdminProductSaveRequest extends FormRequest
         if (admin('modules.product.cargo_price')) {
             $rule['cargo_price'] = 'nullable|numeric|min:0,max:99999';
         }
+
         return $rule;
+    }
+
+    public function messages()
+    {
+        return parent::messages();
     }
 
     /**
      * Prepare the data for validation.
-     *
-     * @return void
      */
     protected function prepareForValidation()
     {
         $this->merge([
             'active' => (bool) $this->has('active'),
         ]);
-    }
-
-    public function messages()
-    {
-        return parent::messages();
-
     }
 }

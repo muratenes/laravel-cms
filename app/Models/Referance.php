@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Referance extends Model
 {
-    const MODULE_NAME = 'reference';
+    public const MODULE_NAME = 'reference';
+
+    public const IMAGE_QUALITY = 60;
+    public const IMAGE_RESIZE = null;
+    public $timestamps = false;
 
     protected $table = 'referanslar';
     protected $guarded = [];
-    public $timestamps = false;
-
-    const  IMAGE_QUALITY = 60;
-    const  IMAGE_RESIZE = null;
 }

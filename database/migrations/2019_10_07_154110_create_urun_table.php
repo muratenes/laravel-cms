@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUrunTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -33,7 +31,6 @@ class CreateUrunTable extends Migration
             $table->unsignedFloat('eur_price', 8, 2)->nullable();
             $table->unsignedFloat('eur_discount_price', 8, 2)->nullable();
 
-
             // Other columns
 
             $table->unsignedInteger('brand_id')->nullable();
@@ -52,11 +49,9 @@ class CreateUrunTable extends Migration
                 $table->foreign('sub_category_id')->references('id')->on('kategoriler');
             }
 
-
             // CARGO PRICE
 
             $table->unsignedFloat('cargo_price', 8, 2)->nullable();
-
 
             $table->timestamps();
             $table->softDeletes();
@@ -68,8 +63,6 @@ class CreateUrunTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

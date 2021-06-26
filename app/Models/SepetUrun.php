@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Product\Urun;
-use App\Models\Product\UrunAttribute;
 use App\Models\Product\UrunSubAttribute;
 use App\Repositories\Traits\ModelCurrencyTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -11,53 +10,53 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SepetUrun extends Model
 {
-    use  SoftDeletes;
     use ModelCurrencyTrait;
+    use SoftDeletes;
 
-    protected $table = "sepet_urun";
+    public const STATUS_BASARISIZ = 1;
+    public const STATUS_ONAY_BEKLIYOR = 3;
+    public const STATUS_SIPARIS_ALINDI = 4;
+    public const STATUS_HAZIRLANIYOR = 5;
+    public const STATUS_HAZIRLANDI = 6;
+    public const STATUS_KARGOYA_VERILDI = 7;
+    public const STATUS_IADE_EDILDI = 9;
+    public const STATUS_IPTAL_EDILDI = 10;
+    public const STATUS_TAMAMLANDI = 11;
+    public const STATUS_IADE_TALEP = 12;
+    public const STATUS_KISMI_IADE = 13;
+
+    protected $table = 'sepet_urun';
     protected $guarded = ['id'];
-
-
-    const STATUS_BASARISIZ = 1;
-    const STATUS_ONAY_BEKLIYOR = 3;
-    const STATUS_SIPARIS_ALINDI = 4;
-    const STATUS_HAZIRLANIYOR = 5;
-    const STATUS_HAZIRLANDI = 6;
-    const STATUS_KARGOYA_VERILDI = 7;
-    const STATUS_IADE_EDILDI = 9;
-    const STATUS_IPTAL_EDILDI = 10;
-    const STATUS_TAMAMLANDI = 11;
-    const STATUS_IADE_TALEP = 12;
-    const STATUS_KISMI_IADE = 13;
-
 
     public static function listStatusWithId()
     {
         return [
             // index => [id,label,can_editable]
-            self::STATUS_BASARISIZ => [SepetUrun::STATUS_BASARISIZ, "Ürün siparişi Başarısız", false],
-            self::STATUS_ONAY_BEKLIYOR => [SepetUrun::STATUS_ONAY_BEKLIYOR, "Ürün Onay Bekliyor", true],
-            self::STATUS_SIPARIS_ALINDI => [SepetUrun::STATUS_SIPARIS_ALINDI, "Ürün Onaylandı", true],
-            self::STATUS_HAZIRLANIYOR => [SepetUrun::STATUS_HAZIRLANIYOR, "Ürün Hazırlanıyor", true],
-            self::STATUS_HAZIRLANDI => [SepetUrun::STATUS_HAZIRLANDI, "Ürün Hazırlandı", true],
-            self::STATUS_KARGOYA_VERILDI => [SepetUrun::STATUS_KARGOYA_VERILDI, "Ürün Kargoya Verildi", true],
-            self::STATUS_IADE_EDILDI => [SepetUrun::STATUS_IADE_EDILDI, "Ürün İade Edildi", false],
-            self::STATUS_IPTAL_EDILDI => [SepetUrun::STATUS_IPTAL_EDILDI, "Ürün İptal Edildi", false],
-            self::STATUS_TAMAMLANDI => [SepetUrun::STATUS_TAMAMLANDI, "Ürün Tamamlandı", true],
-            self::STATUS_IADE_TALEP => [SepetUrun::STATUS_IADE_TALEP, "İade Talep Edildi", false],
-            self::STATUS_KISMI_IADE => [SepetUrun::STATUS_KISMI_IADE, "Ürün Kısmen İade edildi", false],
+            self::STATUS_BASARISIZ       => [self::STATUS_BASARISIZ, 'Ürün siparişi Başarısız', false],
+            self::STATUS_ONAY_BEKLIYOR   => [self::STATUS_ONAY_BEKLIYOR, 'Ürün Onay Bekliyor', true],
+            self::STATUS_SIPARIS_ALINDI  => [self::STATUS_SIPARIS_ALINDI, 'Ürün Onaylandı', true],
+            self::STATUS_HAZIRLANIYOR    => [self::STATUS_HAZIRLANIYOR, 'Ürün Hazırlanıyor', true],
+            self::STATUS_HAZIRLANDI      => [self::STATUS_HAZIRLANDI, 'Ürün Hazırlandı', true],
+            self::STATUS_KARGOYA_VERILDI => [self::STATUS_KARGOYA_VERILDI, 'Ürün Kargoya Verildi', true],
+            self::STATUS_IADE_EDILDI     => [self::STATUS_IADE_EDILDI, 'Ürün İade Edildi', false],
+            self::STATUS_IPTAL_EDILDI    => [self::STATUS_IPTAL_EDILDI, 'Ürün İptal Edildi', false],
+            self::STATUS_TAMAMLANDI      => [self::STATUS_TAMAMLANDI, 'Ürün Tamamlandı', true],
+            self::STATUS_IADE_TALEP      => [self::STATUS_IADE_TALEP, 'İade Talep Edildi', false],
+            self::STATUS_KISMI_IADE      => [self::STATUS_KISMI_IADE, 'Ürün Kısmen İade edildi', false],
         ];
     }
 
     public static function statusLabelStatic($param)
     {
-        $list = SepetUrun::listStatusWithId();
+        $list = self::listStatusWithId();
+
         return isset($list[$param]) ? $list[$param][1] : '-';
     }
 
     public function statusLabel()
     {
         $list = self::listStatusWithId();
+
         return isset($list[$this->status]) ? $list[$this->status][1] : '-';
     }
 
@@ -77,15 +76,18 @@ class SepetUrun extends Model
         return $this->belongsTo(Sepet::class, 'sepet_id', 'id');
     }
 
-
     /**
-     * Sepette oluşturulacak ürünün attributes_text değerini getirir
-     * @param array|null $subAttributeIdList
+     * Sepette oluşturulacak ürünün attributes_text değerini getirir.
+     *
+     * @param null|array $subAttributeIdList
+     *
      * @return string
      */
     public static function getAttributesText(?array $subAttributeIdList)
     {
-        if (!$subAttributeIdList) return '';
+        if (! $subAttributeIdList) {
+            return '';
+        }
         $attributeText = '';
         foreach ($subAttributeIdList as $index => $item) {
             $productSubAttribute = UrunSubAttribute::with('attribute')->find($item);
@@ -96,14 +98,18 @@ class SepetUrun extends Model
     }
 
     /**
-     * Sepette oluşturulacak ürünün attributes_text değerini getirir
-     * @param int $langID seçili dil ID
-     * @param array|null $subAttributeIdList
+     * Sepette oluşturulacak ürünün attributes_text değerini getirir.
+     *
+     * @param int        $langID             seçili dil ID
+     * @param null|array $subAttributeIdList
+     *
      * @return string
      */
     public static function getAttributesTextByLang($langID, ?array $subAttributeIdList)
     {
-        if (!$subAttributeIdList) return '';
+        if (! $subAttributeIdList) {
+            return '';
+        }
         $attributeText = '';
         foreach ($subAttributeIdList as $index => $item) {
             $productSubAttribute = UrunSubAttribute::with('attribute')->find($item);
@@ -113,9 +119,8 @@ class SepetUrun extends Model
         return $attributeText;
     }
 
-
     /**
-     * sepetteki ürünün adet ile hesaplanmış son hali getirir
+     * sepetteki ürünün adet ile hesaplanmış son hali getirir.
      */
     public function getSubTotalAttribute()
     {
@@ -123,7 +128,7 @@ class SepetUrun extends Model
     }
 
     /**
-     * sepetteki ürünün kargo ve adet ile hesaplanmış son hali getirir
+     * sepetteki ürünün kargo ve adet ile hesaplanmış son hali getirir.
      */
     public function getTotalAttribute()
     {
@@ -139,7 +144,8 @@ class SepetUrun extends Model
     }
 
     /**
-     * iade edilebilir tutar
+     * iade edilebilir tutar.
+     *
      * @return float
      */
     public function getRefundableAmountAttribute()

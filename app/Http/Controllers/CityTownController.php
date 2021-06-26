@@ -17,5 +17,4 @@ class CityTownController extends Controller
     {
         return $this->model->getTownsByCityId($cityId);
     }
-
 }

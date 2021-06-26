@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Cache;
 
 class UrunAttribute extends Model
 {
-    protected $table = "urun_attributes";
-    protected $guarded = [];
     public $timestamps = false;
-
+    protected $table = 'urun_attributes';
+    protected $guarded = [];
 
     /**
-     * diğer dillerdeki karşılıkları
+     * diğer dillerdeki karşılıkları.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function descriptions()
@@ -32,20 +32,24 @@ class UrunAttribute extends Model
     }
 
     /**
-     * mevcut dildeki başlık getirir
-     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|mixed|object
+     * mevcut dildeki başlık getirir.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed|Model|object
      */
     public function getTitleLangAttribute()
     {
-        $langDescription = $this->descriptions()->where('lang',curLangId())->first();
-        return ($langDescription and $langDescription->title) ? $langDescription->title : $this->title;
+        $langDescription = $this->descriptions()->where('lang', curLangId())->first();
+
+        return ($langDescription && $langDescription->title) ? $langDescription->title : $this->title;
     }
 
     public static function getActiveAttributesWithSubAttributesCache()
     {
         $cache = Cache::get('cacheActiveAttributesWithSubAttributes');
-        if (is_null($cache))
-            $cache = self::setCache(UrunAttribute::with('subAttributes')->where(['active' => 1])->get());
+        if (null === $cache) {
+            $cache = self::setCache(self::with('subAttributes')->where(['active' => 1])->get());
+        }
+
         return $cache;
     }
 
@@ -60,8 +64,7 @@ class UrunAttribute extends Model
     {
         Cache::forget('cacheActiveAttributesWithSubAttributes');
         UrunSubAttribute::clearCache();
+
         return self::getActiveAttributesWithSubAttributesCache();
     }
-
-
 }

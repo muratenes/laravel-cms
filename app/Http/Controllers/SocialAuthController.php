@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product\UrunVariant;
 use App\Models\Sepet;
 use App\Models\SepetUrun;
-use App\Models\Product\UrunVariant;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -21,13 +21,13 @@ class SocialAuthController extends Controller
         $auth_user = Socialite::driver($service)->user();
         $user = User::updateOrCreate(
             [
-                'email' => $auth_user->email
+                'email' => $auth_user->email,
             ],
             [
-                'token' => $auth_user->token,
-                'name' => $auth_user->name,
-                'surname' => '',
-                'is_active' => 1
+                'token'     => $auth_user->token,
+                'name'      => $auth_user->name,
+                'surname'   => '',
+                'is_active' => 1,
             ]
         );
 
@@ -39,14 +39,14 @@ class SocialAuthController extends Controller
             foreach (Cart::content() as $cartItem) {
                 if ($cartItem->options->selectedSubAttributesIdList) {
                     $variant = UrunVariant::urunHasVariant($cartItem->id, $cartItem->options->selectedSubAttributesIdList);
-                    if ($variant !== false) {
+                    if (false !== $variant) {
                         $cartItem->price = $variant->price;
                     }
                 }
                 SepetUrun::updateOrCreate(
                     ['sepet_id' => $current_basket_id, 'product_id' => $cartItem->id, 'attributes_text' => $cartItem->options->attributeText],
-                    ['qty' => $cartItem->qty, 'price' => $cartItem->price,
-                        'status' => SepetUrun::STATUS_ONAY_BEKLIYOR, 'attributes_text' => $cartItem->options->attributeText]
+                    ['qty'       => $cartItem->qty, 'price' => $cartItem->price,
+                        'status' => SepetUrun::STATUS_ONAY_BEKLIYOR, 'attributes_text' => $cartItem->options->attributeText, ]
                 );
             }
         }
@@ -56,11 +56,11 @@ class SocialAuthController extends Controller
         foreach ($basket_products as $basketItem) {
             Cart::add($basketItem->product->id, $basketItem->product->title, $basketItem->qty, $basketItem->price, ['slug' => $basketItem->product->slug, 'attributeText' => $basketItem->attributes_text, 'image' => $basketItem->product->image]);
         }
+
         return redirect()->intended('/')->with('message', 'Hoşgeldin Giriş Başarılı');
     }
 
     public function handleProviderGoogleCallback()
     {
-
     }
 }

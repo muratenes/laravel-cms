@@ -1,13 +1,13 @@
-<?php namespace App\Repositories\Concrete\Eloquent;
+<?php
 
-use App\Models\Banner;
+namespace App\Repositories\Concrete\Eloquent;
+
 use App\Models\SSS;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\SSSInterface;
 
 class ElSSSDal implements SSSInterface
 {
-
     protected $model;
 
     public function __construct(SSS $model)
@@ -15,22 +15,22 @@ class ElSSSDal implements SSSInterface
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }
 
-    public function all($filter = null, $columns = array("*"), $relations = null)
+    public function all($filter = null, $columns = ['*'], $relations = null)
     {
         return $this->model->all($filter, $columns, $relations)->get();
     }
 
-    public function allWithPagination($filter = null, $columns = array("*"), $perPageItem = null, $relations = null)
+    public function allWithPagination($filter = null, $columns = ['*'], $perPageItem = null, $relations = null)
     {
         return $this->model->allWithPagination($filter, $columns, $perPageItem);
     }
 
-    public function getById($id, $columns = array('*'), $relations = null)
+    public function getById($id, $columns = ['*'], $relations = null)
     {
         return $this->model->getById($id, $columns, $relations);
     }
 
-    public function getByColumn(string $field, $value, $columns = array('*'), $relations = null)
+    public function getByColumn(string $field, $value, $columns = ['*'], $relations = null)
     {
         return $this->model->getByColumn($field, $value, $columns, $relations);
     }
@@ -54,6 +54,4 @@ class ElSSSDal implements SSSInterface
     {
         return $this->model->with($relations, $filter, $paginate, $perPageItem);
     }
-
-
 }

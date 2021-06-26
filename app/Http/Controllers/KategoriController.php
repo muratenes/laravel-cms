@@ -27,21 +27,21 @@ class KategoriController extends Controller
 
     public function productFilterWithAjax()
     {
-        $slug = \request('slug');
-        $order = \request('orderBy');
-        $selectedSubAttributeListFromRequest = \request()->get("secimler");
-        $selectedBrandIdListFromRequest = \request()->get("brands");
-        $currentPage = \request()->get('page', 1);
+        $slug = request('slug');
+        $order = request('orderBy');
+        $selectedSubAttributeListFromRequest = request()->get('secimler');
+        $selectedBrandIdListFromRequest = request()->get('brands');
+        $currentPage = request()->get('page', 1);
         $subAttributeIdList = [];
-        if (!is_null($selectedSubAttributeListFromRequest)) {
+        if (null !== $selectedSubAttributeListFromRequest) {
             foreach ($selectedSubAttributeListFromRequest as $s) {
-                if (!is_null($s)) {
-                    array_push($subAttributeIdList, array_map('intval', explode(',', $s)));
+                if (null !== $s) {
+                    $subAttributeIdList[] = array_map('intval', explode(',', $s));
                 }
             }
         }
         $data = $this->model->getProductsAttributesSubAttributesProductFilterWithAjax($slug, $order, $subAttributeIdList, $selectedBrandIdListFromRequest, $currentPage);
+
         return response()->json($data);
     }
-
 }

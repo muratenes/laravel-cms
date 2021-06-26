@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repositories\Concrete\Eloquent;
-
 
 use App\Models\Product\UrunFirma;
 use App\Repositories\Concrete\ElBaseRepository;
@@ -10,7 +8,6 @@ use App\Repositories\Interfaces\UrunFirmaInterface;
 
 class ElUrunFirmaDal implements UrunFirmaInterface
 {
-
     protected $model;
 
     public function __construct(UrunFirma $model)
@@ -18,22 +15,22 @@ class ElUrunFirmaDal implements UrunFirmaInterface
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }
 
-    public function all($filter = null, $columns = array("*"), $relations = null)
+    public function all($filter = null, $columns = ['*'], $relations = null)
     {
         return $this->model->all($filter, $columns, $relations)->get();
     }
 
-    public function allWithPagination($filter = null, $columns = array("*"), $perPageItem = null, $relations = null)
+    public function allWithPagination($filter = null, $columns = ['*'], $perPageItem = null, $relations = null)
     {
         return $this->model->allWithPagination($filter, $columns, $perPageItem, $relations);
     }
 
-    public function getById($id, $columns = array('*'), $relations = null)
+    public function getById($id, $columns = ['*'], $relations = null)
     {
         return $this->model->getById($id, $columns, $relations);
     }
 
-    public function getByColumn(string $field, $value, $columns = array('*'), $relations = null)
+    public function getByColumn(string $field, $value, $columns = ['*'], $relations = null)
     {
         return $this->model->getByColumn($field, $value, $columns, $relations);
     }
@@ -53,10 +50,8 @@ class ElUrunFirmaDal implements UrunFirmaInterface
         return $this->model->delete($id);
     }
 
-
     public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
     {
         return $this->model->with($relations, $filter, $paginate, $perPageItem);
     }
-
 }

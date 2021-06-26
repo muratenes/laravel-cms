@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ayar;
-use App\Models\Product\UrunAttribute;
-use App\Models\Product\UrunSubAttribute;
-use App\Models\Sepet;
 use App\Models\Product\Urun;
-use App\Models\SepetUrun;
+use App\Models\Sepet;
 use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Interfaces\SepetInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
@@ -20,8 +16,8 @@ use Illuminate\Support\Facades\Session;
 
 class SepetController extends Controller
 {
-    use SepetSupportTrait;
     use ResponseTrait;
+    use SepetSupportTrait;
 
     protected SepetInterface $model;
     private UrunlerInterface $productService;
@@ -36,6 +32,7 @@ class SepetController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -52,14 +49,15 @@ class SepetController extends Controller
             $this->couponService->checkCoupon($productIdList, $sessionCoupon['code'], $cartSubTotalPrice, currentCurrencyID(), $basket);
         }
 
-
         return view('site.sepet.sepet', compact('basket'));
     }
 
     /**
      * sepetten ürün siler.
+     *
      * @param Request $request
-     * @param string $rowID silinecek cart item id
+     * @param string  $rowID   silinecek cart item id
+     *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function remove(Request $request, string $rowID)
@@ -69,7 +67,8 @@ class SepetController extends Controller
         if ($request->user()) {
             Sepet::getCurrentBasket()->basket_items()
                 ->where(['product_id' => $cart->attributes['product']['id'], 'attributes_text' => $cart->attributes['attributes_text']])
-                ->delete();
+                ->delete()
+            ;
         }
         $this->removeCartItem($rowID);
         success(__('lang.item_removed'));
@@ -78,48 +77,52 @@ class SepetController extends Controller
     }
 
     /**
-     * sepetteki ürünü 1 adet azaltır
+     * sepetteki ürünü 1 adet azaltır.
+     *
      * @param Request $request
-     * @param string $rowID
+     * @param string  $rowID
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function decrement(Request $request, string $rowID)
     {
         // todo GAte ekle
         $cartItem = $this->getCartItem($rowID);
-        if (!$cartItem) {
+        if (! $cartItem) {
             $this->error(__('lang.basket_item_not_found'));
         }
 
         $quantity = $this->getCartItemQuantity($cartItem);
         $this->decrementItem($cartItem);
         if ($request->user()) {
-            if ($quantity == 1) {
+            if (1 === $quantity) {
                 Sepet::getCurrentBasket()->basket_items()
                     ->where(['product_id' => $cartItem->attributes['product']['id']])
-                    ->delete();
+                    ->delete()
+                ;
             } else {
                 Sepet::getCurrentBasket()->basket_items()
                     ->where(['product_id' => $cartItem->attributes['product']['id']])
-                    ->decrement('qty');
+                    ->decrement('qty')
+                ;
             }
         }
 
         return $this->success([
             'card' => [
-                'items' => $this->cartItems(),
-                'sub_total' => $this->getCardSubTotal(),
-                'total' => $this->getCartTotal(),
-                'cargo_price' => CartTrait::getCartTotalCargoAmount()
+                'items'       => $this->cartItems(),
+                'sub_total'   => $this->getCardSubTotal(),
+                'total'       => $this->getCartTotal(),
+                'cargo_price' => CartTrait::getCartTotalCargoAmount(),
             ],
-            'html' => view('site.sepet.partials.basket-items')->render()
+            'html' => view('site.sepet.partials.basket-items')->render(),
         ]);
-
     }
 
     /**
      * @param Request $request
-     * @param string $rowID silinecek cart item id
+     * @param string  $rowID   silinecek cart item id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function removeItemFromBasketWithAjax(Request $request, string $rowID): JsonResponse
@@ -129,23 +132,24 @@ class SepetController extends Controller
         if ($request->user()) {
             Sepet::getCurrentBasket()->basket_items()
                 ->where(['product_id' => $cart->attributes['product']['id'], 'attributes_text' => $cart->attributes['attributes_text']])
-                ->delete();
+                ->delete()
+            ;
         }
         $this->removeCartItem($rowID);
 
         return $this->success([
             'card' => [
-                'items' => $this->cartItems(),
+                'items'     => $this->cartItems(),
                 'sub_total' => $this->getCardSubTotal(),
-                'total' => $this->getCartTotal()
+                'total'     => $this->getCartTotal(),
             ],
-            'html' => view('site.sepet.partials.items')->render()
+            'html' => view('site.sepet.partials.items')->render(),
         ]);
-
     }
 
     /**
-     * sepetteki tüm ürünleri siler
+     * sepetteki tüm ürünleri siler.
+     *
      * @param Request $request
      */
     public function clearBasket(Request $request)
@@ -157,56 +161,57 @@ class SepetController extends Controller
         return redirect(route('basket'))->with('message', __('lang.removed_all_items'));
     }
 
-
     /**
-     * sepete ürün eklemek için kullanılır
+     * sepete ürün eklemek için kullanılır.
+     *
      * @param Request $request
-     * @param Urun $product
+     * @param Urun    $product
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function addItem(Request $request, Urun $product): JsonResponse
     {
         $request->validate([
-            'qty' => 'integer|nullable',
-            'selectedAttributeIdList' => 'array|nullable'
+            'qty'                     => 'integer|nullable',
+            'selectedAttributeIdList' => 'array|nullable',
         ]);
 
-        $subAttributesId = $this->getSubAttributesIDList($request->get("selectedAttributeIdList"));
+        $subAttributesId = $this->getSubAttributesIDList($request->get('selectedAttributeIdList'));
         $qty = $request->get('qty', 1);
         $response = $this->addItemToBasket($product, $subAttributesId, $qty);
 
-        if (!$response['status']) {
+        if (! $response['status']) {
             return $this->error($response['message']);
         }
 
         return $this->success([
             'card' => [
-                'items' => $this->cartItems(),
-                'sub_total' => $this->getCardSubTotal(),
-                'total' => $this->getCartTotal(),
-                'cargo_price' => CartTrait::getCartTotalCargoAmount()
+                'items'       => $this->cartItems(),
+                'sub_total'   => $this->getCardSubTotal(),
+                'total'       => $this->getCartTotal(),
+                'cargo_price' => CartTrait::getCartTotalCargoAmount(),
             ],
-            'html' => view('site.sepet.partials.items')->render()
+            'html' => view('site.sepet.partials.items')->render(),
         ], __('lang.added_to_basket'));
     }
 
     /**
-     * ürünün seçilmiş özelliklerine göre  subAttributeID listesi döndürür
-     * @param array|null $selectedSubAttributesIdTitleList ex 1|2 [attributeId,subAttributeId]
+     * ürünün seçilmiş özelliklerine göre  subAttributeID listesi döndürür.
+     *
+     * @param null|array $selectedSubAttributesIdTitleList ex 1|2 [attributeId,subAttributeId]
+     *
      * @return array
      */
     private function getSubAttributesIDList(?array $selectedSubAttributesIdTitleList): array
     {
         $subAttributesId = [];
-        if (is_array($selectedSubAttributesIdTitleList)) {
+        if (\is_array($selectedSubAttributesIdTitleList)) {
             foreach ($selectedSubAttributesIdTitleList as $index => $item) {
-                $subAttributeId = explode("|", $item)[1];
-                $subAttributesId[] = (int)$subAttributeId;
+                $subAttributeId = explode('|', $item)[1];
+                $subAttributesId[] = (int) $subAttributeId;
             }
         }
 
         return $subAttributesId;
     }
-
-
 }

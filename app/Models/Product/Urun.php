@@ -11,26 +11,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Urun extends Model
 {
-    use SoftDeletes;
-    use ProductRelations;
+    use Filterable;
     use ProductLanguage;
     use ProductPrice;
-    use Filterable;
+    use ProductRelations;
+    use SoftDeletes;
 
-    const IMAGE_QUALITY = 80;
-    const IMAGE_RESIZE = null;
-    const MODULE_NAME = 'product';
+    public const IMAGE_QUALITY = 80;
+    public const IMAGE_RESIZE = null;
+    public const MODULE_NAME = 'product';
+    public const PER_PAGE = 12;
 
+    public $perPage = 12;
 
-    protected $table = "urunler";
+    protected $table = 'urunler';
     protected $guarded = ['id'];
 
     protected $casts = [
-        'tags' => 'array',
+        'tags'       => 'array',
         'properties' => 'array',
     ];
-
-    public $perPage = 12;
-    const PER_PAGE = 12;
-
 }

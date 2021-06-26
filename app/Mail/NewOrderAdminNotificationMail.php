@@ -6,18 +6,23 @@ use App\Models\Ayar;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewOrderAdminNotificationMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-    public $user, $order, $basketItems, $site;
+    public $user;
+    public $order;
+    public $basketItems;
+    public $site;
 
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param mixed $user
+     * @param mixed $order
+     * @param mixed $basketItems
      */
     public function __construct($user, $order, $basketItems)
     {
@@ -36,6 +41,7 @@ class NewOrderAdminNotificationMail extends Mailable
     {
         return $this
             ->subject(config('app.name') . ' - Yeni Sipariş')
-            ->view('emails.newOrderAdminNotification');
+            ->view('emails.newOrderAdminNotification')
+        ;
     }
 }

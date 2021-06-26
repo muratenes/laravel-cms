@@ -9,8 +9,6 @@ class RolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -24,7 +22,7 @@ class RolesTableSeeder extends Seeder
         $permission_ids = []; // an empty array of stored permission IDs
         // iterate though all routes
         foreach (Route::getRoutes()->getRoutes() as $key => $route) {
-            if (strpos($route->action['namespace'], 'App\Http\Controllers\Admin') !== false) {
+            if (false !== mb_strpos($route->action['namespace'], 'App\Http\Controllers\Admin')) {
                 // get route action
                 $action = $route->getActionname();
                 // separating controller and method
@@ -37,21 +35,20 @@ class RolesTableSeeder extends Seeder
                 $permission_check = Permission::where(
                     ['controller' => $controller, 'method' => $method]
                 )->first();
-                $name = explode("\\", $controller);
+                $name = explode('\\', $controller);
                 $name = str_replace('Controller', '', end($name));
-                if (!$permission_check) {
+                if (! $permission_check) {
                     $permission = Permission::firstOrCreate(
                         ['name' => $name . '@' . $method],
                         [
                             'controller' => $controller,
-                            'method' => $method,
+                            'method'     => $method,
                         ]
                     );
                     // add stored permission id in array
                     $permission_ids[] = $permission->id;
                 }
             }
-
         }
         // SYNC ADMIN ROLES.
         $admin_role = Role::where('name', 'super-admin')->first();

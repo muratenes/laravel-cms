@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\Region\Country;
 use Illuminate\Database\Seeder;
 
@@ -8,31 +7,27 @@ class CityTownTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
         $this->insertCountries();
 
-        $turkey = Country::where('title', "Turkey")->first();
-        $germany = Country::where('title', "Germany")->first();
+        $turkey = Country::where('title', 'Turkey')->first();
+        $germany = Country::where('title', 'Germany')->first();
 
         // turkey city inserts
         $this->insertTurkeyCities($turkey);
 //        $this->insertGermanyCountries($germany);
-
-
     }
 
     private function insertCountries()
     {
-        $countryJson = json_decode(file_get_contents(database_path('seeds/files/countries.json'),true));
+        $countryJson = json_decode(file_get_contents(database_path('seeds/files/countries.json'), true));
         foreach ($countryJson as $country) {
-            $country = (array)$country;
+            $country = (array) $country;
             Country::firstOrCreate([
                 'title' => $country['Name'],
-                'code' => $country['Code'],
+                'code'  => $country['Code'],
             ]);
         }
     }
@@ -68,7 +63,7 @@ class CityTownTableSeeder extends Seeder
             if (isset($item['district'])) {
                 $districtModel = $stateModel->districts()->firstOrCreate(['title' => $item['district']]);
                 $districtModel->neighborhoods()->firstOrCreate(['title' => $item['name']]);
-            }else{
+            } else {
                 $stateModel->districts()->firstOrCreate(['title' => $item['name']]);
             }
         }

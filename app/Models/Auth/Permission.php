@@ -15,9 +15,9 @@ class Permission extends Model
         return $this->belongsToMany(Role::class);
     }
 
-
     /**
-     * Role::STORE kontrol edebileceği roller
+     * Role::STORE kontrol edebileceği roller.
+     *
      * @return string[]
      */
     public static function storeRoles()
@@ -49,24 +49,25 @@ class Permission extends Model
             'ServiceComment@edit',
 
             // Tables
-            'Table@serviceComments'
+            'Table@serviceComments',
 
-//            'Service@index',
-//            'CompanyService@index',
-//            'CompanyService@detail',
-//            'Table@companyServices',
+            //            'Service@index',
+            //            'CompanyService@index',
+            //            'CompanyService@detail',
+            //            'Table@companyServices',
         ];
     }
 
     /**
-     * Süper admin görmemesi gereken izinler
+     * Süper admin görmemesi gereken izinler.
+     *
      * @return string[]
      */
     public static function adminExcludePermissions()
     {
         return [
             'ServiceStore@index',
-//            'ServiceComment@index',
+            //            'ServiceComment@index',
         ];
     }
 }

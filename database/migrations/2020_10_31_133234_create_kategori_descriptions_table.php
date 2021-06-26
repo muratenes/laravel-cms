@@ -8,8 +8,6 @@ class CreateKategoriDescriptionsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -21,14 +19,11 @@ class CreateKategoriDescriptionsTable extends Migration
 
             $table->unsignedInteger('category_id')->nullable()->index();
             $table->foreign('category_id')->references('id')->on('kategoriler')->onDelete('cascade');
-
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

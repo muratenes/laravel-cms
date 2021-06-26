@@ -32,6 +32,7 @@ class AdminNewOrderNotification extends Notification implements ShouldQueue
      * Get the notification's delivery channels.
      *
      * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -43,11 +44,12 @@ class AdminNewOrderNotification extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      *
      * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Yeni sipariş alındı')
             ->line("{$this->order->order_total_price} {$this->order->currency_symbol} tutarında Yeni sipariş var")
             ->line(new HtmlString('<strong>Sipariş Bilgileri</strong>'))
@@ -65,19 +67,20 @@ class AdminNewOrderNotification extends Notification implements ShouldQueue
             ->line("Teslimat Adresi : {$this->order->adres}")
             ->line("Fatura Adresi : {$this->order->fatura_adres}")
 
-            ->action('Siparişi Gör', url(route('admin.order.edit', $this->order->id)));
+            ->action('Siparişi Gör', url(route('admin.order.edit', $this->order->id)))
+        ;
     }
 
     /**
      * Get the array representation of the notification.
      *
      * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

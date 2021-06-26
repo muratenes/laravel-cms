@@ -17,11 +17,11 @@ class Select extends Component
      * Create a new component instance.
      *
      * @param $name
-     * @param string|null $label
-     * @param string|null $value
-     * @param array|null $options
-     * @param string $key
-     * @param string $optionValue
+     * @param null|string $label
+     * @param null|string $value
+     * @param null|array  $options
+     * @param string      $key
+     * @param string      $optionValue
      */
     public function __construct($name, $label = '', $value = '', $options = [], $key = 'id', $optionValue = 'title')
     {

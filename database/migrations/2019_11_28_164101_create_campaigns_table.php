@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCampaignsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -29,21 +27,14 @@ class CreateCampaignsTable extends Migration
             $table->decimal('discount_amount', 8, 2);
 
             $table->unsignedSmallInteger('lang')->default(config('admin.default_language'));
-
         });
-
-
-
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         Schema::dropIfExists('kampanyalar');
-
     }
 }

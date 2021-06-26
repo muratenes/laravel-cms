@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SSS extends Model
 {
-    protected $table = "sss";
+    public $timestamps = false;
+    protected $table = 'sss';
     protected $guarded = [];
     protected $perPage = 20;
-    public $timestamps = false;
 }

@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSepetUrunTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -35,7 +33,7 @@ class CreateSepetUrunTable extends Migration
             $table->unsignedFloat('paid_price', 16, 8)->nullable();
 
             // iyzico payment transaction id
-            $table->string("payment_transaction_id",100)->nullable();
+            $table->string('payment_transaction_id', 100)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -47,8 +45,6 @@ class CreateSepetUrunTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

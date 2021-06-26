@@ -25,12 +25,14 @@ class UserDetailSaveRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required|min:3|max:50',
+            'name'    => 'required|min:3|max:50',
             'surname' => 'required|min:3|max:50',
-            'phone' => new PhoneNumberRule(request('phone'))
+            'phone'   => new PhoneNumberRule(request('phone')),
         ];
-        if (request()->has('changePasswordCheckbox'))
+        if (request()->has('changePasswordCheckbox')) {
             $rules['password'] = 'required|min:5|confirmed';
+        }
+
         return $rules;
     }
 }

@@ -9,7 +9,6 @@ use App\Repositories\Traits\ImageUploadTrait;
 
 class IcerikYonetimController extends AdminController
 {
-
     use ImageUploadTrait;
 
     protected IcerikYonetimInterface $model;
@@ -23,10 +22,11 @@ class IcerikYonetimController extends AdminController
     {
         $query = request('q');
         if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%$query%"]], [], null, ['parent']);
+            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]], [], null, ['parent']);
         } else {
-            $list = $this->model->allWithPagination(null, ["*"], null, ['parent']);
+            $list = $this->model->allWithPagination(null, ['*'], null, ['parent']);
         }
+
         return view('admin.content.listContents', compact('list'));
     }
 
@@ -34,10 +34,11 @@ class IcerikYonetimController extends AdminController
     {
         $item = new Content();
         $contents = $this->model->all();
-        if ($id != 0) {
+        if (0 !== $id) {
             $item = $this->model->find($id);
         }
         $languages = $this->languages();
+
         return view('admin.content.newOrEditContent', compact('item', 'languages', 'contents'));
     }
 
@@ -47,14 +48,14 @@ class IcerikYonetimController extends AdminController
         $request_data['active'] = activeStatus();
         $request_data['show_menu'] = activeStatus('show_menu');
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
         }
         if ($entry) {
             $entry->update([
-                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', $entry->image, Content::MODULE_NAME)
+                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', $entry->image, Content::MODULE_NAME),
             ]);
             success();
 
@@ -68,6 +69,7 @@ class IcerikYonetimController extends AdminController
     {
         $this->model->delete($id);
         \Cache::forget('contents');
+
         return redirect(route('admin.content'));
     }
 }

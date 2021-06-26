@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrunVariantSubAttribute extends Model
 {
-    protected $table = "urun_variant_sub_attributes";
-    protected $guarded = [];
     public $timestamps = false;
+    protected $table = 'urun_variant_sub_attributes';
+    protected $guarded = [];
 
     public function variant()
     {

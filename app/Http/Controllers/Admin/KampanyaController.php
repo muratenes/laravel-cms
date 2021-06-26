@@ -6,7 +6,6 @@ use App\Jobs\RemoveCampaignProductDiscountPricesAndDelete;
 use App\Jobs\UpdateCompanyProductDiscountPriceByCategory;
 use App\Models\Kampanya;
 use App\Repositories\Interfaces\KampanyaInterface;
-use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\UrunFirmaInterface;
 use App\Repositories\Traits\ImageUploadTrait;
@@ -31,10 +30,11 @@ class KampanyaController extends AdminController
     {
         $query = request('q');
         if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%$query%"]]);
+            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]]);
         } else {
             $list = $this->model->allWithPagination();
         }
+
         return view('admin.campaign.listCampaigns', compact('list'));
     }
 
@@ -45,12 +45,15 @@ class KampanyaController extends AdminController
         $entry = new Kampanya();
         $selected_categories = $selected_products = $selected_companies = [];
         $currencies = $this->activeCurrencies();
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = $this->model->getById($id, null, ['campaignProducts', 'campaignCategories']);
             $selected_categories = $entry->campaignCategories->pluck('id');
         }
-        return view('admin.campaign.newOrEditCampaign',
-            compact('entry', 'categories', 'selected_categories', 'companies', 'selected_companies', 'currencies'));
+
+        return view(
+            'admin.campaign.newOrEditCampaign',
+            compact('entry', 'categories', 'selected_categories', 'companies', 'selected_companies', 'currencies')
+        );
     }
 
     public function save(Request $request, $id = 0)
@@ -62,7 +65,7 @@ class KampanyaController extends AdminController
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
         $oldCurrencyID = config('admin.default_currency');
         $oldCompanyMinPrice = 0;
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = Kampanya::find($id);
             $oldCompanyMinPrice = $entry->min_price;
             $oldCurrencyID = $entry->currency_id;
@@ -74,18 +77,20 @@ class KampanyaController extends AdminController
             $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/kampanyalar/', $entry->image, Kampanya::MODULE_NAME);
             $entry->update(['image' => $imageName]);
 
-            UpdateCompanyProductDiscountPriceByCategory::dispatch($entry, $posted_categories, $oldCurrencyID,$oldCompanyMinPrice);
+            UpdateCompanyProductDiscountPriceByCategory::dispatch($entry, $posted_categories, $oldCurrencyID, $oldCompanyMinPrice);
             Kampanya::forgetCaches();
+
             return redirect(route('admin.campaigns.edit', $entry->id));
         }
-        return back()->withInput();
 
+        return back()->withInput();
     }
 
     public function delete($id)
     {
         $campaign = Kampanya::find($id);
         RemoveCampaignProductDiscountPricesAndDelete::dispatch($campaign);
+
         return redirect(route('admin.campaigns'))->with('message', 'Kampanya indirimleri silindikten sonra tamamen silinmek üzere kuyruğa alındı');
     }
 }

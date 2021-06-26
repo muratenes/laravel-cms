@@ -20,13 +20,14 @@ class FavoriController extends Controller
 
     /**
      * @param Request $request
-     * @param Urun $product
+     * @param Urun    $product
+     *
      * @return \Illuminate\Http\JsonResponse|string
      */
     public function addToFavorites(Request $request, Urun $product)
     {
         $request->user()->favorites()->firstOrCreate([
-            'product_id' => $product->id
+            'product_id' => $product->id,
         ]);
 
         return $this->success([]);
@@ -34,7 +35,8 @@ class FavoriController extends Controller
 
     /**
      * @param Request $request
-     * @param Urun $product
+     * @param Urun    $product
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request, Urun $product)

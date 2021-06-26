@@ -12,7 +12,8 @@ use Illuminate\Queue\SerializesModels;
 
 class NewUserOrderAddedMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public User $user;
     public Sepet $basket;
@@ -22,8 +23,8 @@ class NewUserOrderAddedMail extends Mailable
     /**
      * Create a new job instance.
      *
-     * @param Sepet $basket
-     * @param User $user
+     * @param Sepet   $basket
+     * @param User    $user
      * @param Siparis $order
      */
     public function __construct(Sepet $basket, User $user, Siparis $order)
@@ -43,7 +44,7 @@ class NewUserOrderAddedMail extends Mailable
     {
         return $this
             ->subject($this->site->title . ' - Sipariş Bilgileri')
-            ->view('emails.newUserOrder');
+            ->view('emails.newUserOrder')
+        ;
     }
-
 }

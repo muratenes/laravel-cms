@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product\UrunFirma;
 use App\Models\Product\UrunMarka;
 use App\Repositories\Interfaces\UrunMarkaInterface;
-use App\Http\Controllers\Controller;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
@@ -22,14 +22,15 @@ class UrunMarkaController extends Controller
 
     public function list()
     {
-        $query = \request()->get('q', null);
-        $list = $this->model->allWithPagination([['title', 'like', "%$query%"]]);
+        $query = request()->get('q', null);
+        $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]]);
+
         return view('admin.product.brands.listProductBrands', compact('list'));
     }
 
     public function detail($id = 0)
     {
-        $item = $id != 0 ? $this->model->find($id) : new UrunMarka();
+        $item = 0 !== $id ? $this->model->find($id) : new UrunMarka();
 
         return view('admin.product.brands.newOrEditProductBrand', compact('item'));
     }
@@ -39,7 +40,7 @@ class UrunMarkaController extends Controller
         $request_data = $request->only('title');
         $request_data['active'] = activeStatus();
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
@@ -50,6 +51,7 @@ class UrunMarkaController extends Controller
                 $this->uploadImage($request->file('image'), $request_data['title'], 'public/company', $entry->image, UrunFirma::MODULE_NAME);
             }
             success();
+
             return redirect(route('admin.product.brands.edit', $entry->id));
         }
         UrunMarka::clearCache();
@@ -61,7 +63,7 @@ class UrunMarkaController extends Controller
     {
         $this->model->delete($id);
         UrunMarka::clearCache();
+
         return redirect(route('admin.product.brands.list'));
     }
-
 }

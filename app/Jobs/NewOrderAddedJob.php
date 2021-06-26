@@ -2,31 +2,30 @@
 
 namespace App\Jobs;
 
-use App\Mail\NewUserOrderAddedMail;
 use App\Mail\Order\OrderCreateadMail;
 use App\Models\Auth\Role;
-use App\Models\Ayar;
 use App\Models\Sepet;
 use App\Models\Siparis;
 use App\Notifications\order\AdminNewOrderNotification;
 use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
 class NewOrderAddedJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var Siparis
      */
     public Siparis $order;
-
 
     /**
      * @var Sepet
@@ -52,8 +51,6 @@ class NewOrderAddedJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

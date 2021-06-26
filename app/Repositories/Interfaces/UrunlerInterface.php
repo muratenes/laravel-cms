@@ -1,7 +1,8 @@
-<?php namespace App\Repositories\Interfaces;
+<?php
+
+namespace App\Repositories\Interfaces;
 
 use App\Models\Product\Urun;
-use App\Models\Product\UrunVariant;
 
 interface UrunlerInterface extends BaseRepositoryInterface
 {
@@ -39,11 +40,9 @@ interface UrunlerInterface extends BaseRepositoryInterface
 
     public function getProductsBySearchTextForAjax($searchQuery);
 
-    public function getFeaturedProducts($categoryId = null, $qty = 10, $excludeProductId = null, $relations = null, $columns = array("*"));
+    public function getFeaturedProducts($categoryId = null, $qty = 10, $excludeProductId = null, $relations = null, $columns = ['*']);
 
     public function getBestSellersProducts($categoryId = null, $qty = 9, $excludeProductId = null);
 
     public function filterProductsFilterBySelectedSubAttributeIdList($selectedSubAttributeList);
-
-
 }

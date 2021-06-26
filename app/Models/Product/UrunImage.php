@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrunImage extends Model
 {
-    const MODULE_NAME = 'product_image';
-
-    protected $table = "urun_images";
-    public $timestamps = false;
-    protected $guarded = [];
+    public const MODULE_NAME = 'product_image';
 
     // PERCENT
-    const IMAGE_QUALITY = 50;
+    public const IMAGE_QUALITY = 50;
+    public $timestamps = false;
+
+    protected $table = 'urun_images';
+    protected $guarded = [];
 }

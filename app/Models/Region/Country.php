@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    const TURKEY = 228;
+    public const TURKEY = 228;
 
     public $timestamps = false;
 

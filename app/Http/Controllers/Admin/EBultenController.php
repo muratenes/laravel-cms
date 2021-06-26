@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Repositories\Interfaces\EBultenInterface;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\Interfaces\EBultenInterface;
 
 class EBultenController extends Controller
 {
@@ -18,12 +17,14 @@ class EBultenController extends Controller
     public function list()
     {
         $list = $this->_bultenService->allWithPagination();
+
         return view('admin.ebulten.listBultens', compact('list'));
     }
 
     public function delete($id)
     {
         $this->_bultenService->delete($id);
+
         return redirect(route('admin.ebulten'));
     }
 }

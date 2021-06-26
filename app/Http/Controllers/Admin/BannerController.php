@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Repositories\Interfaces\BannerInterface;
-use App\Http\Controllers\Controller;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
@@ -23,19 +23,21 @@ class BannerController extends Controller
     {
         $query = request('q');
         if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%$query%"]]);
+            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]]);
         } else {
             $list = $this->model->allWithPagination();
         }
+
         return view('admin.banner.listBanners', compact('list'));
     }
 
     public function newOrEditForm($id = 0)
     {
         $banner = new Banner();
-        if ($id != 0) {
+        if (0 !== $id) {
             $banner = $this->model->find($id);
         }
+
         return view('admin.banner.newOrEditBanner', compact('banner'));
     }
 
@@ -43,7 +45,7 @@ class BannerController extends Controller
     {
         $request_data = $request->only(['title', 'sub_title', 'link', 'lang', 'sub_title_2']);
         $request_data['active'] = activeStatus();
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
@@ -51,6 +53,7 @@ class BannerController extends Controller
         if ($entry) {
             $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/banners', $entry->image, Banner::MODULE_NAME);
             $entry->update(['image' => $imageName]);
+
             return redirect(route('admin.banners.edit', $entry->id));
         }
 

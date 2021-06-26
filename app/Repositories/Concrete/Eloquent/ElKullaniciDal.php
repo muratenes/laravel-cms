@@ -1,14 +1,15 @@
-<?php namespace App\Repositories\Concrete\Eloquent;
+<?php
 
-use App\User;
+namespace App\Repositories\Concrete\Eloquent;
+
 use App\Models\Auth\Role;
 use App\Models\Log;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\KullaniciInterface;
+use App\User;
 
 class ElKullaniciDal implements KullaniciInterface
 {
-
     protected $model;
 
     public function __construct(User $model)
@@ -16,22 +17,22 @@ class ElKullaniciDal implements KullaniciInterface
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }
 
-    public function all($filter = null, $columns = array("*"), $relations = null)
+    public function all($filter = null, $columns = ['*'], $relations = null)
     {
         return $this->model->all($filter, $columns, $relations)->get();
     }
 
-    public function allWithPagination($filter = null, $columns = array("*"), $perPageItem = null, $relations = null)
+    public function allWithPagination($filter = null, $columns = ['*'], $perPageItem = null, $relations = null)
     {
         return $this->model->allWithPagination($filter, $columns, $perPageItem);
     }
 
-    public function getById($id, $columns = array('*'), $relations = null)
+    public function getById($id, $columns = ['*'], $relations = null)
     {
         return $this->model->getById($id, $columns, $relations);
     }
 
-    public function getByColumn(string $field, $value, $columns = array('*'), $relations = null)
+    public function getByColumn(string $field, $value, $columns = ['*'], $relations = null)
     {
         return $this->model->getByColumn($field, $value, $columns, $relations);
     }
@@ -50,7 +51,6 @@ class ElKullaniciDal implements KullaniciInterface
     {
         return $this->model->delete($id);
     }
-
 
     public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
     {
@@ -72,6 +72,7 @@ class ElKullaniciDal implements KullaniciInterface
         try {
             $record = Role::create($data);
             session()->flash('message', config('constants.messages.success_message'));
+
             return $record;
         } catch (\Exception $exception) {
             session()->flash('message_type', 'danger');
@@ -87,6 +88,7 @@ class ElKullaniciDal implements KullaniciInterface
             if ($role) {
                 $record = $role->update($data);
                 session()->flash('message', config('constants.messages.success_message'));
+
                 return $role;
             }
         } catch (\Exception $exception) {
@@ -99,10 +101,13 @@ class ElKullaniciDal implements KullaniciInterface
     public function deleteRole($id)
     {
         $role = Role::find($id);
-        if (!$role) return false;
+        if (! $role) {
+            return false;
+        }
 
         $role->permissions()->detach();
         $role->delete();
+
         return true;
     }
 }

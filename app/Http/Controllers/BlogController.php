@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Repositories\Interfaces\BlogInterface;
-use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -18,6 +17,7 @@ class BlogController extends Controller
     public function list()
     {
         $list = $this->_blogService->allWithPagination(['active' => 1]);
+
         return view('site.blog.listBlog', compact('list'));
     }
 

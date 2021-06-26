@@ -34,7 +34,7 @@ class Breadcrumb extends Component
      * @param null $second
      * @param null $secondRoute
      */
-    public function __construct($first = null, $firstRoute = null,$second = null,$secondRoute = null)
+    public function __construct($first = null, $firstRoute = null, $second = null, $secondRoute = null)
     {
         $this->first = $first;
         $this->firstRoute = $firstRoute;

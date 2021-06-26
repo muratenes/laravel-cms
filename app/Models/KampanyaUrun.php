@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class KampanyaUrun extends Model
 {
-    protected $table = "kampanya_urunler";
-    protected $guarded = [];
     public $timestamps = false;
+    protected $table = 'kampanya_urunler';
+    protected $guarded = [];
 
     public function campaign()
     {

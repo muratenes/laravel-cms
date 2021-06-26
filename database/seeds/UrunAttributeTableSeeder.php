@@ -1,17 +1,15 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Product\UrunAttribute;
+use App\Models\Product\UrunDetail;
 use App\Models\Product\UrunSubAttribute;
 use App\Models\Product\UrunSubDetail;
-use App\Models\Product\UrunDetail;
+use Illuminate\Database\Seeder;
 
 class UrunAttributeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -27,19 +25,17 @@ class UrunAttributeTableSeeder extends Seeder
         $attribute2 = UrunAttribute::create(['title' => 'Beden']);
         $attribute3 = UrunAttribute::create(['title' => 'Hafıza']);
 
-        $subAttribute1 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => "Kırmızı"]);
-        $subAttribute2 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => "Mavi"]);
-        $subAttribute3 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => "Mor"]);
+        $subAttribute1 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => 'Kırmızı']);
+        $subAttribute2 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => 'Mavi']);
+        $subAttribute3 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => 'Mor']);
 
+        $subAttribute4 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => 'X']);
+        $subAttribute5 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => 'M']);
+        $subAttribute6 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => 'L']);
 
-        $subAttribute4 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => "X"]);
-        $subAttribute5 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => "M"]);
-        $subAttribute6 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => "L"]);
-
-
-        $subAttribute7 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => "32 GB"]);
-        $subAttribute8 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => "16 GB"]);
-        $subAttribute9 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => "8 GB"]);
+        $subAttribute7 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => '32 GB']);
+        $subAttribute8 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => '16 GB']);
+        $subAttribute9 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => '8 GB']);
 
         $urunDetail1 = UrunDetail::create(['product' => $urun->id, 'parent_attribute' => $attribute1->id]);
         $urunDetail2 = UrunDetail::create(['product' => $urun->id, 'parent_attribute' => $attribute2->id]);

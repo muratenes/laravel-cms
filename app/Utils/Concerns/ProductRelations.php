@@ -2,7 +2,6 @@
 
 namespace App\Utils\Concerns;
 
-
 use App\Models\Favori;
 use App\Models\Kategori;
 use App\Models\Product\UrunDescription;
@@ -20,7 +19,7 @@ trait ProductRelations
      */
     public function categories()
     {
-        return $this->belongsToMany('App\Models\Kategori', 'kategori_urun', "product_id", 'category_id');
+        return $this->belongsToMany('App\Models\Kategori', 'kategori_urun', 'product_id', 'category_id');
     }
 
     /**

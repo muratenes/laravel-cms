@@ -14,7 +14,6 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-
     /**
      * @var Siparis
      */
@@ -34,6 +33,7 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
      * Get the notification's delivery channels.
      *
      * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -45,18 +45,20 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      *
      * @param User $user
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(User $user)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__('lang.refund_information'))
-            ->line(__('lang.hello_username', ['username' => $user->full_name]) . "," . __('lang.your_refund_has_been_processed_successfully'))
-            ->line(new HtmlString("<b>" . __('lang.order_code') . "</b> : {$this->order->code}"))
+            ->line(__('lang.hello_username', ['username' => $user->full_name]) . ',' . __('lang.your_refund_has_been_processed_successfully'))
+            ->line(new HtmlString('<b>' . __('lang.order_code') . "</b> : {$this->order->code}"))
             ->line(__('lang.your_refund_has_been_processed_successfully'))
             ->line(new HtmlString('<br/>'))
             ->line(__('lang.order_refund_text', ['code' => "{$this->order->code}", 'price' => $this->order->order_total_price, 'date' => $this->order->created_at]))
             ->line(__('lang.order_refund_bank_text', ['day' => 8]))
-            ->action(__('lang.show_order'), url(route('user.orders', $this->order->id)));
+            ->action(__('lang.show_order'), url(route('user.orders', $this->order->id)))
+        ;
     }
 }

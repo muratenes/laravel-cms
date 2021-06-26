@@ -1,18 +1,13 @@
 <?php
 
-use App\Models\Auth\Permission;
-use App\Models\Auth\PermissionRole;
-use App\Models\Auth\Role;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -36,19 +31,19 @@ class CreateRolesTable extends Migration
             $table->foreign('permission_id')
                 ->references('id')
                 ->on('permissions')
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+            ;
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+            ;
             $table->primary(['permission_id', 'role_id']);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

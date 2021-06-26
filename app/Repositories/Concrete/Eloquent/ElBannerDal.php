@@ -1,4 +1,6 @@
-<?php namespace App\Repositories\Concrete\Eloquent;
+<?php
+
+namespace App\Repositories\Concrete\Eloquent;
 
 use App\Models\Banner;
 use App\Repositories\Interfaces\BannerInterface;
@@ -10,13 +12,13 @@ class ElBannerDal extends BaseRepository implements BannerInterface
         parent::__construct($model);
     }
 
-    public function delete($id) : bool
+    public function delete($id): bool
     {
         $item = $this->find($id);
         if ($item->image) {
             $path = "public/banners/{$item->image}";
             if (\Storage::exists($path)) {
-               \Storage::delete($path);
+                \Storage::delete($path);
             }
         }
 

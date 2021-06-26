@@ -2,7 +2,6 @@
 
 namespace App\Utils\Concerns\Models;
 
-
 use App\Models\Coupon;
 use App\Models\SepetUrun;
 use App\Models\Siparis;
@@ -10,9 +9,9 @@ use App\User;
 
 trait BasketRelations
 {
-
     /**
      * sipariş
+     *
      * @return mixed
      */
     public function order()
@@ -28,16 +27,15 @@ trait BasketRelations
         return $this->belongsTo(Coupon::class);
     }
 
-
     /**
-     * sepetteki ürünler
+     * sepetteki ürünler.
+     *
      * @return mixed
      */
     public function basket_items()
     {
         return $this->hasMany(SepetUrun::class);
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -46,5 +44,4 @@ trait BasketRelations
     {
         return $this->belongsTo(User::class);
     }
-
 }

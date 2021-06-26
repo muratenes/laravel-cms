@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-
 use App\Listeners\LoggingListener;
 use App\Models\Auth\Role;
 use App\Models\Ayar;
-use App\Models\Siparis;
 use App\Models\Product\Urun;
+use App\Models\Siparis;
 use App\Observers\OrderObserver;
 use App\Observers\UrunObserver;
 use App\Repositories\Concrete\ElBaseRepository;
@@ -19,8 +18,6 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -42,13 +39,10 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {
         $this->app->singleton(LoggingListener::class);
-
 
         $this->app->singleton(ElBaseRepository::class, function ($app, $parameters) {
             return new ElBaseRepository($parameters['model']);
@@ -67,14 +61,15 @@ class AppServiceProvider extends ServiceProvider
                     $userPermissions = $role->permissions->pluck('name');
                     foreach ($menus as $index => $header) {
                         foreach ($header as $k => $head) {
-                            if ($k != 'title') {
-                                if (!$userPermissions->contains($head['permission'])) {
+                            if ('title' !== $k) {
+                                if (! $userPermissions->contains($head['permission'])) {
                                     unset($menus[$index][$k]);
                                 }
                             }
                         }
                     }
                 }
+
                 return $menus;
             }
         } catch (\Exception $exception) {

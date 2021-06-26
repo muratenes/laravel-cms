@@ -7,16 +7,17 @@ use Illuminate\Support\Facades\Cache;
 
 class UrunMarka extends Model
 {
-    protected $table = "markalar";
-    protected $guarded = [];
     public $timestamps = false;
-
+    protected $table = 'markalar';
+    protected $guarded = [];
 
     public static function getActiveBrandsCache()
     {
         $cache = Cache::get('cacheActiveBrands');
-        if (is_null($cache))
-            $cache = self::setCache(UrunMarka::where(['active' => 1])->get());
+        if (null === $cache) {
+            $cache = self::setCache(self::where(['active' => 1])->get());
+        }
+
         return $cache;
     }
 
@@ -30,7 +31,7 @@ class UrunMarka extends Model
     public static function clearCache()
     {
         Cache::forget('cacheActiveBrands');
+
         return self::getActiveBrandsCache();
     }
-
 }

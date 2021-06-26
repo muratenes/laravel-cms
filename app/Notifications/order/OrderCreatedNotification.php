@@ -7,8 +7,6 @@ use App\Models\Sepet;
 use App\Models\Siparis;
 use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class OrderCreatedNotification extends Notification
@@ -19,7 +17,6 @@ class OrderCreatedNotification extends Notification
      * @var Siparis
      */
     public Siparis $order;
-
 
     /**
      * @var Sepet
@@ -41,6 +38,7 @@ class OrderCreatedNotification extends Notification
      * Get the notification's delivery channels.
      *
      * @param $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -52,6 +50,7 @@ class OrderCreatedNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param User $user
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(User $user)
@@ -63,12 +62,12 @@ class OrderCreatedNotification extends Notification
      * Get the array representation of the notification.
      *
      * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

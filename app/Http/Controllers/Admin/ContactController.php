@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Filters\ProductFilter;
 use App\Models\Contact;
-use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class ContactController extends Controller
@@ -16,8 +14,9 @@ class ContactController extends Controller
     }
 
     /**
-     * @return mixed
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function ajax()
     {
@@ -28,12 +27,15 @@ class ContactController extends Controller
 
     /**
      * @param Contact $contact
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function delete(Contact $contact)
     {
         $contact->delete();
+
         return redirect(route('admin.contact'))->with('message_success', 'işlem başarılı');
     }
 }

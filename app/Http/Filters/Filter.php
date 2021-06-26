@@ -24,8 +24,7 @@ abstract class Filter
     /**
      * Initialize a new filter instance.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
      */
     public function __construct(Request $request)
     {
@@ -35,17 +34,17 @@ abstract class Filter
     /**
      * Apply the filters on the builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function apply(Builder $builder): Builder
     {
         $this->builder = $builder;
 
-
         foreach ($this->request->all() as $name => $value) {
-            if (method_exists($this, $name) and $value) {
-                call_user_func_array([$this, $name], array_filter([$value]));
+            if (method_exists($this, $name) && $value) {
+                \call_user_func_array([$this, $name], array_filter([$value]));
             }
         }
 

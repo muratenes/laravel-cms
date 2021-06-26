@@ -1,4 +1,6 @@
-<?php namespace App\Repositories\Interfaces;
+<?php
+
+namespace App\Repositories\Interfaces;
 
 use App\Models\SepetUrun;
 use App\Models\Siparis;
@@ -24,50 +26,59 @@ interface SiparisInterface extends BaseRepositoryInterface
 
     /**
      * sipariş ürün iade edilebilir mi ?
+     *
      * @param SepetUrun $basketItem
-     * @param float $refundAmount iade edilmek istenen tutar
+     * @param float     $refundAmount iade edilmek istenen tutar
+     *
      * @return array
      */
-    public function checkCanRefundBasketItem(SepetUrun $basketItem,float $refundAmount);
-
+    public function checkCanRefundBasketItem(SepetUrun $basketItem, float $refundAmount);
 
     /**
      * admin sipariş ürün iade edebilir mi ?
+     *
      * @param SepetUrun $basketItem
-     * @param float $refundAmount iade edilmek istenen tutar
+     * @param float     $refundAmount iade edilmek istenen tutar
+     *
      * @return array
      */
-    public function checkCanRefundBasketItemFromAdmin(SepetUrun $basketItem,float $refundAmount);
+    public function checkCanRefundBasketItemFromAdmin(SepetUrun $basketItem, float $refundAmount);
 
     /**
-     * sepetteki ürünü iyzico tarafından iptal eder
+     * sepetteki ürünü iyzico tarafından iptal eder.
+     *
      * @param SepetUrun $basketItem
-     * @param float $refundAmount iade edilmek istenen tutar
+     * @param float     $refundAmount iade edilmek istenen tutar
+     *
      * @return array
      */
     public function refundBasketItemFromIyzico(SepetUrun $basketItem, float $refundAmount);
 
     /**
      * sipariş tamamıyla iade ürün iade edilebilir mi ?
+     *
      * @param Siparis $order
+     *
      * @return array
      */
     public function checkCanCancelAllOrder(Siparis $order);
 
-
     /**
      * admin siparişi tamamıyla iade  edilebilir mi ?
+     *
      * @param Siparis $order
+     *
      * @return array
      */
-    public function checkCanCancelAllOrderFromAdmin(Siparis $order) : array;
+    public function checkCanCancelAllOrderFromAdmin(Siparis $order): array;
 
     /**
-     * siparişi tamamıyla iade et
-     * @param Siparis $order
-     * @param string|null $locale must be : tr,en
+     * siparişi tamamıyla iade et.
+     *
+     * @param Siparis     $order
+     * @param null|string $locale must be : tr,en
+     *
      * @return array
      */
-    public function cancelOrderFromIyzico(Siparis $order,?string $locale);
-
+    public function cancelOrderFromIyzico(Siparis $order, ?string $locale);
 }

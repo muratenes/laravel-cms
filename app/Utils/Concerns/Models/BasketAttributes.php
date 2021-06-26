@@ -6,9 +6,9 @@ use App\Models\SepetUrun;
 
 trait BasketAttributes
 {
-
     /**
-     * sepette bulunan ürünlerin alt toplam değeri
+     * sepette bulunan ürünlerin alt toplam değeri.
+     *
      * @return mixed
      */
     public function getSubTotalAttribute()
@@ -18,9 +18,9 @@ trait BasketAttributes
         });
     }
 
-
     /**
-     * sepette bulunan ürünlerin son toplam değeri
+     * sepette bulunan ürünlerin son toplam değeri.
+     *
      * @return mixed
      */
     public function getTotalAttribute()
@@ -32,7 +32,8 @@ trait BasketAttributes
     }
 
     /**
-     * sepette bulunan ürünlerin toplam kargo değeri
+     * sepette bulunan ürünlerin toplam kargo değeri.
+     *
      * @return mixed
      */
     public function getCargoTotalAttribute()
@@ -43,7 +44,8 @@ trait BasketAttributes
     }
 
     /**
-     * sepette bulunan ürünlerin sayısı
+     * sepette bulunan ürünlerin sayısı.
+     *
      * @return mixed
      */
     public function getItemCountAttribute()
@@ -52,7 +54,8 @@ trait BasketAttributes
     }
 
     /**
-     * sepette bulunan ürünlerin toplam adetlerini getirir
+     * sepette bulunan ürünlerin toplam adetlerini getirir.
+     *
      * @return mixed
      */
     public function getItemQuantityCountAttribute()
@@ -61,13 +64,12 @@ trait BasketAttributes
     }
 
     /**
-     * sepette bulunan ürünlerin alt toplam değeri
+     * sepette bulunan ürünlerin alt toplam değeri.
+     *
      * @return mixed
      */
     public function getCouponPriceAttribute()
     {
         return $this->coupon ? $this->coupon->discount_price : 0;
     }
-
-
 }

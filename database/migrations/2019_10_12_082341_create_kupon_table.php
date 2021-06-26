@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateKuponTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -21,10 +19,9 @@ class CreateKuponTable extends Migration
             $table->unsignedSmallInteger('qty');
             $table->boolean('active');
             $table->float('discount_price', 8, 2);
-            $table->float('min_basket_price',10,2)->default(0);
+            $table->float('min_basket_price', 10, 2)->default(0);
 
             $table->unsignedSmallInteger('currency_id');
-
         });
 
         Schema::create('kuponlar_kategori', function (Blueprint $table) {
@@ -39,8 +36,6 @@ class CreateKuponTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

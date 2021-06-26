@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUrunVariantTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -32,19 +30,14 @@ class CreateUrunVariantTable extends Migration
             $table->foreign('variant_id')->references('id')->on('urun_variants')->onDelete('cascade');
             $table->foreign('sub_attr_id')->references('id')->on('urun_sub_attributes')->onDelete('cascade');
         });
-
-
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         Schema::dropIfExists('urun_variants');
         Schema::dropIfExists('urun_variant_sub_attributes');
-
     }
 }

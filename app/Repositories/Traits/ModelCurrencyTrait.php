@@ -7,7 +7,7 @@ use App\Models\Ayar;
 trait ModelCurrencyTrait
 {
     /**
-     * hesaplanmış kampa ürün fiyatı
+     * hesaplanmış kampa ürün fiyatı.
      */
     public function getCurrencySymbolAttribute()
     {

@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 class OrderFilter extends Filter
 {
-
     /**
+     * @param null|string $value
      *
-     * @param string|null $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function category(string $value = null): Builder
@@ -30,8 +29,8 @@ class OrderFilter extends Filter
     }
 
     /**
+     * @param null|string $value
      *
-     * @param string|null $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function status(string $value = null): Builder
@@ -40,8 +39,8 @@ class OrderFilter extends Filter
     }
 
     /**
+     * @param null|string $value
      *
-     * @param string|null $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function state(string $value = null): Builder
@@ -52,8 +51,8 @@ class OrderFilter extends Filter
     }
 
     /**
+     * @param null|string $value
      *
-     * @param string|null $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function company(string $value = null): Builder
@@ -64,30 +63,33 @@ class OrderFilter extends Filter
     }
 
     /**
+     * @param null|string $value
      *
-     * @param string|null $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function firstDate(string $value = null): Builder
     {
         if ($value) {
-            $start = isset(explode('-', $value)[0]) ? str_replace(" ", "", explode('-', $value)[0]) : null;
-            $end = isset(explode('-', $value)[1]) ? str_replace(" ", "", explode('-', $value)[1]) : null;
+            $start = isset(explode('-', $value)[0]) ? str_replace(' ', '', explode('-', $value)[0]) : null;
+            $end = isset(explode('-', $value)[1]) ? str_replace(' ', '', explode('-', $value)[1]) : null;
+
             return $this->builder->whereBetween('first_date', [
                 Carbon::createFromDate($start)->format('Y-m-d'),
-                Carbon::createFromDate($end)->format('Y-m-d')
+                Carbon::createFromDate($end)->format('Y-m-d'),
             ]);
         }
+
         return $this->builder;
     }
 
     /**
-     * @param string|null $value
+     * @param null|string $value
+     *
      * @return Builder
      */
     public function pendingRefund(string $value = null)
     {
-        return $this->builder->whereHas('basket.basket_items', function ($q) use ($value) {
+        return $this->builder->whereHas('basket.basket_items', function ($q) {
             $q->withTrashed()->where('status', SepetUrun::STATUS_IADE_TALEP);
         });
     }

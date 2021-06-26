@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class OurTeam extends Model
 {
-    const MODULE_NAME = 'our_team';
+    public const MODULE_NAME = 'our_team';
 
-    protected $perPage = 20;
-    protected $table = "takimimiz";
+    public const IMAGE_QUALITY = 90;
+    public const IMAGE_RESIZE = null;
     public $timestamps = false;
     public $guarded = [];
 
-    const  IMAGE_QUALITY = 90;
-    const  IMAGE_RESIZE = null;
+    protected $perPage = 20;
+    protected $table = 'takimimiz';
 }

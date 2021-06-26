@@ -7,24 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Iyzico extends Model
 {
     public $timestamps = false;
-    protected $table = "iyzico";
-    protected $fillable = ['siparis_id', 'transaction_id', 'price', 'paidPrice', 'installment', 'paymentId', 'basketId', 'status','iyzicoJson'];
-
+    protected $table = 'iyzico';
+    protected $fillable = ['siparis_id', 'transaction_id', 'price', 'paidPrice', 'installment', 'paymentId', 'basketId', 'status', 'iyzicoJson'];
 
     protected $casts = [
-        'iyzicoJson' => 'array'
+        'iyzicoJson' => 'array',
     ];
-
-
-    protected function siparis()
-    {
-        return $this->belongsTo(Siparis::class, 'siparis_id', 'id');
-    }
-
 
     public static function getMdStatusByParam($param)
     {
-        $list = Iyzico::mdStatusList();
+        $list = self::mdStatusList();
+
         return $list[$param] ?? 'hata oluştu';
     }
 
@@ -34,6 +27,7 @@ class Iyzico extends Model
         $options->setApiKey(config('admin.iyzico.api_key'));
         $options->setSecretKey(config('admin.iyzico.api_secret'));
         $options->setBaseUrl(config('admin.iyzico.base_url'));
+
         return $options;
     }
 
@@ -51,4 +45,8 @@ class Iyzico extends Model
         ];
     }
 
+    protected function siparis()
+    {
+        return $this->belongsTo(Siparis::class, 'siparis_id', 'id');
+    }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SepetUrun;
 use App\Repositories\Traits\ResponseTrait;
-use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
@@ -13,12 +12,13 @@ class BasketController extends Controller
 
     /**
      * @param int $basketID
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(int $basketID)
     {
         return $this->success([
-            'basket' => SepetUrun::withTrashed()->find($basketID)->append(['total', 'sub_total'])
+            'basket' => SepetUrun::withTrashed()->find($basketID)->append(['total', 'sub_total']),
         ]);
     }
 }

@@ -20,24 +20,26 @@ class KuponController extends AdminController
 
     public function list()
     {
-        $query = \request()->get('q', null);
-        $list = $this->model->allWithPagination([['code', 'like', "%$query%"]]);
+        $query = request()->get('q', null);
+        $list = $this->model->allWithPagination([['code', 'like', "%{$query}%"]]);
+
         return view('admin.coupon.listCoupons', compact('list'));
     }
 
     public function newOrEditForm($id = 0)
     {
         $entry = new Coupon();
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = $this->model->getById($id);
         }
         $categories = $this->categoryService->all(['active' => 1]);
         $selected_categories = [];
         $currencies = $this->activeCurrencies();
-        if ($id != 0) {
+        if (0 !== $id) {
             $coupon = $this->model->getById($id, null, ['categories']);
             $selected_categories = $coupon->categories()->pluck('category_id')->all();
         }
+
         return view('admin.coupon.newOrEditCoupon', compact('entry', 'categories', 'selected_categories', 'currencies'));
     }
 
@@ -45,7 +47,7 @@ class KuponController extends AdminController
     {
         $requestData = $request->validated();
         $requestData['active'] = activeStatus();
-        if ($id != 0) {
+        if (0 !== $id) {
             $this->model->update($requestData, $id);
             $entry = $this->model->getById($id, null, ['categories']);
         } else {
@@ -53,6 +55,7 @@ class KuponController extends AdminController
         }
         if ($entry) {
             $entry->categories()->sync($request->get('categories'));
+
             return redirect(route('admin.coupons.edit', $entry->id));
         }
 
@@ -62,6 +65,7 @@ class KuponController extends AdminController
     public function delete($id)
     {
         $this->model->delete($id);
+
         return redirect(route('admin.coupons'));
     }
 }

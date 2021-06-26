@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSiparislerTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -47,7 +45,6 @@ class CreateSiparislerTable extends Migration
             $table->unsignedInteger('delivery_address_id');
             $table->unsignedInteger('invoice_address_id');
 
-
             $table->unsignedSmallInteger('installment_count')->default(1);
 
             // invoice columns
@@ -57,10 +54,9 @@ class CreateSiparislerTable extends Migration
 
             // cargo columns
             $table->unsignedSmallInteger('cargo_id')->nullable();
-            $table->string('cargo_code',100)->nullable();
+            $table->string('cargo_code', 100)->nullable();
 
             $table->json('snapshot')->nullable();
-
 
             $table->timestamps();
             $table->softDeletes();
@@ -74,8 +70,6 @@ class CreateSiparislerTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

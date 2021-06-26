@@ -8,8 +8,6 @@ class MenuSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -17,46 +15,45 @@ class MenuSeeder extends Seeder
         Menu::latest('id')->delete();
         $menus = [
             [
-                'title' => 'Anasayfa',
-                'href' => '/',
-                'status' => true,
-                'order' => 1,
+                'title'     => 'Anasayfa',
+                'href'      => '/',
+                'status'    => true,
+                'order'     => 1,
                 'languages' => [
                     [
-                        'lang' => \App\Models\Ayar::LANG_EN,
+                        'lang'  => \App\Models\Ayar::LANG_EN,
                         'title' => 'Home',
-                        'href' => '/'
-                    ]
-                ]
+                        'href'  => '/',
+                    ],
+                ],
             ],
             [
-                'title' => 'Kurumsal',
-                'href' => '#',
-                'status' => true,
-                'order' => 2,
+                'title'     => 'Kurumsal',
+                'href'      => '#',
+                'status'    => true,
+                'order'     => 2,
                 'languages' => [
                     [
-                        'lang' => \App\Models\Ayar::LANG_EN,
+                        'lang'  => \App\Models\Ayar::LANG_EN,
                         'title' => 'Commercial',
-                        'href' => 'commercial'
-                    ]
+                        'href'  => 'commercial',
+                    ],
                 ],
                 'children' => [
                     [
-                        'title' => 'Hakkımızda',
-                        'href' => 'hakkimizda',
+                        'title'  => 'Hakkımızda',
+                        'href'   => 'hakkimizda',
                         'status' => true,
-                        'order' => 1
+                        'order'  => 1,
                     ],
                     [
-                        'title' => 'Vizyon',
-                        'href' => 'vizyon',
+                        'title'  => 'Vizyon',
+                        'href'   => 'vizyon',
                         'status' => true,
-                        'order' => 1
+                        'order'  => 1,
                     ],
-                ]
+                ],
             ],
-
         ];
 
         foreach ($menus as $menu) {

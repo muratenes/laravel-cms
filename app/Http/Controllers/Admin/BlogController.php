@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Repositories\Interfaces\BlogInterface;
-use App\Http\Controllers\Controller;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
@@ -24,10 +24,11 @@ class BlogController extends Controller
     {
         $query = request('q');
         if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%$query%"]]);
+            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]]);
         } else {
             $list = $this->model->allWithPagination();
         }
+
         return view('admin.blog.listBlogs', compact('list'));
     }
 
@@ -35,12 +36,13 @@ class BlogController extends Controller
     {
         $item = new Blog();
         $selected_categories = [];
-        if ($id != 0) {
+        if (0 !== $id) {
             $item = $this->model->find($id);
             $selected_categories = $item->categories()->pluck('category_id')->all();
         }
         $categories = BlogCategory::all();
-        return view('admin.blog.newOrEditBlog', compact('item','categories','selected_categories'));
+
+        return view('admin.blog.newOrEditBlog', compact('item', 'categories', 'selected_categories'));
     }
 
     public function save(Request $request, $id = 0)
@@ -48,7 +50,7 @@ class BlogController extends Controller
         $request_data = $request->only('title', 'desc', 'lang', 'tags');
         $request_data['active'] = activeStatus();
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request->title, $id);
-        if ($id != 0) {
+        if (0 !== $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
@@ -57,14 +59,17 @@ class BlogController extends Controller
             $filePath = $this->uploadImage($request->file('image'), $entry->title, 'public/blog', $entry->image, Blog::MODULE_NAME);
             $entry->update(['image' => $filePath]);
             success();
+
             return redirect(route('admin.blog.edit', $entry->id));
-        } else
-            return back()->withInput();
+        }
+
+        return back()->withInput();
     }
 
     public function delete($id)
     {
         $this->model->delete($id);
+
         return redirect(route('admin.blog'));
     }
 }

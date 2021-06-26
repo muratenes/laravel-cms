@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repositories\Traits;
-
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -12,13 +10,12 @@ trait ResponseTrait
     public function response($status = true, $message = null, $data = null)
     {
         return [
-            'status' => $status,
+            'status'  => $status,
             'message' => $message ? $message : ($status ? __('messages.success') : __('messages.error')),
-            'alert' => $status == true ? 'success' : 'danger',
-            'data' => $data,
+            'alert'   => true === $status ? 'success' : 'danger',
+            'data'    => $data,
         ];
     }
-
 
     /**
      * success.

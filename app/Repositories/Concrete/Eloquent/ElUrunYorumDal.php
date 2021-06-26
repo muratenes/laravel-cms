@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repositories\Concrete\Eloquent;
-
 
 use App\Models\Product\UrunYorum;
 use App\Repositories\Concrete\ElBaseRepository;
@@ -10,7 +8,6 @@ use App\Repositories\Interfaces\UrunYorumInterface;
 
 class ElUrunYorumDal implements UrunYorumInterface
 {
-
     protected $model;
 
     public function __construct(UrunYorum $model)
@@ -18,26 +15,27 @@ class ElUrunYorumDal implements UrunYorumInterface
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }
 
-    public function all($filter = null, $columns = array("*"), $relations = null)
+    public function all($filter = null, $columns = ['*'], $relations = null)
     {
         return $this->model->all($filter, $columns, $relations)->get();
     }
 
-    public function allWithPagination($filter = null, $columns = array("*"), $perPageItem = null, $relations = null)
+    public function allWithPagination($filter = null, $columns = ['*'], $perPageItem = null, $relations = null)
     {
         return $this->model->all()->when($filter, function ($query) use ($filter) {
-            return $query->where('code', 'like', "%$filter%")
-                ->orWhere('message', 'like', "%$filter%")
-                ->orWhere('url', 'like', "%$filter%");
+            return $query->where('code', 'like', "%{$filter}%")
+                ->orWhere('message', 'like', "%{$filter}%")
+                ->orWhere('url', 'like', "%{$filter}%")
+            ;
         })->simplePaginate();
     }
 
-    public function getById($id, $columns = array('*'), $relations = null)
+    public function getById($id, $columns = ['*'], $relations = null)
     {
         return $this->model->getById($id, $columns, $relations);
     }
 
-    public function getByColumn(string $field, $value, $columns = array('*'), $relations = null)
+    public function getByColumn(string $field, $value, $columns = ['*'], $relations = null)
     {
         return $this->model->getByColumn($field, $value, $columns, $relations);
     }
@@ -56,7 +54,6 @@ class ElUrunYorumDal implements UrunYorumInterface
     {
         return $this->model->delete($id);
     }
-
 
     public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
     {

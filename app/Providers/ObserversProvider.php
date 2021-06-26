@@ -10,8 +10,6 @@ class ObserversProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -20,11 +18,8 @@ class ObserversProvider extends ServiceProvider
 
     /**
      * Register services.
-     *
-     * @return void
      */
     public function register()
     {
-        //
     }
 }
