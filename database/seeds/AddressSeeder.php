@@ -19,8 +19,15 @@ class AddressSeeder extends Seeder
     {
         $user = User::first();
 
+
+
+
+
+
         $address = $user->addresses()->create([
             'country_id' => Country::where('title','Turkey')->first()->id,
+
+
             'state_id' => State::where('title','Istanbul')->first()->id,
             'district_id' => District::where('title','Ataşehir')->first()->id,
             'neighborhood_id' => Neighborhood::where('title','BARBAROS MAH.')->first()->id,
