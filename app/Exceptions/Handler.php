@@ -60,11 +60,11 @@ class Handler extends ExceptionHandler
 
                 return (string) $item;
             });
+            \Illuminate\Support\Facades\Log::critical($logged->message, ['user' => 'test']);
             Log::addLog($logged->message, $logged->context, Log::TYPE_GENERAL, $this->incidentCode, request()->fullUrl());
 
             return $logged;
         });
-//        Storage::disk('local')->put("incident\\{$this->incidentCode}.json", $listener->events->toJson(JSON_PRETTY_PRINT));
     }
 
     /**
