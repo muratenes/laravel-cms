@@ -25,7 +25,7 @@ trait ImageUploadTrait
             return $oldImagePath;
         }
         $this->validate(request(), [
-            'image' => 'image|mimes:jpg,png,jpeg,gif|max:' . config('admin.max_upload_size'),
+            'image' => 'mimes:jpg,png,jpeg,gif|max:' . config('admin.max_upload_size'),
         ]);
         $imageQuality = config('admin.image_quality.' . $moduleName) ?? null;
         $extension = $imageQuality ? 'jpg' : $image->extension();
@@ -41,5 +41,32 @@ trait ImageUploadTrait
         Storage::putFileAs($folderPath, $image, $imageName);
 
         return $imageName;
+    }
+
+    /**
+     * dosya yükleme.
+     *
+     * @param null|Illuminate\Http\UploadedFile $file
+     * @param string                            $fileName          dosya başlığı
+     * @param string                            $folderPath        storage altına foto kaydedielecek dizin ex: public/categories/
+     * @param string                            $allowedExtensions
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return string
+     */
+    public function uploadFile($file, string $fileName, string $folderPath, $allowedExtensions = 'pdf,png,jpg,jpeg')
+    {
+        if (! $file) {
+            return;
+        }
+
+        $this->validate(request(), [
+            $fileName => "mimes:{$allowedExtensions}|max:" . config('admin.max_upload_size'),
+        ]);
+        $fileName = Str::slug($fileName) . '-' . Str::random(25) . '.' . $file->extension();
+        Storage::putFileAs($folderPath, $file, $fileName);
+
+        return $fileName;
     }
 }
