@@ -80,11 +80,6 @@
                                 <label for="exampleInputEmail1">@lang('admin.status') ?</label><br>
                                 <input type="checkbox" class="minimal" id="is_active" name="is_active" {{ $user->is_active == 1 ? 'checked': '' }}>
                             </div>
-
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">@lang('admin.user.is_admin')</label><br>
-                                <input type="checkbox" class="minimal" id="is_admin" name="is_admin" {{ $user->is_admin == 1 ? 'checked': '' }}>
-                            </div>
                             <div class="form-group col-md-3">
                                 <label>@lang('admin.created_at'):</label>
 

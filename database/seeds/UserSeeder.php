@@ -20,7 +20,6 @@ class UserSeeder extends Seeder
             'password'  => Hash::make(config('admin.password')),
             'is_active' => 1,
             'role_id'   => \App\Models\Auth\Role::where('name', 'super-admin')->first()->id,
-            'is_admin'  => 1,
         ]);
 
         User::create([
@@ -30,7 +29,6 @@ class UserSeeder extends Seeder
             'password'  => Hash::make(config('admin.store_password')),
             'is_active' => 1,
             'role_id'   => \App\Models\Auth\Role::ROLE_CUSTOMER,
-            'is_admin'  => 0,
         ]);
     }
 }

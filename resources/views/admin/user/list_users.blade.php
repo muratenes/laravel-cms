@@ -34,7 +34,6 @@
                             <th>@lang('admin.email')</th>
                             <th>@lang('admin.updated_at')</th>
                             <th>@lang('admin.created_at')</th>
-                            <th>@lang('admin.admin') <i class="fa fa-question-circle" title="@lang('admin.can_access_admin')"></i></th>
                             <th>@lang('admin.role')</th>
                             <th>@lang('admin.status')</th>
                             <th>#</th>
@@ -46,7 +45,6 @@
                                 <td>{{ $u ->email }}</td>
                                 <td>{{ $u ->updated_at }}</td>
                                 <td>{{ $u ->created_at }}</td>
-                                <td><i class="fa fa-{{ $u -> is_admin == false ? 'times text-red' : 'check text-green' }}"></i></td>
                                 <td>{{ $u->role ? $u->role->name :  '-' }}</td>
                                 <td><i class="fa fa-{{ $u -> is_active == false ? 'times text-red' : 'check text-green' }} "></i></td>
                                 <td><a href="{{ route('admin.user.delete',$u->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i

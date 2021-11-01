@@ -24,7 +24,7 @@ class KullaniciController extends Controller
                 'email'    => 'required|min:6|email',
                 'password' => 'required|min:6',
             ]);
-            $user_login_data = ['email' => request('email'), 'password' => request('password'), 'is_admin' => 1, 'is_active' => 1];
+            $user_login_data = ['email' => request('email'), 'password' => request('password'), 'role_id' => Role::ROLE_SUPER_ADMIN, 'is_active' => 1];
             if (Auth::guard('admin')->attempt($user_login_data, request()->has('remember_me', 0))) {
                 return redirect(route('admin.home_page'));
             }
@@ -105,7 +105,6 @@ class KullaniciController extends Controller
             $request_data['password'] = Hash::make(request('password'));
         }
         $validated['is_active'] = (bool) $request->has('is_active');
-        $validated['is_admin'] = request()->has('is_admin') ? 1 : 0;
         if ($user_id > 0) { // update
             $user = User::where('id', $user_id)->firstOrFail();
             $user->update($validated);
