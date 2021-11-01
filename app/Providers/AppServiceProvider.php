@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Listeners\LoggingListener;
-use App\Models\Auth\Role;
 use App\Models\Ayar;
 use App\Models\Product\Urun;
 use App\Models\Siparis;
@@ -22,12 +21,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(['admin.*'], function ($view) {
-            $unreadCommentsCount = 0;
-            $lastUnreadComments = [];
-            $menus = $this->_getAdminMenus();
             $languages = Ayar::activeLanguages();
 
-            $view->with(compact('lastUnreadComments', 'unreadCommentsCount', 'menus', 'languages'));
+            $view->with(compact('languages'));
         });
         Urun::observe(UrunObserver::class);
         Siparis::observe(OrderObserver::class);
@@ -47,33 +43,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ElBaseRepository::class, function ($app, $parameters) {
             return new ElBaseRepository($parameters['model']);
         });
-    }
-
-    private function _getAdminMenus()
-    {
-        try {
-            $menus = config('admin.menus');
-            $roleId = auth()->guard('admin')->user()->role_id;
-            $role = Role::where('id', $roleId)->first();
-            if ($role) {
-                $userPermissions = $role->permissions;
-                if ($userPermissions) {
-                    $userPermissions = $role->permissions->pluck('name');
-                    foreach ($menus as $index => $header) {
-                        foreach ($header as $k => $head) {
-                            if ('title' !== $k) {
-                                if (! $userPermissions->contains($head['permission'])) {
-                                    unset($menus[$index][$k]);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                return $menus;
-            }
-        } catch (\Exception $exception) {
-            return null;
-        }
     }
 }

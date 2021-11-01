@@ -3,8 +3,9 @@
 namespace App\Http;
 
 use App\Http\Middleware\AddConfigToSiteMW;
+use App\Http\Middleware\Admin\AdminCountsMW;
+use App\Http\Middleware\Admin\AdminInitialDataMW;
 use App\Http\Middleware\Admin\SetUserLocaleMW;
-use App\Http\Middleware\AdminOrderCountMW;
 use App\Http\Middleware\CheckModuleActive;
 use App\Http\Middleware\RolesAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -68,8 +69,9 @@ class Kernel extends HttpKernel
         // custom middleware
         'admin'              => \App\Http\Middleware\Admin::class,
         'admin.module'       => CheckModuleActive::class,
+        'admin.counts'       => AdminCountsMW::class,
+        'admin.data'         => AdminInitialDataMW::class,
         'role'               => RolesAuth::class,
-        'admin.order.counts' => AdminOrderCountMW::class,
         'admin.language'     => SetUserLocaleMW::class,
         'site.config'        => AddConfigToSiteMW::class,
     ];
