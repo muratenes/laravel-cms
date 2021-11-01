@@ -5,7 +5,7 @@
 | Web Admin Routes
 |--------------------------------------------------------------------------
 |
-*/
+ */
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::redirect('', '/admin/giris/');
@@ -59,7 +59,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         });
 
         // Adverts
-        Route::resource('adverts', 'AdvertController',['as' => 'admin']);
+        Route::resource('adverts', 'AdvertController', ['as' => 'admin']);
 
         //----- Admin/Products/..
         Route::group(['prefix' => 'product/'], function () {
@@ -92,7 +92,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
                 Route::post('deleteSubAttribute/{id}', 'UrunOzellikController@deleteSubAttribute')->name('admin.product.attribute.subAttribute.delete');
                 Route::post('get-new-product-sub-attribute-html', 'UrunOzellikController@addNewProductSubAttribute');
-
             });
 
             Route::group(['prefix' => 'comments/'], function () {
@@ -116,7 +115,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::post('save/{id}', 'UrunFirmaController@save')->name('admin.product.company.save');
                 Route::get('delete/{id}', 'UrunFirmaController@delete')->name('admin.product.company.delete');
             });
-
         });
 
         //----- Admin/Orders/..
@@ -264,10 +262,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('ajax', 'ContactController@ajax')->name('admin.contact.ajax');
             Route::get('delete/{contact:id}', 'ContactController@delete')->name('admin.contact.delete');
         });
+        //---- Admin/Locations/......
+        Route::group(['prefix' => 'locations'], function () {
+            Route::get('/countries', 'RegionController@countries')->name('regions.countries');
+            Route::get('/state/{country:id}', 'RegionController@getStatesByCountry')->name('regions.states');
+            Route::get('/neighborhoods/{state:id}', 'RegionController@getNeighborhoodByState')->name('regions.neighborhoods');
+        });
     });
-
-
 });
-
 
 Route::get('/home', 'AnasayfaController@index')->name('home');

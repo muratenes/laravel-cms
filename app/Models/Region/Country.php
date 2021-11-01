@@ -2,10 +2,12 @@
 
 namespace App\Models\Region;
 
+use App\Repositories\Traits\Cachable;
 use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
+    use Cachable;
     public const TURKEY = 228;
 
     public $timestamps = false;

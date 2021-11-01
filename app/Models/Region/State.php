@@ -2,10 +2,13 @@
 
 namespace App\Models\Region;
 
+use App\Repositories\Traits\Cachable;
 use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
+    use Cachable;
+
     public $timestamps = false;
 
     /**
