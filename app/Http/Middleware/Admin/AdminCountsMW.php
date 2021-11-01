@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\Admin;
 
+use App\Models\Siparis;
 use Closure;
 use Illuminate\Support\Facades\View;
 
@@ -18,7 +19,7 @@ class AdminCountsMW
     public function handle($request, Closure $next)
     {
         $counts = [
-            // todo : count variables
+            'order' => Siparis::where(['status' => Siparis::STATUS_ONAY_BEKLIYOR])->count(),
         ];
         View::share('counts', $counts);
 
