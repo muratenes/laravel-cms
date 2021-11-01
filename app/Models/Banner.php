@@ -12,4 +12,12 @@ class Banner extends Model
 
     protected $perPage = 20;
     protected $table = 'banner';
+
+    /**
+     * Get all of the tags for the banner.
+     */
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }
