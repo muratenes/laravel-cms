@@ -20,7 +20,7 @@ class IletisimController extends Controller
     public function sendMail(ContactRequest $request)
     {
         try {
-            $data = $request->only('name', 'email', 'message', 'phone');
+            $data = $request->validated();
             Contact::create($data);
             //Mail::to(env('MAIL_USERNAME'))->send(new SiteContactMail($data));
             return back()->with('message', 'Mesajınız alındı yakında sizinle iletişime geçeçeğiz');

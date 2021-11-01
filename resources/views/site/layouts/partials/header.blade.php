@@ -17,7 +17,7 @@
                             <li><a href="{{route('user.favorites')}}">Favorilerim </a></li>
                             <li><a href="{{route('sss')}}">Sık Sorulan Sorular </a></li>
                             {{--                            <li><a href="blog.html">Blog</a></li>--}}
-                            <li><a href="{{ route('iletisim') }}">Iletisim</a></li>
+                            <li><a href="{{ route('contact') }}">Iletisim</a></li>
                             <li>
                                 <a href="{{ route('home.setLocale','en') }}">English</a>
                                 <a href="{{ route('home.setLocale','tr') }}">Turkish</a>

@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <form action="{{ route('iletisim.sendMail') }}" method="post">
+                    <form action="{{ route('contact.post') }}" method="post">
                         @csrf
                         <div class="form-group required-field">
                             <label for="contact-name">Tam Adınız</label>

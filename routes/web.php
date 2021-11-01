@@ -10,17 +10,15 @@
 // todo : kullanici işlemleri için throotle ekle
 
 Route::group(['middleware' => 'site.config'], function () {
-
-
 //social auth
     Route::get('/redirect/{service}', 'SocialAuthController@redirect');
     Route::get('/callback/{service}', 'SocialAuthController@callback');
 
-
     Route::get('test', 'TestController@index');
-// İnitial routes
+    // İnitial routes
     Route::get('kurumsal', 'AnasayfaController@about')->name('about');
-    Route::get('iletisim', 'IletisimController@index')->name('iletisim');
+    Route::get('iletisim', 'IletisimController@index')->name('contact');
+    Route::post('iletisim', 'IletisimController@sendMail')->name('contact.post')->middleware(['throttle:3,10']);
     Route::get('sss', 'SSSController@list')->name('sss');
     Route::post('referanslar', 'ReferenceController@list')->name('referanslar');
     Route::post('{content:slug}', 'IcerikYonetimController@detail')->name('content.detail');
@@ -29,7 +27,6 @@ Route::group(['middleware' => 'site.config'], function () {
     Route::get('galeri/{gallery:slug}', 'GaleriController@detail')->name('gallery.detail');
     Route::get('haberler', 'BlogController@list')->name('blog.list');
     Route::get('haberler/{blog:slug}', 'BlogController@detail')->name('blog.detail');
-    Route::post('iletisim', 'IletisimController@sendMail')->name('iletisim.sendMail')->middleware(['throttle:3,10']);
     Route::post('createBulten', 'EBultenController@createEBulten')->name('ebulten.create')->middleware(['throttle:3,10']);
 
     Route::get('/', 'AnasayfaController@index')->name('homeView');
@@ -38,13 +35,11 @@ Route::group(['middleware' => 'site.config'], function () {
     Route::get('/searchPageFilter', 'AramaController@searchPageFilterWithAjax');
     Route::get('/headerSearchBarOnChangeWithAjax', 'AramaController@headerSearchBarOnChangeWithAjax');
 
-
-//------------Ajax Routes --------------------
+    //------------Ajax Routes --------------------
     Route::post('check-product-variant/{product:id}', 'UrunController@checkProductVariant')->name('getProductVariantPriceAndQtyWithAjax');
     Route::get('productFilterWithAjax', 'KategoriController@productFilterWithAjax')->name('productFilterWithAjax');
 
-
-//------------- Basket Routes --------------------
+    //------------- Basket Routes --------------------
 
     Route::group(['prefix' => 'sepet', 'middleware' => 'throttle:20'], function () {
         Route::get('', 'SepetController@index')->name('basket');
@@ -59,7 +54,7 @@ Route::group(['middleware' => 'site.config'], function () {
         Route::post('/multiple-update', 'SepetController@updateMultipleBasketItem');
     });
 
-//------------ Odeme Controller -------------------
+    //------------ Odeme Controller -------------------
     Route::group(['prefix' => 'odeme/', 'middleware' => ['auth', 'throttle:20']], function () {
         Route::get('adres', 'AddressController@addresses')->name('odeme.adres');
         Route::get('review', 'OdemeController@index')->name('odemeView');
@@ -70,8 +65,7 @@ Route::group(['middleware' => 'site.config'], function () {
         Route::post('threeDSecurityResponse', 'OdemeController@threeDSecurityResponse')->name('odeme.threeDSecurityResponse');
     });
 
-
-//---------- User Routes ----------------------
+    //---------- User Routes ----------------------
     Route::group(['prefix' => 'kullanici'], function () {
         Route::get('/giris', 'KullaniciController@loginForm')->name('user.login');
         Route::post('/giris', 'KullaniciController@login');
@@ -103,32 +97,29 @@ Route::group(['middleware' => 'site.config'], function () {
         Route::get('/getTownsByCityId/{cityId}', 'CityTownController@getTownsByCityId')->name('cityTownService.getTownsByCityId');
     });
 
-//Password Reset Routes...
+    //Password Reset Routes...
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');
 
-// Coupon code
+    // Coupon code
     Route::post('kupon/uygula', 'KuponController@applyCoupon')->name('coupon.apply');
 
-// Favorites Route
+    // Favorites Route
     Route::post('favoriler/ekle', 'FavoriController@addToFavorites');
     Route::get('favoriler/listele', 'FavoriController@listAnonimUserFavorites')->name('favoriler.anonimList');
 
-
-// campaigns Route
+    // campaigns Route
     Route::get('kampanyalar', 'KampanyaController@list')->name('campaigns.list');
     Route::get('kampanyalar/{slug}', 'KampanyaController@detail')->name('campaigns.detail');
     Route::get('kampanyalar/{slug}/{category}', 'KampanyaController@detail')->name('campaigns.detail');
     Route::get('campaignsFilterWithAjax', 'KampanyaController@campaignsFilterWithAjax')->name('campaigns.filterWithAjax');
 
     Route::get('lang/{locale}', 'AnasayfaController@setLanguage')->name('home.setLocale');
-// ------------Product Routes ----------------
+    // ------------Product Routes ----------------
     Route::get('{product:slug}', 'UrunController@detail')->name('product.detail');
     Route::get('urun/quickView/{product:slug}', 'UrunController@quickView')->name('product.quickView');
     Route::get('kategori/{categorySlug}', 'KategoriController@index')->name('category.detail');
     Route::post('product/add-comment/{product:id}', 'UrunController@createComment')->name('product.comments.add')->middleware('auth');
 });
-
-
