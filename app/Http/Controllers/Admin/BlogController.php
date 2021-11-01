@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
-use App\Models\BlogCategory;
+use App\Models\Category;
 use App\Repositories\Interfaces\BlogInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
@@ -40,7 +40,8 @@ class BlogController extends Controller
             $item = $this->model->find($id);
             $selected_categories = $item->categories()->pluck('category_id')->all();
         }
-        $categories = BlogCategory::all();
+        $categories = Category::where(['categorizable_type' => Blog::class])->get();
+        dd($categories);
 
         return view('admin.blog.newOrEditBlog', compact('item', 'categories', 'selected_categories'));
     }

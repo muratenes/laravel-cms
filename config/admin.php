@@ -352,7 +352,7 @@ $data['modules'] = [
         'tag'      => true,
         'image'    => true,
         'language' => false,
-        'category' => false,
+        'category' => true,
     ],
     'order' => [
         'iyzico_logs' => true,

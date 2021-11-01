@@ -19,8 +19,11 @@ class Blog extends Model
         'tags' => 'array',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function categories()
     {
-        return $this->belongsToMany(BlogCategory::class, 'category_blog', 'blog_id', 'category_id');
+        return $this->morphMany(Category::class, 'categorizable');
     }
 }
