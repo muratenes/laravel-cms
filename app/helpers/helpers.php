@@ -92,6 +92,27 @@ function createSlugByModelAndTitle($model, $title, $itemID)
     return $slug;
 }
 
+/**
+ *  create unique slug by model instance title.
+ *
+ * @param Eloquent $model
+ * @param string   $title
+ * @param int      $itemID
+ *
+ * @return string
+ */
+function createSlugFromTitleByModel($model, $title, $itemID)
+{
+    $i = 0;
+    $slug = Str::slug($title);
+    while ($model::where([['slug', $slug], ['id', '!=', $itemID]], ['id'])->count() > 0) {
+        $slug = Str::slug($title) . '-' . $i;
+        $i++;
+    }
+
+    return $slug;
+}
+
 function activeStatus($column = 'active')
 {
     return (bool) request()->has($column);
