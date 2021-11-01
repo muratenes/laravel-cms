@@ -5,15 +5,12 @@ namespace App\Exceptions;
 use App\Listeners\LoggingListener;
 use App\Models\Log;
 use Exception;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Log\Events\MessageLogged;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\ViewErrorBag;
 use JsonSerializable;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -63,7 +60,8 @@ class Handler extends ExceptionHandler
 
                 return (string) $item;
             });
-            //Log::addLog(Log::TYPE_GENERAL, $logged->message, $logged->context, $this->incidentCode, request()->fullUrl());
+            Log::addLog($logged->message, $logged->context, Log::TYPE_GENERAL, $this->incidentCode, request()->fullUrl());
+
             return $logged;
         });
 //        Storage::disk('local')->put("incident\\{$this->incidentCode}.json", $listener->events->toJson(JSON_PRETTY_PRINT));

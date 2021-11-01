@@ -36,7 +36,7 @@ class LogController extends Controller
 
     public function show($id)
     {
-        $log = $this->model->getById($id);
+        $log = Log::findOrFail($id);
 
         return view('admin.log.show_log', compact('log'));
     }
