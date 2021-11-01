@@ -13,6 +13,7 @@ $data = [
     'max_upload_size' => 3024,
     // module status
     'modules_status' => [
+        'advert'             => true,
         'banner'             => true,
         'blog'               => true,
         'coupon'             => true,
@@ -134,7 +135,7 @@ $data['menus'] = [
             'permission' => 'Advert@index',
             'title'      => 'adverts',
             'routeName'  => 'admin.adverts.index',
-            'status'     => 'modules_status.banner',
+            'status'     => 'modules_status.advert',
         ],
         'blog_category' => [
             'icon'       => 'fa fa-align-center',
