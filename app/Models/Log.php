@@ -66,7 +66,6 @@ class Log extends Model
         } catch (\Exception $exception) {
             if (\in_array('slack', config('logging.channels.' . config('logging.default') . '.channels'), true)) {
                 \Illuminate\Support\Facades\Log::channel('single')->error('slack', ['message' => $exception->getMessage()]);
-//                \Illuminate\Support\Facades\Log::channel('slack')->critical($exception->getMessage(), $exception->getTrace());
             }
             \Illuminate\Support\Facades\Log::channel('single')->critical($exception->getMessage(), $exception->getTrace());
         }
