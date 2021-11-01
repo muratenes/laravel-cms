@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Region\Country;
 use App\Models\Region\District;
 use App\Models\Region\Neighborhood;
 use App\Models\Region\State;
