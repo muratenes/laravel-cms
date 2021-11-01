@@ -56,6 +56,7 @@
                             <th>Exception</th>
                             <th>Code</th>
                             <th>Type</th>
+                            <th>Exception Type</th>
                             <th>Oluşturulma Tarihi</th>
                             <th>Sil</th>
                         </tr>
@@ -69,6 +70,7 @@
                                 <td>{{ substr($l->exception,0,50) }}</td>
                                 <td>{{ $l ->code }}</td>
                                 <td>{{ \App\Models\Log::typeLabelStatic($l->type) }}</td>
+                                <td>{{ $l->exception_type }}</td>
                                 <td>{{ $l->created_at }}</td>
                                 <td><a href="{{ route('admin.log.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i class="fa fa-trash-o"></i></a>
                                 </td>
