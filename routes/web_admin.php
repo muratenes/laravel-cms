@@ -268,6 +268,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('/state/{country:id}', 'RegionController@getStatesByCountry')->name('regions.states');
             Route::get('/neighborhoods/{state:id}', 'RegionController@getNeighborhoodByState')->name('regions.neighborhoods');
         });
+
+        //----- Admin/Tables/..
+        Route::group(['prefix' => 'tables/'], function () {
+            Route::get('users', 'TableController@users')->name('admin.tables.users');
+            Route::get('companies', 'TableController@companies')->name('admin.tables.companies');
+        });
     });
 });
 
