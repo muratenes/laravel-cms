@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
         parent::report($exception);
         $this->incidentCode = Str::random(12);
         $listener = $this->container->make(LoggingListener::class);
-        $listener->events->map(function (MessageLogged $logged) {
+        $listener->events->map(function (MessageLogged $logged) use ($exception) {
             $logged->context = collect($logged->context)->map(function ($item) {
                 if ($item instanceof JsonSerializable) {
                     return $item;
@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
                 return (string) $item;
             });
             \Illuminate\Support\Facades\Log::critical($logged->message, ['user' => 'test']);
-            Log::addLog($logged->message, $logged->context, Log::TYPE_GENERAL, $this->incidentCode, request()->fullUrl());
+            Log::addLog($logged->message, $exception, Log::TYPE_GENERAL, $this->incidentCode, request()->fullUrl());
 
             return $logged;
         });

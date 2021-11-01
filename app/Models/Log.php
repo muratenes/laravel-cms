@@ -56,12 +56,13 @@ class Log extends Model
     {
         try {
             self::create([
-                'type'      => $type,
-                'message'   => mb_substr($message, 0, 250),
-                'exception' => mb_substr((string) $exception, 0, 65000),
-                'user_id'   => null === $user_id ? (Auth::user() ? Auth::user()->id : null) : $user_id,
-                'code'      => null === $code ? Str::random() : $code,
-                'url'       => null === $url ? mb_substr(request()->fullUrl(), 0, 150) : mb_substr($url, 0, 150),
+                'type'           => $type,
+                'message'        => mb_substr($message, 0, 250),
+                'exception'      => mb_substr((string) $exception, 0, 65000),
+                'user_id'        => null === $user_id ? (Auth::user() ? Auth::user()->id : null) : $user_id,
+                'code'           => null === $code ? Str::random() : $code,
+                'url'            => null === $url ? mb_substr(request()->fullUrl(), 0, 150) : mb_substr($url, 0, 150),
+                'exception_type' => mb_substr(\get_class($exception), 0, 150),
             ]);
         } catch (\Exception $exception) {
             if (\in_array('slack', config('logging.channels.' . config('logging.default') . '.channels'), true)) {

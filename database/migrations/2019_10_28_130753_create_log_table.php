@@ -20,6 +20,7 @@ class CreateLogTable extends Migration
             $table->text('exception')->nullable();
             $table->string('code', 30)->nullable();
             $table->string('url', 150)->nullable();
+            $table->string('exception_type', 150)->nullable();
             $table->timestamps();
         });
     }
