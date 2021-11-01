@@ -55,6 +55,10 @@
                                     <label for="exampleInputEmail1">Oluşturulma Tarihi</label><br>
                                     <p>{{ $log->created_at }}</p>
                                 </div>
+                                <div class="form-group col-md-3">
+                                    <label for="exampleInputEmail1">Exception Type</label><br>
+                                    <p>{{ $log->exception_type }}</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
