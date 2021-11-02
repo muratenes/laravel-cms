@@ -9,6 +9,7 @@ use App\Models\Siparis;
 use App\Observers\OrderObserver;
 use App\Observers\UrunObserver;
 use App\Repositories\Concrete\ElBaseRepository;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -20,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
+
         View::composer(['admin.*'], function ($view) {
             $languages = Ayar::activeLanguages();
 
