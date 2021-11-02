@@ -1,10 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
+
 use App\Models\Product\UrunAttribute;
 use App\Models\Product\UrunDetail;
 use App\Models\Product\UrunSubAttribute;
 use App\Models\Product\UrunSubDetail;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UrunAttributeTableSeeder extends Seeder
 {

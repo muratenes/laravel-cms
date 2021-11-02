@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+
 use App\Models\Ayar;
 use Illuminate\Database\Seeder;
 

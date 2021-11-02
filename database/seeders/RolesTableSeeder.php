@@ -1,9 +1,13 @@
 <?php
 
+namespace Database\Seeders;
+
+
 use App\Models\Auth\Permission;
 use App\Models\Auth\PermissionRole;
 use App\Models\Auth\Role;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Route;
 
 class RolesTableSeeder extends Seeder
 {

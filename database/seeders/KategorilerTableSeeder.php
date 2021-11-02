@@ -1,7 +1,11 @@
 <?php
 
+namespace Database\Seeders;
+
+
 use App\Models\Kategori;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class KategorilerTableSeeder extends Seeder
@@ -17,7 +21,7 @@ class KategorilerTableSeeder extends Seeder
         Kategori::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $categories = json_decode(file_get_contents(database_path('seeds/files/categories.json'), true), true);
+        $categories = json_decode(file_get_contents(database_path('seeders/files/categories.json'), true), true);
         foreach ($categories as $category) {
             $parent = Kategori::create([
                 'title' => $category['title'],

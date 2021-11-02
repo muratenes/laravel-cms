@@ -1,18 +1,21 @@
 <?php
 
-use App\Models\Ayar;
+namespace Database\Seeders;
+
 use App\Models\Kategori;
 use App\Models\KategoriUrun;
 use App\Models\Product\Urun;
+use Faker\Generator;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UrunlerTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(Faker\Generator $faker)
+    public function run(Generator $faker)
     {
 //        DB::table("Urunler")->delete();
         if ('mysql' === config('database.default')) {
@@ -24,7 +27,7 @@ class UrunlerTableSeeder extends Seeder
         }
 
         DB::delete('TRUNCATE TABLE kategori_urun;');
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $product_name = $faker->sentence(random_int(2, 4));
             $priceTL = random_int(10, 130);
             $category = Kategori::whereNull('parent_category_id')->inRandomOrder()->first();
@@ -52,17 +55,6 @@ class UrunlerTableSeeder extends Seeder
                 'category_id' => $category->id,
                 'product_id'  => $product->id,
             ]);
-
-//            // ingilizce ürün
-//            $urun->title = '|EN|'.$urun->title;
-//            $urun->slug = Str::slug($urun->title);
-//            $urun->lang = Ayar::LANG_EN;
-//            $urun->currency = Ayar::getLanguageCurrencyByLang($urun->lang);
-//            $urun->main_product_id = $urun->id;
-//            unset($urun->id);
-//            $urunEN = Urun::create($urun->toArray());
-//            $category_id = Kategori::where(['main_category_id' => $category_id, 'lang' => $urun->lang])->first()->id;
-//            DB::insert("insert into kategori_urun (category_id, product_id) values ($category_id,$urunEN->id)");
         }
     }
 }
