@@ -1,5 +1,6 @@
 **Nedir ?**
 
+
 Laravel ile yazılmış CMS ve eticaret sistemidir. Yönetim paneli üzerinden ihtiyaçlarınıza göre özelleştirebilirsiniz
 İyzico ile ödeme işlemi yapar. Dil desteği ve para birimi desteği vardır
 
