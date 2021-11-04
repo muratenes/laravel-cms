@@ -96,9 +96,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::group(['prefix' => 'category/'], function () {
                 Route::get('/', 'KategoriController@listCategories')->name('admin.product.categories');
                 Route::get('new', 'KategoriController@newOrEditCategory')->name('admin.product.category.new');
-                Route::get('edit/{user_id}', 'KategoriController@newOrEditCategory')->name('admin.product.category.edit');
-                Route::post('save/{user_id}', 'KategoriController@saveCategory')->name('admin.product.category.save');
-                Route::get('delete/{user_id}', 'KategoriController@deleteCategory')->name('admin.product.category.delete');
+                Route::get('edit/{category_id}', 'KategoriController@newOrEditCategory')->name('admin.product.category.edit');
+                Route::post('save/{category_id}', 'KategoriController@saveCategory')->name('admin.product.category.save');
+                Route::get('delete/{category_id}', 'KategoriController@deleteCategory')->name('admin.product.category.delete');
                 // ajax
                 Route::get('getSubCategoriesByCategoryId/{categoryID}', 'KategoriController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
                 Route::post('clone-for-language/{category:id}/{lang}', 'KategoriController@cloneForLanguage')->name('admin.category.clone-for-language');

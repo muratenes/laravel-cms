@@ -82,6 +82,7 @@
                                         :options="$subCategories" width="6"
                                         :value="$item->sub_category_id"
                                     />
+{{--                                    @include('admin.layouts.components.category-morph-many-select')--}}
                                 </div>
                             @endif
                             <div class="form-group col-md-12">
