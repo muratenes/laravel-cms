@@ -25,6 +25,17 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('delete/{user_id}', 'KullaniciController@deleteUser')->name('admin.user.delete');
         });
 
+        //----- Admin/Category/..
+        Route::group(['prefix' => 'category/'], function () {
+            Route::get('/', 'CategoryController@index')->name('admin.categories.index');
+            Route::get('{category:id}/sub-categories', 'CategoryController@subCategories')->name('admin.categories.index');
+            Route::get('create', 'CategoryController@create')->name('admin.categories.create');
+            Route::get('{category:id}', 'CategoryController@show')->name('admin.categories.edit');
+            Route::post('', 'CategoryController@store')->name('admin.categories.store');
+            Route::post('{category:id}', 'CategoryController@update')->name('admin.categories.update');
+            Route::delete('{category:id}', 'CategoryController@delete')->name('admin.categories.delete');
+        });
+
         //----- Admin/Admin/..
         Route::group(['prefix' => 'builder/'], function () {
             Route::get('edit', 'BuilderController@edit')->name('admin.builder.edit');
@@ -43,19 +54,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::post('store', 'MenuController@store')->name('admin.builder.menus.store');
                 Route::get('delete/{item:id}', 'MenuController@destroy')->name('admin.builder.menus.delete');
             });
-        });
-
-        //----- Admin/category/..
-        Route::group(['prefix' => 'category/'], function () {
-            Route::get('/', 'KategoriController@listCategories')->name('admin.categories');
-            Route::get('new', 'KategoriController@newOrEditCategory')->name('admin.category.new');
-            Route::get('edit/{user_id}', 'KategoriController@newOrEditCategory')->name('admin.category.edit');
-            Route::post('save/{user_id}', 'KategoriController@saveCategory')->name('admin.category.save');
-            Route::get('delete/{user_id}', 'KategoriController@deleteCategory')->name('admin.category.delete');
-            // ajax
-            Route::get('getSubCategoriesByCategoryId/{categoryID}', 'KategoriController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
-            Route::post('clone-for-language/{category:id}/{lang}', 'KategoriController@cloneForLanguage')->name('admin.category.clone-for-language');
-            Route::post('sync-all-categories', 'KategoriController@syncParentCategoriesLanguages');
         });
 
         // Adverts
@@ -94,6 +92,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::post('get-new-product-sub-attribute-html', 'UrunOzellikController@addNewProductSubAttribute');
             });
 
+            //----- Admin/product/category -----
+            Route::group(['prefix' => 'category/'], function () {
+                Route::get('/', 'KategoriController@listCategories')->name('admin.product.categories');
+                Route::get('new', 'KategoriController@newOrEditCategory')->name('admin.product.category.new');
+                Route::get('edit/{user_id}', 'KategoriController@newOrEditCategory')->name('admin.product.category.edit');
+                Route::post('save/{user_id}', 'KategoriController@saveCategory')->name('admin.product.category.save');
+                Route::get('delete/{user_id}', 'KategoriController@deleteCategory')->name('admin.product.category.delete');
+                // ajax
+                Route::get('getSubCategoriesByCategoryId/{categoryID}', 'KategoriController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
+                Route::post('clone-for-language/{category:id}/{lang}', 'KategoriController@cloneForLanguage')->name('admin.category.clone-for-language');
+                Route::post('sync-all-categories', 'KategoriController@syncParentCategoriesLanguages');
+            });
             Route::group(['prefix' => 'comments/'], function () {
                 Route::get('/', 'UrunYorumController@list')->name('admin.product.comments.list');
                 Route::get('new', 'UrunYorumController@detail')->name('admin.product.comments.new');

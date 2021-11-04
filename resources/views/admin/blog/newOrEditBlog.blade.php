@@ -68,15 +68,20 @@
                             @endif
                             @if(admin('modules.blog.category'))
                                 <div class="form-group col-md-4">
-                                    <label for="exampleInputEmail1">Kategoriler</label>
-                                    <select name="categories[]" id="categories" class="form-control" multiple required>
-                                        <option value="">---Kategori Seçiniz --</option>
-                                        @foreach($categories as $cat)
-
-                                            <option {{ collect(old('categories',$selected_categories))->contains($cat->id) ? 'selected' : '' }}
-                                                    value="{{ $cat->id }}">{{ $cat->title }}</option>
-                                        @endforeach
-                                    </select>
+                                    <x-select
+                                        name="category_id"
+                                        label="Kategori"
+                                        :options="$categories->toArray()" width="6"
+                                        :value="$item->category_id"
+                                        onchange="subCategoriesByCategoryId(this.value)"
+                                        required
+                                    />
+                                    <x-select
+                                        name="category_id"
+                                        label="Alt Kategori"
+                                        :options="$subCategories" width="6"
+                                        :value="$item->sub_category_id"
+                                    />
                                 </div>
                             @endif
                             <div class="form-group col-md-12">

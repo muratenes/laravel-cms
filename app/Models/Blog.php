@@ -20,10 +20,10 @@ class Blog extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function categories()
     {
-        return $this->morphMany(Category::class, 'categorizable');
+        return $this->morphToMany(Category::class, 'categorizable');
     }
 }

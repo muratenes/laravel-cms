@@ -27,4 +27,38 @@ $(document).ready(function () {
     })
 })
 
+function refundBasketItem(basketItem,basketItemID) {
+    var table = $("#tableBasketItemRefund");
+    $.post(`/admin/order/basket/${basketItemID}`)
+        .then(response => {
+            console.log(response);
+            const data = response.data.basket;
+            table.find('#refundAmountInput').removeAttr('max').val(0);
+            table.find('#productName').text(basketItem.product.title);
+            table.find('#totalPrice').text(data.total);
+            table.find('#totalRefundableAmount').text(data.total);
+            table.find('#canRefundAmount').text(data.total - data.refunded_amount);
+            table.find('#basketRefundedAmount').text(data.refunded_amount);
+            // table.find('#refundAmountInput').attr('max', basketItem.paid_price - basketItem.refunded_amount);
+            table.find('#basketItemID').val(data.id);
+            table.find('#paymentTransactionID').text(data.payment_transaction_id);
+        })
+
+}
+
+function subCategoriesByCategoryId(categoryId) {
+    $.ajax({
+        url: `/admin/category/${categoryId}/sub-categories`,
+        dataType: 'json',
+        success: function (data) {
+            var options = "";
+            $("#sub_category_id option").not(':first').remove()
+            $.each(data.data.categories, function (index, element) {
+                options += '<option value="' + element.id + '">' + element.title + '</option>';
+            });
+            $("#sub_category_id").append(options)
+        }
+    })
+}
+
 

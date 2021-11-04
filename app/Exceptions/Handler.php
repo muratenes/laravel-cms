@@ -57,6 +57,9 @@ class Handler extends ExceptionHandler
                 if ($item instanceof JsonSerializable) {
                     return $item;
                 }
+                if (\is_array($item)) {
+                    return json_encode($item);
+                }
 
                 return (string) $item;
             });

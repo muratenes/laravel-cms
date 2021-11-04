@@ -63,7 +63,7 @@
                         @foreach($list as $l)
                             <tr>
                                 <td><a href="{{ route('admin.log.show',$l->id) }}">{{ $l->id }}</a></td>
-                                <td><a href="{{ route('admin.user.edit',$l->user_id) }}"> {{ $l->user_id }}</a></td>
+                                <td><a href="{{ $l->user_id ? route('admin.user.edit',$l->user_id) : '' }}"> {{ $l->user_id ?:'-' }}</a></td>
 
                                 <td>{{ $l ->url }} </td>
                                 <td>{{ substr($l->message,0,50) }}</td>

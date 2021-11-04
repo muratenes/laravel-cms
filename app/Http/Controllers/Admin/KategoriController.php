@@ -33,7 +33,7 @@ class KategoriController extends AdminController
         }
         $main_categories = $this->model->all([['parent_category_id', null]]);
 
-        return view('admin.category.list_categories', compact('list', 'main_categories'));
+        return view('admin.product.category.list_categories', compact('list', 'main_categories'));
     }
 
     public function newOrEditCategory($category_id = 0)
@@ -44,7 +44,7 @@ class KategoriController extends AdminController
             $category = Kategori::with('descriptions')->findOrFail($category_id);
         }
 
-        return view('admin.category.new_edit_category', compact('category', 'categories'));
+        return view('admin.product.category.new_edit_category', compact('category', 'categories'));
     }
 
     public function saveCategory(AdminCategoryRequest $request, $category_id = 0)

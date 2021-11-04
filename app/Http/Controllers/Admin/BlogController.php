@@ -35,15 +35,14 @@ class BlogController extends Controller
     public function newOrEditForm($id = 0)
     {
         $item = new Blog();
-        $selected_categories = [];
+        $selected_categories = $subCategories = [];
         if (0 !== $id) {
             $item = $this->model->find($id);
-            $selected_categories = $item->categories()->pluck('category_id')->all();
+            $selected_categories = $item->categories->pluck('id')->toArray();
         }
         $categories = Category::where(['categorizable_type' => Blog::class])->get();
-        dd($categories);
 
-        return view('admin.blog.newOrEditBlog', compact('item', 'categories', 'selected_categories'));
+        return view('admin.blog.newOrEditBlog', compact('item', 'categories', 'selected_categories', 'subCategories'));
     }
 
     public function save(Request $request, $id = 0)
@@ -59,6 +58,7 @@ class BlogController extends Controller
         if ($entry) {
             $filePath = $this->uploadImage($request->file('image'), $entry->title, 'public/blog', $entry->image, Blog::MODULE_NAME);
             $entry->update(['image' => $filePath]);
+            $entry->categories()->sync($request->get('categories'));
             success();
 
             return redirect(route('admin.blog.edit', $entry->id));

@@ -184,7 +184,7 @@ $data['menus'] = [
                     'icon'       => 'fa fa-circle-o',
                     'permission' => 'Kategori@listCategories',
                     'title'      => 'categories',
-                    'routeName'  => 'admin.categories',
+                    'routeName'  => 'admin.product.categories',
                     'status'     => 'modules.product.category',
                 ],
                 [
