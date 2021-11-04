@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-10">
                     <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › <a href="{{ route('admin.categories') }}"> Kategoriler</a>
+                    › <a href="{{ route('admin.product.categories') }}"> Kategoriler</a>
                     › {{ $category->title }}
                 </div>
                 <div class="col-md-2 text-right mr-3">
@@ -41,7 +41,7 @@
                         <li class="pull-right header small" style="font-size:14px"> Kategori Detay</li>
 
                     </ul>
-                    <form role="form" method="post" action="{{ route('admin.category.save',$category->id != null ? $category->id : 0) }}" id="form" enctype="multipart/form-data">
+                    <form role="form" method="post" action="{{ route('admin.product.category.save',$category->id != null ? $category->id : 0) }}" id="form" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_category_default_language">

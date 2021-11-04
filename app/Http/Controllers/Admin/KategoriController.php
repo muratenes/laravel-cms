@@ -70,7 +70,7 @@ class KategoriController extends AdminController
             }
             $this->syncCategoriesForOtherLanguages($request, $entry);
 
-            return redirect(route('admin.category.edit', $entry->id));
+            return redirect(route('admin.product.category.edit', $entry->id));
         }
 
         return back()->withInput();
@@ -81,7 +81,7 @@ class KategoriController extends AdminController
         $this->model->delete($category_id);
         success();
 
-        return redirect(route('admin.categories'));
+        return redirect(route('admin.product.categories'));
     }
 
     /**
