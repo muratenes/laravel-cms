@@ -78,7 +78,7 @@ class KategoriController extends AdminController
 
     public function deleteCategory($category_id)
     {
-        $this->model->delete($category_id);
+        Kategori::findOrFail($category_id)->delete();
         success();
 
         return redirect(route('admin.product.categories'));
