@@ -243,7 +243,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('new', 'BlogController@newOrEditForm')->name('admin.blog.new');
             Route::get('edit/{id}', 'BlogController@newOrEditForm')->name('admin.blog.edit');
             Route::post('save/{id}', 'BlogController@save')->name('admin.blog.save');
-            Route::get('delete/{id}', 'BlogController@delete')->name('admin.blog.delete');
+            Route::delete('{id}', 'BlogController@delete')->name('admin.blog.delete');
         });
         //----- Admin/BlogCategory/..
         Route::group(['prefix' => 'blog-category'], function () {
@@ -282,6 +282,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         //----- Admin/Tables/..
         Route::group(['prefix' => 'tables/'], function () {
             Route::get('users', 'TableController@users')->name('admin.tables.users');
+            Route::get('blogs', 'TableController@blogs')->name('admin.tables.blogs');
             Route::get('companies', 'TableController@companies')->name('admin.tables.companies');
         });
     });

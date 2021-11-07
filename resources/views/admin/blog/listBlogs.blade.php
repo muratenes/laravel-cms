@@ -37,53 +37,23 @@
                     </div>
                 </div>
                 <div class="box-body table-responsive">
-                    <table class="table table-hover table-bordered">
-                        <tbody>
+                    <table class="table table-hover table-bordered" id="tableBlog">
+                        <thead>
                         <tr>
                             <th>ID</th>
                             <th>Başlık</th>
-                            <th>Açıklama</th>
+                            <th>Görsel</th>
                             <th>Durum</th>
-                            @if(admin('modules.blog.image'))
-                                <th>Fotoğraf</th>
-                            @endif
-                            @if(admin('multi_lang'))
-                                <th>Dil</th>
-                            @endif
+                            <th>Fotoğraf</th>
                             <th>#</th>
                         </tr>
-                        @if(count($list) > 0)
-                            @foreach($list as $l)
-                                <tr>
-                                    <td>{{ $l ->id }}</td>
-                                    <td><a href="{{ route('admin.blog.edit',$l->id) }}"> {{ $l->title }}</a></td>
-                                    <td>{{ strip_tags(substr($l -> desc,0,100))}}</td>
-                                    <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
-                                    @if(admin('modules.blog.image'))
-                                        <td>
-                                            @if($l->image)
-                                                <a target="_blank" href="{{ imageUrl('public/blog',$l ->image) }}">
-                                                    <img src="{{ imageUrl('public/blog',$l ->image) }}" alt="" width="50" height="50"></a>
-                                            @endif
-                                        </td>
-                                    @endif
-                                    @if(admin('multi_lang'))
-                                        <th><img src="{{ langIcon($l->lang) }}" alt=""></th>
-                                    @endif
-                                    <td><a href="{{ route('admin.blog.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
-                                                class="fa fa-trash text-red"></i></a></td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="7" class="text-center"><h5>Blog Bulunamadı</h5></td>
-                            </tr>
-                        @endif
-                        </tbody>
+                        </thead>
                     </table>
-                    <div class="text-right"> {{ $list->appends(['q' => request('q')])->links() }}</div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('footer')
+    <script src="/admin_files/js/pages/admin.blog.js"></script>
 @endsection

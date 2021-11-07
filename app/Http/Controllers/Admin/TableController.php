@@ -62,4 +62,16 @@ class TableController extends Controller
             User::with('role')
         )->make();
     }
+
+    /**
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    public function blogs()
+    {
+        return Datatables::of(
+            Blog::with('categories')
+        )->make();
+    }
 }

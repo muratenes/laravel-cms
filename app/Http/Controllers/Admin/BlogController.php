@@ -7,11 +7,13 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Repositories\Interfaces\BlogInterface;
 use App\Repositories\Traits\ImageUploadTrait;
+use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
     use ImageUploadTrait;
+    use ResponseTrait;
 
     protected BlogInterface $model;
 
@@ -71,6 +73,6 @@ class BlogController extends Controller
     {
         $this->model->delete($id);
 
-        return redirect(route('admin.blog'));
+        return $this->success();
     }
 }
