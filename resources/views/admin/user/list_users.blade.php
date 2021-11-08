@@ -4,7 +4,7 @@
 
 @section('content')
     <x-breadcrumb :first="__('admin.users')">
-        <a href="{{ route('admin.user.new') }}"> <i class="fa fa-plus"></i> @lang('admin.add_new_user')</a>
+        <a href="{{ route('admin.user.create') }}"> <i class="fa fa-plus"></i> @lang('admin.add_new_user')</a>
     </x-breadcrumb>
     <div class="row">
         <div class="box">

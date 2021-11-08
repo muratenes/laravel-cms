@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UserCreateRequest;
+use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\Auth\Role;
 use App\Models\Ayar;
 use App\Repositories\Traits\ResponseTrait;
@@ -12,7 +14,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class KullaniciController extends Controller
+class UserController extends Controller
 {
     use ResponseTrait;
 
@@ -25,13 +27,11 @@ class KullaniciController extends Controller
             $list = User::where(function ($qq) use ($query) {
                 $qq->where('name', 'like', "%{$query}%")
                     ->orWhere('email', 'like', "%{$query}%")
-                    ->orWhere('surname', 'like', "%{$query}%")
-                ;
+                    ->orWhere('surname', 'like', "%{$query}%");
             })->when($auth->email !== config('admin.username'), function ($qq) {
                 $qq->where('email', '!=', config('admin.username'));
             })->orderByDesc('id')
-                ->paginate($perPageItem)
-            ;
+                ->paginate($perPageItem);
         } else {
             $list = User::when($auth->email !== config('admin.username'), function ($qq) {
                 $qq->where('email', '!=', config('admin.username'));
@@ -62,32 +62,21 @@ class KullaniciController extends Controller
 
     /**
      * @param Request $request
-     * @param int     $user_id
+     * @param int $user_id
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function save(Request $request, $user_id = 0)
+    public function store(UserCreateRequest $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|min:3|max:50',
-            'surname'  => 'required|min:3|max:50',
-            'email'    => 0 === (int) $user_id ? 'email|unique:users' : 'email',
-            'locale'   => 'string',
-            'role_id'  => 'nullable|numeric',
-            'phone'    => 'string|nullable',
-            'password' => 'nullable|string|min:6',
-        ]);
+        $user = User::create($request->validated());
+        success();
 
-        if ($request->filled('password')) {
-            $validated['password'] = Hash::make($request->get('password'));
-        }
-        $validated['is_active'] = $request->has('is_active');
-        if ($user_id > 0) {
-            $user = User::where('id', $user_id)->firstOrFail();
-            $user->update($validated);
-        } else {
-            $user = User::create($validated);
-        }
+        return redirect(route('admin.user.edit', $user->id));
+    }
+
+    public function update(UserUpdateRequest $request, User $user)
+    {
+        $user->update($request->validated());
         success();
 
         return redirect(route('admin.user.edit', $user->id));

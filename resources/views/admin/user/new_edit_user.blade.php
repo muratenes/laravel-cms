@@ -12,8 +12,9 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" method="post" action="{{ route('admin.user.save',$user->id != null ? $user->id : 0) }}" id="form">
+                <form role="form" method="POST" action="{{ $user->id ? route('admin.user.update',['user' => $user->id]) : route('admin.user.store') }}" id="form">
                     {{ csrf_field() }}
+                    @method($user->id ? 'PUT' : 'POST')
                     <div class="box-body">
                         <div class="form-row">
                             <div class="form-group col-md-3">

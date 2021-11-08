@@ -57,6 +57,16 @@ function currentCurrencySymbol()
 }
 
 /**
+ * get logged admin user.
+ *
+ * @return null|\App\User|\Illuminate\Contracts\Auth\Authenticatable
+ */
+function loggedAdminUser()
+{
+    return Auth::guard('admin')->user();
+}
+
+/**
  * mevcut para birimi getirir.
  *
  * @return mixed
