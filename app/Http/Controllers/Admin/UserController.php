@@ -19,17 +19,16 @@ class UserController extends Controller
     {
         $this->authorizeForUser(loggedAdminUser(), 'viewany', User::class);
 
-        return view('admin.user.list_users');
+        return view('admin.user.index');
     }
 
     public function edit(User $user)
     {
         $this->authorizeForUser(loggedAdminUser(), 'view', $user);
-        $roles = Role::all();
 
-        return view('admin.user.new_edit_user', [
+        return view('admin.user.edit', [
             'user'  => $user,
-            'roles' => $roles,
+            'roles' => Role::all(),
         ]);
     }
 
@@ -38,7 +37,7 @@ class UserController extends Controller
         $this->authorizeForUser(loggedAdminUser(), 'create', User::class);
         $roles = Role::all();
 
-        return view('admin.user.new_edit_user', [
+        return view('admin.user.edit', [
             'user'  => new User(),
             'roles' => $roles,
         ]);

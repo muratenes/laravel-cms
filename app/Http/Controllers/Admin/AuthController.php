@@ -33,7 +33,7 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
         $userLoginData = array_merge($validatedData, [
-            'role_id'   => Role::ROLE_SUPER_ADMIN,
+            'role_id'   => [Role::ROLE_SUPER_ADMIN, Role::ROLE_MANAGER],
             'is_active' => 1,
         ]);
 

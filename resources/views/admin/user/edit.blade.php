@@ -57,8 +57,10 @@
                                     <div class="input-group">
                                         <select name="role_id" id="" class="form-control" required>
                                             <option value="">@lang('admin.user.select_a_role')</option>
-                                            @foreach($roles as $role)
-                                                <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                            @foreach(\App\Models\Auth\Role::listConstRolesWithId() as $key => $role)
+                                                <option value="{{ $key }}" {{ $user->role_id == $key ? 'selected' : '' }}>
+                                                    {{ $role[1] }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>

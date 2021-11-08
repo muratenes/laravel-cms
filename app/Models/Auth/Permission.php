@@ -70,4 +70,31 @@ class Permission extends Model
             //            'ServiceComment@index',
         ];
     }
+
+    /**
+     * manager role permissions.
+     *
+     * @return string[]
+     */
+    public static function managerRoles()
+    {
+        return [
+            // Basic
+            'Anasayfa@index',
+            'Kullanici@login',
+            'Kullanici@logout',
+            // Blog
+            'BlogController@index',
+            'BlogController@create',
+            'BlogController@update',
+            'BlogController@store',
+            'BlogController@delete',
+            // Content
+            'ContentController@index',
+            'ContentController@create',
+            'ContentController@update',
+            'ContentController@store',
+            'ContentController@delete',
+        ];
+    }
 }

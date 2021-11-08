@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-
 use App\Models\Auth\Permission;
 use App\Models\Auth\PermissionRole;
 use App\Models\Auth\Role;
@@ -63,6 +62,11 @@ class RolesTableSeeder extends Seeder
         $storePermissions = Permission::select('id')->whereIn('name', Permission::storeRoles())->get('id')->pluck('id')->toarray();
         $storeRole = Role::where('name', 'store')->first();
         $storeRole->permissions()->sync($storePermissions);
+
+        // SYNC MANAGER ROLES.
+        $managerPermissions = Permission::select('id')->whereIn('name', Permission::managerRoles())->get('id')->pluck('id')->toarray();
+        $managerRole = Role::where('name', 'manager')->first();
+        $managerRole->permissions()->sync($managerPermissions);
     }
 
     private function updateOrCreateRoles()
@@ -72,6 +76,7 @@ class RolesTableSeeder extends Seeder
             ['name' => 'store'],
             ['name' => 'store-worker'],
             ['name' => 'company'],
+            ['name' => 'manager'],
         ];
         foreach ($roles as $role) {
             Role::updateOrCreate(['name' => $role], $role);

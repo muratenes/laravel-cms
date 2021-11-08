@@ -15,4 +15,14 @@ trait UserGetters
     {
         return Role::ROLE_SUPER_ADMIN === $this->role_id;
     }
+
+    /**
+     * user has super-admin role ?
+     *
+     * @return bool
+     */
+    public function isManager()
+    {
+        return Role::ROLE_MANAGER === $this->role_id;
+    }
 }
