@@ -6,6 +6,7 @@ use App\Models\Auth\Role;
 use App\Models\Favori;
 use App\Models\KullaniciAdres;
 use App\Notifications\PasswordReset;
+use App\Utils\Concerns\Models\UserGetters;
 use App\Utils\Concerns\Models\UserNotifications;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -16,6 +17,7 @@ class User extends Authenticatable implements HasLocalePreference
 {
     use CanResetPassword;
     use Notifiable;
+    use UserGetters;
     use UserNotifications;
 
     protected $guarded = [

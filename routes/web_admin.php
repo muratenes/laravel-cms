@@ -20,9 +20,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/User/..
         Route::group(['prefix' => 'user/'], function () {
-            Route::get('/', 'UserController@listUsers')->name('admin.users');
-            Route::get('create', 'UserController@newOrEditUser')->name('admin.user.create');
-            Route::get('edit/{user_id}', 'UserController@newOrEditUser')->name('admin.user.edit');
+            Route::get('/', 'UserController@index')->name('admin.users');
+            Route::get('create', 'UserController@create')->name('admin.user.create');
+            Route::get('edit/{user:id}', 'UserController@edit')->name('admin.user.edit');
             Route::post('', 'UserController@store')->name('admin.user.store');
             Route::put('{user:id}', 'UserController@update')->name('admin.user.update');
             Route::delete('{user:id}', 'UserController@delete')->name('admin.user.delete');
