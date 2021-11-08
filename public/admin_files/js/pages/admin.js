@@ -61,11 +61,23 @@ function subCategoriesByCategoryId(categoryId) {
     })
 }
 
+/**
+ * show validation errors or any errors
+ * @param response
+ */
 function errorMessage(response) {
     if (response.status === 400) {
         const data = JSON.parse(response.responseText);
         toastr.error(data.message)
     }
+}
+
+/**
+ * show success alert message
+ * @param message
+ */
+function successMessage(message){
+    toastr.success(message)
 }
 
 
