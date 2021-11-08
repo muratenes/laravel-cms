@@ -60,7 +60,7 @@ $('#userTable').on('click', '.delete-item', function () {
         const id = $(this).data('id')
         const self = this;
         $.ajax({
-            url: '/admin/user/delete/' + id + '',
+            url: '/admin/user/' + id + '',
             dataType: 'json',
             method: 'DELETE',
             success: function (data) {
