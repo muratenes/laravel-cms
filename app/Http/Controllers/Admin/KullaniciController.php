@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Auth\Role;
 use App\Models\Ayar;
-use App\Models\Log;
+use App\Repositories\Traits\ResponseTrait;
 use App\User;
 use Auth;
 use Hash;
@@ -14,36 +14,7 @@ use Illuminate\Support\Str;
 
 class KullaniciController extends Controller
 {
-    public function login(Request $request)
-    {
-        if (Auth::guard('admin')->check()) {
-            return redirect(route('admin.home_page'));
-        }
-        if (request()->isMethod('POST')) {
-            $validatedData = $request->validate([
-                'email'    => 'required|min:6|email',
-                'password' => 'required|min:6',
-            ]);
-            $user_login_data = ['email' => request('email'), 'password' => request('password'), 'role_id' => Role::ROLE_SUPER_ADMIN, 'is_active' => 1];
-            if (Auth::guard('admin')->attempt($user_login_data, request()->has('remember_me', 0))) {
-                return redirect(route('admin.home_page'));
-            }
-            Log::addLog('hatalı admin girişi', json_encode($user_login_data), Log::TYPE_WRONG_LOGIN);
-
-            return back()->withInput()->withErrors(['email' => 'hatalı kullanıcı adı veya şifre']);
-        }
-
-        return view('admin.login');
-    }
-
-    public function logout()
-    {
-        Auth::guard('admin')->logout();
-        request()->session()->flush();
-        request()->session()->regenerate();
-
-        return redirect(route('admin.login'));
-    }
+    use ResponseTrait;
 
     public function listUsers()
     {
@@ -89,23 +60,29 @@ class KullaniciController extends Controller
         return view('admin.user.new_edit_user', compact('user', 'roles', 'activeLanguages'));
     }
 
-    public function saveUser(Request $request, $user_id = 0)
+    /**
+     * @param Request $request
+     * @param int     $user_id
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function save(Request $request, $user_id = 0)
     {
-        $email_validate = 0 === (int) $user_id ? 'email|unique:users' : 'email';
         $validated = $request->validate([
-            'name'    => 'required|min:3|max:50',
-            'surname' => 'required|min:3|max:50',
-            'email'   => $email_validate,
-            'locale'  => 'string',
-            'role_id' => 'nullable|numeric',
-            'phone'   => 'string|nullable',
+            'name'     => 'required|min:3|max:50',
+            'surname'  => 'required|min:3|max:50',
+            'email'    => 0 === (int) $user_id ? 'email|unique:users' : 'email',
+            'locale'   => 'string',
+            'role_id'  => 'nullable|numeric',
+            'phone'    => 'string|nullable',
+            'password' => 'nullable|string|min:6',
         ]);
 
-        if (request()->filled('password')) {
-            $request_data['password'] = Hash::make(request('password'));
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->get('password'));
         }
-        $validated['is_active'] = (bool) $request->has('is_active');
-        if ($user_id > 0) { // update
+        $validated['is_active'] = $request->has('is_active');
+        if ($user_id > 0) {
             $user = User::where('id', $user_id)->firstOrFail();
             $user->update($validated);
         } else {
@@ -116,17 +93,21 @@ class KullaniciController extends Controller
         return redirect(route('admin.user.edit', $user->id));
     }
 
-    public function deleteUser($user_id)
+    /**
+     * @param User $user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(User $user)
     {
-        $user = User::where('id', $user_id)->firstOrFail();
         if ($user->email === config('admin.username')) {
-            return back()->withErrors('Bu kullanıcı silinemez');
+            return $this->error('Bu kullanıcı silinemez.');
         }
-        $user->email = $user->email . '|' . Str::random(10);
-        $user->save();
+        $user->update([
+            'email' => $user->email . '|' . Str::random(10),
+        ]);
         $user->delete();
-        success();
 
-        return redirect(route('admin.users'));
+        return $this->success();
     }
 }

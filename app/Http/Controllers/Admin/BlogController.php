@@ -9,6 +9,7 @@ use App\Repositories\Interfaces\BlogInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class BlogController extends Controller
 {
@@ -50,10 +51,13 @@ class BlogController extends Controller
     public function save(Request $request, $id = 0)
     {
         $request_data = $request->only('title', 'desc', 'lang', 'tags');
+        $metaValidated = $request->validate(MetaTaggable::validation_rules());
+
         $request_data['active'] = activeStatus();
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request->title, $id);
         if (0 !== $id) {
             $entry = $this->model->update($request_data, $id);
+            $entry->meta_tag()->updateOrCreate(['taggable_id' => $id], $metaValidated);
         } else {
             $entry = $this->model->create($request_data);
         }

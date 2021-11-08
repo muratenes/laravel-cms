@@ -9,20 +9,20 @@
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::redirect('', '/admin/giris/');
-    Route::match(['get', 'post'], 'giris', 'KullaniciController@login')->name('admin.login');
+    Route::match(['get', 'post'], 'giris', 'AuthController@login')->name('admin.login');
     Route::get('/clear_cache', 'AnasayfaController@cacheClear')->name('admin.clearCache');
     Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.language', 'admin.counts', 'admin.data']], function () {
         Route::get('home', 'AnasayfaController@index')->name('admin.home_page');
         Route::get('contacts', 'AnasayfaController@contacts')->name('admin.contacts');
-        Route::get('cikis', 'KullaniciController@logout')->name('admin.logout');
+        Route::get('cikis', 'AuthController@logout')->name('admin.logout');
 
         //----- Admin/User/..
         Route::group(['prefix' => 'user/'], function () {
             Route::get('/', 'KullaniciController@listUsers')->name('admin.users');
             Route::get('new', 'KullaniciController@newOrEditUser')->name('admin.user.new');
             Route::get('edit/{user_id}', 'KullaniciController@newOrEditUser')->name('admin.user.edit');
-            Route::post('save/{user_id}', 'KullaniciController@saveUser')->name('admin.user.save');
-            Route::get('delete/{user_id}', 'KullaniciController@deleteUser')->name('admin.user.delete');
+            Route::post('save/{user_id}', 'KullaniciController@save')->name('admin.user.save');
+            Route::delete('{user_id}', 'KullaniciController@delete')->name('admin.user.delete');
         });
 
         //----- Admin/Category/..

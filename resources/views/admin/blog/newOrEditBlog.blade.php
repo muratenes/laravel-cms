@@ -13,16 +13,17 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <!-- left column -->
-        <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Blog Detay</h3>
-                </div>
-                <form role="form" method="post" action="{{ route('admin.blog.save',$item->id != null ? $item->id : 0) }}" id="form" enctype="multipart/form-data">
-                    {{ csrf_field() }}
+    <form role="form" method="post" action="{{ route('admin.blog.save',$item->id != null ? $item->id : 0) }}" id="form" enctype="multipart/form-data">
+        {{ csrf_field() }}
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Blog Detay</h3>
+                    </div>
+
                     <div class="box-body">
                         <div class="form-row">
                             <div class="form-group col-md-8">
@@ -74,7 +75,7 @@
                                         :options="$categories->toArray()" width="6"
                                         :value="$item->category_id"
                                         onchange="subCategoriesByCategoryId(this.value)"
-                                        required
+                                        {{--                                        required--}}
                                     />
                                     <x-select
                                         name="category_id"
@@ -82,7 +83,7 @@
                                         :options="$subCategories" width="6"
                                         :value="$item->sub_category_id"
                                     />
-{{--                                    @include('admin.layouts.components.category-morph-many-select')--}}
+                                    {{--                                    @include('admin.layouts.components.category-morph-many-select')--}}
                                 </div>
                             @endif
                             <div class="form-group col-md-12">
@@ -94,10 +95,15 @@
                     <div class="box-footer text-right">
                         <button type="submit" class="btn btn-success">Kaydet</button>
                     </div>
-                </form>
+
+                </div>
             </div>
         </div>
-    </div>
+        {{--    {!! View::make('laravel-filemanager::crop') !!}--}}
+        @include('laravel-meta-tags::meta-tags')
+
+    </form>
+
 @endsection
 @section('footer')
     <script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
