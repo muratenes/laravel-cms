@@ -9,7 +9,9 @@
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::redirect('', '/admin/giris/');
-    Route::match(['get', 'post'], 'giris', 'AuthController@login')->name('admin.login');
+//    Route::match(['get', 'post'], 'giris', 'AuthController@login')->name('admin.login');
+    Route::get('giris', 'AuthController@loginView')->name('admin.login');
+    Route::post('giris', 'AuthController@login')->name('admin.login.post');
     Route::get('/clear_cache', 'AnasayfaController@cacheClear')->name('admin.clearCache');
     Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.language', 'admin.counts', 'admin.data']], function () {
         Route::get('home', 'AnasayfaController@index')->name('admin.home_page');
