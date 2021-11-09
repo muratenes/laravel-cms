@@ -32,10 +32,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::group(['prefix' => 'category/'], function () {
             Route::get('/', 'CategoryController@index')->name('admin.categories.index');
             Route::get('{category:id}/sub-categories', 'CategoryController@subCategories')->name('admin.categories.sub-categories');
+            Route::get('type', 'CategoryController@categoriesByType')->name('admin.categories.categories-by-type');
             Route::get('create', 'CategoryController@create')->name('admin.categories.create');
             Route::get('{category:id}', 'CategoryController@show')->name('admin.categories.edit');
             Route::post('', 'CategoryController@store')->name('admin.categories.store');
-            Route::post('{category:id}', 'CategoryController@update')->name('admin.categories.update');
+            Route::put('{category:id}', 'CategoryController@update')->name('admin.categories.update');
             Route::delete('{category:id}', 'CategoryController@delete')->name('admin.categories.delete');
         });
 

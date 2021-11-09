@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class CategoryController extends Controller
 {
@@ -16,14 +17,9 @@ class CategoryController extends Controller
         return view('admin.category.index');
     }
 
-    public function subCategories(Category $category)
-    {
-        return Category::where(['parent_category_id' => $category->id])->orderBy('title')->get();
-    }
-
     public function create()
     {
-        return view('admin.category.edit', [
+        return view('admin.category.create', [
             'item'       => new Category(),
             'categories' => Category::orderBy('title')->get(),
         ]);
@@ -31,9 +27,9 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return view('admin.category.edit', [
+        return view('admin.category.create', [
             'item'       => $category,
-            'categories' => Category::orderBy('title')->get(),
+            'categories' => Category::orderBy('title')->where(['categorizable_type' => $category->categorizable_type])->get(),
         ]);
     }
 
@@ -47,11 +43,14 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'title'              => 'required|max:100',
-            'parent_category_id' => 'nullable|numeric|exists:categories',
+            'parent_category_id' => 'nullable',
             'categorizable_type' => 'required|string|max:100',
         ]);
+        $metaValidated = $request->validate(MetaTaggable::validation_rules());
+
         $validated['is_active'] = activeStatus('is_active');
         $category->update($validated);
+        $category->meta_tag()->updateOrCreate(['taggable_id' => $category->id], $metaValidated);
 
         success();
 
@@ -67,11 +66,14 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'title'              => 'required|max:100',
-            'parent_category_id' => 'nullable|numeric|exists:categories',
+            'parent_category_id' => 'nullable|numeric',
             'categorizable_type' => 'required|string|max:100',
         ]);
         $validated['is_active'] = activeStatus('is_active');
+        $metaValidated = $request->validate(MetaTaggable::validation_rules());
+
         $category = Category::create($validated);
+        $category->meta_tag()->updateOrCreate(['taggable_id' => $category->id], $metaValidated);
 
         success();
 
@@ -88,5 +90,28 @@ class CategoryController extends Controller
         $category->delete();
 
         return $this->success();
+    }
+
+    /**
+     * get sub categories by category.
+     *
+     * @param Category $category
+     *
+     * @return mixed
+     */
+    public function subCategories(Category $category)
+    {
+        return Category::where(['parent_category_id' => $category->id])->orderBy('title')->get();
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return mixed
+     */
+    public function categoriesByType(Request $request)
+    {
+        return Category::where(['categorizable_type' => $request->get('type')])
+            ->orderBy('title')->get();
     }
 }

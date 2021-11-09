@@ -77,6 +77,14 @@ return [
             'title'  => 'Firma',
             'plural' => 'Firmalar',
         ],
+        'category' => [
+            'App\Models\Blog' => [
+                'title' => 'Blog',
+            ],
+            'App\Models\Content' => [
+                'title' => 'İçerik Yönetim',
+            ],
+        ],
     ],
     // USER
     'user' => [
