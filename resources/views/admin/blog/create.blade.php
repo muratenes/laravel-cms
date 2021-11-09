@@ -23,73 +23,62 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Blog Detay</h3>
+                        <div class="box-tools">
+                            @if($item->writer and loggedAdminUser()->isSuperAdmin())
+                                <a title="{{ $item->writer->email }}" href="{{ route('admin.user.edit',['user' => $item->writer_id]) }}">Yazar : <i class="fa fa-user"></i> {{ $item->writer->full_name }}</a>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="box-body">
                         <div class="form-row">
-                            <div class="form-group col-md-8">
-                                <label for="exampleInputEmail1">Başlık</label>
-                                <input type="text" class="form-control" name="title" placeholder="başlık" required max="200"
-                                       value="{{ old('title', $item->title) }}">
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Aktif Mi ?</label><br>
-                                <input type="checkbox" class="minimal" name="is_active" {{ $item->is_active == 1 ? 'checked': '' }}>
-                            </div>
-                            @if(admin('modules.blog.image'))
-                                <div class="form-group col-md-2">
-                                    <label for="image">Fotoğraf</label><br>
-                                    <input type="file" class="form-control" name="image">
-                                    @if($item->image)
-                                        <span class="help-block"><a target="_blank"
-                                                                    href="{{ imageUrl('public/blog',$item->image) }}">{{ $item->image }}</a></span>
-                                    @endif
-                                </div>
-                            @endif
-                            @if(admin('multi_lang'))
-                                <div class="form-group col-md-1">
-                                    <label for="exampleInputEmail1">Dil</label>
-                                    <select name="lang" id="languageSelect" class="form-control">
-                                        @foreach($languages as $lang)
-                                            <option value="{{ $lang[0] }}" {{ $item->lang == $lang[0] ? 'selected' : '' }}> {{ $lang[1] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
-                            @if(admin('modules.blog.tag'))
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Kelimeler(Tags)</label>
-                                    <select class="form-control" multiple="multiple" id="tags" name="tags[]">
-                                        @if($item->tags)
-                                            @foreach($item->tags as $tag)
-                                                <option value="{{ $tag }}" selected>{{ $tag }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                            @endif
+                            <x-input name="title" label="Başlık" width="12" horizontal :value="$item->title" required maxlength="200"/>
                             @if(admin('modules.blog.category'))
-                                <div class="form-group col-md-4">
-                                    <x-select
-                                        name="category_id"
-                                        label="Kategori"
-                                        :options="$categories->toArray()" width="6"
-                                        :value="$item->category_id"
-                                        onchange="subCategoriesByCategoryId(this.value)"
-                                        {{--                                        required--}}
-                                    />
-                                    <x-select
-                                        name="sub_category_id"
-                                        label="Alt Kategori"
-                                        :options="$subCategories" width="6"
-                                        :value="$item->sub_category_id"
-                                    />
-                                    {{--                                    @include('admin.layouts.components.category-morph-many-select')--}}
-                                </div>
+                                <x-select
+                                    name="category_id"
+                                    horizontal
+                                    label="Kategori"
+                                    :options="$categories->toArray()" width="12"
+                                    :value="$item->category_id"
+                                    onchange="subCategoriesByCategoryId(this.value)"
+                                    {{--                                        required--}}
+                                />
+                                <x-select
+                                    name="sub_category_id"
+                                    horizontal
+                                    label="Alt Kategori"
+                                    :options="$subCategories" width="12"
+                                    :value="$item->sub_category_id"
+                                />
+                                {{--                                    @include('admin.layouts.components.category-morph-many-select')--}}
                             @endif
+                            <x-input horizontal name="is_active" type="checkbox" label="Aktif Mi ?" width="12" :value="$item->is_active" class="minimal"/>
                             <div class="form-group col-md-12">
-                                <label for="exampleInputEmail1">Açıklama</label>
-                                <textarea name="description" class="form-control" id="editor1" cols="30" rows="10">{{ old('description',$item->description) }}</textarea>
+                                @if(admin('modules.blog.image'))
+                                    <x-input name="image" type="file" label="Görsel" width="2" :value="$item->image" path="blog"/>
+                                @endif
+                                @if(admin('multi_lang'))
+                                    <x-select name="lang" label="Dil" width="2" :value="$item->lang" :options="$languages" key="0" option-value="1" nohint/>
+                                @endif
+                                @if(admin('modules.blog.tag'))
+                                    <div class="form-group col-md-8">
+                                        <label for="exampleInputEmail1">Kelimeler(Tags)</label>
+                                        <select class="form-control" multiple="multiple" id="tags" name="tags[]">
+                                            @if($item->tags)
+                                                @foreach($item->tags as $tag)
+                                                    <option value="{{ $tag }}" selected>{{ $tag }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Açıklama</label>
+                                    <textarea name="description" class="form-control" id="editor1" cols="30" rows="20">{{ old('description',$item->description) }}</textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -115,7 +104,8 @@
                 filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
                 filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
                 filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+                height: 450
             };
             CKEDITOR.replace('editor1', options);
 
