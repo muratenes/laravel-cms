@@ -6,6 +6,7 @@ use App\Models\Auth\Permission;
 use App\Models\Auth\PermissionRole;
 use App\Models\Auth\Role;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class RolesTableSeeder extends Seeder
@@ -15,11 +16,11 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-//        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-//        PermissionRole::truncate();
-//        Permission::truncate();
-//        Role::truncate();
-//        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        PermissionRole::truncate();
+        Permission::truncate();
+        Role::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $this->updateOrCreateRoles();
 
         $permission_ids = []; // an empty array of stored permission IDs

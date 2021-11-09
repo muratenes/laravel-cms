@@ -84,17 +84,24 @@ class Permission extends Model
             'Kullanici@login',
             'Kullanici@logout',
             // Blog
-            'BlogController@index',
-            'BlogController@create',
-            'BlogController@update',
-            'BlogController@store',
-            'BlogController@delete',
+            'Blog@index',
+            'Blog@create',
+            'Blog@update',
+            'Blog@store',
+            'Blog@delete',
+            'Table@blogs',
             // Content
-            'ContentController@index',
-            'ContentController@create',
-            'ContentController@update',
-            'ContentController@store',
-            'ContentController@delete',
+            'Content@index',
+            'Content@create',
+            'Content@update',
+            'Content@store',
+            'Content@delete',
+            // User
+            'User@index',
+            'User@create',
+            'User@update',
+            'User@store',
+            'User@delete',
         ];
     }
 }

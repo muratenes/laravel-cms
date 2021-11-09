@@ -125,7 +125,7 @@ $data['menus'] = [
         ],
         'blog' => [
             'icon'       => 'fa fa-book',
-            'permission' => 'Blog@list',
+            'permission' => 'Blog@index',
             'title'      => 'blog',
             'routeName'  => 'admin.blog',
             'status'     => 'modules_status.blog',

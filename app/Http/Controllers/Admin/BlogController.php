@@ -23,7 +23,7 @@ class BlogController extends Controller
         $this->model = $model;
     }
 
-    public function list()
+    public function index()
     {
         $query = request('q');
         if ($query) {
@@ -35,17 +35,24 @@ class BlogController extends Controller
         return view('admin.blog.listBlogs', compact('list'));
     }
 
-    public function newOrEditForm($id = 0)
+    public function create()
     {
-        $item = new Blog();
-        $selected_categories = $subCategories = [];
-        if (0 !== $id) {
-            $item = $this->model->find($id);
-            $selected_categories = $item->categories->pluck('id')->toArray();
-        }
-        $categories = Category::where(['categorizable_type' => Blog::class])->get();
+        return view('admin.blog.newOrEditBlog', [
+            'item'                => new Blog(),
+            'categories'          => Category::where(['categorizable_type' => Blog::class])->get(),
+            'selected_categories' => [],
+            'subCategories'       => [],
+        ]);
+    }
 
-        return view('admin.blog.newOrEditBlog', compact('item', 'categories', 'selected_categories', 'subCategories'));
+    public function edit(Blog $blog)
+    {
+        return view('admin.blog.newOrEditBlog', [
+            'item'                => $blog,
+            'categories'          => Category::where(['categorizable_type' => Blog::class])->get(),
+            'selected_categories' => $blog->categories->pluck('id')->toArray(),
+            'sub_categories'      => Category::where(['categorizable_type' => Blog::class, 'parent_category_id' => $blog->id])->get(),
+        ]);
     }
 
     public function save(Request $request, $id = 0)

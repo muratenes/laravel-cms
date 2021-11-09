@@ -28,11 +28,19 @@ class UserSeeder extends Seeder
 
         User::create([
             'name'      => 'Ali',
-            'surname'   => 'Müşteri',
-            'email'     => config('admin.store_email'),
+            'surname'   => 'Customer',
+            'email'     => 'customer@admin.com',
             'password'  => Hash::make(config('admin.store_password')),
             'is_active' => 1,
             'role_id'   => \App\Models\Auth\Role::ROLE_CUSTOMER,
+        ]);
+        User::create([
+            'name'      => 'John',
+            'surname'   => 'Manager',
+            'email'     => 'manager@admin.com',
+            'password'  => Hash::make(config('admin.store_password')),
+            'is_active' => 1,
+            'role_id'   => \App\Models\Auth\Role::ROLE_MANAGER,
         ]);
     }
 }

@@ -242,9 +242,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         });
         //----- Admin/Blog/..
         Route::group(['prefix' => 'blog'], function () {
-            Route::get('/', 'BlogController@list')->name('admin.blog');
-            Route::get('new', 'BlogController@newOrEditForm')->name('admin.blog.new');
-            Route::get('edit/{id}', 'BlogController@newOrEditForm')->name('admin.blog.edit');
+            Route::get('/', 'BlogController@index')->name('admin.blog');
+            Route::get('new', 'BlogController@create')->name('admin.blog.new');
+            Route::get('edit/{blog:id}', 'BlogController@edit')->name('admin.blog.edit');
+            Route::put('{blog:id}', 'BlogController@update')->name('admin.blog.update');
             Route::post('save/{id}', 'BlogController@save')->name('admin.blog.save');
             Route::delete('{id}', 'BlogController@delete')->name('admin.blog.delete');
         });
