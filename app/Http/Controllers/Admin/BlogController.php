@@ -64,7 +64,6 @@ class BlogController extends Controller
 
         $requestData += [
             'is_active' => activeStatus('is_active'),
-            'slug'      => createSlugByModelAndTitle($this->model, $request->title, $blog->id),
             'image'     => $this->uploadImage($request->file('image'), $blog->title, 'public/blog', $blog->image, Blog::MODULE_NAME),
         ];
 
@@ -90,7 +89,6 @@ class BlogController extends Controller
 
         $requestData += [
             'is_active' => activeStatus('is_active'),
-            'slug'      => createSlugByModelAndTitle($this->model, $request->title, 0),
             'image'     => $this->uploadImage($request->file('image'), $requestData['title'], 'public/blog', null, Blog::MODULE_NAME),
         ];
 

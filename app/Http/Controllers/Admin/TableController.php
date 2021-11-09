@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Product\UrunFirma;
 use App\User;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class TableController extends Controller
@@ -61,6 +63,20 @@ class TableController extends Controller
                 ->when(! loggedAdminUser()->isSuperAdmin(), function ($query) {
                     $query->where('writer_id', loggedAdminUser()->id);
                 })
+        )->make();
+    }
+
+    /**
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    public function categories(Request $request)
+    {
+        return Datatables::of(
+            Category::with(['parent_category'])->when($request->get('type'), function ($query) use ($request) {
+                $query->where('categorizable_type', $request->get('type'));
+            })
         )->make();
     }
 }

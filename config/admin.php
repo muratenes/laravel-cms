@@ -30,6 +30,7 @@ $data = [
         'setting'            => true,
         'reference'          => true,
         'user'               => true,
+        'category'           => true,
         'our_team'           => false,
     ],
     'use_album_gallery' => false,
@@ -137,12 +138,22 @@ $data['menus'] = [
             'routeName'  => 'admin.adverts.index',
             'status'     => 'modules_status.advert',
         ],
-        'blog_category' => [
+        'categories' => [
             'icon'       => 'fa fa-align-center',
-            'permission' => 'BlogCategory@list',
-            'title'      => 'blog_category',
-            'routeName'  => 'admin.blog_category',
-            'status'     => 'modules.blog.category',
+            'permission' => 'Category@index',
+            'title'      => 'categories',
+            'routeName'  => 'admin.categories.index',
+            'status'     => 'modules_status.category',
+            'subs'       => [
+                [
+                    'icon'       => 'fa fa-circle-o',
+                    'permission' => 'Category@index',
+                    'title'      => 'blog_categories',
+                    'routeName'  => 'admin.categories.index',
+                    'status'     => 'modules.blog.category',
+                    'extra'      => '?type=App\Models\Blog',
+                ],
+            ],
         ],
         'our_team' => [
             'icon'       => 'fa fa-users',

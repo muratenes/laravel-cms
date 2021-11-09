@@ -109,7 +109,7 @@
                 @foreach($menu as $subI=>$item)
                     @if($subI != 'title' && admin($item['status']))
                         <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
-                            <a href="{{route($item['routeName']) }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
+                            <a href="{{route($item['routeName']) . ($item['extra'] ?? '') }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
                                 <i class="{{ $item['icon'] }}"></i>
                                 <span>{{ __("admin.navbar.{$item['title']}") }}</span>
                                 <span class="pull-right-container">
@@ -124,7 +124,7 @@
                                     @foreach($item['subs'] as $sub)
                                         @if(admin($sub['status']))
                                             <li>
-                                                <a href="{{ route($sub['routeName']) }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
+                                                <a href="{{ route($sub['routeName']) . ($sub['extra'] ?? '') }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
                                                     <i class="{{ $sub['icon'] }}"></i> {{ __("admin.navbar.{$sub['title']}") }}
                                                 </a>
                                             </li>

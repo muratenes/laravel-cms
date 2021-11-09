@@ -40,4 +40,13 @@ class Blog extends Model
     {
         return $this->belongsTo(User::class, 'writer_id', 'id');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function (self $blog) {
+            return $blog->slug = createSlugFromTitleByModel($blog, $blog->title, $blog->id);
+        });
+    }
 }

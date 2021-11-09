@@ -56,7 +56,7 @@ $('#tableBlog').DataTable({
 
 
 /**
- *  delete for user
+ *  delete for blog
  */
 $('#tableBlog').on('click', '.delete-item', function () {
     if (confirm('Silmek istediğine emin misin ? ')) {

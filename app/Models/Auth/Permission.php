@@ -106,8 +106,8 @@ class Permission extends Model
     {
         return [
             'Anasayfa@index',
-            'Kullanici@login',
-            'Kullanici@logout',
+            'Auth@login',
+            'Auth@logout',
             'Category@subCategories',
         ];
     }

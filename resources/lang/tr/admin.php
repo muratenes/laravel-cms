@@ -69,6 +69,7 @@ return [
         'product_companies'  => 'Ürün Firmaları',
         'faq'                => 'Sık Sorulan Sorular',
         'menu'               => 'Menü',
+        'blog_categories'    => 'Blog Kategorileri',
     ],
     // MODULES
     'modules' => [

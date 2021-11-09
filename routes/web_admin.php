@@ -31,7 +31,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         //----- Admin/Category/..
         Route::group(['prefix' => 'category/'], function () {
             Route::get('/', 'CategoryController@index')->name('admin.categories.index');
-            Route::get('{category:id}/sub-categories', 'CategoryController@subCategories')->name('admin.categories.index');
+            Route::get('{category:id}/sub-categories', 'CategoryController@subCategories')->name('admin.categories.sub-categories');
             Route::get('create', 'CategoryController@create')->name('admin.categories.create');
             Route::get('{category:id}', 'CategoryController@show')->name('admin.categories.edit');
             Route::post('', 'CategoryController@store')->name('admin.categories.store');
@@ -288,6 +288,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('users', 'TableController@users')->name('admin.tables.users');
             Route::get('blogs', 'TableController@blogs')->name('admin.tables.blogs');
             Route::get('companies', 'TableController@companies')->name('admin.tables.companies');
+            Route::get('categories', 'TableController@categories')->name('admin.tables.categories');
         });
     });
 });

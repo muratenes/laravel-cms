@@ -16,9 +16,17 @@ class Category extends Model
     /**
      * Get all of the banners that are assigned this tag.
      */
-    public function banners()
+    public function banners(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Banner::class, 'categorizable');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent_category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_category_id', 'id');
     }
 
     protected static function boot()

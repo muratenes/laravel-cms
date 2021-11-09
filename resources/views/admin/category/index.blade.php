@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title',__('admin.navbar.adverts'))
+@section('title',__('admin.navbar.categories'))
 
 
 @section('content')
@@ -36,5 +36,5 @@
     </div>
 @endsection
 @section('footer')
-    <script src="/admin_files/js/pages/admin.categories.js"></script>
+    <script src="/admin_files/js/pages/admin.category.js"></script>
 @endsection
