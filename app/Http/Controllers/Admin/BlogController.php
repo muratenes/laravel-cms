@@ -25,12 +25,12 @@ class BlogController extends Controller
 
     public function index()
     {
-        return view('admin.blog.listBlogs');
+        return view('admin.blog.index');
     }
 
     public function create()
     {
-        return view('admin.blog.newOrEditBlog', [
+        return view('admin.blog.create', [
             'item'                => new Blog(),
             'categories'          => Category::where(['categorizable_type' => Blog::class])->get(),
             'selected_categories' => [],
@@ -42,7 +42,7 @@ class BlogController extends Controller
     {
         $this->authorizeForUser(loggedAdminUser(), 'view', $blog);
 
-        return view('admin.blog.newOrEditBlog', [
+        return view('admin.blog.create', [
             'item'                => $blog,
             'categories'          => Category::where(['categorizable_type' => Blog::class])->get(),
             'selected_categories' => $blog->categories->pluck('id')->toArray(),
