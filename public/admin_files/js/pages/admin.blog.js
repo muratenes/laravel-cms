@@ -8,18 +8,18 @@ $('#tableBlog').DataTable({
         "url": "/admin_files/plugins/jquery-datatable/language-tr.json"
     },
     columns: [
-        {data: 'id', name: 'id'},
-        {data: 'title', name: 'title'},
+        {data: 'id', name: 'id', title: 'ID'},
+        {data: 'title', name: 'title', title: 'Başlık'},
         {
-            data: 'image', name: 'image',
+            data: 'image', name: 'image', title: 'Görsel',
             render: function (data, type, row) {
                 return data
-                    ? `<a><img src="/storage/blogs/${row['image']}" alt=""><i class="fa fa-photo"></i></a>`
+                    ? `<a href="/storage/blogs/${row['image']}"><img src="/storage/blogs/${row['image']}" alt=""><i class="fa fa-photo"></i></a>`
                     : ''
             },
         },
         {
-            data: 'active', name: 'active',
+            data: 'is_active', name: 'is_active', title: 'Durum',
             render: function (data, type, row) {
                 return data
                     ? `<i class="fa fa-check text-green"></i>`
@@ -27,16 +27,26 @@ $('#tableBlog').DataTable({
             },
         },
         {
-            data: 'created_at', name: 'created_at',
+            data: 'updated_at', name: 'updated_at', title: 'Güncelleme',
             render: function (data, type, row) {
                 return createdAt(data)
+            }
+        },
+        {
+            data: 'writer_id', name: 'writer_id', title: 'Yazar', visible: IS_ADMIN,
+            render: function (data, type, row) {
+                return row['writer']
+                    ? `<a href="/admin/user/edit/${row['writer_id']}">${row['writer']['full_name']}</a>`
+                    : '-'
             }
         },
         {
             data: 'id', name: 'id', orderable: false,
             render: function (data) {
                 return `<a href='/admin/blog/edit/${data}'><i class='fa fa-edit'></i></a> &nbsp;` +
-                    `<a href="#" class="delete-item" data-id="${data}"><i class='fa fa-trash text-danger'></i></a>`
+               ( IS_ADMIN
+                    ? `<a href="#" class="delete-item" data-id="${data}"><i class='fa fa-trash text-danger'></i></a>`
+                    : '')
             }
         }
     ],

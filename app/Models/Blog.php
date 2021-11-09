@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
@@ -30,5 +31,13 @@ class Blog extends Model
     public function categories()
     {
         return $this->morphToMany(Category::class, 'categorizable');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function writer()
+    {
+        return $this->belongsTo(User::class, 'writer_id', 'id');
     }
 }

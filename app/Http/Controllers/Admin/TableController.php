@@ -26,20 +26,6 @@ class TableController extends Controller
     }
 
     /**
-     * admin blog page list.
-     *
-     * @throws \Exception
-     *
-     * @return mixed
-     */
-    public function blog()
-    {
-        return Datatables::of(
-            Blog::query()
-        )->make();
-    }
-
-    /**
      * @throws \Exception
      *
      * @return mixed
@@ -71,7 +57,10 @@ class TableController extends Controller
     public function blogs()
     {
         return Datatables::of(
-            Blog::with('categories')
+            Blog::with(['writer:name,surname,email,id', 'categories:id,title'])
+                ->when(! loggedAdminUser()->isSuperAdmin(), function ($query) {
+                    $query->where('writer_id', loggedAdminUser()->id);
+                })
         )->make();
     }
 }

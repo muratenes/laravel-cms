@@ -22,32 +22,9 @@
             <div class="box ">
                 <div class="box-header">
                     <h3 class="box-title">Blog</h3>
-                    <div class="box-tools">
-                        <form action="{{ route('admin.blog') }}" method="get" id="form">
-                            <div class="row">
-                                <div class="col-md-3 input-group input-group-sm hidden-xs  pull-right">
-                                    <input type="text" name="q" class="form-control pull-right" placeholder="Bloglarda ara.." value="{{ request('q') }}">
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
                 </div>
                 <div class="box-body table-responsive">
                     <table class="table table-hover table-bordered" id="tableBlog">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Başlık</th>
-                            <th>Görsel</th>
-                            <th>Durum</th>
-                            <th>Fotoğraf</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
                     </table>
                 </div>
             </div>
@@ -55,5 +32,8 @@
     </div>
 @endsection
 @section('footer')
+    <script>
+        const IS_ADMIN = {{ (int)loggedAdminUser()->isSuperAdmin() }}
+    </script>
     <script src="/admin_files/js/pages/admin.blog.js"></script>
 @endsection

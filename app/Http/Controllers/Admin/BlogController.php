@@ -40,6 +40,8 @@ class BlogController extends Controller
 
     public function edit(Blog $blog)
     {
+        $this->authorizeForUser(loggedAdminUser(), 'view', $blog);
+
         return view('admin.blog.newOrEditBlog', [
             'item'                => $blog,
             'categories'          => Category::where(['categorizable_type' => Blog::class])->get(),

@@ -28,6 +28,8 @@ class User extends Authenticatable implements HasLocalePreference
         'password', 'activation_code',
     ];
 
+    protected $appends = ['full_name'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

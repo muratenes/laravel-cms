@@ -81,7 +81,6 @@ class Permission extends Model
             'Blog@edit',
             'Blog@update',
             'Blog@store',
-            'Blog@delete',
             'Table@blogs',
             // Content
             'Content@index',
