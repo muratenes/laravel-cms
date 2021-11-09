@@ -84,6 +84,9 @@ return [
             'App\Models\Content' => [
                 'title' => 'İçerik Yönetim',
             ],
+            'App\Models\Banner' => [
+                'title' => 'Banner',
+            ],
         ],
     ],
     // USER

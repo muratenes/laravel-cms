@@ -21,7 +21,7 @@ $('#tableCategories').DataTable({
                     : ''
             },
         },
-        {data: 'categorizable_type', name: 'categorizable_type', title: 'Type'},
+        {data: 'type_label', name: 'categorizable_type', title: 'Tür'},
         {
             data: 'is_active', name: 'is_active', title: 'Durum',
             render: function (data, type, row) {
