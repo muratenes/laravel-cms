@@ -25,14 +25,7 @@ class BlogController extends Controller
 
     public function index()
     {
-        $query = request('q');
-        if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]]);
-        } else {
-            $list = $this->model->allWithPagination();
-        }
-
-        return view('admin.blog.listBlogs', compact('list'));
+        return view('admin.blog.listBlogs');
     }
 
     public function create()
@@ -51,33 +44,60 @@ class BlogController extends Controller
             'item'                => $blog,
             'categories'          => Category::where(['categorizable_type' => Blog::class])->get(),
             'selected_categories' => $blog->categories->pluck('id')->toArray(),
-            'sub_categories'      => Category::where(['categorizable_type' => Blog::class, 'parent_category_id' => $blog->id])->get(),
+            'subCategories'       => Category::where(['categorizable_type' => Blog::class, 'parent_category_id' => $blog->category_id])->get()->toArray(),
         ]);
     }
 
-    public function save(Request $request, $id = 0)
+    public function update(Request $request, Blog $blog)
     {
-        $request_data = $request->only('title', 'desc', 'lang', 'tags');
+        $requestData = $request->validate([
+            'title'           => 'required|string|max:200',
+            'tags'            => 'nullable|max:255',
+            'description'     => 'nullable|max:65535',
+            'lang'            => 'nullable|numeric',
+            'category_id'     => 'nullable|numeric',
+            'sub_category_id' => 'nullable|numeric',
+        ]);
         $metaValidated = $request->validate(MetaTaggable::validation_rules());
 
-        $request_data['active'] = activeStatus();
-        $request_data['slug'] = createSlugByModelAndTitle($this->model, $request->title, $id);
-        if (0 !== $id) {
-            $entry = $this->model->update($request_data, $id);
-            $entry->meta_tag()->updateOrCreate(['taggable_id' => $id], $metaValidated);
-        } else {
-            $entry = $this->model->create($request_data);
-        }
-        if ($entry) {
-            $filePath = $this->uploadImage($request->file('image'), $entry->title, 'public/blog', $entry->image, Blog::MODULE_NAME);
-            $entry->update(['image' => $filePath]);
-            $entry->categories()->sync($request->get('categories'));
-            success();
+        $requestData += [
+            'is_active' => activeStatus('is_active'),
+            'slug'      => createSlugByModelAndTitle($this->model, $request->title, $blog->id),
+            'image'     => $this->uploadImage($request->file('image'), $blog->title, 'public/blog', $blog->image, Blog::MODULE_NAME),
+        ];
 
-            return redirect(route('admin.blog.edit', $entry->id));
-        }
+        $blog->update($requestData);
+        $blog->meta_tag()->updateOrCreate(['taggable_id' => $blog->id], $metaValidated);
 
-        return back()->withInput();
+        success();
+
+        return redirect(route('admin.blog.edit', $blog->id));
+    }
+
+    public function store(Request $request, $id = 0)
+    {
+        $requestData = $request->validate([
+            'title'           => 'required|string|max:200',
+            'tags'            => 'nullable|max:255',
+            'description'     => 'nullable|max:65535',
+            'lang'            => 'nullable|numeric',
+            'category_id'     => 'nullable|numeric',
+            'sub_category_id' => 'nullable|numeric',
+        ]);
+        $metaValidated = $request->validate(MetaTaggable::validation_rules());
+
+        $requestData += [
+            'is_active' => activeStatus('is_active'),
+            'slug'      => createSlugByModelAndTitle($this->model, $request->title, 0),
+            'image'     => $this->uploadImage($request->file('image'), $requestData['title'], 'public/blog', null, Blog::MODULE_NAME),
+        ];
+
+        $blog = Blog::create($requestData);
+        $blog->meta_tag()->updateOrCreate(['taggable_id' => $blog->id], $metaValidated);
+
+        success();
+
+        return redirect(route('admin.blog.edit', $blog->id));
     }
 
     public function delete($id)

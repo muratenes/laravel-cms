@@ -246,8 +246,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('new', 'BlogController@create')->name('admin.blog.new');
             Route::get('edit/{blog:id}', 'BlogController@edit')->name('admin.blog.edit');
             Route::put('{blog:id}', 'BlogController@update')->name('admin.blog.update');
-            Route::post('save/{id}', 'BlogController@save')->name('admin.blog.save');
-            Route::delete('{id}', 'BlogController@delete')->name('admin.blog.delete');
+            Route::post('', 'BlogController@store')->name('admin.blog.store');
+            Route::delete('{blog:id}', 'BlogController@delete')->name('admin.blog.delete');
         });
         //----- Admin/BlogCategory/..
         Route::group(['prefix' => 'blog-category'], function () {

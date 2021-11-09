@@ -14,14 +14,16 @@ class CreateBlogTable extends Migration
         Schema::create('blog', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 200);
-            $table->string('image', 255)->nullable();
             $table->string('slug', 255);
+            $table->text('description')->nullable();
+            $table->string('image', 255)->nullable();
             $table->json('tags')->nullable();
-            $table->text('desc')->nullable();
-            $table->unsignedInteger('parent')->nullable();
-            $table->boolean('active')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->unsignedSmallInteger('lang')->default(config('admin.default_language'));
+            $table->unsignedBigInteger('category_id')->nullable()->index();
+            $table->unsignedBigInteger('sub_category_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

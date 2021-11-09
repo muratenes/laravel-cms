@@ -22,11 +22,7 @@ class Permission extends Model
      */
     public static function storeRoles()
     {
-        return [
-            'Anasayfa@index',
-            'Kullanici@login',
-            'Kullanici@logout',
-
+        return array_merge(self::basicRoutes(), [
             // Service
             'ServiceStore@index',
             'Table@services',
@@ -55,7 +51,7 @@ class Permission extends Model
             //            'CompanyService@index',
             //            'CompanyService@detail',
             //            'Table@companyServices',
-        ];
+        ]);
     }
 
     /**
@@ -78,14 +74,11 @@ class Permission extends Model
      */
     public static function managerRoles()
     {
-        return [
-            // Basic
-            'Anasayfa@index',
-            'Kullanici@login',
-            'Kullanici@logout',
+        return array_merge(self::basicRoutes(), [
             // Blog
             'Blog@index',
             'Blog@create',
+            'Blog@edit',
             'Blog@update',
             'Blog@store',
             'Blog@delete',
@@ -102,6 +95,21 @@ class Permission extends Model
             'User@update',
             'User@store',
             'User@delete',
+        ]);
+    }
+
+    /*
+     * basic admin routes
+     *
+     * @return string[]
+     */
+    private function basicRoutes()
+    {
+        return [
+            'Anasayfa@index',
+            'Kullanici@login',
+            'Kullanici@logout',
+            'Category@subCategories',
         ];
     }
 }

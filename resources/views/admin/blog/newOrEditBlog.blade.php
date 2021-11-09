@@ -13,8 +13,9 @@
             </div>
         </div>
     </div>
-    <form role="form" method="post" action="{{ route('admin.blog.save',$item->id != null ? $item->id : 0) }}" id="form" enctype="multipart/form-data">
+    <form role="form" method="post" action="{{ $item->id ?  route('admin.blog.update',$item->id) : route('admin.blog.store') }}" id="form" enctype="multipart/form-data">
         {{ csrf_field() }}
+        @method($item->id ? 'PUT' : 'POST')
         <div class="row">
             <!-- left column -->
             <div class="col-md-12">
@@ -33,7 +34,7 @@
                             </div>
                             <div class="form-group col-md-1">
                                 <label for="exampleInputEmail1">Aktif Mi ?</label><br>
-                                <input type="checkbox" class="minimal" name="active" {{ $item->active == 1 ? 'checked': '' }}>
+                                <input type="checkbox" class="minimal" name="is_active" {{ $item->is_active == 1 ? 'checked': '' }}>
                             </div>
                             @if(admin('modules.blog.image'))
                                 <div class="form-group col-md-2">
@@ -78,7 +79,7 @@
                                         {{--                                        required--}}
                                     />
                                     <x-select
-                                        name="category_id"
+                                        name="sub_category_id"
                                         label="Alt Kategori"
                                         :options="$subCategories" width="6"
                                         :value="$item->sub_category_id"
@@ -88,7 +89,7 @@
                             @endif
                             <div class="form-group col-md-12">
                                 <label for="exampleInputEmail1">Açıklama</label>
-                                <textarea name="desc" class="form-control" id="editor1" cols="30" rows="10">{{ old('desc',$item->desc) }}</textarea>
+                                <textarea name="description" class="form-control" id="editor1" cols="30" rows="10">{{ old('description',$item->description) }}</textarea>
                             </div>
                         </div>
                     </div>

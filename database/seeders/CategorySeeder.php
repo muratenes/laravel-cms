@@ -12,9 +12,21 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
+        Category::truncate();
         Category::factory()
-            ->count(50)
+            ->count(100)
             ->create()
         ;
+
+        foreach (Category::all() as $index => $category) {
+            if (0 === $index % 5 && Category::count()) {
+                $category->update([
+                    'parent_category_id' => Category::inRandomOrder()
+                        ->where(['categorizable_type' => $category->categorizable_type])
+                        ->where('id', '!=', $category->id)
+                        ->first()->id,
+                ]);
+            }
+        }
     }
 }

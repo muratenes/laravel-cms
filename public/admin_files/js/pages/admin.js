@@ -52,11 +52,11 @@ function subCategoriesByCategoryId(categoryId) {
         dataType: 'json',
         success: function (data) {
             var options = "";
-            $("#sub_category_id option").not(':first').remove()
-            $.each(data.data.categories, function (index, element) {
+            $("#id_sub_category_id option").not(':first').remove()
+            $.each(data, function (index, element) {
                 options += '<option value="' + element.id + '">' + element.title + '</option>';
             });
-            $("#sub_category_id").append(options)
+            $("#id_sub_category_id").append(options)
         }
     })
 }

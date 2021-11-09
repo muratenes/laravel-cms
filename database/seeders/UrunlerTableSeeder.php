@@ -8,7 +8,6 @@ use App\Models\Product\Urun;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class UrunlerTableSeeder extends Seeder
 {
@@ -33,17 +32,13 @@ class UrunlerTableSeeder extends Seeder
             $category = Kategori::whereNull('parent_category_id')->inRandomOrder()->first();
 
             $slug = \Illuminate\Support\Str::slug($product_name);
-            $imageName = $slug . '.jpg';
-            Storage::put('public/products/' . $imageName, file_get_contents(
-                'https://source.unsplash.com/random/600x800?sig=incrementingIdentifie'
-            ));
 
             $product = Urun::create([
                 'title'              => $product_name,
                 'slug'               => $slug,
                 'desc'               => $faker->sentence(100),
                 'tl_price'           => $priceTL, //$faker->randomFloat(2, 10, 100),
-                'image'              => $imageName,
+                'image'              => $faker->imageUrl(),
                 'qty'                => random_int(0, 25),
                 'usd_price'          => round($priceTL / 5),
                 'eur_price'          => round($priceTL / 10),

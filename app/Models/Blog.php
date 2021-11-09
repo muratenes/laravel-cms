@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class Blog extends Model
 {
     use MetaTaggable;
+    use SoftDeletes;
 
     public const MODULE_NAME = 'blog';
 
