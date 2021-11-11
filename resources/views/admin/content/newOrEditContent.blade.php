@@ -26,50 +26,18 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Başlık</label>
-                                <input type="text" class="form-control" name="title" placeholder="başlık" required
-                                       value="{{ old('title', $item->title) }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="image">Fotoğraf</label><br>
-                                <input type="file" class="form-control" name="image">
-                                @if($item->image)
-                                    <span class="help-block"><a target="_blank"
-                                                                href="/{{ config('constants.image_paths.reference_image_folder_path') }}{{ $item->image }}">{{ $item->image }}</a></span>
-                                @endif
-                            </div>
-
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Aktif Mi ?</label><br>
-                                <input type="checkbox" class="minimal" name="active" {{ old('active',$item->active) == 1 ? 'checked': '' }}>
-                            </div>
-                            <x-input name="show_menu" type="checkbox" label="Menüde Göster ?" width="1" :value="$item->show_menu" class="minimal"/>
-                            @if(config('admin.MULTI_LANG'))
-                                <div class="form-group col-md-2">
-                                    <label for="exampleInputEmail1">Dil</label>
-                                    <select name="lang" id="languageSelect" class="form-control">
-                                        @foreach($languages as $lang)
-                                            <option value="{{ $lang[0] }}" {{ old('lang',$item->lang) == $lang[0] ? 'selected' : '' }}> {{ $lang[1] }}</option>
-                                        @endforeach
-                                    </select>
-
-                                </div>
+                            <x-input name="title" label="Başlık" width="12" :value="$item->title" required maxlength="100" horizontal/>
+                            <x-input name="spot" label="Kısa Açıklama" width="12" :value="$item->spot" maxlength="255" horizontal/>
+                            <x-select name="parent_id" label="Üst İçerik" width="12" :value="$item->parent_id" :options="$contents->toArray()" horizontal/>
+                            <x-input name="image" type="file" label="Görsel" width="12" :value="$item->image"  path="contents" horizontal />
+                            @if(config('admin.multi_lang'))
+                                <x-select name="lang" label="Dil" width="12" :value="$item->lang" :options="$languages" key="0" option-value="1" nohint horizontal/>
                             @endif
-                            <div class="form-group col-md-2">
-                                <label for="exampleInputEmail1">Üst İçerik</label>
-                                <select name="parent" id="languageSelect" class="form-control">
-                                    <option value="">Üst Başlık Seçiniz</option>
-                                    @foreach($contents as $content)
-                                        <option value="{{ $content->id }}" {{ old('parent',$content->id) == $item->parent ? 'selected' : '' }}> {{ $content->title }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="help-block">Hangi başlığın altında(alt kategori olarak) yayınlaması isteniyorsa üst olarak seçilmedilir</span>
-                            </div>
                             <div class="form-group col-md-12">
-                                <label for="exampleInputEmail1">Kısa Açıklama</label>
-                                <input type="text" name="spot" class="form-control" maxlength="255" value="{{ old('spot',$item->spot) }}">
+                                <x-input name="active" type="checkbox" label="Aktif Mi ?" width="2" :value="$item->active" class="minimal" />
+                                <x-input name="show_menu" type="checkbox" label="Menüde Göster ?" width="2" :value="$item->show_menu" class="minimal" />
                             </div>
+
 
                         </div>
 

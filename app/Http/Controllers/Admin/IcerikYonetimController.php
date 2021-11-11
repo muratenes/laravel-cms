@@ -6,10 +6,12 @@ use App\Http\Requests\ContentManagementRequest;
 use App\Models\Content;
 use App\Repositories\Interfaces\IcerikYonetimInterface;
 use App\Repositories\Traits\ImageUploadTrait;
+use App\Repositories\Traits\ResponseTrait;
 
 class IcerikYonetimController extends AdminController
 {
     use ImageUploadTrait;
+    use ResponseTrait;
 
     protected IcerikYonetimInterface $model;
 
@@ -18,38 +20,37 @@ class IcerikYonetimController extends AdminController
         $this->model = $model;
     }
 
-    public function list()
+    public function index()
     {
-        $query = request('q');
-        if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]], [], null, ['parent']);
-        } else {
-            $list = $this->model->allWithPagination(null, ['*'], null, ['parent']);
-        }
-
-        return view('admin.content.listContents', compact('list'));
+        return view('admin.content.listContents');
     }
 
-    public function newOrEditForm($id = 0)
+    public function newOrEditForm(Content $content)
     {
         $item = new Content();
         $contents = $this->model->all();
-        if (0 !== $id) {
-            $item = $this->model->find($id);
+        if ($content->id) {
+            $item = $this->model->find($content->id);
         }
-        $languages = $this->languages();
 
-        return view('admin.content.newOrEditContent', compact('item', 'languages', 'contents'));
+        return view('admin.content.newOrEditContent', compact('item', 'contents'));
     }
 
-    public function save(ContentManagementRequest $request, $id = 0)
+    public function save(ContentManagementRequest $request, Content $content)
     {
-        $request_data = $request->validated();
-        $request_data['active'] = activeStatus();
-        $request_data['show_menu'] = activeStatus('show_menu');
-        $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
-        if (0 !== $id) {
-            $entry = $this->model->update($request_data, $id);
+        $request_data = $request->validate([
+            'parent_id' => 'nullable|numeric',
+            'title'     => 'required|string|max:100',
+            'lang'      => 'nullable|numeric',
+            'spot'      => 'nullable|string|max:255',
+        ]);
+        $request_data += [
+            'active'    => activeStatus(),
+            'show_menu' => activeStatus('show_menu'),
+            'slug'      => createSlugByModelAndTitle($this->model, $request_data['title'], $content->id),
+        ];
+        if ($content->id) {
+            $entry = $this->model->update($request_data, $content->id);
         } else {
             $entry = $this->model->create($request_data);
         }
@@ -65,11 +66,11 @@ class IcerikYonetimController extends AdminController
         return back()->withInput();
     }
 
-    public function delete($id)
+    public function delete(Content $content)
     {
-        $this->model->delete($id);
+        $this->model->delete($content->id);
         \Cache::forget('contents');
 
-        return redirect(route('admin.content'));
+        return $this->success();
     }
 }

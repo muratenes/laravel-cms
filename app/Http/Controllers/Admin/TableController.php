@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Contact;
+use App\Models\Content;
 use App\Models\Product\UrunFirma;
 use App\User;
 use Illuminate\Http\Request;
@@ -77,6 +78,18 @@ class TableController extends Controller
             Category::with(['parent_category'])->when($request->get('type'), function ($query) use ($request) {
                 $query->where('categorizable_type', $request->get('type'));
             })
+        )->make();
+    }
+
+    /**
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    public function contents(Request $request)
+    {
+        return Datatables::of(
+            Content::query()
         )->make();
     }
 }

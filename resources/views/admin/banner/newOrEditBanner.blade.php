@@ -33,7 +33,7 @@
                             <x-input name="sub_title_2" type="text" label="2. Alt Başlık" width="6" :value="$banner->sub_title_2" maxlength="255"/>
                         </div>
                         <div class="row">
-                            @if(config('admin.MULTI_LANG'))
+                            @if(config('admin.multi_lang'))
                                 <x-select name="lang" label="Dil" :value="$banner->lang" :options="$languages" key="0" option-value="1" nohint />
                             @endif
                         </div>

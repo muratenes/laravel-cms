@@ -47,7 +47,7 @@
                             <th>Başlık</th>
                             <th>Açıklama</th>
                             <th>Durum</th>
-                            @if(config('admin.MULTI_LANG'))
+                            @if(config('admin.multi_lang'))
                                 <th>Dil</th>
                             @endif
                             <th>#</th>
@@ -59,7 +59,7 @@
                                     <td><a href="{{ route('admin.sss.edit',$l->id) }}"> {{ $l->title }}</a></td>
                                     <td>{{ $l -> desc}}</td>
                                     <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
-                                    @if(config('admin.MULTI_LANG'))
+                                    @if(config('admin.multi_lang'))
                                         <th><img src="{{ langIcon($l->lang) }}" alt=""></th>
                                     @endif
                                     <td><a href="{{ route('admin.sss.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i

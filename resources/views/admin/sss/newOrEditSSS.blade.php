@@ -36,7 +36,7 @@
                                 <label for="exampleInputEmail1">Aktif Mi ?</label><br>
                                 <input type="checkbox" class="minimal" name="active" {{ $item->active == 1 ? 'checked': '' }}>
                             </div>
-                            @if(config('admin.MULTI_LANG'))
+                            @if(config('admin.multi_lang'))
                                 <div class="form-group col-md-2">
                                     <label for="exampleInputEmail1">Dil</label>
                                     <select name="lang" id="languageSelect" class="form-control">

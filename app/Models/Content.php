@@ -12,7 +12,7 @@ class Content extends Model
 
     protected $table = 'icerik_yonetim';
     protected $perPage = 20;
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -104,7 +104,10 @@
 <script src="/admin_files/js/pages/admin.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 {{--<script src="/admin_files/bower_components/ckeditor/ckeditor.js"></script>--}}
-
+<script>
+    // constants
+    const MULTI_LANGUAGE  = {{ config('admin.multi_lang') }}
+</script>
 @yield('footer')
 </body>
 </html>

@@ -227,11 +227,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         });
         //----- Admin/Content/..
         Route::group(['prefix' => 'content/'], function () {
-            Route::get('/', 'IcerikYonetimController@list')->name('admin.content');
+            Route::get('/', 'IcerikYonetimController@index')->name('admin.content');
             Route::get('new', 'IcerikYonetimController@newOrEditForm')->name('admin.content.new');
-            Route::get('edit/{id}', 'IcerikYonetimController@newOrEditForm')->name('admin.content.edit');
-            Route::post('save/{id}', 'IcerikYonetimController@save')->name('admin.content.save');
-            Route::get('delete/{id}', 'IcerikYonetimController@delete')->name('admin.content.delete');
+            Route::get('{content:id}', 'IcerikYonetimController@newOrEditForm')->name('admin.content.edit');
+            Route::post('{content:id}', 'IcerikYonetimController@save')->name('admin.content.save');
+            Route::delete('{content:id}', 'IcerikYonetimController@delete')->name('admin.content.delete');
         });
         //----- Admin/Roles/..
         Route::group(['prefix' => 'roles/'], function () {
@@ -290,6 +290,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('blogs', 'TableController@blogs')->name('admin.tables.blogs');
             Route::get('companies', 'TableController@companies')->name('admin.tables.companies');
             Route::get('categories', 'TableController@categories')->name('admin.tables.categories');
+            Route::get('contents', 'TableController@contents')->name('admin.tables.contents');
         });
 
         //----- Admin/Images/----
