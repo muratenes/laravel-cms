@@ -11,7 +11,7 @@
                     › @lang('admin.navbar.categories')
                 </div>
                 <div class="col-md-2 text-right mr-3">
-                    <a href="{{ route('admin.categories.create') }}"> <i class="fa fa-plus"></i> @lang('admin.add')</a>&nbsp;
+                    <a href="{{ route('admin.categories.create') }}?type={{ request()->get('type') }}"> <i class="fa fa-plus"></i> @lang('admin.add')</a>&nbsp;
                 </div>
             </div>
         </div>

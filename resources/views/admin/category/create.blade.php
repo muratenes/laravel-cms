@@ -35,7 +35,7 @@
                                 <div class="col-sm-10">
                                     <select name="categorizable_type" id="categorizable_type" class="form-control">
                                         @foreach(\App\Models\Category::TYPES as $type)
-                                            <option value="{{ $type }}" {{ $type == $item->categorizable_type ? 'selected' : '' }}>
+                                            <option value="{{ $type }}" {{ $type == ($item->id ? $item->categorizable_type : request()->get('type')) ? 'selected' : '' }}>
                                                 @lang('admin.modules.category.'.$type.'.title')
                                             </option>
                                         @endforeach
