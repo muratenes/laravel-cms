@@ -66,7 +66,9 @@
                                     <a target="_blank" href="{{ route('homeView') }}">Siteyi Görüntüle</a>
                                 </div>
                                 <div class="col-xs-4 text-center">
-                                    <a href="{{ route('admin.clearCache') }}">Önbellek Temizle</a>
+                                    @if(loggedAdminUser()->isSuperAdmin())
+                                        <a href="{{ route('admin.clearCache') }}">Önbellek Temizle</a>
+                                    @endif
                                 </div>
                             </div>
                             <!-- /.row -->

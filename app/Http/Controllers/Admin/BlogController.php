@@ -90,6 +90,7 @@ class BlogController extends Controller
         $requestData += [
             'is_active' => activeStatus('is_active'),
             'image'     => $this->uploadImage($request->file('image'), $requestData['title'], 'public/blog', null, Blog::MODULE_NAME),
+            'writer_id' => loggedAdminUser()->id,
         ];
 
         $blog = Blog::create($requestData);
