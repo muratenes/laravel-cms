@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\User;
+use App\Utils\Concerns\Models\Imageable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class Blog extends Model
 {
+    use Imageable;
     use MetaTaggable;
     use SoftDeletes;
 

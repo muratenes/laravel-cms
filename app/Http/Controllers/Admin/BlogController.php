@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Repositories\Interfaces\BlogInterface;
-use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
+use App\Utils\Concerns\Admin\MultipleImageConcern;
 use Illuminate\Http\Request;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class BlogController extends Controller
 {
-    use ImageUploadTrait;
+    use MultipleImageConcern;
     use ResponseTrait;
 
     protected BlogInterface $model;
@@ -69,6 +69,7 @@ class BlogController extends Controller
 
         $blog->update($requestData);
         $blog->meta_tag()->updateOrCreate(['taggable_id' => $blog->id], $metaValidated);
+        $this->uploadMultipleImages($request, $blog, 'public/blog/gallery');
 
         success();
 

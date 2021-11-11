@@ -91,6 +91,10 @@
         </div>
         {{--    {!! View::make('laravel-filemanager::crop') !!}--}}
         @include('laravel-meta-tags::meta-tags')
+        {{-- Blog Images --}}
+        @if(config('admin.modules.blog.images'))
+            <x-images title="Görseller" folder-path="public/blog/gallery/"  :images="$item->images"/>
+        @endif
 
     </form>
 

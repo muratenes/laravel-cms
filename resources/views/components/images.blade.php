@@ -3,13 +3,13 @@
         <h3 class="box-title">{{ $title }}</h3>
         <div class="box-tools">
             <label for="">{{ $title }}</label>
-            <input type="file" name="imageGallery[]" multiple>
+            <input type="file" name="images[]" multiple>
         </div>
     </div>
     <div class="box-body">
         <div class="row">
-            @foreach($item->images as $image)
-                <div class="col-md-2" id="treatmentGalleryImage-{{$image->id}}">
+            @foreach($images as $image)
+                <div class="col-md-2" id="galleryImage-{{$image->id}}">
                     <div class="card">
                         <div class="card-body">
                             <a href="javascript:void(0);" onclick="deleteImage({{ $image->id }})" class="btn btn-danger btn-xs pull-right">X</a>
@@ -26,3 +26,31 @@
 
     </div>
 </div>
+
+<script>
+    /**
+     *
+     * @param id
+     */
+    function deleteImage(id) {
+        if (confirm('fotoğraf silinecektir onaylıyor musunuz ?')) {
+            $.ajax({
+                url: '/admin/images/' + id,
+                data: {
+                    path: "{{ $folderPath }}",
+                },
+                method: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status === true) {
+                        $("#galleryImage-" + id + "").fadeOut(600, function () {
+                            this.remove();
+                        });
+                    } else {
+                        alert(data);
+                    }
+                }
+            })
+        }
+    }
+</script>

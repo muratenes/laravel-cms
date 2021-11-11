@@ -291,6 +291,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('companies', 'TableController@companies')->name('admin.tables.companies');
             Route::get('categories', 'TableController@categories')->name('admin.tables.categories');
         });
+
+        //----- Admin/Images/----
+        Route::delete('images/{image:id}', [\App\Http\Controllers\Admin\ImageController::class, 'delete']);
     });
 });
 

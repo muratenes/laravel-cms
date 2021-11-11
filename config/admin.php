@@ -364,6 +364,7 @@ $data['modules'] = [
         'image'    => true,
         'language' => false,
         'category' => true,
+        'images'   => true,
     ],
     'order' => [
         'iyzico_logs' => true,

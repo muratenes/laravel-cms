@@ -11,22 +11,32 @@ class Images extends Component
      *
      * @var string
      */
-    private string $title;
+    public string $title;
 
     /**
      * image folder path ex: public/categories/.
      *
      * @var string
      */
-    private string $folderPath;
+    public string $folderPath;
+
+    /**
+     * image list.
+     *
+     * @var null|array
+     */
+    public $images;
 
     /**
      * Create a new component instance.
+     *
+     * @param mixed $images
      */
-    public function __construct(string $title, string $folderPath)
+    public function __construct(string $title, string $folderPath, $images)
     {
         $this->title = $title;
         $this->folderPath = $folderPath;
+        $this->images = $images;
     }
 
     /**
