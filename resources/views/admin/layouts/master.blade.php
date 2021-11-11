@@ -106,7 +106,9 @@
 {{--<script src="/admin_files/bower_components/ckeditor/ckeditor.js"></script>--}}
 <script>
     // constants
-    const MULTI_LANGUAGE  = {{ config('admin.multi_lang') }}
+    const CONSTANTS = {
+        MULTI_LANGUAGE :  "{{ config('admin.multi_lang') }}"
+    }
 </script>
 @yield('footer')
 </body>

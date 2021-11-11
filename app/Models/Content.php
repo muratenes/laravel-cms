@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Utils\Concerns\Models\Languageable;
 use Illuminate\Database\Eloquent\Model;
 
 class Content extends Model
 {
+    use Languageable;
+
     public const MODULE_NAME = 'content';
-    public const IMAGE_QUALITY = 60;
     public const IMAGE_RESIZE = null;
 
     protected $table = 'icerik_yonetim';
     protected $perPage = 20;
     protected $guarded = ['id'];
+    protected $appends = ['lang_icon'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

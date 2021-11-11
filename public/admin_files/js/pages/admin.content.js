@@ -14,7 +14,7 @@ $('#contentManagement').DataTable({
             data: 'image', name: 'image', title: 'Görsel',
             render: function (data, type, row) {
                 return data
-                    ? `<a href="/storage/contents/${row['image']}"><img src="/storage/contents/${row['image']}" alt=""><i class="fa fa-photo"></i></a>`
+                    ? `<a href="/storage/contents/${row['image']}"><img width="50" height="50" src="/storage/contents/${row['image']}" alt=""></a>`
                     : ''
             },
         },
@@ -31,9 +31,9 @@ $('#contentManagement').DataTable({
             }
         },
         {
-            data: 'lang', name: 'lang',title: 'Dil',visible : MULTI_LANGUAGE,
+            data: 'lang', name: 'lang',title: 'Dil',visible : CONSTANTS.MULTI_LANGUAGE,
             render: function (data, type, row) {
-                return data
+                return `<img src="${row['lang_icon']}" alt="">`
             }
         },
         {
