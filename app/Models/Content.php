@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Utils\Concerns\Models\Imageable;
 use App\Utils\Concerns\Models\Languageable;
 use Illuminate\Database\Eloquent\Model;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class Content extends Model
 {
+    use Imageable;
     use Languageable;
     use MetaTaggable;
 

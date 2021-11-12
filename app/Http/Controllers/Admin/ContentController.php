@@ -7,11 +7,13 @@ use App\Models\Content;
 use App\Repositories\Interfaces\IcerikYonetimInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
+use App\Utils\Concerns\Admin\MultipleImageConcern;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class ContentController extends AdminController
 {
     use ImageUploadTrait;
+    use MultipleImageConcern;
     use ResponseTrait;
 
     protected IcerikYonetimInterface $model;
@@ -37,7 +39,7 @@ class ContentController extends AdminController
         return view('admin.content.edit', compact('item', 'contents'));
     }
 
-    public function save(ContentManagementRequest $request, Content $content)
+    public function save(ContentManagementRequest $request, $id = 0)
     {
         $request_data = $request->validate([
             'parent_id' => 'nullable|numeric',
@@ -49,10 +51,10 @@ class ContentController extends AdminController
         $request_data += [
             'active'    => activeStatus(),
             'show_menu' => activeStatus('show_menu'),
-            'slug'      => createSlugByModelAndTitle($this->model, $request_data['title'], $content->id),
+            'slug'      => createSlugByModelAndTitle($this->model, $request_data['title'], $id),
         ];
-        if ($content->id) {
-            $entry = $this->model->update($request_data, $content->id);
+        if ($id) {
+            $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
         }
@@ -62,6 +64,7 @@ class ContentController extends AdminController
             ]);
             success();
             $entry->meta_tag()->updateOrCreate(['taggable_id' => $entry->id], $metaValidated);
+            $this->uploadMultipleImages($request, $entry, 'public/contents/gallery');
 
             return redirect(route('admin.content.edit', $entry->id));
         }

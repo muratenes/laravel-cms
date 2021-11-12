@@ -31,7 +31,7 @@ $data = [
         'reference'          => true,
         'user'               => true,
         'category'           => true,
-        'our_team'           => false,
+        'our_team'           => true,
     ],
     'use_album_gallery' => false,
 
@@ -369,6 +369,9 @@ $data['modules'] = [
     'order' => [
         'iyzico_logs' => true,
         'cargo'       => true,
+    ],
+    'content' => [
+        'images' => true,
     ],
     'contact' => [
         'columns'     => 'name|subject|email|phone|message',

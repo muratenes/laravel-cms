@@ -71,6 +71,9 @@
             </div>
         </div>
         @include('laravel-meta-tags::meta-tags')
+        @if(config('admin.modules.content.images'))
+            <x-images title="Görseller" folder-path="public/contents/gallery/"  :images="$item->images"/>
+        @endif
     </form>
 @endsection
 @section('footer')
