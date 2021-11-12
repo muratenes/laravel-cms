@@ -7,8 +7,9 @@ use App\Models\Content;
 use App\Repositories\Interfaces\IcerikYonetimInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
+use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
-class IcerikYonetimController extends AdminController
+class ContentController extends AdminController
 {
     use ImageUploadTrait;
     use ResponseTrait;
@@ -22,7 +23,7 @@ class IcerikYonetimController extends AdminController
 
     public function index()
     {
-        return view('admin.content.listContents');
+        return view('admin.content.index');
     }
 
     public function newOrEditForm(Content $content)
@@ -33,7 +34,7 @@ class IcerikYonetimController extends AdminController
             $item = $this->model->find($content->id);
         }
 
-        return view('admin.content.newOrEditContent', compact('item', 'contents'));
+        return view('admin.content.edit', compact('item', 'contents'));
     }
 
     public function save(ContentManagementRequest $request, Content $content)
@@ -44,6 +45,7 @@ class IcerikYonetimController extends AdminController
             'lang'      => 'nullable|numeric',
             'spot'      => 'nullable|string|max:255',
         ]);
+        $metaValidated = $request->validate(MetaTaggable::validation_rules());
         $request_data += [
             'active'    => activeStatus(),
             'show_menu' => activeStatus('show_menu'),
@@ -59,6 +61,7 @@ class IcerikYonetimController extends AdminController
                 'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', $entry->image, Content::MODULE_NAME),
             ]);
             success();
+            $entry->meta_tag()->updateOrCreate(['taggable_id' => $entry->id], $metaValidated);
 
             return redirect(route('admin.content.edit', $entry->id));
         }

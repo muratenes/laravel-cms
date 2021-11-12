@@ -227,11 +227,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         });
         //----- Admin/Content/..
         Route::group(['prefix' => 'content/'], function () {
-            Route::get('/', 'IcerikYonetimController@index')->name('admin.content');
-            Route::get('new', 'IcerikYonetimController@newOrEditForm')->name('admin.content.new');
-            Route::get('{content:id}', 'IcerikYonetimController@newOrEditForm')->name('admin.content.edit');
-            Route::post('{content:id}', 'IcerikYonetimController@save')->name('admin.content.save');
-            Route::delete('{content:id}', 'IcerikYonetimController@delete')->name('admin.content.delete');
+            Route::get('/', 'ContentController@index')->name('admin.content');
+            Route::get('new', 'ContentController@newOrEditForm')->name('admin.content.new');
+            Route::get('{content:id}', 'ContentController@newOrEditForm')->name('admin.content.edit');
+            Route::post('{content:id}', 'ContentController@save')->name('admin.content.save');
+            Route::delete('{content:id}', 'ContentController@delete')->name('admin.content.delete');
         });
         //----- Admin/Roles/..
         Route::group(['prefix' => 'roles/'], function () {

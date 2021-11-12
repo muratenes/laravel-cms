@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Utils\Concerns\Models\Languageable;
 use Illuminate\Database\Eloquent\Model;
+use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class Content extends Model
 {
     use Languageable;
+    use MetaTaggable;
 
     public const MODULE_NAME = 'content';
     public const IMAGE_RESIZE = null;

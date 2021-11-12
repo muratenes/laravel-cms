@@ -89,7 +89,6 @@
                 </div>
             </div>
         </div>
-        {{--    {!! View::make('laravel-filemanager::crop') !!}--}}
         @include('laravel-meta-tags::meta-tags')
         {{-- Blog Images --}}
         @if(config('admin.modules.blog.images'))

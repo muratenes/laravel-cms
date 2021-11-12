@@ -70,6 +70,7 @@
                 </div>
             </div>
         </div>
+        @include('laravel-meta-tags::meta-tags')
     </form>
 @endsection
 @section('footer')

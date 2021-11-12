@@ -14,7 +14,7 @@ $('#tableBlog').DataTable({
             data: 'image', name: 'image', title: 'Görsel',
             render: function (data, type, row) {
                 return data
-                    ? `<a href="/storage/blogs/${row['image']}"><img width="50" height="50" src="/storage/blogs/${row['image']}" alt=""><i class="fa fa-photo"></i></a>`
+                    ? `<a href="/storage/blogs/${row['image']}"><i class="fa fa-photo"></i></a>`
                     : ''
             },
         },
