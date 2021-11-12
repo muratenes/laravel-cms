@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Contact;
@@ -90,6 +91,18 @@ class TableController extends Controller
     {
         return Datatables::of(
             Content::query()
+        )->make();
+    }
+
+    /**
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    public function banners(Request $request)
+    {
+        return Datatables::of(
+            Banner::query()
         )->make();
     }
 }

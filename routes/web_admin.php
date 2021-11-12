@@ -157,10 +157,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         //----- Admin/Banners/..
         Route::group(['prefix' => 'banner/'], function () {
             Route::get('/', 'BannerController@list')->name('admin.banners');
-            Route::get('new', 'BannerController@newOrEditForm')->name('admin.banners.new');
-            Route::get('edit/{id}', 'BannerController@newOrEditForm')->name('admin.banners.edit');
+            Route::get('new', 'BannerController@edit')->name('admin.banners.new');
+            Route::get('edit/{banner:id}', 'BannerController@edit')->name('admin.banners.edit');
             Route::post('save/{id}', 'BannerController@save')->name('admin.banners.save');
-            Route::get('delete/{id}', 'BannerController@delete')->name('admin.banners.delete');
+            Route::delete('{banner:id}', 'BannerController@delete')->name('admin.banners.delete');
         });
 
         //----- Admin/Configs/..
@@ -291,6 +291,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('companies', 'TableController@companies')->name('admin.tables.companies');
             Route::get('categories', 'TableController@categories')->name('admin.tables.categories');
             Route::get('contents', 'TableController@contents')->name('admin.tables.contents');
+            Route::get('banners', 'TableController@banners')->name('admin.tables.banners');
         });
 
         //----- Admin/Images/----

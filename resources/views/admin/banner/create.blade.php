@@ -25,16 +25,16 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="row">
-                            <x-input name="title" label="Başlık" width="3" :value="$banner->title" required maxlength="50"/>
-                            <x-input name="link" label="Link" width="3" :value="$banner->link" maxlength="255" placeholder="Yönlendirelecek link" />
-                            <x-input name="image" type="file" label="Görsel" width="2" :value="$banner->image"  path="banners" />
-                            <x-input name="active" type="checkbox" label="Aktif Mi ?" width="1" :value="$banner->active" class="minimal"/>
-                            <x-input name="sub_title" type="text" label="Alt Başlık" width="6" :value="$banner->sub_title" maxlength="255"/>
-                            <x-input name="sub_title_2" type="text" label="2. Alt Başlık" width="6" :value="$banner->sub_title_2" maxlength="255"/>
+                            <x-input name="title" label="Başlık" width="12" :value="$banner->title" maxlength="50" horizontal/>
+                            <x-input name="link" label="Link" width="12" :value="$banner->link" maxlength="255" placeholder="Yönlendirelecek link" horizontal />
+                            <x-input name="image" type="file" label="Görsel" width="12" :value="$banner->image"  path="banners"  horizontal/>
+                            <x-input name="active" type="checkbox" label="Aktif Mi ?" width="12" :value="$banner->active" class="minimal" horizontal/>
+                            <x-input name="sub_title" type="text" label="Alt Başlık" width="12" :value="$banner->sub_title" maxlength="255" horizontal/>
+                            <x-input name="sub_title_2" type="text" label="2. Alt Başlık" width="12" :value="$banner->sub_title_2" maxlength="255" horizontal/>
                         </div>
                         <div class="row">
                             @if(config('admin.multi_lang'))
-                                <x-select name="lang" label="Dil" :value="$banner->lang" :options="$languages" key="0" option-value="1" nohint />
+                                <x-select name="lang" label="Dil" width="12" :value="$banner->lang" :options="$languages" key="0" option-value="1" nohint  horizontal/>
                             @endif
                         </div>
                     </div>

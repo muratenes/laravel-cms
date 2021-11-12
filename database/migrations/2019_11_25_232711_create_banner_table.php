@@ -13,7 +13,7 @@ class CreateBannerTable extends Migration
     {
         Schema::create('banner', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 50);
+            $table->string('title', 100)->nullable();
             $table->string('sub_title', 255)->nullable();
             $table->string('sub_title_2', 255)->nullable();
             $table->string('image', 100)->nullable();

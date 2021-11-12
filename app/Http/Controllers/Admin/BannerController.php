@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Repositories\Interfaces\BannerInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
-class BannerController extends Controller
+class BannerController extends AdminController
 {
     use ImageUploadTrait;
 
@@ -21,31 +20,26 @@ class BannerController extends Controller
 
     public function list()
     {
-        $query = request('q');
-        if ($query) {
-            $list = $this->model->allWithPagination([['title', 'like', "%{$query}%"]]);
-        } else {
-            $list = $this->model->allWithPagination();
-        }
-
-        return view('admin.banner.listBanners', compact('list'));
+        return view('admin.banner.index');
     }
 
-    public function newOrEditForm($id = 0)
+    public function edit(Banner $banner)
     {
-        $banner = new Banner();
-        if (0 !== $id) {
-            $banner = $this->model->find($id);
-        }
-
-        return view('admin.banner.newOrEditBanner', compact('banner'));
+        return view('admin.banner.create', compact('banner'));
     }
 
-    public function save(Request $request, $id = 0)
+    public function save(Request $request, $id)
     {
         $request_data = $request->only(['title', 'sub_title', 'link', 'lang', 'sub_title_2']);
+        $validated = $request->validate([
+            'title'       => 'nullable|max:100|string',
+            'sub_title'   => 'nullable|max:255|string',
+            'sub_title_2' => 'nullable|max:255|string',
+            'link'        => 'nullable|max:255|string',
+            'lang'        => 'nullable|numeric',
+        ]);
         $request_data['active'] = activeStatus();
-        if (0 !== $id) {
+        if ($id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
@@ -53,6 +47,7 @@ class BannerController extends Controller
         if ($entry) {
             $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/banners', $entry->image, Banner::MODULE_NAME);
             $entry->update(['image' => $imageName]);
+            success();
 
             return redirect(route('admin.banners.edit', $entry->id));
         }
@@ -60,11 +55,10 @@ class BannerController extends Controller
         return back()->withInput();
     }
 
-    public function delete($id)
+    public function delete(Banner $banner)
     {
-        $this->model->delete($id);
-        success();
+        $this->model->delete($banner->id);
 
-        return redirect(route('admin.banners'));
+        return $this->success();
     }
 }

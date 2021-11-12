@@ -47,7 +47,7 @@ class Blog extends Model
     {
         parent::boot();
 
-        self::creating(function (self $blog) {
+        self::saving(function (self $blog) {
             return $blog->slug = createSlugFromTitleByModel($blog, $blog->title, $blog->id);
         });
     }

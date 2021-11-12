@@ -106,6 +106,7 @@
 {{--<script src="/admin_files/bower_components/ckeditor/ckeditor.js"></script>--}}
 <script>
     // constants
+    const IS_ADMIN  = {{ loggedAdminUser()->isSuperAdmin() }};
     const CONSTANTS = {
         MULTI_LANGUAGE :  "{{ config('admin.multi_lang') }}"
     }
