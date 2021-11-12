@@ -270,7 +270,7 @@ $data['menus'] = [
         ],
         'content_management' => [
             'icon'       => 'fa fa-align-center',
-            'permission' => 'IcerikYonetim@list',
+            'permission' => 'Content@index',
             'title'      => 'content_management',
             'routeName'  => 'admin.content',
             'status'     => 'modules_status.content_management',

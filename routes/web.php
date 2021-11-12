@@ -1,16 +1,7 @@
 <?php
 
-// test
-
-//Route::get('mailable', function () {
-//    $invoice = App\Models\Siparis::find(9);
-//
-//    return new App\Mail\Order\OrderCreateadMail($invoice);
-//});
-// todo : kullanici işlemleri için throotle ekle
-
 Route::group(['middleware' => 'site.config'], function () {
-//social auth
+    //social auth
     Route::get('/redirect/{service}', 'SocialAuthController@redirect');
     Route::get('/callback/{service}', 'SocialAuthController@callback');
 
