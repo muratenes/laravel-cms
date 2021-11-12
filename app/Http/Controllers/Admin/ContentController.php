@@ -46,6 +46,7 @@ class ContentController extends AdminController
             'title'     => 'required|string|max:100',
             'lang'      => 'nullable|numeric',
             'spot'      => 'nullable|string|max:255',
+            'desc'      => 'nullable|string',
         ]);
         $metaValidated = $request->validate(MetaTaggable::validation_rules());
         $request_data += [

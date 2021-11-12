@@ -12,7 +12,7 @@ Route::group(['middleware' => 'site.config'], function () {
     Route::post('iletisim', 'IletisimController@sendMail')->name('contact.post')->middleware(['throttle:3,10']);
     Route::get('sss', 'SSSController@list')->name('sss');
     Route::post('referanslar', 'ReferenceController@list')->name('referanslar');
-    Route::post('{content:slug}', 'IcerikYonetimController@detail')->name('content.detail');
+    Route::get('{content:slug}', 'IcerikYonetimController@detail')->name('content.detail');
     Route::post('referanslar/{reference:slug}', 'ReferenceController@detail')->name('referanslar.detail');
     Route::get('galeri', 'GaleriController@detail')->name('gallery.list');
     Route::get('galeri/{gallery:slug}', 'GaleriController@detail')->name('gallery.detail');
