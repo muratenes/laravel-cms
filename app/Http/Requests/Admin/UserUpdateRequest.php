@@ -32,6 +32,7 @@ class UserUpdateRequest extends FormRequest
             'role_id'  => 'required|numeric',
             'phone'    => 'string|nullable',
             'locale'   => 'string|nullable',
+            'about'    => 'string|nullable',
         ];
     }
 

@@ -22,7 +22,7 @@ class CreateBlogTable extends Migration
             $table->unsignedSmallInteger('lang')->default(config('admin.default_language'));
             $table->unsignedBigInteger('category_id')->nullable()->index();
             $table->unsignedBigInteger('sub_category_id')->nullable();
-            $table->unsignedBigInteger('writer_id')->nullable();
+            $table->unsignedInteger('writer_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

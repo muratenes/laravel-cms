@@ -52,9 +52,9 @@
                                                data-inputmask='"mask": "(999) 999-9999"' data-mask>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-2">
                                     <label>@lang('admin.role'):</label>
-                                    <div class="input-group">
+                                    <div class="form-group">
                                         <select name="role_id" id="" class="form-control" required>
                                             <option value="">@lang('admin.user.select_a_role')</option>
                                             @foreach(\App\Models\Auth\Role::listConstRolesWithId() as $key => $role)
@@ -65,10 +65,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-2">
                                     <label>@lang('admin.user.user_language'):</label>
-                                    <div class="input-group">
-                                        <select name="locale"  class="form-control" required>
+                                    <div class="form-group">
+                                        <select name="locale" class="form-control" required>
                                             @foreach($activeLanguages as $language)
                                                 <option value="{{ $language[3] }}" {{ $user->locale == $language[3] ? 'selected' : '' }}>{{ $language[1] }}</option>
                                             @endforeach
@@ -77,8 +77,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-row ">
+                            <div class="form-group col-md-12">
+                                <label for="">Hakkında</label>
+                                <textarea name="about" id="" cols="30" rows="10" class="form-control" placeholder="Kullanıcı hakkında bilgiler yazabilirsiniz.">{{ $user->about }}</textarea>
+                            </div>
+                        </div>
                         <div class="form-row">
-
                             <div class="form-group col-md-1">
                                 <label for="exampleInputEmail1">@lang('admin.status') ?</label><br>
                                 <input type="checkbox" class="minimal" id="is_active" name="is_active" {{ $user->is_active == 1 ? 'checked': '' }}>
@@ -99,7 +104,6 @@
 
 
                     </div>
-                    <!-- /.box-body -->
 
                     <div class="box-footer text-right">
                         <button type="submit" class="btn btn-success">@lang('admin.save')</button>
