@@ -28,7 +28,12 @@ class ContentController extends AdminController
         return view('admin.content.index');
     }
 
-    public function newOrEditForm(Content $content)
+    /**
+     * @param Content $content
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function create(Content $content)
     {
         $item = new Content();
         $contents = $this->model->all();
@@ -39,25 +44,27 @@ class ContentController extends AdminController
         return view('admin.content.edit', compact('item', 'contents'));
     }
 
+    /**
+     * create or update content.
+     *
+     * @param ContentManagementRequest $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function save(ContentManagementRequest $request, $id = 0)
     {
-        $request_data = $request->validate([
-            'parent_id' => 'nullable|numeric',
-            'title'     => 'required|string|max:100',
-            'lang'      => 'nullable|numeric',
-            'spot'      => 'nullable|string|max:255',
-            'desc'      => 'nullable|string',
-        ]);
+        $validated = $request->validated();
         $metaValidated = $request->validate(MetaTaggable::validation_rules());
-        $request_data += [
+        $validated += [
             'active'    => activeStatus(),
             'show_menu' => activeStatus('show_menu'),
-            'slug'      => createSlugByModelAndTitle($this->model, $request_data['title'], $id),
+            'slug'      => createSlugByModelAndTitle($this->model, $validated['title'], $id),
         ];
         if ($id) {
-            $entry = $this->model->update($request_data, $id);
+            $entry = $this->model->update($validated, $id);
         } else {
-            $entry = $this->model->create($request_data);
+            $entry = $this->model->create($validated);
         }
         if ($entry) {
             $entry->update([

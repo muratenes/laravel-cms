@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
-class CategoryController extends Controller
+class CategoryController extends AdminController
 {
-    use ResponseTrait;
-
     public function index()
     {
         return view('admin.category.index');

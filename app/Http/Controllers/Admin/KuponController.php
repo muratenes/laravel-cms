@@ -36,7 +36,7 @@ class KuponController extends AdminController
         $selected_categories = [];
         $currencies = $this->activeCurrencies();
         if (0 !== $id) {
-            $coupon = $this->model->getById($id, null, ['categories']);
+            $coupon = $this->model->find($id, null, ['categories']);
             $selected_categories = $coupon->categories()->pluck('category_id')->all();
         }
 
@@ -49,7 +49,7 @@ class KuponController extends AdminController
         $requestData['active'] = activeStatus();
         if (0 !== $id) {
             $this->model->update($requestData, $id);
-            $entry = $this->model->getById($id, null, ['categories']);
+            $entry = $this->model->find($id, null, ['categories']);
         } else {
             $entry = Coupon::create($requestData);
         }

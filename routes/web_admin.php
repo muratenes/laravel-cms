@@ -228,8 +228,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         //----- Admin/Content/..
         Route::group(['prefix' => 'content/'], function () {
             Route::get('/', 'ContentController@index')->name('admin.content');
-            Route::get('new', 'ContentController@newOrEditForm')->name('admin.content.new');
-            Route::get('{content:id}', 'ContentController@newOrEditForm')->name('admin.content.edit');
+            Route::get('new', 'ContentController@create')->name('admin.content.new');
+            Route::get('{content:id}', 'ContentController@create')->name('admin.content.edit');
             Route::post('{content:id}', 'ContentController@save')->name('admin.content.save');
             Route::delete('{content:id}', 'ContentController@delete')->name('admin.content.delete');
         });

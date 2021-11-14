@@ -10,6 +10,7 @@ use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
+// todo : Ürün kategori için polyformic kategoriyi kullan
 class KategoriController extends AdminController
 {
     use ImageUploadTrait;

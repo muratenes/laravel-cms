@@ -39,6 +39,7 @@ class RoleController extends Controller
         return view('admin.roles.newOrEditRoles', compact('item', 'allPermissions', 'userPermission'));
     }
 
+    // todo : code refactor
     public function save($id = 0)
     {
         $request_data = request()->only('name', 'description');

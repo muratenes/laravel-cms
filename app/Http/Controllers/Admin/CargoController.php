@@ -16,7 +16,7 @@ class CargoController extends Controller
      */
     public function index()
     {
-        $list = Cargo::latest('id')->paginate();
+        $list = Cargo::latest()->paginate();
 
         return view('admin.config.cargo.list', compact('list'));
     }
@@ -39,7 +39,7 @@ class CargoController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -60,24 +60,13 @@ class CargoController extends Controller
      *
      * @param \App\Models\Cargo $cargo
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(Cargo $cargo)
     {
         $countries = Country::select('id', 'title')->orderBy('title')->get();
 
         return view('admin.config.cargo.edit', compact('cargo', 'countries'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Cargo $cargo
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cargo $cargo)
-    {
     }
 
     /**

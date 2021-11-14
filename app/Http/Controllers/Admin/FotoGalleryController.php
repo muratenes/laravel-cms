@@ -67,6 +67,7 @@ class FotoGalleryController extends Controller
             $entry->update([
                 'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/gallery', $entry->image, Gallery::MODULE_NAME),
             ]);
+            // todo : use multiple image upload trait
             if (request()->hasFile('imageGallery')) {
                 foreach ($request->file('imageGallery') as $imageItem) {
                     $uploadedPath = $this->uploadImage($imageItem, $request_data['title'], 'public/gallery/items', null, GalleryImage::MODULE_NAME);

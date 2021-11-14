@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Yajra\DataTables\Facades\DataTables;
 
-class ContactController extends Controller
+class ContactController extends AdminController
 {
     public function list()
     {
@@ -20,9 +19,9 @@ class ContactController extends Controller
      */
     public function ajax()
     {
-        $contacts = Contact::query();
-
-        return Datatables::of($contacts)->make();
+        return Datatables::of(
+            Contact::query()
+        )->make();
     }
 
     /**
@@ -35,7 +34,8 @@ class ContactController extends Controller
     public function delete(Contact $contact)
     {
         $contact->delete();
+        success();
 
-        return redirect(route('admin.contact'))->with('message_success', 'işlem başarılı');
+        return redirect(route('admin.contact'));
     }
 }

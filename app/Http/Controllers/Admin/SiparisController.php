@@ -60,7 +60,7 @@ class SiparisController extends Controller
     public function newOrEditOrder(int $orderId)
     {
         $order = $this->getOrderWithTrashed($orderId);
-
+        // todo : dil dosyasından getir
         if (0 === $order->is_payment) {
             error('Dikkat bu işlem 3D security kısmını geçememiştir.Ödeme İşlemi gerçekleşmemiştir');
         }
@@ -103,10 +103,10 @@ class SiparisController extends Controller
         return DataTables::of(
             Siparis::with(
                 ['basket' => function ($query) {
-                $query->withTrashed();
-            }, 'delivery_address' => function ($query) {
-                $query->select(['id', 'title', 'state_id', 'district_id'])->with(['state', 'district'])->withTrashed();
-            }, 'basket.user:id,name,surname,email']
+                    $query->withTrashed();
+                }, 'delivery_address' => function ($query) {
+                    $query->select(['id', 'title', 'state_id', 'district_id'])->with(['state', 'district'])->withTrashed();
+                }, 'basket.user:id,name,surname,email']
             )->filter($filter)
         )->make(true);
     }

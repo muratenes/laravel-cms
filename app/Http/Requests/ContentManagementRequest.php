@@ -7,16 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class ContentManagementRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -24,10 +14,11 @@ class ContentManagementRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'  => 'required|max:100',
-            'spot'   => 'max:255',
-            'desc'   => 'max:65000',
-            'parent' => 'nullable',
+            'title'     => 'required|max:100',
+            'spot'      => 'nullable|string|max:255',
+            'desc'      => 'nullable|string|max:65000',
+            'lang'      => 'nullable|numeric',
+            'parent_id' => 'nullable|numeric',
         ];
     }
 }

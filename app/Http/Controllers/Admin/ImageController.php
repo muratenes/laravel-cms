@@ -12,6 +12,14 @@ class ImageController extends Controller
 {
     use ResponseTrait;
 
+    /**
+     * delete any image by id from database and storage.
+     *
+     * @param Request $request
+     * @param Image   $image
+     *
+     * @return array
+     */
     public function delete(Request $request, Image $image)
     {
         $validated = $request->validate([
