@@ -30,7 +30,6 @@ class BannerController extends AdminController
 
     public function save(Request $request, $id)
     {
-        $request_data = $request->only(['title', 'sub_title', 'link', 'lang', 'sub_title_2']);
         $validated = $request->validate([
             'title'       => 'nullable|max:100|string',
             'sub_title'   => 'nullable|max:255|string',
@@ -38,11 +37,11 @@ class BannerController extends AdminController
             'link'        => 'nullable|max:255|string',
             'lang'        => 'nullable|numeric',
         ]);
-        $request_data['active'] = activeStatus();
+        $validated['active'] = activeStatus();
         if ($id) {
-            $entry = $this->model->update($request_data, $id);
+            $entry = $this->model->update($validated, $id);
         } else {
-            $entry = $this->model->create($request_data);
+            $entry = $this->model->create($validated);
         }
         if ($entry) {
             $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/banners', $entry->image, Banner::MODULE_NAME);

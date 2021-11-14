@@ -17,9 +17,9 @@ class AdminController extends BaseController
     use ValidatesRequests;
 
     /**
-     * aktif dilleri dönderir.
+     * get all active languages.
      *
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
     public function languages()
     {
@@ -27,7 +27,7 @@ class AdminController extends BaseController
     }
 
     /**
-     * sitenin ana dili hariç aktif dilleri dönderir.
+     * get all active languages without default language.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -37,7 +37,7 @@ class AdminController extends BaseController
     }
 
     /**
-     * sitede bulunan aktif para birimleri.
+     * get all active currencies.
      *
      * @return array[]
      */
@@ -47,7 +47,7 @@ class AdminController extends BaseController
     }
 
     /**
-     * sitede bulunan aktif para birimleri.
+     * get all currencies.
      *
      * @return array[]
      */
