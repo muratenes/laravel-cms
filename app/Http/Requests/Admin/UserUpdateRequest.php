@@ -43,6 +43,8 @@ class UserUpdateRequest extends FormRequest
 
         if ($this->filled('password')) {
             $validated['password'] = Hash::make($this->input('password'));
+        } else {
+            unset($validated['password']);
         }
 
         return $validated;

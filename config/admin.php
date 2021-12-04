@@ -36,8 +36,8 @@ $data = [
     'use_album_gallery' => false,
 
     // multi lang
-    'multi_lang'              => true,
-    'multi_currency'          => true,
+    'multi_lang'              => false,
+    'multi_currency'          => false,
     'default_language'        => 1, // Ayar::LANG_TR
     'default_currency'        => 1, // Ayar::CURRENCY_TL
     'default_currency_prefix' => 'tl', // must be : tl,usd,eur
