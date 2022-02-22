@@ -99,7 +99,7 @@ Route::group(['middleware' => 'site.config'], function () {
 
     // Favorites Route
     Route::post('favoriler/ekle', 'FavoriteController@addToFavorites');
-    Route::get('favoriler/listele', 'FavoriteController@listAnonimUserFavorites')->name('favoriler.anonimList');
+    Route::get('favoriler/listele', 'FavoriteController@list')->name('favoriler.anonimList');
 
     // campaigns Route
     Route::get('kampanyalar', 'CampaignController@list')->name('campaigns.list');

@@ -81,19 +81,19 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('clone-for-language/{product:id}/{lang}', 'ProductController@cloneForLanguage')->name('admin.product.clone-for-language');
 
             Route::group(['prefix' => 'attributes/'], function () {
-                Route::get('/', 'UrunOzellikController@list')->name('admin.product.attribute.list');
-                Route::get('new', 'UrunOzellikController@detail')->name('admin.product.attribute.new');
-                Route::get('edit/{id}', 'UrunOzellikController@detail')->name('admin.product.attribute.edit');
-                Route::post('update/{attribute:id}', 'UrunOzellikController@save')->name('admin.product.attribute.save');
-                Route::post('create', 'UrunOzellikController@create')->name('admin.product.attribute.create');
-                Route::get('delete/{id}', 'UrunOzellikController@delete')->name('admin.product.attribute.delete');
+                Route::get('/', 'ProductAttributeController@list')->name('admin.product.attribute.list');
+                Route::get('new', 'ProductAttributeController@detail')->name('admin.product.attribute.new');
+                Route::get('edit/{id}', 'ProductAttributeController@detail')->name('admin.product.attribute.edit');
+                Route::post('update/{attribute:id}', 'ProductAttributeController@save')->name('admin.product.attribute.save');
+                Route::post('create', 'ProductAttributeController@create')->name('admin.product.attribute.create');
+                Route::get('delete/{id}', 'ProductAttributeController@delete')->name('admin.product.attribute.delete');
 
                 // ajax
-                Route::get('get-sub-attributes-by-attribute-id/{id}', 'UrunOzellikController@getSubAttributesByAttributeId')->name('getSubAttributesByAttributeId');
-                Route::get('get-all-product-attributes', 'UrunOzellikController@getAllProductAttributes')->name('getAllProductAttributes');
+                Route::get('get-sub-attributes-by-attribute-id/{id}', 'ProductAttributeController@getSubAttributesByAttributeId')->name('getSubAttributesByAttributeId');
+                Route::get('get-all-product-attributes', 'ProductAttributeController@getAllProductAttributes')->name('getAllProductAttributes');
 
-                Route::post('deleteSubAttribute/{id}', 'UrunOzellikController@deleteSubAttribute')->name('admin.product.attribute.subAttribute.delete');
-                Route::post('get-new-product-sub-attribute-html', 'UrunOzellikController@addNewProductSubAttribute');
+                Route::post('deleteSubAttribute/{id}', 'ProductAttributeController@deleteSubAttribute')->name('admin.product.attribute.subAttribute.delete');
+                Route::post('get-new-product-sub-attribute-html', 'ProductAttributeController@addNewProductSubAttribute');
             });
 
             //----- Admin/product/category -----
@@ -109,25 +109,25 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::post('sync-all-categories', 'CategoryController@syncParentCategoriesLanguages');
             });
             Route::group(['prefix' => 'comments/'], function () {
-                Route::get('/', 'UrunYorumController@list')->name('admin.product.comments.list');
-                Route::get('new', 'UrunYorumController@detail')->name('admin.product.comments.new');
-                Route::get('edit/{id}', 'UrunYorumController@detail')->name('admin.product.comments.edit');
-                Route::post('save/{id}', 'UrunYorumController@save')->name('admin.product.comments.save');
-                Route::get('delete/{id}', 'UrunYorumController@delete')->name('admin.product.comments.delete');
+                Route::get('/', 'ProductCommentController@list')->name('admin.product.comments.list');
+                Route::get('new', 'ProductCommentController@detail')->name('admin.product.comments.new');
+                Route::get('edit/{id}', 'ProductCommentController@detail')->name('admin.product.comments.edit');
+                Route::post('save/{id}', 'ProductCommentController@save')->name('admin.product.comments.save');
+                Route::get('delete/{id}', 'ProductCommentController@delete')->name('admin.product.comments.delete');
             });
             Route::group(['prefix' => 'brands/'], function () {
-                Route::get('/', 'UrunMarkaController@list')->name('admin.product.brands.list');
-                Route::get('new', 'UrunMarkaController@detail')->name('admin.product.brands.new');
-                Route::get('edit/{id}', 'UrunMarkaController@detail')->name('admin.product.brands.edit');
-                Route::post('save/{id}', 'UrunMarkaController@save')->name('admin.product.brands.save');
-                Route::get('delete/{id}', 'UrunMarkaController@delete')->name('admin.product.brands.delete');
+                Route::get('/', 'ProductBrandController@list')->name('admin.product.brands.list');
+                Route::get('new', 'ProductBrandController@detail')->name('admin.product.brands.new');
+                Route::get('edit/{id}', 'ProductBrandController@detail')->name('admin.product.brands.edit');
+                Route::post('save/{id}', 'ProductBrandController@save')->name('admin.product.brands.save');
+                Route::get('delete/{id}', 'ProductBrandController@delete')->name('admin.product.brands.delete');
             });
             Route::group(['prefix' => 'company/'], function () {
-                Route::get('/', 'UrunFirmaController@list')->name('admin.product.company.list');
-                Route::get('new', 'UrunFirmaController@detail')->name('admin.product.company.new');
-                Route::get('edit/{id}', 'UrunFirmaController@detail')->name('admin.product.company.edit');
-                Route::post('save/{id}', 'UrunFirmaController@save')->name('admin.product.company.save');
-                Route::get('delete/{id}', 'UrunFirmaController@delete')->name('admin.product.company.delete');
+                Route::get('/', 'ProductCompanyController@list')->name('admin.product.company.list');
+                Route::get('new', 'ProductCompanyController@detail')->name('admin.product.company.new');
+                Route::get('edit/{id}', 'ProductCompanyController@detail')->name('admin.product.company.edit');
+                Route::post('save/{id}', 'ProductCompanyController@save')->name('admin.product.company.save');
+                Route::get('delete/{id}', 'ProductCompanyController@delete')->name('admin.product.company.delete');
             });
         });
 
@@ -165,9 +165,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/Configs/..
         Route::group(['prefix' => 'configs/'], function () {
-            Route::get('list', 'AyarlarController@list')->name('admin.config.list');
-            Route::get('show/{id}', 'AyarlarController@show')->name('admin.config.show');
-            Route::post('save/{id}', 'AyarlarController@save')->name('admin.config.save');
+            Route::get('list', 'SettingsController@list')->name('admin.config.list');
+            Route::get('show/{id}', 'SettingsController@show')->name('admin.config.show');
+            Route::post('save/{id}', 'SettingsController@save')->name('admin.config.save');
 
             Route::resource('cargo', 'CargoController', ['as' => 'admin']);
         });
@@ -210,11 +210,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/References/..
         Route::group(['prefix' => 'references/'], function () {
-            Route::get('/', 'ReferansController@list')->name('admin.reference');
-            Route::get('new', 'ReferansController@newOrEditForm')->name('admin.reference.new');
-            Route::get('edit/{id}', 'ReferansController@newOrEditForm')->name('admin.reference.edit');
-            Route::post('save/{id}', 'ReferansController@save')->name('admin.reference.save');
-            Route::get('delete/{id}', 'ReferansController@delete')->name('admin.reference.delete');
+            Route::get('/', 'ReferenceController@list')->name('admin.reference');
+            Route::get('new', 'ReferenceController@newOrEditForm')->name('admin.reference.new');
+            Route::get('edit/{id}', 'ReferenceController@newOrEditForm')->name('admin.reference.edit');
+            Route::post('save/{id}', 'ReferenceController@save')->name('admin.reference.save');
+            Route::get('delete/{id}', 'ReferenceController@delete')->name('admin.reference.delete');
         });
         //----- Admin/PhotoGallery/..
         Route::group(['prefix' => 'photo-gallery/'], function () {

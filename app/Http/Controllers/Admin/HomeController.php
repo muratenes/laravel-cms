@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class AnasayfaController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {

@@ -8,7 +8,7 @@ use App\Repositories\Interfaces\UrunFirmaInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class UrunFirmaController extends Controller
+class ProductCompanyController extends Controller
 {
     protected UrunFirmaInterface $model;
 

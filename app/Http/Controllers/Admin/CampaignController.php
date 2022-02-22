@@ -11,7 +11,7 @@ use App\Repositories\Interfaces\UrunFirmaInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
-class KampanyaController extends AdminController
+class CampaignController extends AdminController
 {
     use ImageUploadTrait;
 

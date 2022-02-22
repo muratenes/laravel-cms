@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 use Iyzipay\Model\Locale;
 use Yajra\DataTables\DataTables;
 
-class SiparisController extends Controller
+class OrderController extends Controller
 {
     use ResponseTrait;
     use SiparisUrunTrait;

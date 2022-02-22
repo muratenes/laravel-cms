@@ -9,7 +9,7 @@ use App\Repositories\Interfaces\UrunMarkaInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
-class UrunMarkaController extends Controller
+class ProductBrandController extends Controller
 {
     use ImageUploadTrait;
 

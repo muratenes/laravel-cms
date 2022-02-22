@@ -7,7 +7,7 @@ use App\Models\Ayar;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
-class AyarlarController extends Controller
+class SettingsController extends Controller
 {
     use ImageUploadTrait;
 

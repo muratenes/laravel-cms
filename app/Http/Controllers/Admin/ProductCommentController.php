@@ -8,7 +8,7 @@ use App\Models\Product\UrunYorum;
 use App\Repositories\Interfaces\UrunYorumInterface;
 use Illuminate\Http\Request;
 
-class UrunYorumController extends Controller
+class ProductCommentController extends Controller
 {
     protected UrunYorumInterface $model;
 

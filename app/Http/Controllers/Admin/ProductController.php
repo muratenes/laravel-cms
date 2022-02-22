@@ -16,7 +16,7 @@ use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\ProductConcern;
 use Yajra\DataTables\DataTables;
 
-class UrunController extends AdminController
+class ProductController extends AdminController
 {
     use ImageUploadTrait;
     use ProductConcern;

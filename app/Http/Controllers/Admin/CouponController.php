@@ -7,7 +7,7 @@ use App\Models\Coupon;
 use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\KuponInterface;
 
-class KuponController extends AdminController
+class CouponController extends AdminController
 {
     protected KuponInterface $model;
     protected KategoriInterface $categoryService;

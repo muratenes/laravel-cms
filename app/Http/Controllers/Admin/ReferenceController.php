@@ -10,7 +10,7 @@ use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class ReferansController extends Controller
+class ReferenceController extends Controller
 {
     use ImageUploadTrait;
 

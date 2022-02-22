@@ -10,7 +10,7 @@ use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\ProductAttributeConcern;
 use Illuminate\Http\Request;
 
-class UrunOzellikController extends AdminController
+class ProductAttributeController extends AdminController
 {
     use ProductAttributeConcern;
     use ResponseTrait;

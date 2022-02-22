@@ -11,7 +11,7 @@ use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
 // todo : Ürün kategori için polyformic kategoriyi kullan
-class KategoriController extends AdminController
+class ProductCategoryController extends AdminController
 {
     use ImageUploadTrait;
     use ResponseTrait;
