@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Content;
 use App\Repositories\Interfaces\IcerikYonetimInterface;
 
-class IcerikYonetimController extends Controller
+class ContentController extends Controller
 {
     private IcerikYonetimInterface $_icerikYonetimService;
 

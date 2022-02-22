@@ -6,7 +6,7 @@ use App\Models\Kategori;
 use App\Repositories\Interfaces\UrunlerInterface;
 use Illuminate\Http\Request;
 
-class AramaController extends Controller
+class SearchController extends Controller
 {
     private UrunlerInterface $_productService;
 

@@ -7,67 +7,67 @@ Route::group(['middleware' => 'site.config'], function () {
 
     Route::get('test', 'TestController@index');
     // İnitial routes
-    Route::get('kurumsal', 'AnasayfaController@about')->name('about');
-    Route::get('iletisim', 'IletisimController@index')->name('contact');
-    Route::post('iletisim', 'IletisimController@sendMail')->name('contact.post')->middleware(['throttle:3,10']);
+    Route::get('kurumsal', 'HomeController@about')->name('about');
+    Route::get('iletisim', 'ContactController@index')->name('contact');
+    Route::post('iletisim', 'ContactController@sendMail')->name('contact.post')->middleware(['throttle:3,10']);
     Route::get('sss', 'SSSController@list')->name('sss');
     Route::post('referanslar', 'ReferenceController@list')->name('referanslar');
-    Route::get('{content:slug}', 'IcerikYonetimController@detail')->name('content.detail');
+    Route::get('{content:slug}', 'ContentController@detail')->name('content.detail');
     Route::post('referanslar/{reference:slug}', 'ReferenceController@detail')->name('referanslar.detail');
-    Route::get('galeri', 'GaleriController@detail')->name('gallery.list');
-    Route::get('galeri/{gallery:slug}', 'GaleriController@detail')->name('gallery.detail');
+    Route::get('galeri', 'GalleryController@detail')->name('gallery.list');
+    Route::get('galeri/{gallery:slug}', 'GalleryController@detail')->name('gallery.detail');
     Route::get('haberler', 'BlogController@list')->name('blog.list');
     Route::get('haberler/{blog:slug}', 'BlogController@detail')->name('blog.detail');
     Route::post('createBulten', 'EBultenController@createEBulten')->name('ebulten.create')->middleware(['throttle:3,10']);
 
-    Route::get('/', 'AnasayfaController@index')->name('homeView');
-    Route::get('/sitemap.xml', 'AnasayfaController@sitemap');
-    Route::get('/ara', 'AramaController@ara')->name('searchView');
-    Route::get('/searchPageFilter', 'AramaController@searchPageFilterWithAjax');
-    Route::get('/headerSearchBarOnChangeWithAjax', 'AramaController@headerSearchBarOnChangeWithAjax');
+    Route::get('/', 'HomeController@index')->name('homeView');
+    Route::get('/sitemap.xml', 'HomeController@sitemap');
+    Route::get('/ara', 'SearchController@ara')->name('searchView');
+    Route::get('/searchPageFilter', 'SearchController@searchPageFilterWithAjax');
+    Route::get('/headerSearchBarOnChangeWithAjax', 'SearchController@headerSearchBarOnChangeWithAjax');
 
     //------------Ajax Routes --------------------
-    Route::post('check-product-variant/{product:id}', 'UrunController@checkProductVariant')->name('getProductVariantPriceAndQtyWithAjax');
-    Route::get('productFilterWithAjax', 'KategoriController@productFilterWithAjax')->name('productFilterWithAjax');
+    Route::post('check-product-variant/{product:id}', 'ProductController@checkProductVariant')->name('getProductVariantPriceAndQtyWithAjax');
+    Route::get('productFilterWithAjax', 'CategoryController@productFilterWithAjax')->name('productFilterWithAjax');
 
     //------------- Basket Routes --------------------
 
     Route::group(['prefix' => 'sepet', 'middleware' => 'throttle:20'], function () {
-        Route::get('', 'SepetController@index')->name('basket');
-        Route::post('/ekle', 'SepetController@itemAddToBasket')->name('basket.add');
-        Route::delete('/sil/{rowId}', 'SepetController@remove')->name('basket.remove');
-        Route::delete('/tumunu-kaldir', 'SepetController@clearBasket')->name('basket.removeAllItems');
+        Route::get('', 'BasketController@index')->name('basket');
+        Route::post('/ekle', 'BasketController@itemAddToBasket')->name('basket.add');
+        Route::delete('/sil/{rowId}', 'BasketController@remove')->name('basket.remove');
+        Route::delete('/tumunu-kaldir', 'BasketController@clearBasket')->name('basket.removeAllItems');
 
         // Ajax
-        Route::post('/addToBasket/{product:id}', 'SepetController@addItem')->name('basket.add.ajax');
-        Route::post('/removeBasketItem/{rowId}', 'SepetController@removeItemFromBasketWithAjax')->name('basket.remove.ajax');
-        Route::post('/decrement/{rowId}', 'SepetController@decrement');
-        Route::post('/multiple-update', 'SepetController@updateMultipleBasketItem');
+        Route::post('/addToBasket/{product:id}', 'BasketController@addItem')->name('basket.add.ajax');
+        Route::post('/removeBasketItem/{rowId}', 'BasketController@removeItemFromBasketWithAjax')->name('basket.remove.ajax');
+        Route::post('/decrement/{rowId}', 'BasketController@decrement');
+        Route::post('/multiple-update', 'BasketController@updateMultipleBasketItem');
     });
 
     //------------ Odeme Controller -------------------
     Route::group(['prefix' => 'odeme/', 'middleware' => ['auth', 'throttle:20']], function () {
         Route::get('adres', 'AddressController@addresses')->name('odeme.adres');
-        Route::get('review', 'OdemeController@index')->name('odemeView');
-        Route::post('review', 'OdemeController@payment')->name('payment.create');
-        Route::get('taksit-getir', 'OdemeController@getIyzicoInstallmentCount')->name('odgetIyzicoInstallmentCount');
+        Route::get('review', 'PaymentController@index')->name('odemeView');
+        Route::post('review', 'PaymentController@payment')->name('payment.create');
+        Route::get('taksit-getir', 'PaymentController@getIyzicoInstallmentCount')->name('odgetIyzicoInstallmentCount');
 
-        Route::get('threeDSecurityRequest', 'OdemeController@threeDSecurityRequest')->name('odeme.threeDSecurityRequest');
-        Route::post('threeDSecurityResponse', 'OdemeController@threeDSecurityResponse')->name('odeme.threeDSecurityResponse');
+        Route::get('threeDSecurityRequest', 'PaymentController@threeDSecurityRequest')->name('odeme.threeDSecurityRequest');
+        Route::post('threeDSecurityResponse', 'PaymentController@threeDSecurityResponse')->name('odeme.threeDSecurityResponse');
     });
 
     //---------- User Routes ----------------------
     Route::group(['prefix' => 'kullanici'], function () {
-        Route::get('/giris', 'KullaniciController@loginForm')->name('user.login');
-        Route::post('/giris', 'KullaniciController@login');
-        Route::post('/cikis', 'KullaniciController@logout')->name('user.logout');
-        Route::get('/kayit', 'KullaniciController@registerForm')->name('user.register');
-        Route::post('/kayit', 'KullaniciController@register')->middleware('throttle:10');
-        Route::get('/aktiflestir/{activation_code}', 'KullaniciController@activateUser');
+        Route::get('/giris', 'UserController@loginForm')->name('user.login');
+        Route::post('/giris', 'UserController@login');
+        Route::post('/cikis', 'UserController@logout')->name('user.logout');
+        Route::get('/kayit', 'UserController@registerForm')->name('user.register');
+        Route::post('/kayit', 'UserController@register')->middleware('throttle:10');
+        Route::get('/aktiflestir/{activation_code}', 'UserController@activateUser');
 
         Route::group(['middleware' => 'auth'], function () {
-            Route::get('siparisler', 'SiparisController@index')->name('user.orders');
-            Route::get('siparisler/{order:id}', 'SiparisController@detail')->name('user.orders.detail')->middleware('can:edit-order,order');
+            Route::get('siparisler', 'OrderController@index')->name('user.orders');
+            Route::get('siparisler/{order:id}', 'OrderController@detail')->name('user.orders.detail')->middleware('can:edit-order,order');
 
             Route::get('adresler', 'AddressController@addresses')->name('user.addresses');
             Route::get('adres/{addressID}', 'AddressController@detail')->name('user.address.edit');
@@ -79,9 +79,9 @@ Route::group(['middleware' => 'site.config'], function () {
             Route::get('profil', 'AccountController@userDetail')->name('user.detail');
             Route::post('profil', 'AccountController@userDetailSave')->name('user.detail');
             Route::get('hesabim', 'AccountController@dashboard')->name('user.dashboard');
-            Route::get('favorilerim', 'FavoriController@list')->name('user.favorites');
-            Route::post('favoriler/{product:id}', 'FavoriController@addToFavorites');
-            Route::delete('favoriler/{product:id}', 'FavoriController@delete')->name('user.favorites.delete');
+            Route::get('favorilerim', 'FavoriteController@list')->name('user.favorites');
+            Route::post('favoriler/{product:id}', 'FavoriteController@addToFavorites');
+            Route::delete('favoriler/{product:id}', 'FavoriteController@delete')->name('user.favorites.delete');
         });
     });
     Route::group(['prefix' => 'locations'], function () {
@@ -95,22 +95,22 @@ Route::group(['middleware' => 'site.config'], function () {
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');
 
     // Coupon code
-    Route::post('kupon/uygula', 'KuponController@applyCoupon')->name('coupon.apply');
+    Route::post('kupon/uygula', 'CouponController@applyCoupon')->name('coupon.apply');
 
     // Favorites Route
-    Route::post('favoriler/ekle', 'FavoriController@addToFavorites');
-    Route::get('favoriler/listele', 'FavoriController@listAnonimUserFavorites')->name('favoriler.anonimList');
+    Route::post('favoriler/ekle', 'FavoriteController@addToFavorites');
+    Route::get('favoriler/listele', 'FavoriteController@listAnonimUserFavorites')->name('favoriler.anonimList');
 
     // campaigns Route
-    Route::get('kampanyalar', 'KampanyaController@list')->name('campaigns.list');
-    Route::get('kampanyalar/{slug}', 'KampanyaController@detail')->name('campaigns.detail');
-    Route::get('kampanyalar/{slug}/{category}', 'KampanyaController@detail')->name('campaigns.detail');
-    Route::get('campaignsFilterWithAjax', 'KampanyaController@campaignsFilterWithAjax')->name('campaigns.filterWithAjax');
+    Route::get('kampanyalar', 'CampaignController@list')->name('campaigns.list');
+    Route::get('kampanyalar/{slug}', 'CampaignController@detail')->name('campaigns.detail');
+    Route::get('kampanyalar/{slug}/{category}', 'CampaignController@detail')->name('campaigns.detail');
+    Route::get('campaignsFilterWithAjax', 'CampaignController@campaignsFilterWithAjax')->name('campaigns.filterWithAjax');
 
-    Route::get('lang/{locale}', 'AnasayfaController@setLanguage')->name('home.setLocale');
+    Route::get('lang/{locale}', 'HomeController@setLanguage')->name('home.setLocale');
     // ------------Product Routes ----------------
-    Route::get('{product:slug}', 'UrunController@detail')->name('product.detail');
-    Route::get('urun/quickView/{product:slug}', 'UrunController@quickView')->name('product.quickView');
-    Route::get('kategori/{categorySlug}', 'KategoriController@index')->name('category.detail');
-    Route::post('product/add-comment/{product:id}', 'UrunController@createComment')->name('product.comments.add')->middleware('auth');
+    Route::get('{product:slug}', 'ProductController@detail')->name('product.detail');
+    Route::get('urun/quickView/{product:slug}', 'ProductController@quickView')->name('product.quickView');
+    Route::get('kategori/{categorySlug}', 'CategoryController@index')->name('category.detail');
+    Route::post('product/add-comment/{product:id}', 'ProductController@createComment')->name('product.comments.add')->middleware('auth');
 });

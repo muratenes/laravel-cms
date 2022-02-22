@@ -12,10 +12,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 //    Route::match(['get', 'post'], 'giris', 'AuthController@login')->name('admin.login');
     Route::get('giris', 'AuthController@loginView')->name('admin.login');
     Route::post('giris', 'AuthController@login')->name('admin.login.post');
-    Route::get('/clear_cache', 'AnasayfaController@cacheClear')->name('admin.clearCache');
+    Route::get('/clear_cache', 'HomeController@cacheClear')->name('admin.clearCache');
     Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.language', 'admin.counts', 'admin.data']], function () {
-        Route::get('home', 'AnasayfaController@index')->name('admin.home_page');
-        Route::get('contacts', 'AnasayfaController@contacts')->name('admin.contacts');
+        Route::get('home', 'HomeController@index')->name('admin.home_page');
+        Route::get('contacts', 'HomeController@contacts')->name('admin.contacts');
         Route::get('cikis', 'AuthController@logout')->name('admin.logout');
 
         //----- Admin/User/..
@@ -65,20 +65,20 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/Products/..
         Route::group(['prefix' => 'product/'], function () {
-            Route::get('/', 'UrunController@listProducts')->name('admin.products');
-            Route::get('new', 'UrunController@newOrEditProduct')->name('admin.product.new');
-            Route::get('edit/{product_id}', 'UrunController@newOrEditProduct')->name('admin.product.edit');
-            Route::post('save/{product_id}', 'UrunController@saveProduct')->name('admin.product.save');
-            Route::get('delete/{product:id}', 'UrunController@deleteProduct')->name('admin.product.delete');
+            Route::get('/', 'ProductController@listProducts')->name('admin.products');
+            Route::get('new', 'ProductController@newOrEditProduct')->name('admin.product.new');
+            Route::get('edit/{product_id}', 'ProductController@newOrEditProduct')->name('admin.product.edit');
+            Route::post('save/{product_id}', 'ProductController@saveProduct')->name('admin.product.save');
+            Route::get('delete/{product:id}', 'ProductController@deleteProduct')->name('admin.product.delete');
 
             // ajax
-            Route::get('ajax', 'UrunController@ajax');
-            Route::get('getAllProductsForSearch', 'UrunController@getAllProductsForSearchAjax');
-            Route::get('deleteProductDetailById/{id}', 'UrunController@deleteProductDetailById')->name('deleteProductDetailById');
-            Route::get('getProductDetailWithSubAttributes/{product_id}', 'UrunController@getProductDetailWithSubAttributes')->name('getProductDetailWithSubAttributes');
-            Route::get('deleteProductVariant/{variant_id}', 'UrunController@deleteProductVariant')->name('deleteProductVariant');
-            Route::get('deleteProductImage/{id}', 'UrunController@deleteProductImage')->name('deleteProductImage');
-            Route::post('clone-for-language/{product:id}/{lang}', 'UrunController@cloneForLanguage')->name('admin.product.clone-for-language');
+            Route::get('ajax', 'ProductController@ajax');
+            Route::get('getAllProductsForSearch', 'ProductController@getAllProductsForSearchAjax');
+            Route::get('deleteProductDetailById/{id}', 'ProductController@deleteProductDetailById')->name('deleteProductDetailById');
+            Route::get('getProductDetailWithSubAttributes/{product_id}', 'ProductController@getProductDetailWithSubAttributes')->name('getProductDetailWithSubAttributes');
+            Route::get('deleteProductVariant/{variant_id}', 'ProductController@deleteProductVariant')->name('deleteProductVariant');
+            Route::get('deleteProductImage/{id}', 'ProductController@deleteProductImage')->name('deleteProductImage');
+            Route::post('clone-for-language/{product:id}/{lang}', 'ProductController@cloneForLanguage')->name('admin.product.clone-for-language');
 
             Route::group(['prefix' => 'attributes/'], function () {
                 Route::get('/', 'UrunOzellikController@list')->name('admin.product.attribute.list');
@@ -98,15 +98,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
             //----- Admin/product/category -----
             Route::group(['prefix' => 'category/'], function () {
-                Route::get('/', 'KategoriController@listCategories')->name('admin.product.categories');
-                Route::get('new', 'KategoriController@newOrEditCategory')->name('admin.product.category.new');
-                Route::get('edit/{category_id}', 'KategoriController@newOrEditCategory')->name('admin.product.category.edit');
-                Route::post('save/{category_id}', 'KategoriController@saveCategory')->name('admin.product.category.save');
-                Route::get('delete/{category_id}', 'KategoriController@deleteCategory')->name('admin.product.category.delete');
+                Route::get('/', 'CategoryController@listCategories')->name('admin.product.categories');
+                Route::get('new', 'CategoryController@newOrEditCategory')->name('admin.product.category.new');
+                Route::get('edit/{category_id}', 'CategoryController@newOrEditCategory')->name('admin.product.category.edit');
+                Route::post('save/{category_id}', 'CategoryController@saveCategory')->name('admin.product.category.save');
+                Route::get('delete/{category_id}', 'CategoryController@deleteCategory')->name('admin.product.category.delete');
                 // ajax
-                Route::get('getSubCategoriesByCategoryId/{categoryID}', 'KategoriController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
-                Route::post('clone-for-language/{category:id}/{lang}', 'KategoriController@cloneForLanguage')->name('admin.category.clone-for-language');
-                Route::post('sync-all-categories', 'KategoriController@syncParentCategoriesLanguages');
+                Route::get('getSubCategoriesByCategoryId/{categoryID}', 'CategoryController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
+                Route::post('clone-for-language/{category:id}/{lang}', 'CategoryController@cloneForLanguage')->name('admin.category.clone-for-language');
+                Route::post('sync-all-categories', 'CategoryController@syncParentCategoriesLanguages');
             });
             Route::group(['prefix' => 'comments/'], function () {
                 Route::get('/', 'UrunYorumController@list')->name('admin.product.comments.list');
@@ -133,23 +133,23 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/Orders/..
         Route::group(['prefix' => 'order/'], function () {
-            Route::get('/', 'SiparisController@list')->name('admin.orders');
+            Route::get('/', 'OrderController@list')->name('admin.orders');
             Route::get('/iyzico-fails', 'IyzicoController@iyzicoErrorOrderList')->name('admin.orders.iyzico_logs');
             Route::get('/iyzico-fails/{id}', 'IyzicoController@iyzicoErrorOrderDetail')->name('admin.orders.iyzico_logs_detail');
-            Route::get('snapshot/{order:id}', 'SiparisController@snapshot')->name('admin.orders.snapshot');
-            Route::get('edit/{orderId}', 'SiparisController@newOrEditOrder')->name('admin.order.edit');
-            Route::post('save/{orderId}', 'SiparisController@save')->name('admin.order.save');
-            Route::get('delete/{id}', 'SiparisController@deleteOrder')->name('admin.order.delete');
+            Route::get('snapshot/{order:id}', 'OrderController@snapshot')->name('admin.orders.snapshot');
+            Route::get('edit/{orderId}', 'OrderController@newOrEditOrder')->name('admin.order.edit');
+            Route::post('save/{orderId}', 'OrderController@save')->name('admin.order.save');
+            Route::get('delete/{id}', 'OrderController@deleteOrder')->name('admin.order.delete');
 
             // iyzico cancel
-            Route::post('cancel-all/{order:id}', 'SiparisController@cancelOrder')->name('admin.order.cancel');
-            Route::post('cancel-order-item/{item:id}', 'SiparisController@cancelOrderItem')->name('admin.orders.cancel-order-item');
+            Route::post('cancel-all/{order:id}', 'OrderController@cancelOrder')->name('admin.order.cancel');
+            Route::post('cancel-order-item/{item:id}', 'OrderController@cancelOrderItem')->name('admin.orders.cancel-order-item');
 
             // iyzico refund items
-            Route::post('refund-item', 'SiparisController@refundItem')->name('admin.orders.refund-basket-item');
+            Route::post('refund-item', 'OrderController@refundItem')->name('admin.orders.refund-basket-item');
 
-            Route::get('edit/{order:id}/invoice', 'SiparisController@invoiceDetail')->name('admin.order.invoice');
-            Route::get('ajax', 'SiparisController@ajax')->name('admin.order.ajax');
+            Route::get('edit/{order:id}/invoice', 'OrderController@invoiceDetail')->name('admin.order.invoice');
+            Route::get('ajax', 'OrderController@ajax')->name('admin.order.ajax');
 
             Route::post('basket/{basketID}', 'BasketController@show');
         });
@@ -183,20 +183,20 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/Coupons/..
         Route::group(['prefix' => 'coupon/'], function () {
-            Route::get('/', 'KuponController@list')->name('admin.coupons');
-            Route::get('new', 'KuponController@newOrEditForm')->name('admin.coupons.new');
-            Route::get('edit/{id}', 'KuponController@newOrEditForm')->name('admin.coupons.edit');
-            Route::post('save/{id}', 'KuponController@save')->name('admin.coupons.save');
-            Route::get('delete/{id}', 'KuponController@delete')->name('admin.coupons.delete');
+            Route::get('/', 'CouponController@list')->name('admin.coupons');
+            Route::get('new', 'CouponController@newOrEditForm')->name('admin.coupons.new');
+            Route::get('edit/{id}', 'CouponController@newOrEditForm')->name('admin.coupons.edit');
+            Route::post('save/{id}', 'CouponController@save')->name('admin.coupons.save');
+            Route::get('delete/{id}', 'CouponController@delete')->name('admin.coupons.delete');
         });
 
         //----- Admin/Campaigns/..
         Route::group(['prefix' => 'campaigns/'], function () {
-            Route::get('/', 'KampanyaController@list')->name('admin.campaigns');
-            Route::get('new', 'KampanyaController@newOrEditForm')->name('admin.campaigns.new');
-            Route::get('edit/{id}', 'KampanyaController@newOrEditForm')->name('admin.campaigns.edit');
-            Route::post('save/{id}', 'KampanyaController@save')->name('admin.campaigns.save');
-            Route::get('delete/{id}', 'KampanyaController@delete')->name('admin.campaigns.delete');
+            Route::get('/', 'CampaignController@list')->name('admin.campaigns');
+            Route::get('new', 'CampaignController@newOrEditForm')->name('admin.campaigns.new');
+            Route::get('edit/{id}', 'CampaignController@newOrEditForm')->name('admin.campaigns.edit');
+            Route::post('save/{id}', 'CampaignController@save')->name('admin.campaigns.save');
+            Route::get('delete/{id}', 'CampaignController@delete')->name('admin.campaigns.delete');
         });
 
         //----- Admin/Coupons/..
@@ -291,4 +291,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     });
 });
 
-Route::get('/home', 'AnasayfaController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class KullaniciController extends Controller
+class UserController extends Controller
 {
     use CartTrait;
     use SepetSupportTrait;

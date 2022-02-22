@@ -7,7 +7,7 @@ use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Interfaces\SiparisInterface;
 use Illuminate\Http\Request;
 
-class SiparisController extends Controller
+class OrderController extends Controller
 {
     protected SiparisInterface $model;
     private KuponInterface $_kuponService;

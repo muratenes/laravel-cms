@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
 
-class KategoriController extends Controller
+class CategoryController extends Controller
 {
     protected KategoriInterface $model;
     private UrunlerInterface $productService;

@@ -7,7 +7,7 @@ use App\Models\Product\Urun;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
-class FavoriController extends Controller
+class FavoriteController extends Controller
 {
     use ResponseTrait;
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Interfaces\OurTeamInterface;
 
-class TakimimizController extends Controller
+class OurTeamController extends Controller
 {
     private OurTeamInterface $_teamService;
 

@@ -8,7 +8,7 @@ use App\Models\Ayar;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Mail;
 
-class IletisimController extends Controller
+class ContactController extends Controller
 {
     public function index()
     {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gallery;
 use App\Repositories\Interfaces\FotoGalleryInterface;
 
-class GaleriController extends Controller
+class GalleryController extends Controller
 {
     private FotoGalleryInterface $_galleryService;
 

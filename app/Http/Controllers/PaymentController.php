@@ -22,7 +22,7 @@ use App\Utils\Concerns\Controllers\PaymentConcern;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class OdemeController extends Controller
+class PaymentController extends Controller
 {
     use IyzicoTrait;
     use PaymentConcern;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Interfaces\KampanyaInterface;
 use Illuminate\Http\Request;
 
-class KampanyaController extends Controller
+class CampaignController extends Controller
 {
     private KampanyaInterface $_campaignService;
 

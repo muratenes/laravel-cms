@@ -7,7 +7,7 @@ use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Traits\CartTrait;
 use Illuminate\Http\Request;
 
-class KuponController extends Controller
+class CouponController extends Controller
 {
     use CartTrait;
 

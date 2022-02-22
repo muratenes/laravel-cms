@@ -11,7 +11,7 @@ use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
-class UrunController extends Controller
+class ProductController extends Controller
 {
     use ResponseTrait;
 
