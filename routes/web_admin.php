@@ -98,15 +98,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
             //----- Admin/product/category -----
             Route::group(['prefix' => 'category/'], function () {
-                Route::get('/', 'CategoryController@listCategories')->name('admin.product.categories');
-                Route::get('new', 'CategoryController@newOrEditCategory')->name('admin.product.category.new');
-                Route::get('edit/{category_id}', 'CategoryController@newOrEditCategory')->name('admin.product.category.edit');
-                Route::post('save/{category_id}', 'CategoryController@saveCategory')->name('admin.product.category.save');
-                Route::get('delete/{category_id}', 'CategoryController@deleteCategory')->name('admin.product.category.delete');
+                Route::get('/', 'ProductCategoryController@listCategories')->name('admin.product.categories');
+                Route::get('new', 'ProductCategoryController@newOrEditCategory')->name('admin.product.category.new');
+                Route::get('edit/{category_id}', 'ProductCategoryController@newOrEditCategory')->name('admin.product.category.edit');
+                Route::post('save/{category_id}', 'ProductCategoryController@saveCategory')->name('admin.product.category.save');
+                Route::get('delete/{category_id}', 'ProductCategoryController@deleteCategory')->name('admin.product.category.delete');
                 // ajax
-                Route::get('getSubCategoriesByCategoryId/{categoryID}', 'CategoryController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
-                Route::post('clone-for-language/{category:id}/{lang}', 'CategoryController@cloneForLanguage')->name('admin.category.clone-for-language');
-                Route::post('sync-all-categories', 'CategoryController@syncParentCategoriesLanguages');
+                Route::get('getSubCategoriesByCategoryId/{categoryID}', 'ProductCategoryController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
+                Route::post('clone-for-language/{category:id}/{lang}', 'ProductCategoryController@cloneForLanguage')->name('admin.category.clone-for-language');
+                Route::post('sync-all-categories', 'ProductCategoryController@syncParentCategoriesLanguages');
             });
             Route::group(['prefix' => 'comments/'], function () {
                 Route::get('/', 'ProductCommentController@list')->name('admin.product.comments.list');

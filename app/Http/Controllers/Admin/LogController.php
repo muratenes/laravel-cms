@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Jobs\DeleteAllLogsJobs;
 use App\Models\Log;
 use App\Repositories\Interfaces\LogInterface;
-use Illuminate\Http\Request;
 
 class LogController extends Controller
 {
@@ -28,7 +27,7 @@ class LogController extends Controller
             ;
         })->when($type, function ($query) use ($type) {
             $query->where('type', $type);
-        })->orderByDesc('id')->simplePaginate();
+        })->orderByDesc('id')->paginate();
         $logTypes = Log::listTypesWithId();
 
         return view('admin.log.list_logs', compact('list', 'logTypes'));
