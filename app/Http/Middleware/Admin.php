@@ -21,6 +21,7 @@ class Admin
         if ($user && (Auth::guard('admin')->check() && $user->is_active && ($user->isSuperAdmin() || $user->isManager()))) {
             return $next($request);
         }
+        Auth::guard('admin')->logout();
 
         return redirect(route('admin.login'));
     }
