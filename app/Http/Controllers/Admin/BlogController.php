@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Repositories\Interfaces\BlogInterface;
 use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\MultipleImageConcern;
+use App\Utils\Concerns\Models\MultiLanguageHelper;
 use Illuminate\Http\Request;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
-class BlogController extends Controller
+class BlogController extends AdminController
 {
+    use MultiLanguageHelper;
     use MultipleImageConcern;
     use ResponseTrait;
 
@@ -69,6 +70,7 @@ class BlogController extends Controller
 
         $blog->update($requestData);
         $blog->meta_tag()->updateOrCreate(['taggable_id' => $blog->id], $metaValidated);
+        $this->syncModelForOtherLanguages($request, $blog);
         $this->uploadMultipleImages($request, $blog, 'public/blog/gallery');
 
         success();
@@ -96,6 +98,8 @@ class BlogController extends Controller
 
         $blog = Blog::create($requestData);
         $blog->meta_tag()->updateOrCreate(['taggable_id' => $blog->id], $metaValidated);
+        $this->syncModelForOtherLanguages($request, $blog);
+        $this->uploadMultipleImages($request, $blog, 'public/blog/gallery');
 
         success();
 

@@ -15,8 +15,8 @@ class Blog extends Model
     use SoftDeletes;
 
     public const MODULE_NAME = 'blog';
+    public const LANG_FIELDS = ['title', 'description', 'tags'];
 
-    public const IMAGE_QUALITY = 80;
     public const IMAGE_RESIZE = null;
     public $timestamps = true;
     public $guarded = [];
@@ -41,6 +41,14 @@ class Blog extends Model
     public function writer()
     {
         return $this->belongsTo(User::class, 'writer_id', 'id');
+    }
+
+    /**
+     * Get the another languages model instances.
+     */
+    public function languages()
+    {
+        return $this->morphMany(MultiLanguage::class, 'languageable');
     }
 
     protected static function boot()
