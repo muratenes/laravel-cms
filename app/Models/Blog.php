@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use App\Utils\Concerns\Models\Imageable;
+use App\Utils\Concerns\Models\MultiLanguageRelations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
@@ -12,6 +13,7 @@ class Blog extends Model
 {
     use Imageable;
     use MetaTaggable;
+    use MultiLanguageRelations;
     use SoftDeletes;
 
     public const MODULE_NAME = 'blog';
@@ -41,14 +43,6 @@ class Blog extends Model
     public function writer()
     {
         return $this->belongsTo(User::class, 'writer_id', 'id');
-    }
-
-    /**
-     * Get the another languages model instances.
-     */
-    public function languages()
-    {
-        return $this->morphMany(MultiLanguage::class, 'languageable');
     }
 
     protected static function boot()
