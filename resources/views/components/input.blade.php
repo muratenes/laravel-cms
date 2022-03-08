@@ -12,7 +12,7 @@
             @else
                 <br>
             @endisset
-            <input type="{{ $type }}" class="{{ $class }}" name="{{ $name }}" placeholder="{{ $placeholder ?: $label }}" id="input_{{ $name }}" {{ $attributes }}
+            <input type="{{ $type }}" class="{{ $class }}" name="{{ $name }}" placeholder="{{ $placeholder ?: $label }}" id="{{ $attributes['id'] ?? "input_{$name}" }}" {{ $attributes }}
             value="{{ old($name, $value) }}" {{ $type == 'checkbox' ? ($value == 1 ? 'checked': '' ) : '' }}>
             @if($type == 'file')
                 <span class="help-block">

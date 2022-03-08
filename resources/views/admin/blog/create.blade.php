@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-10">
                     <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › <a href="{{ route('admin.blog') }}"> Blog</a>
+                    › <a href="{{ route('admin.blog') }}"> @lang('admin.navbar.blog')</a>
                     › {{ $item->title }}
                 </div>
             </div>
@@ -80,26 +80,45 @@
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label for="exampleInputEmail1">Açıklama</label>
-                                            <textarea name="description" class="form-control" id="editor1" cols="30" rows="20">{{ old('description',$item->description) }}</textarea>
+                                            <textarea name="description" class="form-control" id="default_description" cols="30" rows="20">{{ old('description',$item->description) }}</textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- DİĞER DİLLER  -->
+                        <!-- OTHER LANGUAGES  -->
                         @foreach($item->languages as $index => $language)
                             <div class="tab-pane" id="tab_panel_{{ $index }}">
                                 <div class="box-body">
                                     <div class="form-row">
                                         <x-input name="title_{{ $language->lang }}" label="Başlık {{ langTitle($language->lang) }}"
-                                                 width="12" horizontal value='{{ old("title_{{ $language->lang }", $language->data["title"]) }}'  maxlength="200"/>
-                                        <x-input name="description_{{ $language->lang }}" label="Açıklama {{ langTitle($language->lang) }}"
-                                                 width="12" horizontal value='{{ old("description_{{ $language->lang }", $language->data["description"]) }}'  maxlength="255"/>
+                                                 width="12" horizontal value='{{ old("title_{{ $language->lang }", $language->data["title"]) }}' maxlength="200"/>
+{{--                                        <x-input name="tags[]" multiple="multiple" label="Kelimeler" width="12" horizontal :value="$item->title"  id="tags_{{ $language->lang }}"/>--}}
+                                        <div class="form-group col-md-12">
+                                            <label class="col-sm-2 control-label">Kelimeler(Tags)</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" multiple="multiple" id="tags_{{ $language->lang }}" name="tags_{{ $language->lang }}[]">
+                                                    @if($language->data['tags'] and is_array($language->data['tags']))
+                                                        @foreach($language->data['tags'] as $tag)
+                                                            <option value="{{ $tag }}" selected>{{ $tag }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="col-sm-2 control-label">Açıklama</label>
+                                            <div class="col-sm-10">
+                                                <textarea name="description_{{ $language->lang }}" class="form-control col-md-10" id="ck_description_{{ $language->lang }}" cols="30"
+                                                          rows="20">{{ old("description_{{ $language->lang }", $language->data["description"]) }}</textarea>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                       @endforeach
-                    <!--  DİĞER DİLLER -->
+                    @endforeach
+                    <!-- OTHER LANGUAGES -->
                     </div>
                 </div>
                 @include('laravel-meta-tags::meta-tags')
@@ -127,15 +146,27 @@
                 filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
                 filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
                 filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
-                height: 450,
+                height: 380,
                 allowedContent: true
             };
-            CKEDITOR.replace('editor1', options);
-
+            CKEDITOR.replace('default_description', options);
             $('#tags').select2({
                 tags: true,
-                tokenSeparators: [',', ' ']
+                tokenSeparators: [',', ' '],
+                width: '100%'
             })
+
+
+            @foreach($item->languages as $language)
+            CKEDITOR.replace('ck_description_{{ $language->lang }}', options);
+            $('#tags_{{ $language->lang }}').select2({
+                tags: true,
+                tokenSeparators: [',', ' '],
+                width: '100%'
+            })
+            @endforeach
+
+
         })
         $('select[id*="categories"]').select2({
             placeholder: 'kategori seçiniz'
