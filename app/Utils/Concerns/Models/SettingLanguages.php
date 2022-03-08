@@ -51,12 +51,16 @@ trait SettingLanguages
     }
 
     /**
-     * sitenin ana dili hariç aktif dilleri dönderir.
+     * get all active language without main project language.
      *
      * @return \Illuminate\Support\Collection
      */
     public static function otherActiveLanguages()
     {
+        if (! config('admin.multi_lang')) {
+            return collect();
+        }
+
         return collect(Ayar::languages())->filter(function ($item, $key) {
             if ($item[2] && defaultLangID() !== $item[0]) {
                 return true;

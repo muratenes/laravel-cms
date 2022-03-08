@@ -19,7 +19,6 @@ class CreateBlogTable extends Migration
             $table->string('image', 255)->nullable();
             $table->json('tags')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->unsignedSmallInteger('lang')->default(config('admin.default_language'));
             $table->unsignedBigInteger('category_id')->nullable()->index();
             $table->unsignedBigInteger('sub_category_id')->nullable();
             $table->unsignedInteger('writer_id')->nullable();

@@ -13,6 +13,7 @@ npm-debug.log
 yarn-error.log
 .phpunit.result.cache
 .env
-app/Http/Controllers/TestController.php
+/app/Http/Controllers/TestController.php
 .php-cs-fixer.cache
 composer.lock
+

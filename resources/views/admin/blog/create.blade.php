@@ -63,9 +63,6 @@
                                         @if(admin('modules.blog.image'))
                                             <x-input name="image" type="file" label="Görsel" width="2" :value="$item->image" path="blog"/>
                                         @endif
-                                        @if(admin('multi_lang'))
-                                            <x-select name="lang" label="Dil" width="2" :value="$item->lang" :options="$languages" key="0" option-value="1" nohint/>
-                                        @endif
                                         @if(admin('modules.blog.tag'))
                                             <div class="form-group col-md-8">
                                                 <label for="exampleInputEmail1">Kelimeler(Tags)</label>

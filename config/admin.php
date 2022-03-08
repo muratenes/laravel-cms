@@ -36,7 +36,7 @@ $data = [
     'use_album_gallery' => false,
 
     // multi lang
-    'multi_lang'              => false,
+    'multi_lang'              => true,
     'multi_currency'          => false,
     'default_language'        => 1, // Ayar::LANG_TR
     'default_currency'        => 1, // Ayar::CURRENCY_TL

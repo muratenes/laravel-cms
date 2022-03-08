@@ -57,7 +57,7 @@ class BlogController extends AdminController
             'title'           => 'required|string|max:200',
             'tags'            => 'nullable|max:255',
             'description'     => 'nullable|max:65535',
-            'lang'            => 'nullable|numeric',
+            //            'lang'            => 'nullable|numeric',
             'category_id'     => 'nullable|numeric',
             'sub_category_id' => 'nullable|numeric',
         ]);
@@ -84,7 +84,7 @@ class BlogController extends AdminController
             'title'           => 'required|string|max:200',
             'tags'            => 'nullable|max:255',
             'description'     => 'nullable|max:65535',
-            'lang'            => 'nullable|numeric',
+            //            'lang'            => 'nullable|numeric',
             'category_id'     => 'nullable|numeric',
             'sub_category_id' => 'nullable|numeric',
         ]);
