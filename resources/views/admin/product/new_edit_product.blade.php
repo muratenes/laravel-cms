@@ -42,51 +42,22 @@
                         <div class="tab-pane active" id="tab_product_default_language">
                             <!-- varsayılan dil bilgileri -->
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label>@lang('admin.title')</label>
-                                    <input type="text" class="form-control" name="title" placeholder="@lang('admin.product.title')" maxlength="90"
-                                           value="{{ old('title', $product->title) }}">
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Slug</label>
-                                    <input type="text" class="form-control" id="slug" name="slug" placeholder="ürün slug" disabled
-                                           value="{{ old('slug', $product->slug) }}">
-                                </div>
-                                @if(admin('modules.product.image'))
-                                    <x-input name="image" type="file" label="Görsel" width="2" :value="$product->image" path="products"/>
-                                @endif
-                                <div class="form-group col-md-2">
-                                    <label>@lang('admin.product.code')</label>
-                                    <input type="text" class="form-control" name="code" placeholder="ürün kodu otomatik oluşur" {{ admin('modules.product.auto_code') ? 'disabled' :'' }}
-                                    value="{{ old('code', $product->code) }}">
-                                </div>
-
+                                <x-input name="title" label="Başlık" width="6"  :value="$product->title" required maxlength="200"/>
+                                <x-input name="slug" label="Slug" width="2" disabled  :value="$product->slug"/>
+                                <x-input name="code" label="Ürün Kodu" width="2"  :value="$product->code"  maxlength="50" placeholder="ürün kodu otomatik oluşur" :disabled="admin('modules.product.auto_code')"/>
                                 @if(admin('modules.product.buying_price'))
-                                    <div class="form-group col-md-2">
-                                        <label for="exampleInputEmail1">@lang('admin.product.buying_price')</label>
-                                        <input type="number" class="form-control" name="buying_price" placeholder="firmadan alış fiyatı"
-                                               value="{{ old('buying_price', $product->buying_price) }}">
-                                    </div>
+                                    <x-input name="buying_price" :label="__('admin.product.buying_price')" width="2"  :value="$product->buying_price" type="number" step="any"/>
                                 @endif
                                 @if(admin('modules.product.cargo_price'))
-                                    <div class="form-group col-md-2">
-                                        <label for="cargo_price">@lang('admin.product.cargo_price')
-                                            <i class="fa fa-question-circle" title="@lang('admin.product.cargo_if_empty')"></i>
-                                        </label>
-                                        <input type="number" class="form-control" name="cargo_price" placeholder="@lang('admin.product.cargo_price')"
-                                               value="{{ old('cargo_price', $product->cargo_price) }}">
-                                    </div>
+                                    <x-input name="cargo_price" :help="__('admin.product.cargo_if_empty')" :label="__('admin.product.cargo_price')" width="2"  :value="$product->cargo_price" type="number" step="any"/>
                                 @endif
 
                                 @if(admin('modules.product.qty'))
-                                    <div class="form-group col-md-1">
-                                        <label for="exampleInputEmail1">@lang('admin.product.qty')</label>
-                                        <input type="number" class="form-control" id="qty" name="qty" placeholder="@lang('admin.product.qty')"
-                                               value="{{ old('qty', $product->qty) }}">
-                                    </div>
+                                    <x-input name="qty" :label="__('admin.product.qty')" width="1"  :value="$product->qty" type="number" step="any"/>
                                 @else
                                     <input type="hidden" name="qty" value="1">
                                 @endif
+
                                 @if(admin('modules.product.brand'))
                                     <div class="form-group col-md-2">
                                         <label for="exampleInputEmail1">
@@ -125,6 +96,9 @@
                                 @if(admin('modules.product.category'))
                                     @include('admin.product.partials.product-categories')
                                 @endif
+                                @if(admin('modules.product.image'))
+                                    <x-input name="image" type="file" label="Görsel" width="2" :value="$product->image" path="products"/>
+                                @endif
                                 <div class="form-group col-md-1">
                                     <label>@lang('admin.is_active')</label><br>
                                     <input type="checkbox" class="minimal" name="active" {{ $product->active == 1 ? 'checked': '' }}>
@@ -134,6 +108,7 @@
                                     <input type="text" class="form-control" id="spot" name="spot" placeholder="Kısa açıklama" maxlength="255"
                                            value="{{ old('spot', $product->spot) }}">
                                 </div>
+
                                 @if(admin('modules.product.tag'))
                                     <div class="form-group col-md-12">
                                         <label for="exampleInputEmail1">@lang('admin.product.keywords')</label>

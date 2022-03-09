@@ -13,8 +13,8 @@ class CreateUrunTable extends Migration
     {
         Schema::create('urunler', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 90);
-            $table->string('slug', 110);
+            $table->string('title', 200);
+            $table->string('slug', 230);
             $table->text('desc')->nullable();
             $table->boolean('active')->default(1);
             $table->string('image', 100)->nullable();
