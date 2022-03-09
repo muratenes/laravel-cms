@@ -346,15 +346,15 @@ $data['modules'] = [
         'brand'             => true,
         'company'           => true,
         // features
-        'feature'      => false,
-        'variant'      => false,
+        'feature'      => true,
+        'variant'      => true,
         'gallery'      => true,
         'auto_code'    => false, // generate random auto code
-        'qty'          => false,
+        'qty'          => true,
         'image'        => true,
-        'tag'          => false,
+        'tag'          => true,
         'buying_price' => true,
-        'prices'       => false,
+        'prices'       => true,
         'cargo_price'  => true,
         // attributes
         'max_sub_attribute_count' => 10,

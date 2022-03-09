@@ -33,7 +33,7 @@ return [
     'image'           => 'Fotoğraf',
     'filter'          => 'Filtrele',
     'clear'           => 'Temizle',
-    'is_active'       => 'Aktif Mi ?',
+    'is_active'       => 'Yayında Mı?',
     'delete'          => 'Sil',
     'description'     => 'Açıklama',
     // NAVBAR

@@ -42,40 +42,27 @@
                         <div class="tab-pane active" id="tab_product_default_language">
                             <!-- varsayılan dil bilgileri -->
                             <div class="row">
-                                <div class="form-group col-md-3">
-                                    <label for="exampleInputEmail1">@lang('admin.title')</label>
+                                <div class="form-group col-md-6">
+                                    <label>@lang('admin.title')</label>
                                     <input type="text" class="form-control" name="title" placeholder="@lang('admin.product.title')" maxlength="90"
                                            value="{{ old('title', $product->title) }}">
                                 </div>
-
-
-                                <div class="form-group col-md-1">
-                                    <label for="exampleInputEmail1">Slug</label>
+                                <div class="form-group col-md-2">
+                                    <label>Slug</label>
                                     <input type="text" class="form-control" id="slug" name="slug" placeholder="ürün slug" disabled
                                            value="{{ old('slug', $product->slug) }}">
                                 </div>
-                                <div class="form-group col-md-1">
-                                    <label for="exampleInputEmail1">@lang('admin.product.code')</label>
+                                @if(admin('modules.product.image'))
+                                    <x-input name="image" type="file" label="Görsel" width="2" :value="$product->image" path="products"/>
+                                @endif
+                                <div class="form-group col-md-2">
+                                    <label>@lang('admin.product.code')</label>
                                     <input type="text" class="form-control" name="code" placeholder="ürün kodu otomatik oluşur" {{ admin('modules.product.auto_code') ? 'disabled' :'' }}
                                     value="{{ old('code', $product->code) }}">
                                 </div>
 
-                                <div class="form-group col-md-1">
-                                    <label for="exampleInputEmail1">@lang('admin.is_active')</label><br>
-                                    <input type="checkbox" class="minimal" name="active" {{ $product->active == 1 ? 'checked': '' }}>
-                                </div>
-                                @if(admin('modules.product.image'))
-                                    <div class="form-group col-md-2">
-                                        <label for="image">@lang('admin.image')</label><br>
-                                        <input type="file" class="form-control" name="image">
-                                        @if($product->image)
-                                            <span class="help-block"><a
-                                                    href="{{ imageUrl('public/products',$product->image) }}">{{ $product->image }}</a></span>
-                                        @endif
-                                    </div>
-                                @endif
                                 @if(admin('modules.product.buying_price'))
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-2">
                                         <label for="exampleInputEmail1">@lang('admin.product.buying_price')</label>
                                         <input type="number" class="form-control" name="buying_price" placeholder="firmadan alış fiyatı"
                                                value="{{ old('buying_price', $product->buying_price) }}">
@@ -90,8 +77,7 @@
                                                value="{{ old('cargo_price', $product->cargo_price) }}">
                                     </div>
                                 @endif
-                            </div>
-                            <div class="row">
+
                                 @if(admin('modules.product.qty'))
                                     <div class="form-group col-md-1">
                                         <label for="exampleInputEmail1">@lang('admin.product.qty')</label>
@@ -102,7 +88,7 @@
                                     <input type="hidden" name="qty" value="1">
                                 @endif
                                 @if(admin('modules.product.brand'))
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-2">
                                         <label for="exampleInputEmail1">
                                             @lang('admin.brand')
                                             @if($product->brand_id)
@@ -120,7 +106,7 @@
                                     </div>
                                 @endif
                                 @if(admin('modules.product.company'))
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-2">
                                         <label for="exampleInputEmail1">@lang('admin.product.suppliers')
                                             &nbsp;@if($product->company_id)
                                                 <a target="_blank" href="{{ route('admin.product.company.edit',$product->company_id) }}"><i
@@ -139,17 +125,17 @@
                                 @if(admin('modules.product.category'))
                                     @include('admin.product.partials.product-categories')
                                 @endif
-
-
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-1">
+                                    <label>@lang('admin.is_active')</label><br>
+                                    <input type="checkbox" class="minimal" name="active" {{ $product->active == 1 ? 'checked': '' }}>
+                                </div>
+                                <div class="form-group col-md-12">
                                     <label for="exampleInputEmail1">@lang('admin.product.short_description')</label>
                                     <input type="text" class="form-control" id="spot" name="spot" placeholder="Kısa açıklama" maxlength="255"
                                            value="{{ old('spot', $product->spot) }}">
                                 </div>
-                            </div>
-                            <div class="row">
                                 @if(admin('modules.product.tag'))
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label for="exampleInputEmail1">@lang('admin.product.keywords')</label>
                                         <select class="form-control" multiple="multiple" id="tags" name="tags[]">
                                             @if($product->tags)
