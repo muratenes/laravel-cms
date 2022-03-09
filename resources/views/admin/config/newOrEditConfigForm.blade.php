@@ -127,22 +127,10 @@
                     <!-- form start -->
                     <div class="box-body">
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Facebook Adresi</label>
-                                <input type="text" class="form-control" name="facebook" placeholder="Facebook" value="{{ old('facebook', $config->facebook) }}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">İnstagram Adresi</label>
-                                <input type="text" class="form-control" name="instagram" value="{{ old('instagram', $config->instagram) }}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Twitter Adresi</label>
-                                <input type="text" class="form-control" name="twitter" value="{{ old('twitter', $config->twitter) }}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Youtube Adresi</label>
-                                <input type="text" class="form-control" name="youtube" value="{{ old('youtube', $config->youtube) }}">
-                            </div>
+                            <x-input type="text" name="facebook" :value="$config->facebook" width="12" label="Facebook Adresi" horizontal/>
+                            <x-input type="text" name="instagram" :value="$config->instagram" width="12" label="Instagram Adresi" horizontal/>
+                            <x-input type="text" name="twitter" :value="$config->twitter" width="12" label="Twitter Adresi" horizontal/>
+                            <x-input type="text" name="youtube" :value="$config->youtube" width="12" label="Youtube Adresi" horizontal/>
                         </div>
                     </div>
                 </div>
@@ -156,18 +144,9 @@
                     <!-- form start -->
                     <div class="box-body">
                         <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="exampleInputEmail1">Telefon</label>
-                                <input type="text" class="form-control" name="phone" value="{{ old('phone', $config->phone) }}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="exampleInputEmail1">Email</label>
-                                <input type="text" class="form-control" name="mail" value="{{ old('mail', $config->mail) }}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="exampleInputEmail1">Adres</label>
-                                <input type="text" class="form-control" name="adres" value="{{ old('adres', $config->adres) }}">
-                            </div>
+                            <x-input type="text" name="phone" :value="$config->phone" width="12" label="Telefon" horizontal/>
+                            <x-input type="email" name="email" :value="$config->email" width="12" label="Email" horizontal/>
+                            <x-input type="text" name="address" :value="$config->address" width="12" label="Adres" horizontal/>
                         </div>
                     </div>
                 </div>
@@ -202,22 +181,10 @@
                         <span class="help-block">Eticaret işlemlerinde kullanıcılacak firma bilgileri</span>
                     </div>
                     <div class="box-body">
-                        <div class="form-group col-md-2">
-                            <label for="exampleInputEmail1">Tam Ad Soyad</label>
-                            <input type="text" class="form-control" name="full_name" maxlength="100" value="{{ old('full_name', $config->full_name) }}">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1">Firma Adres</label>
-                            <input type="text" class="form-control" maxlength="255" name="company_address" value="{{ old('company_address', $config->company_address) }}">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="exampleInputEmail1">Firma Telefon</label>
-                            <input type="text" class="form-control" maxlength="20" name="company_phone" value="{{ old('company_phone', $config->company_phone) }}">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="exampleInputEmail1">Firma FAX</label>
-                            <input type="text" class="form-control" maxlength="100" name="fax" value="{{ old('fax', $config->fax) }}">
-                        </div>
+                        <x-input type="text" name="full_name" :value="$config->full_name" width="12" label="Tam Ad Soyad" horizontal/>
+                        <x-input type="text" name="company_address" :value="$config->company_address" width="12" label="Firma Adres" horizontal/>
+                        <x-input type="text" name="company_phone" :value="$config->company_phone" width="12" label="Firma Telefon" horizontal/>
+                        <x-input type="text" name="fax" :value="$config->fax" width="12" label="Firma Fax" horizontal/>
                     </div>
                 </div>
             </div>
