@@ -32,78 +32,45 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Başlık</label>
-                                <input type="text" class="form-control" name="title" placeholder="Site başlık" value="{{ old('title', $config->title) }}">
+                            <div class="col-md-6">
+                                 <x-input type="text" name="title" :value="$config->title" width="12" label="Başlık" horizontal required/>
+                                 <x-input type="text" name="domain" :value="$config->domain" width="12" label="Domain" placeholder="Örnek:http://google.com" horizontal/>
+                                 <x-input type="text" name="keywords" :value="$config->keywords" width="12" label="Kelimeler" placeholder="Aralarında virgül bırakarak yazınız" horizontal/>
+                                <x-input name="logo" type="file" label="Logo" width="12" :value="$config->logo" path="config" horizontal/>
+                                <x-input name="footer_logo" type="file" label="Footer Logo" width="12" :value="$config->footer_logo" path="config" horizontal/>
+                                <x-input name="icon" type="file" label="Icon" width="12" :value="$config->icon" path="config" horizontal/>
+                                <x-input type="number" name="cargo_price" step="any" :value="$config->cargo_price" width="12" label="Kargo Fiyatı" placeholder="Varsayılan kargo fiyatı" horizontal/>
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Domain</label>
-                                <input type="text" class="form-control" name="domain" placeholder="Domain ex:http://google.com"
-                                       value="{{ old('domain', $config->domain) }}" maxlength="50">
-                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group col-md-12">
+                                    <label for="image">Açıklama</label><br>
+                                    <textarea class="form-control" name="desc" rows="5">{{ old('desc',$config->desc) }}</textarea>
+                                </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Kelimeler</label>
-                                <input type="text" class="form-control" name="keywords" value="{{ old('keywords', $config->keywords) }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="image">Logo</label><br>
-                                <input type="file" class="form-control" name="logo">
-                                @if($config->logo)
-                                    <span class="help-block"><a
-                                            href="{{  imageUrl('public/config',$config->logo)}}">{{ $config->logo }}</a></span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-5">
-                                <label for="image">Açıklama</label><br>
-                                <textarea class="form-control" name="desc" rows="5">{{ old('desc',$config->desc) }}</textarea>
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="image">Footer Logo</label><br>
-                                <input type="file" class="form-control" name="footer_logo">
-                                @if($config->footer_logo)
-                                    <span class="help-block"><a
-                                            href="{{ imageUrl('public/config',$config->footer_logo) }}">{{ $config->footer_logo }}</a></span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="image">İcon</label><br>
-                                <input type="file" class="form-control" name="icon">
-                                @if($config->icon)
-                                    <span class="help-block"><a
-                                            href="{{ imageUrl('public/config',$config->icon) }}">{{ $config->icon }}</a></span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Aktif Mi ?</label><br>
-                                <input type="checkbox" class="minimal" name="active" {{ $config->active == 1 ? 'checked': '' }}>
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="exampleInputEmail1">Kargo Fiyatı</label><br>
-                                <input type="number" class="minimal form-control" name="cargo_price" value="{{ old('cargo_price',$config->cargo_price) }}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="image">Footer Text</label><br>
-                                <textarea class="form-control" name="footer_text">{{ old('footer_text',$config->footer_text) }}</textarea>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="exampleInputEmail1">Dil</label>
-                                @if($config->id)
-                                    <br>
-                                    <img src=" {{  langIcon($config->lang) }}" alt="">
-                                    <input type="hidden" name="lang" value="{{ $config->lang }}">
-                                @else
-                                    <select name="lang" class="form-control" id="">
-                                        @foreach($languages as $language)
-                                            <option value="{{ $language[0] }}"
-                                                {{ $config->lang == $language[0] ? 'selected' : '' }}
-                                                {{ in_array($language[0],$addedLanguages) && $language[0] !== $config->lang ? 'disabled' : '' }}
-                                            >
-                                                {{ $language[1] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                @endif
+                                <div class="form-group col-md-12">
+                                    <label for="image">Footer Text</label><br>
+                                    <textarea class="form-control" name="footer_text">{{ old('footer_text',$config->footer_text) }}</textarea>
+                                </div>
+                                <x-input name="active" type="checkbox" label="Aktif Mi ?" width="12" :value="$config->active" class="minimal"/>
+                                <div class="form-group col-md-2">
+                                    <label for="exampleInputEmail1">Dil</label>
+                                    @if($config->id)
+                                        <br>
+                                        <img src=" {{  langIcon($config->lang) }}" alt="">
+                                        <input type="hidden" name="lang" value="{{ $config->lang }}">
+                                    @else
+                                        <select name="lang" class="form-control" id="">
+                                            @foreach($languages as $language)
+                                                <option value="{{ $language[0] }}"
+                                                    {{ $config->lang == $language[0] ? 'selected' : '' }}
+                                                    {{ in_array($language[0],$addedLanguages) && $language[0] !== $config->lang ? 'disabled' : '' }}
+                                                >
+                                                    {{ $language[1] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                </div>
                             </div>
 
                             <button type="submit" class="hidden">Kaydet</button>
