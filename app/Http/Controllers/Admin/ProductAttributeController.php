@@ -8,10 +8,12 @@ use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Interfaces\UrunOzellikInterface;
 use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\ProductAttributeConcern;
+use App\Utils\Concerns\Models\MultiLanguageHelper;
 use Illuminate\Http\Request;
 
 class ProductAttributeController extends AdminController
 {
+    use MultiLanguageHelper;
     use ProductAttributeConcern;
     use ResponseTrait;
 
@@ -41,10 +43,10 @@ class ProductAttributeController extends AdminController
 
     public function save(Request $request, UrunAttribute $attribute)
     {
-        $attribute->title = $request->get('title_' . defaultLangID());
+        $attribute->title = $request->get('title');
         $attribute->active = activeStatus();
         $attribute->save();
-        $this->syncProductAttributeOtherLanguages($request, $attribute);
+        $this->syncModelForOtherLanguages($request, $attribute);
         $this->syncProductSubAttributeOtherLanguages($request, $attribute);
 
         return redirect(route('admin.product.attribute.edit', $attribute->id))->with('message', 'işlem başarılı');
@@ -58,7 +60,7 @@ class ProductAttributeController extends AdminController
         ];
         $attribute = UrunAttribute::create($requestData);
         if ($attribute) {
-            $this->syncProductAttributeOtherLanguages($request, $attribute);
+            $this->syncModelForOtherLanguages($request, $attribute);
             $this->syncProductSubAttributeOtherLanguages($request, $attribute);
         }
 

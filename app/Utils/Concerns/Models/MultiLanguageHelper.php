@@ -23,7 +23,6 @@ trait MultiLanguageHelper
                 foreach ($model::LANG_FIELDS as $field) {
                     $data[$field] = $request->get("{$field}_{$language[0]}");
                 }
-//                dd($data,$request->all());
                 MultiLanguage::updateOrCreate(
                     ['lang' => $language[0], 'languageable_id' => $model->id, 'languageable_type' => \get_class($model)],
                     ['data' => $data]

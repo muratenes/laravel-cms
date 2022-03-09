@@ -74,7 +74,7 @@ class CategoryController extends AdminController
 
         $category = Category::create($validated);
         $category->meta_tag()->updateOrCreate(['taggable_id' => $category->id], $metaValidated);
-        $this->syncModelForOtherLanguages($request, new Category());
+        $this->syncModelForOtherLanguages($request, $category);
 
         success();
 

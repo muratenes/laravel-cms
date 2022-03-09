@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-10">
                     <a href="{{ route('admin.home_page') }}"> <i class="fa fa-home"></i> Anasayfa</a>
-                    › <a href="{{ route('admin.product.attribute.list') }}"> Ürün Özellikleri</a>
+                    › <a href="{{ route('admin.product.attribute.list') }}"> @lang('admin.product.title') Özellikleri</a>
                     › {{ $item->title }}
                 </div>
                 <div class="col-md-2 text-right mr-3">
@@ -43,10 +43,10 @@
                                         <img src="{{ langIcon(defaultLangID()) }}"/>
                                     </a>
                                 </li>
-                                @foreach($item->descriptions as $index => $description)
+                                @foreach($item->languages as $index => $language)
                                     <li>
                                         <a href="#tab_{{ $index }}" data-toggle="tab">
-                                            <img src="{{ langIcon($description->lang) }}"/>
+                                            <img src="{{ langIcon($language->lang) }}"/>
                                         </a>
                                     </li>
                                 @endforeach
@@ -54,14 +54,14 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_default_language">
                                     <label>Başlık</label>
-                                    <input type="text" class="form-control" name="title_{{ defaultLangID() }}" placeholder="Kategori başlık"
-                                           value="{{ old(("title". defaultLangID()) , $item->title) }}">
+                                    <input type="text" class="form-control" name="title" placeholder="Kategori başlık"
+                                           value="{{ old(("title") , $item->title) }}">
                                 </div>
-                                @foreach($item->descriptions as $index => $description)
+                                @foreach($item->languages as $index => $language)
                                     <div class="tab-pane" id="tab_{{ $index }}">
                                         <label>Başlık</label>
-                                        <input type="text" class="form-control" name="title_{{ $description->lang }}" placeholder="Kategori başlık"
-                                               value="{{ old(("title_". $description->lang) , $description->title) }}">
+                                        <input type="text" class="form-control" name="title_{{ $language->lang }}" placeholder="Kategori başlık"
+                                               value="{{ old(("title_". $language->lang) , $language->data['title']) }}">
                                     </div>
                                 @endforeach
                             </div>

@@ -2,24 +2,19 @@
 
 namespace App\Models\Product;
 
+use App\Utils\Concerns\Models\MultiLanguageRelations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class UrunAttribute extends Model
 {
+    use MultiLanguageRelations;
+
+    public const LANG_FIELDS = ['title'];
+
     public $timestamps = false;
     protected $table = 'urun_attributes';
     protected $guarded = [];
-
-    /**
-     * diğer dillerdeki karşılıkları.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function descriptions()
-    {
-        return $this->hasMany(UrunAttributeDescription::class, 'attribute_id', 'id');
-    }
 
     public function subAttributes()
     {

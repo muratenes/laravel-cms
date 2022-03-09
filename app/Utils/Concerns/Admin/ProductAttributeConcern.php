@@ -10,24 +10,6 @@ use Illuminate\Http\Request;
 trait ProductAttributeConcern
 {
     /**
-     * ürün attribute diğer dillerdeki karşılıklarını oluşturur veya günceller.
-     *
-     * @param Request       $request
-     * @param UrunAttribute $attribute
-     */
-    public function syncProductAttributeOtherLanguages(Request $request, UrunAttribute $attribute)
-    {
-        foreach ($this->otherActiveLanguages() as $language) {
-            $title = $request->get('title_' . $language[0]);
-            $attribute->descriptions()->updateOrCreate([
-                'lang' => $language[0],
-            ], [
-                'title' => $title,
-            ]);
-        }
-    }
-
-    /**
      * ürün sub attribute diğer dillerdeki karşılıklarını oluşturur veya günceller.
      *
      * @param Request       $request
