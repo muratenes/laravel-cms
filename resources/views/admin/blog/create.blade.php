@@ -117,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                    @endforeach
+                         @endforeach
                     <!-- OTHER LANGUAGES -->
                     </div>
                 </div>

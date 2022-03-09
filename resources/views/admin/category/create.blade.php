@@ -16,15 +16,23 @@
     <form role="form" method="post" action="{{ $item->id ?  route('admin.categories.update',$item->id) : route('admin.categories.store') }}" id="form" enctype="multipart/form-data">
         {{ csrf_field() }}
         @method($item->id ? 'PUT' : 'POST')
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Kategori Detay</h3>
-                    </div>
-
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_default_language" data-toggle="tab">
+                        <img src="{{ langIcon(defaultLangID()) }}"/>
+                    </a>
+                </li>
+                @foreach($item->languages as $index => $language)
+                    <li>
+                        <a href="#tab_panel_{{ $index }}" data-toggle="tab" title="{{ langTitle($language->lang) }}">
+                            <img src="{{ langIcon($language->lang) }}"/>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_default_language">
                     <div class="box-body">
                         <div class="form-row">
                             <x-input horizontal name="title" label="Başlık" width="12" :value="$item->title" required maxlength="255"/>
@@ -52,16 +60,27 @@
                                 {{--                                        required--}}
                             />
                             <x-input horizontal name="is_active" type="checkbox" label="Aktif Mi ?" width="12" :value="$item->is_active" class="minimal"/>
-
                         </div>
                     </div>
-                    <div class="box-footer text-right">
-                        <button type="submit" class="btn btn-success">Kaydet</button>
-                    </div>
-
                 </div>
+                <!-- OTHER LANGUAGES  -->
+                @foreach($item->languages as $index => $language)
+                    <div class="tab-pane" id="tab_panel_{{ $index }}">
+                        <div class="box-body">
+                            <div class="form-row">
+                                <x-input name="title_{{ $language->lang }}" label="Başlık {{ langTitle($language->lang) }}"
+                                         width="12" horizontal value='{{ old("title_{{ $language->lang }", $language->data["title"]) }}' maxlength="200"/>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            <!-- OTHER LANGUAGES -->
+            </div>
+            <div class=" box-footer text-right">
+                <button type="submit" class="btn btn-success">Kaydet</button>
             </div>
         </div>
+
         {{--    {!! View::make('laravel-filemanager::crop') !!}--}}
         @include('laravel-meta-tags::meta-tags')
 
@@ -75,7 +94,7 @@
                 url: `/admin/category/type`,
                 dataType: 'json',
                 data: {
-                    type : $(this).val()
+                    type: $(this).val()
                 },
                 success: function (data) {
                     var options = "";

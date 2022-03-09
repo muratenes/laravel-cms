@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Repositories\Traits\Cachable;
+use App\Utils\Concerns\Models\MultiLanguageRelations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
@@ -12,6 +13,9 @@ class Category extends Model
     use Cachable;
     use HasFactory;
     use MetaTaggable;
+    use MultiLanguageRelations;
+
+    public const LANG_FIELDS = ['title'];
 
     public const TYPES = [
         \App\Models\Blog::class,

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use App\Utils\Concerns\Models\MultiLanguageHelper;
 use Illuminate\Http\Request;
 use MuratEnes\LaravelMetaTags\Traits\MetaTaggable;
 
 class CategoryController extends AdminController
 {
+    use MultiLanguageHelper;
+
     public function index()
     {
         return view('admin.category.index');
@@ -47,6 +50,7 @@ class CategoryController extends AdminController
         $validated['is_active'] = activeStatus('is_active');
         $category->update($validated);
         $category->meta_tag()->updateOrCreate(['taggable_id' => $category->id], $metaValidated);
+        $this->syncModelForOtherLanguages($request, $category);
 
         success();
 
@@ -70,6 +74,7 @@ class CategoryController extends AdminController
 
         $category = Category::create($validated);
         $category->meta_tag()->updateOrCreate(['taggable_id' => $category->id], $metaValidated);
+        $this->syncModelForOtherLanguages($request, new Category());
 
         success();
 
