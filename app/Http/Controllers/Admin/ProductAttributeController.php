@@ -55,7 +55,7 @@ class ProductAttributeController extends AdminController
     public function create(Request $request)
     {
         $requestData = [
-            'title'  => $request->get('title_' . defaultLangID()),
+            'title'  => $request->get('title'),
             'active' => activeStatus(),
         ];
         $attribute = UrunAttribute::create($requestData);

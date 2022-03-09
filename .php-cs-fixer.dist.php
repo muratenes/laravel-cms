@@ -22,7 +22,7 @@ $rules = [
     'no_useless_return'                     => true,
     'not_operator_with_successor_space'     => true,
     'php_unit_strict'                       => true,
-    'strict_comparison'                     => true,
+    'strict_comparison'                     => false,
     'strict_param'                          => true,
     'align_multiline_comment'               => ['comment_type' => 'all_multiline'],
     'backtick_to_shell_exec'                => true,

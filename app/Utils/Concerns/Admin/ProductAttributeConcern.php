@@ -25,7 +25,7 @@ trait ProductAttributeConcern
             }
 
             // sub attribute ana dil
-            if (0 !== $defaultLanguageSubAttributeId) {
+            if (0 != $defaultLanguageSubAttributeId) {
                 UrunSubAttribute::find($defaultLanguageSubAttributeId)->update(['title' => $defaultLanguageSubAttributeTitle]);
             } else {
                 $defaultLanguageSubAttributeId = $attribute->subAttributes()
