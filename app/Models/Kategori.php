@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-use App\Models\Product\KategoriDescription;
 use App\Models\Product\Urun;
 use App\Utils\Concerns\Admin\CategoryLanguageAttributeConcern;
+use App\Utils\Concerns\Models\MultiLanguageRelations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kategori extends Model
 {
     use CategoryLanguageAttributeConcern;
+    use MultiLanguageRelations;
     use SoftDeletes;
 
     public const MODULE_NAME = 'category';
+    public const LANG_FIELDS = ['title', 'spot'];
     public $timestamps = false;
     public $guarded = ['id'];
 
@@ -21,16 +23,6 @@ class Kategori extends Model
 
     protected $perPage = 20;
     protected $table = 'kategoriler';
-
-    /**
-     * diğer dillerdeki kategori karşılıkları.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function descriptions()
-    {
-        return $this->hasMany(KategoriDescription::class, 'category_id', 'id')->orderBy('lang');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

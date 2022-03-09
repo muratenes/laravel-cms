@@ -31,10 +31,10 @@
                                 <img src="{{ langIcon(defaultLangID()) }}"/>
                             </a>
                         </li>
-                        @foreach($category->descriptions as $index => $description)
+                        @foreach($category->languages as $index => $language)
                             <li>
                                 <a href="#tab_category_{{ $index }}" data-toggle="tab">
-                                    <img src="{{ langIcon($description->lang) }}"/>
+                                    <img src="{{ langIcon($language->lang) }}"/>
                                 </a>
                             </li>
                         @endforeach
@@ -48,9 +48,9 @@
 
                                 <div class="box-body">
                                     <div class="form-row">
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-12">
                                             <label for="exampleInputEmail1">Başlık</label>
-                                            <input type="text" class="form-control" name="title" placeholder="Kategori başlık"
+                                            <input type="text" class="form-control" name="title" placeholder="Kategori başlık" maxlength="50"
                                                    value="{{ old('title', $category->title) }}">
                                         </div>
                                         <div class="form-group col-md-3">
@@ -72,7 +72,7 @@
                                         <label for="exampleInputEmail1">Aktif Mi ?</label><br>
                                         <input type="checkbox" class="minimal" name="active" {{ old('active',$category->active) == 1 ? 'checked': '' }}>
                                     </div>
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-2">
                                         <label for="exampleInputEmail1">icon</label><br>
                                         <input type="text" class="form-control" id="icon" name="icon" placeholder="Anasayfa icon"
                                                value="{{ old('icon', $category->icon) }}" maxlength="25">
@@ -85,12 +85,12 @@
                                         <a href="{{ imageUrl('public/categories',$category->image) }}" target="_blank">{{ $category->image }}</a></span>
                                         @endif
                                     </div>
-                                    <div class="form-group col-md-1">
+                                    <div class="form-group col-md-2">
                                         <label for="exampleInputEmail1">Sıra Numarası</label><br>
                                         <input type="number" class="form-control" id="row" name="row" placeholder="listelemede kullanıcılacak sıra numarası"
                                                value="{{ old('row', $category->row) }}">
                                     </div>
-                                    <div class="form-group col-md-11">
+                                    <div class="form-group col-md-12">
                                         <label for="exampleInputEmail1">Açıklama</label>
                                         <input type="text" class="form-control" name="spot" placeholder="Kategori hakkında kısa açıklama" maxlength="255"
                                                value="{{ old('spot', $category->spot) }}">
@@ -106,19 +106,19 @@
 
                             </div>
                             <!-- /.tab-pane -->
-                            @foreach($category->descriptions as $index => $description)
+                            @foreach($category->languages as $index => $language)
                                 <div class="tab-pane" id="tab_category_{{ $index }}">
                                     <div class="box-body">
                                         <div class="form-row">
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-12">
                                                 <label for="exampleInputEmail1">Başlık</label>
-                                                <input type="text" class="form-control" name="title_{{ $description->lang }}" placeholder="Kategori başlık"
-                                                       value="{{ old("title_{{ $description->lang }", $description->title) }}">
+                                                <input type="text" class="form-control" name="title_{{ $language->lang }}" placeholder="Kategori başlık"
+                                                       value="{{ old("title_{{ $language->lang }", $language->data['title']) }}">
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label for="exampleInputEmail1">Açıklama</label>
-                                                <input type="text" class="form-control" name="spot_{{ $description->lang }}" placeholder="Kategori hakkında kısa açıklama" maxlength="255"
-                                                       value="{{ old("spot_{{ $description->lang }", $description->spot) }}">
+                                                <input type="text" class="form-control" name="spot_{{ $language->lang }}" placeholder="Kategori hakkında kısa açıklama" maxlength="255"
+                                                       value="{{ old("spot_{{ $language->lang }", $language->data['spot']) }}">
                                             </div>
                                         </div>
                                     </div>

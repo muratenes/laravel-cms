@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AdminCategoryRequest;
 use App\Models\Kategori;
-use App\Models\Product\KategoriDescription;
 use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
-use Illuminate\Http\Request;
+use App\Utils\Concerns\Models\MultiLanguageHelper;
 
 // todo : Ürün kategori için polyformic kategoriyi kullan
 class ProductCategoryController extends AdminController
 {
     use ImageUploadTrait;
+    use MultiLanguageHelper;
     use ResponseTrait;
 
     protected KategoriInterface $model;
@@ -42,7 +42,7 @@ class ProductCategoryController extends AdminController
         $category = new Kategori();
         $categories = Kategori::all();
         if (0 !== $category_id) {
-            $category = Kategori::with('descriptions')->findOrFail($category_id);
+            $category = Kategori::with('languages')->findOrFail($category_id);
         }
 
         return view('admin.product.category.new_edit_category', compact('category', 'categories'));
@@ -69,7 +69,7 @@ class ProductCategoryController extends AdminController
                 $imagePath = $this->uploadImage($request->file('image'), $entry->title, 'public/categories', $entry->image, Kategori::MODULE_NAME);
                 $entry->update(['image' => $imagePath]);
             }
-            $this->syncCategoriesForOtherLanguages($request, $entry);
+            $this->syncModelForOtherLanguages($request, $entry);
 
             return redirect(route('admin.product.category.edit', $entry->id));
         }
@@ -95,30 +95,5 @@ class ProductCategoryController extends AdminController
         return $this->success([
             'categories' => $this->model->getSubCategoriesByCategoryId($categoryID),
         ]);
-    }
-
-    /**
-     *  kategori diğer diller için descriptionları oluşuturur.
-     *
-     * @param Request  $request
-     * @param Kategori $category
-     */
-    private function syncCategoriesForOtherLanguages(Request $request, Kategori $category)
-    {
-        foreach ($this->otherActiveLanguages() as $language) {
-            if ($request->has('title_' . $language[0])) {
-                $categoryTitleByLanguage = $request->get("title_{$language[0]}");
-                $categorySpotByLanguage = $request->get("spot_{$language[0]}");
-                KategoriDescription::updateOrCreate(
-                    ['lang' => $language[0], 'category_id' => $category->id],
-                    ['title' => $categoryTitleByLanguage, 'spot' => $categorySpotByLanguage]
-                );
-            } else {
-                KategoriDescription::create([
-                    'lang'        => $language[0],
-                    'category_id' => $category->id,
-                ]);
-            }
-        }
     }
 }
