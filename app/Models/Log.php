@@ -64,6 +64,7 @@ class Log extends Model
                 'url'            => null === $url ? mb_substr(request()->fullUrl(), 0, 150) : mb_substr($url, 0, 150),
                 'exception_type' => mb_substr(\get_class($exception), 0, 150),
             ]);
+            self::checkLogCount();
         } catch (\Exception $exception) {
             if (\in_array('slack', config('logging.channels.' . config('logging.default') . '.channels'), true)) {
                 \Illuminate\Support\Facades\Log::channel('single')->error('slack', ['message' => $exception->getMessage()]);
@@ -91,6 +92,14 @@ class Log extends Model
                 'url'       => mb_substr(request()->fullUrl(), 0, 150),
             ]);
         } catch (\Exception $exception) {
+        }
+    }
+
+    protected function checkLogCount()
+    {
+        $count = self::count();
+        if ($count > 1500) {
+            self::truncate();
         }
     }
 }

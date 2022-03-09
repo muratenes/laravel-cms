@@ -14,6 +14,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::post('giris', 'AuthController@login')->name('admin.login.post');
     Route::get('/clear_cache', 'HomeController@cacheClear')->name('admin.clearCache');
     Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.language', 'admin.counts', 'admin.data']], function () {
+        Route::get('storage-link', function () {
+            return Artisan::call('storage:link');
+        });
         Route::get('home', 'HomeController@index')->name('admin.home_page');
         Route::get('contacts', 'HomeController@contacts')->name('admin.contacts');
         Route::get('cikis', 'AuthController@logout')->name('admin.logout');

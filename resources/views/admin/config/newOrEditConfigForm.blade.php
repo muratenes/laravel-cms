@@ -59,7 +59,7 @@
                                         <img src=" {{  langIcon($config->lang) }}" alt="">
                                         <input type="hidden" name="lang" value="{{ $config->lang }}">
                                     @else
-                                        <select name="lang" class="form-control" id="">
+                                        <select name="lang" class="form-control" id="" required>
                                             @foreach($languages as $language)
                                                 <option value="{{ $language[0] }}"
                                                     {{ $config->lang == $language[0] ? 'selected' : '' }}
