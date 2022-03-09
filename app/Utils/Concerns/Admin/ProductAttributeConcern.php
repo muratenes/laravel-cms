@@ -2,9 +2,9 @@
 
 namespace App\Utils\Concerns\Admin;
 
+use App\Models\MultiLanguage;
 use App\Models\Product\UrunAttribute;
 use App\Models\Product\UrunSubAttribute;
-use App\Models\Product\UrunSubAttributeDescription;
 use Illuminate\Http\Request;
 
 trait ProductAttributeConcern
@@ -17,7 +17,7 @@ trait ProductAttributeConcern
      */
     public function syncProductSubAttributeOtherLanguages(Request $request, UrunAttribute $attribute)
     {
-        foreach (range(0, config('admin.product.max_sub_attribute_count')) as $index) {
+        foreach (range(0, 10) as $index) {
             $defaultLanguageSubAttributeTitle = $request->get("main_product_sub_attribute_title_{$index}");
             $defaultLanguageSubAttributeId = $request->get("main_product_sub_attribute_id_{$index}");
             if (! $defaultLanguageSubAttributeTitle) {
@@ -37,15 +37,21 @@ trait ProductAttributeConcern
                 if ($request->has("product_sub_attribute_id_{$index}_{$subAttributeDescriptionIndex}")) {
                     $subAttributeTitle = $request->get("product_sub_attribute_title_{$index}_{$subAttributeDescriptionIndex}");
                     $subAttributeDescriptionLang = $request->get("product_sub_attribute_lang_{$index}_{$subAttributeDescriptionIndex}");
-                    UrunSubAttributeDescription::updateOrCreate(
-                        ['lang' => $subAttributeDescriptionLang, 'sub_attribute_id' => $defaultLanguageSubAttributeId],
-                        ['title' => $subAttributeTitle]
+                    MultiLanguage::updateOrCreate(
+                        ['lang' => $subAttributeDescriptionLang, 'languageable_id' => $defaultLanguageSubAttributeId, 'languageable_type' => UrunSubAttribute::class],
+                        ['data' => ['title' => $subAttributeTitle]]
                     );
                 } else {
-                    UrunSubAttributeDescription::create(['lang' => $language[0], 'sub_attribute_id' => $defaultLanguageSubAttributeId]);
+                    MultiLanguage::create([
+                        'lang'              => $language[0],
+                        'languageable_id'   => $defaultLanguageSubAttributeId,
+                        'languageable_type' => UrunSubAttribute::class,
+                        'data'              => $this->getInitialDataColumnValue(new UrunSubAttribute()),
+                    ]);
                 }
                 $subAttributeDescriptionIndex++;
             }
         }
+//        dd('dur');
     }
 }

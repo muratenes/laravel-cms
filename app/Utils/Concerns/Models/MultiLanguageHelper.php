@@ -9,6 +9,20 @@ use Illuminate\Database\Eloquent\Model;
 trait MultiLanguageHelper
 {
     /**
+     * get MultiLanguage::class data initial value.
+     *
+     * @param Model $model
+     *
+     * @return array
+     */
+    public function getInitialDataColumnValue(Model $model): array
+    {
+        return collect($model::LANG_FIELDS)->mapWithKeys(function ($key) {
+            return [$key => ''];
+        })->toArray();
+    }
+
+    /**
      *  updateOrCrate model other language instances.
      *
      * @param \Illuminate\Http\Request $request
@@ -36,19 +50,5 @@ trait MultiLanguageHelper
                 ]);
             }
         }
-    }
-
-    /**
-     * get MultiLanguage::class data initial value.
-     *
-     * @param Model $model
-     *
-     * @return array
-     */
-    private function getInitialDataColumnValue(Model $model): array
-    {
-        return collect($model::LANG_FIELDS)->mapWithKeys(function ($key) {
-            return [$key => ''];
-        })->toArray();
     }
 }

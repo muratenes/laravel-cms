@@ -8,7 +8,7 @@
                         <img src="{{ langIcon(defaultLangID()) }}"/>
                     </a>
                 </li>
-                @foreach($subAttribute->descriptions as $subIndex => $description)
+                @foreach($subAttribute->languages as $subIndex => $description)
                     <li>
                         <a href="#tab_sub_attribute_{{ $subIndex }}_{{ $description->id }}" data-toggle="tab">
                             <img src="{{ langIcon($description->lang) }}"/>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <!-- /.tab-pane -->
-                @foreach($subAttribute->descriptions as $descIndex => $description)
+                @foreach($subAttribute->languages as $descIndex => $description)
                     <div class="tab-pane" id="tab_sub_attribute_{{ $descIndex  }}_{{ $description->id }}">
                         <div class="row productSubAttributeDescription" data-index="{{$descIndex}}">
                             <div class="form-group col-md-12">
@@ -40,7 +40,7 @@
                                 <input type="hidden" name="product_sub_attribute_id_{{ $index }}_{{ $descIndex }}" value="{{$subAttribute->id}}">
                                 <input type="hidden" name="product_sub_attribute_lang_{{$index }}_{{$descIndex}}" value="{{$description->lang }}">
                                 <input type="text" class="form-control" name="product_sub_attribute_title_{{ $index }}_{{$descIndex}}"
-                                       value="{{ $description->title}}">
+                                       value="{{ $description['data']['title']}}">
                             </div>
                         </div>
                     </div>
