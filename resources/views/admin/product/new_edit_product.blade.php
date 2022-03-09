@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Ürün Detay')
+@section('title',$product->title)
 
 @section('header')
     <style>

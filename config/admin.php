@@ -153,6 +153,14 @@ $data['menus'] = [
                     'status'     => 'modules.blog.category',
                     'extra'      => '?type=App\Models\Blog',
                 ],
+                [
+                    'icon'       => 'fa fa-circle-o',
+                    'permission' => 'Category@index',
+                    'title'      => 'content_categories',
+                    'routeName'  => 'admin.categories.index',
+                    'status'     => 'modules.content.category',
+                    'extra'      => '?type=App\Models\Content',
+                ],
             ],
         ],
         'our_team' => [
@@ -371,7 +379,8 @@ $data['modules'] = [
         'cargo'       => true,
     ],
     'content' => [
-        'images' => true,
+        'images'   => true,
+        'category' => true,
     ],
     'contact' => [
         'columns'     => 'name|subject|email|phone|message',

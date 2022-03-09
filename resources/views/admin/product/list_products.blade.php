@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Ürün Listesi')
+@section('title',__('admin.products'))
 @section('content')
     <input type="hidden" id="productImagePrefix" value="{{ config('filesystems.default') == 'local' ? '/storage/products/' : '' }}">
     <input type="hidden" id="productDetailPrefix" value="{{ route('product.detail',['product' => '_']) }}">
