@@ -179,49 +179,49 @@ $data['menus'] = [
 
         'product' => [
             'icon'       => 'fa fa-list',
-            'permission' => 'Urun@listProducts',
+            'permission' => 'Product@listProducts',
             'title'      => 'products',
             'routeName'  => 'admin.products',
             'status'     => 'modules_status.product',
             'subs'       => [
                 [
                     'icon'       => 'fa fa-circle-o',
-                    'permission' => 'Urun@listProducts',
+                    'permission' => 'ProductCategory@listProducts',
                     'title'      => 'product_list',
                     'routeName'  => 'admin.products',
                     'status'     => 'modules_status.product',
                 ],
                 [
                     'icon'       => 'fa fa-circle-o',
-                    'permission' => 'Kategori@listCategories',
+                    'permission' => 'ProductCategory@listCategories',
                     'title'      => 'categories',
                     'routeName'  => 'admin.product.categories',
                     'status'     => 'modules.product.category',
                 ],
                 [
                     'icon'       => 'fa fa-circle-o',
-                    'permission' => 'UrunOzellik@list',
+                    'permission' => 'ProductAttribute@list',
                     'title'      => 'product_features',
                     'routeName'  => 'admin.product.attribute.list',
                     'status'     => 'modules.product.attribute',
                 ],
                 [
                     'icon'       => 'fa fa-comment',
-                    'permission' => 'UrunYorum@list',
+                    'permission' => 'ProductComment@list',
                     'title'      => 'product_comments',
                     'routeName'  => 'admin.product.comments.list',
                     'status'     => 'modules.product.comment',
                 ],
                 [
                     'icon'       => 'fa fa-medium',
-                    'permission' => 'UrunMarka@list',
+                    'permission' => 'ProductBrand@list',
                     'title'      => 'product_brands',
                     'routeName'  => 'admin.product.brands.list',
                     'status'     => 'modules.product.brand',
                 ],
                 [
                     'icon'       => 'fa fa-building',
-                    'permission' => 'UrunFirma@list',
+                    'permission' => 'ProductCompany@list',
                     'title'      => 'product_companies',
                     'routeName'  => 'admin.product.company.list',
                     'status'     => 'modules.product.company',
@@ -230,14 +230,14 @@ $data['menus'] = [
         ],
         'orders' => [
             'icon'       => 'fa fa-shopping-bag',
-            'permission' => 'Siparis@list',
+            'permission' => 'Order@list',
             'title'      => 'orders',
             'routeName'  => 'admin.orders',
             'status'     => 'modules_status.order',
             'subs'       => [
                 [
                     'icon'       => 'fa fa-circle-o',
-                    'permission' => 'Siparis@list',
+                    'permission' => 'Order@list',
                     'title'      => 'orders',
                     'routeName'  => 'admin.orders',
                     'key'        => 'pendingOrderCount',
@@ -245,7 +245,7 @@ $data['menus'] = [
                 ],
                 [
                     'icon'       => 'fa fa-undo',
-                    'permission' => 'Siparis@list',
+                    'permission' => 'Order@list',
                     'title'      => 'refund_requests',
                     'routeName'  => 'admin.orders',
                     'param'      => '?pendingRefund=1',
@@ -254,7 +254,7 @@ $data['menus'] = [
                 ],
                 'error_orders' => [
                     'icon'       => 'fa fa-exclamation',
-                    'permission' => 'Siparis@iyzicoErrorOrderList',
+                    'permission' => 'Order@iyzicoErrorOrderList',
                     'title'      => 'failed_orders',
                     'routeName'  => 'admin.orders.iyzico_logs',
                     'status'     => 'modules.order.iyzico_logs',
@@ -263,7 +263,7 @@ $data['menus'] = [
         ],
         'references' => [
             'icon'       => 'fa fa-list-alt',
-            'permission' => 'Referans@list',
+            'permission' => 'Reference@list',
             'title'      => 'references',
             'routeName'  => 'admin.reference',
             'status'     => 'modules_status.reference',
@@ -284,14 +284,14 @@ $data['menus'] = [
         ],
         'coupons' => [
             'icon'       => 'fa fa-tags',
-            'permission' => 'Kupon@list',
+            'permission' => 'Coupon@list',
             'title'      => 'coupons',
             'routeName'  => 'admin.coupons',
             'status'     => 'modules_status.coupon',
         ],
         'campaign' => [
             'icon'       => 'fa fa-percent',
-            'permission' => 'Kampanya@list',
+            'permission' => 'Campaign@list',
             'title'      => 'campaigns',
             'routeName'  => 'admin.campaigns',
             'status'     => 'modules_status.campaign',
@@ -307,14 +307,14 @@ $data['menus'] = [
         'title'    => 'Genel',
         'settings' => [
             'icon'       => 'fa fa-key',
-            'permission' => 'Ayarlar@list',
+            'permission' => 'Settings@list',
             'title'      => 'configs',
             'routeName'  => 'admin.config.list',
             'status'     => 'modules_status.setting',
             'subs'       => [
                 [
                     'icon'       => 'fa fa-key',
-                    'permission' => 'Ayarlar@list',
+                    'permission' => 'Settings@list',
                     'title'      => 'general',
                     'routeName'  => 'admin.config.list',
                     'status'     => 'modules_status.setting',
