@@ -14,11 +14,13 @@ use App\Repositories\Interfaces\UrunMarkaInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\ProductConcern;
+use App\Utils\Concerns\Models\MultiLanguageHelper;
 use Yajra\DataTables\DataTables;
 
 class ProductController extends AdminController
 {
     use ImageUploadTrait;
+    use MultiLanguageHelper;
     use ProductConcern;
     use ResponseTrait;
 
@@ -59,7 +61,7 @@ class ProductController extends AdminController
         $productDetails = $productVariants = $productSelectedSubAttributesIdsPerAttribute = $selectedAttributeIdList = $productSelectedSubAttributesIdsPerAttribute = [];
 
         if (0 !== $product_id) {
-            $product = $this->model->getById($product_id, null, ['categories', 'variants.urunVariantSubAttributes', 'descriptions']);
+            $product = $this->model->getById($product_id, null, ['categories', 'variants.urunVariantSubAttributes', 'languages']);
         }
         $data = [
             'categories'    => $this->categoryService->all(['parent_category_id' => null]),
@@ -112,7 +114,7 @@ class ProductController extends AdminController
         }
 
         $this->saveProductVariants($entry, $request);
-        $this->syncProductForOtherLanguages($request, $entry);
+        $this->syncModelForOtherLanguages($request, $entry);
         $this->uploadProductMainImageAndGallery($request, $entry);
 
         return redirect(route('admin.product.edit', $entry->id));

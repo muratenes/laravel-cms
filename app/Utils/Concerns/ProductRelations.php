@@ -4,7 +4,6 @@ namespace App\Utils\Concerns;
 
 use App\Models\Favori;
 use App\Models\Kategori;
-use App\Models\Product\UrunDescription;
 use App\Models\Product\UrunDetail;
 use App\Models\Product\UrunFirma;
 use App\Models\Product\UrunImage;
@@ -20,14 +19,6 @@ trait ProductRelations
     public function categories()
     {
         return $this->belongsToMany('App\Models\Kategori', 'kategori_urun', 'product_id', 'category_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function descriptions()
-    {
-        return $this->hasMany(UrunDescription::class, 'product_id', 'id');
     }
 
     /**

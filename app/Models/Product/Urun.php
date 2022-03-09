@@ -23,6 +23,7 @@ class Urun extends Model
     public const IMAGE_RESIZE = null;
     public const MODULE_NAME = 'product';
     public const PER_PAGE = 12;
+    public const LANG_FIELDS = ['title', 'spot', 'tags', 'properties', 'desc', 'cargo_price'];
 
     public $perPage = 12;
 

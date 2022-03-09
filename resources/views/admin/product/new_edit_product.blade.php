@@ -30,10 +30,10 @@
                                 <img src="{{ langIcon(defaultLangID()) }}"/>
                             </a>
                         </li>
-                        @foreach($product->descriptions as $index => $description)
+                        @foreach($product->languages as $index => $language)
                             <li>
-                                <a href="#tab_product_{{ $index }}" data-toggle="tab" title="{{ langTitle($description->lang) }}">
-                                    <img src="{{ langIcon($description->lang) }}"/>
+                                <a href="#tab_product_{{ $index }}" data-toggle="tab" title="{{ langTitle($language->lang) }}">
+                                    <img src="{{ langIcon($language->lang) }}"/>
                                 </a>
                             </li>
                         @endforeach

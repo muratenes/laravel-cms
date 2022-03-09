@@ -43,11 +43,11 @@ function addToNewPropertyForLanguage(language, key = '', value = '') {
         `<div class="box-body product-item-language-${language}"  id="product-property-container-${language}-${currentAttrCount}" data-index="${currentAttrCount}">\n` +
         '     <div class="form-group col-md-6">\n' +
         '       <label>Başlık</label>\n' +
-        '          <input type="text" class="form-control" name="' + language + '_properties[' + currentAttrCount + '][key]" placeholder="Özellik Adı" value="' + key + '">\n' +
+        '          <input type="text" class="form-control" name="properties_' + language + '[' + currentAttrCount + '][key]" placeholder="Özellik Adı" value="' + key + '">\n' +
         '           </div>\n' +
         '           <div class="form-group col-md-5 ">\n' +
         '       <label>Açıklama</label>\n' +
-        '     <input type="text" class="form-control" name="' + language + '_properties[' + currentAttrCount + '][value]" placeholder="Açıklama" value="' + value + '">\n' +
+        '     <input type="text" class="form-control" name="properties_' + language + '[' + currentAttrCount + '][value]" placeholder="Açıklama" value="' + value + '">\n' +
         '   </div>\n' +
         ' <div class="form-group col-md-1">\n' +
         '       <label>Sil</label><br>\n' +
