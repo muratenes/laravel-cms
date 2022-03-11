@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-
 use App\Models\Region\Country;
 use Illuminate\Database\Seeder;
 
@@ -25,7 +24,7 @@ class CityTownTableSeeder extends Seeder
 
     private function insertCountries()
     {
-        $countryJson = json_decode(file_get_contents(database_path('seeds/files/countries.json'), true));
+        $countryJson = json_decode(file_get_contents(database_path('seeders/files/countries.json'), true));
         foreach ($countryJson as $country) {
             $country = (array) $country;
             Country::firstOrCreate([
@@ -37,7 +36,10 @@ class CityTownTableSeeder extends Seeder
 
     private function insertTurkeyCities(Country $turkey)
     {
-        $turkeyCities = json_decode(file_get_contents(database_path('seeds/files/turkey.json')), true);
+        $turkeyCities = json_decode(file_get_contents(database_path('seeders/files/turkey.json')), true);
+        if (config('app.debug')) {
+            $turkeyCities = collect($turkeyCities)->take(1);
+        }
         foreach ($turkeyCities as $index => $state) {
             // $index = il     ex:istanbul
             // $index2 = ilçe  ex:adalar

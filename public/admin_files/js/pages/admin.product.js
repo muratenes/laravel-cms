@@ -268,7 +268,7 @@ $("#parent_category_id").on('change', function () {
 
 function getSubCategoriesByCategoryId(categoryId) {
     $.ajax({
-        url: `/admin/category/getSubCategoriesByCategoryId/${categoryId}`,
+        url: `/admin/product/category/getSubCategoriesByCategoryId/${categoryId}`,
         dataType: 'json',
         success: function (data) {
             var options = "";

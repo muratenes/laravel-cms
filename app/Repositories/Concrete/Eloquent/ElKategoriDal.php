@@ -46,7 +46,7 @@ class ElKategoriDal extends BaseRepository implements KategoriInterface
 
     public function getSubCategoriesByCategoryId($categoryId, $count = 10, $orderBy = null)
     {
-        return $this->model->all([['parent_category_id', $categoryId]])->take($count)->get();
+        return Kategori::where(['parent_category_id' => $categoryId, 'active' => true])->orderBy('title')->get();
     }
 
     public function orderByProducts($orderType, $productList)
