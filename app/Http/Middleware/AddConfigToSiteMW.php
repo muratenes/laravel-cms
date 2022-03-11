@@ -36,7 +36,7 @@ class AddConfigToSiteMW
     private function getCategories()
     {
         return \Cache::remember('categories.all', 20, function () {
-            return Kategori::with(['descriptions', 'sub_categories.descriptions', 'sub_categories.sub_categories'])
+            return Kategori::with(['languages', 'sub_categories.languages', 'sub_categories.sub_categories'])
                 ->where(['active' => 1, 'parent_category_id' => null])->get();
         });
     }
