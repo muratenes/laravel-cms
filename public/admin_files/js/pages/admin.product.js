@@ -280,3 +280,46 @@ function getSubCategoriesByCategoryId(categoryId) {
         }
     })
 }
+
+
+function countryOnChange(self) {
+    $.ajax({
+        url: '/locations/get-states-by-country/' + self.value + '',
+        success: function (data) {
+            bindStates(data);
+        }
+    })
+}
+
+function citySelectOnChange(self) {
+    $.ajax({
+        url: '/locations/getTownsByCityId/' + self.value + '',
+        success: function (data) {
+            bindDistricts(data);
+            bindNeighborhoods([]);
+        }
+    })
+}
+
+function bindStates(cities) {
+    $("#id_state_id option").not(':eq(0)').remove();
+    $(cities).each(function (index, element) {
+        $("#id_state_id").append('<option value="' + element.id + '">' + element.title + '</option>')
+    })
+}
+
+
+function bindDistricts(items) {
+    $("#id_district_id option").not(':eq(0)').remove();
+    $(items).each(function (index, element) {
+        $("#id_district_id").append('<option value="' + element.id + '">' + element.title + '</option>')
+    })
+}
+
+
+function bindNeighborhoods(items) {
+    $("#id_neighborhood_id option").not(':eq(0)').remove();
+    $(items).each(function (index, element) {
+        $("#id_neighborhood_id").append('<option value="' + element.id + '">' + element.title + '</option>')
+    })
+}

@@ -86,6 +86,7 @@ Route::group(['middleware' => 'site.config'], function () {
     });
     Route::group(['prefix' => 'locations'], function () {
         Route::get('/getTownsByCityId/{cityId}', 'CityTownController@getTownsByCityId')->name('cityTownService.getTownsByCityId');
+        Route::get('/getNeighByDistrict/{districtId}', 'CityTownController@getNeighByDistrictId');
     });
 
     //Password Reset Routes...
