@@ -13,16 +13,18 @@ class AyarlarTableSeeder extends Seeder
     public function run()
     {
         $config = [
-            'title'         => 'Site Default Başlık',
+            'title'         => config('app.name'),
             'desc'          => 'site default açıklama',
             'domain'        => 'http://127.0.0.1::8000',
             'logo'          => 'logo.png',
             'footer_logo'   => 'footer_logo.png',
             'icon'          => 'icon.png',
             'keywords'      => 'kelime,ornek,default',
-            'footer_text'   => 'footer örnek yazı',
+            'footer_text'   => "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır",
             'email'         => 'ornek@mail.com',
-            'address'       => 'örnek adres bilgileri',
+            'address'       => 'Churchill-laan 266/III
+1078 GA AMSTERDAM
+Netherlands',
             'active'        => 1,
             'lang'          => config('admin.default_language'),
         ];

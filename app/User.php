@@ -10,12 +10,14 @@ use App\Utils\Concerns\Models\UserGetters;
 use App\Utils\Concerns\Models\UserNotifications;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements HasLocalePreference
 {
     use CanResetPassword;
+    use HasFactory;
     use Notifiable;
     use UserGetters;
     use UserNotifications;

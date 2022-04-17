@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\KullaniciAdres;
@@ -24,9 +25,9 @@ class AddressSeeder extends Seeder
             'state_id'        => State::where('title', 'Istanbul')->first()->id,
             'district_id'     => District::where('title', 'Ataşehir')->first()->id,
             'neighborhood_id' => Neighborhood::where('title', 'BARBAROS MAH.')->first()->id,
-            'title'           => 'Evim',
-            'name'            => 'Murat',
-            'surname'         => 'Karabacak',
+            'title'           => 'My Home',
+            'name'            => 'John',
+            'surname'         => 'Doe',
             'phone'           => '512307124',
             'type'            => KullaniciAdres::TYPE_DELIVERY,
             'adres'           => 'Can sk. Kuzey Apt. No:32 D:6',
@@ -37,9 +38,9 @@ class AddressSeeder extends Seeder
             'state_id'        => State::where('title', 'Istanbul')->first()->id,
             'district_id'     => District::where('title', 'Ataşehir')->first()->id,
             'neighborhood_id' => Neighborhood::where('title', 'MUSTAFA KEMAL MAH.')->first()->id,
-            'title'           => 'İş Q',
-            'name'            => 'Murat',
-            'surname'         => 'Karabacak',
+            'title'           => 'Job',
+            'name'            => 'Kols',
+            'surname'         => 'Okra',
             'phone'           => '512309237',
             'type'            => KullaniciAdres::TYPE_INVOICE,
             'adres'           => 'Ordu Sk. Veysel Apt No :20 D:4',

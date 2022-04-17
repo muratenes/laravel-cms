@@ -1,0 +1,279 @@
+[
+    {
+        "title": "Oda Sayısı",
+        "children": [
+            {
+                "title": "Stüdyo (1+0)"
+            },
+            {
+                "title": "1+1"
+            },
+            {
+                "title": "1.5+1"
+            },
+            {
+                "title": "2+0"
+            },
+            {
+                "title": "2.5+1"
+            },
+            {
+                "title": "2.5+1"
+            },
+            {
+                "title": "2+2"
+            },
+            {
+                "title": "3+1"
+            },
+            {
+                "title": "3.5+1"
+            },
+            {
+                "title": "3+2"
+            },
+            {
+                "title": "4+0"
+            }
+        ]
+    },
+    {
+        "title": "Bina Yaşı",
+        "children": [
+            {
+                "title": "0"
+            },
+            {
+                "title": "1"
+            },
+            {
+                "title": "2"
+            },
+            {
+                "title": "3"
+            },
+            {
+                "title": "5-10 Arası"
+            },
+            {
+                "title": "11-15 Arası"
+            },
+            {
+                "title": "16-20 Arası"
+            },
+            {
+                "title": "21-25 Arası"
+            }
+        ]
+    },
+    {
+        "title": "Isıtma",
+        "children": [
+            {
+                "title": "Yok"
+            },
+            {
+                "title": "Soba"
+            },
+            {
+                "title": "Doğalgaz Sobası"
+            },
+            {
+                "title": "Kat Kaloriferleri"
+            },
+            {
+                "title": "Merkezi"
+            },
+            {
+                "title": "Merkezi (Pay Ölçer)"
+            },
+            {
+                "title": "Yerden Isıtma"
+            },
+            {
+                "title": "Klima"
+            },
+            {
+                "title": "Fancoil Ünitesi"
+            },
+            {
+                "title": "Güneş Enerjisi"
+            },
+            {
+                "title": "Jeotermal"
+            },
+            {
+                "title": "Şömine"
+            },
+            {
+                "title": "VRV"
+            },
+            {
+                "title": "Isı Pompası"
+            }
+        ]
+    },
+    {
+        "title": "Bulunduğu Kat",
+        "children": [
+            {
+                "title": "Giriş Altı Kot 4"
+            },
+            {
+                "title": "Giriş Altı Kot 3"
+            },
+            {
+                "title": "Kat Kaloriferleri"
+            },
+            {
+                "title": "Giriş Altı Kot 2"
+            },
+            {
+                "title": "Giriş Altı Kot 1)"
+            },
+            {
+                "title": "Bodrum Kat"
+            },
+            {
+                "title": "Zemin Kat"
+            },
+            {
+                "title": "Bahçe Katı"
+            },
+            {
+                "title": "Giriş Katı"
+            },
+            {
+                "title": "Yüksek Giriş"
+            },
+            {
+                "title": "Müstakil"
+            },
+            {
+                "title": "Villa Tipi"
+            },
+            {
+                "title": "1"
+            },
+            {
+                "title": "2"
+            },
+            {
+                "title": "3"
+            },
+            {
+                "title": "4"
+            },
+            {
+                "title": "5"
+            },
+            {
+                "title": "6"
+            },
+            {
+                "title": "7"
+            },
+            {
+                "title": "8"
+            }
+        ]
+    },
+    {
+        "title": "Kat Sayısı",
+        "children": [
+            {
+                "title": "1"
+            },
+            {
+                "title": "2"
+            },
+            {
+                "title": "3"
+            },
+            {
+                "title": "4"
+            },
+            {
+                "title": "5"
+            },
+            {
+                "title": "6"
+            },
+            {
+                "title": "7"
+            },
+            {
+                "title": "8"
+            }
+        ]
+    },
+    {
+        "title": "Banyo Sayısı",
+        "children": [
+            {
+                "title": "Yok"
+            },
+            {
+                "title": "1"
+            },
+            {
+                "title": "2"
+            },
+            {
+                "title": "3"
+            },
+            {
+                "title": "4"
+            },
+            {
+                "title": "5"
+            },
+            {
+                "title": "6"
+            },
+            {
+                "title": "7"
+            },
+            {
+                "title": "8"
+            }
+        ]
+    },
+    {
+        "title": "Banyo Sayısı",
+        "children": [
+            {
+                "title": "Yok"
+            },
+            {
+                "title": "Var"
+            }
+        ]
+    },
+    {
+        "title": "Eşyalı",
+        "children": [
+            {
+                "title": "Evet"
+            },
+            {
+                "title": "Hayır"
+            }
+        ]
+    },
+    {
+        "title": "Kullanım Durumu",
+        "children": [
+            {
+                "title": "Boş"
+            },
+            {
+                "title": "Kiracılı"
+            },
+            {
+                "title": "Mülk Sahibi"
+            }
+        ]
+    }
+]
+

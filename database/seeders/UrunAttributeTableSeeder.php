@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-
+use App\Models\Product\Urun;
 use App\Models\Product\UrunAttribute;
 use App\Models\Product\UrunDetail;
-use App\Models\Product\UrunSubAttribute;
 use App\Models\Product\UrunSubDetail;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class UrunAttributeTableSeeder extends Seeder
 {
@@ -17,41 +15,31 @@ class UrunAttributeTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        UrunAttribute::truncate();
-        UrunSubAttribute::truncate();
-        UrunDetail::truncate();
-        UrunSubDetail::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        $urun = \App\Models\Product\Urun::orderByDesc('id')->first();
+        $attributes = json_decode(file_get_contents(database_path('seeders/files/attributes.json'), true), true);
+        foreach ($attributes as $attribute) {
+            $parent = UrunAttribute::updateOrCreate(
+                [
+                    'title' => $attribute['title'],
+                ],
+                [
+                    'icon' => $attribute['icon'] ?? '',
+                ]
+            );
+            if (isset($attribute['children'])) {
+                foreach ($attribute['children'] as $child) {
+                    $parent->subAttributes()->updateOrCreate([
+                        'title' => $child['title'],
+                    ], []);
+                }
+            }
+        }
+        foreach (Urun::all() as $product) {
+            $attributes = UrunAttribute::inRandomOrder()->take(5)->get();
+            foreach ($attributes as $attribute) {
+                $productDetail = UrunDetail::create(['product' => $product->id, 'parent_attribute' => $attribute->id]);
 
-        $attribute1 = UrunAttribute::create(['title' => 'Renk']);
-        $attribute2 = UrunAttribute::create(['title' => 'Beden']);
-        $attribute3 = UrunAttribute::create(['title' => 'Hafıza']);
-
-        $subAttribute1 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => 'Kırmızı']);
-        $subAttribute2 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => 'Mavi']);
-        $subAttribute3 = UrunSubAttribute::create(['parent_attribute' => $attribute1->id, 'title' => 'Mor']);
-
-        $subAttribute4 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => 'X']);
-        $subAttribute5 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => 'M']);
-        $subAttribute6 = UrunSubAttribute::create(['parent_attribute' => $attribute2->id, 'title' => 'L']);
-
-        $subAttribute7 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => '32 GB']);
-        $subAttribute8 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => '16 GB']);
-        $subAttribute9 = UrunSubAttribute::create(['parent_attribute' => $attribute3->id, 'title' => '8 GB']);
-
-        $urunDetail1 = UrunDetail::create(['product' => $urun->id, 'parent_attribute' => $attribute1->id]);
-        $urunDetail2 = UrunDetail::create(['product' => $urun->id, 'parent_attribute' => $attribute2->id]);
-        $urunDetail3 = UrunDetail::create(['product' => $urun->id, 'parent_attribute' => $attribute3->id]);
-
-        UrunSubDetail::create(['parent_detail' => $urunDetail1->id, 'sub_attribute' => $subAttribute1->id]);
-        UrunSubDetail::create(['parent_detail' => $urunDetail1->id, 'sub_attribute' => $subAttribute2->id]);
-
-        UrunSubDetail::create(['parent_detail' => $urunDetail2->id, 'sub_attribute' => $subAttribute4->id]);
-        UrunSubDetail::create(['parent_detail' => $urunDetail2->id, 'sub_attribute' => $subAttribute6->id]);
-
-        UrunSubDetail::create(['parent_detail' => $urunDetail3->id, 'sub_attribute' => $subAttribute7->id]);
-        UrunSubDetail::create(['parent_detail' => $urunDetail3->id, 'sub_attribute' => $subAttribute8->id]);
+                UrunSubDetail::create(['parent_detail' => $productDetail->id, 'sub_attribute' => $attribute->subAttributes()->inRandomOrder()->first()->id]);
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@ class CreateKullaniciAdresTable extends Migration
             $table->string('surname', 50);
             $table->string('phone', 20);
             $table->unsignedSmallInteger('type')->default(1);
-            $table->string('adres', 255);
+            $table->string('address', 255);
 
             $table->unsignedSmallInteger('country_id')->default(1);
             $table->unsignedInteger('state_id');
