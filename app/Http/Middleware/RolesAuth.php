@@ -42,12 +42,12 @@ class RolesAuth
     {
         return [
             'Redirect@\Illuminate\Routing\RedirectController',
-            'Kullanici@login',
-            'Kullanici@logout',
-            'Anasayfa@index',
-            'Urun@getAllProductsForSearchAjax',
-            'Urun@getSubAttributesByAttributeId',
-            'Urun@getProductDetailWithSubAttributes',
+            'Auth@login',
+            'Auth@logout',
+            'Home@index',
+            'Product@getAllProductsForSearchAjax',
+            'Product@getSubAttributesByAttributeId',
+            'Product@getProductDetailWithSubAttributes',
         ];
     }
 }

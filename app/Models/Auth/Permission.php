@@ -105,7 +105,7 @@ class Permission extends Model
     private function basicRoutes()
     {
         return [
-            'Anasayfa@index',
+            'Home@index',
             'Auth@login',
             'Auth@logout',
             'Category@subCategories',
