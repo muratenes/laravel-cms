@@ -16,4 +16,6 @@ yarn-error.log
 /app/Http/Controllers/TestController.php
 .php-cs-fixer.cache
 composer.lock
+/app/LibraryTest
+/app/LibraryTest/*
 
