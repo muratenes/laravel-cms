@@ -48,8 +48,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
-                                        <input type="text" name="phone" value="{{ old('phone', $user->phone )}}" class="form-control"
-                                               data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                                        <input type="text" name="phone" value="{{ old('phone', $user->phone )}}" class="form-control" id="phone" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-2">
