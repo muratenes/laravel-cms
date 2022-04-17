@@ -187,3 +187,28 @@ function createdAt($dateTime)
 {
     return $dateTime->format('d/m/yy H:m');
 }
+
+function title($value, $length = 30)
+{
+    return str_limit($value, $length);
+}
+
+function product_price($product)
+{
+    return $product->tl_price . ' ₺';
+}
+
+function productImage($product)
+{
+    return imageUrl('public/products', $product->image);
+}
+
+function productUrl($product)
+{
+    return route('product.detail', ['product' => $product->slug]);
+}
+
+function translate(Illuminate\Database\Eloquent\Model $object, $field)
+{
+    return $object->translate[$field];
+}
