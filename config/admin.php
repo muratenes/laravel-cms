@@ -32,6 +32,7 @@ $data = [
         'user'               => true,
         'category'           => true,
         'our_team'           => true,
+        'role'               => true,
     ],
     'use_album_gallery' => false,
 
