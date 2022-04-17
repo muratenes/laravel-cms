@@ -25,7 +25,7 @@ trait MultiLanguageRelations
     public function getTranslateAttribute()
     {
         if (! $this->translated) {
-            $langDescription = optional($this->languages()->firstWhere('lang', '=', curLangId()))->data;
+            $langDescription = optional($this->languages->firstWhere('lang', '=', curLangId()))->data;
             if ($langDescription) {
                 foreach ($langDescription as $column => $value) {
                     $langDescription[$column] = $value ?: $this->{$column};
