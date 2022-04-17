@@ -39,7 +39,9 @@
                                 <x-input name="logo" type="file" label="Logo" width="12" :value="$config->logo" path="config" horizontal/>
                                 <x-input name="footer_logo" type="file" label="Footer Logo" width="12" :value="$config->footer_logo" path="config" horizontal/>
                                 <x-input name="icon" type="file" label="Icon" width="12" :value="$config->icon" path="config" horizontal/>
-                                <x-input type="number" name="cargo_price" step="any" :value="$config->cargo_price" width="12" label="Kargo Fiyatı" placeholder="Varsayılan kargo fiyatı" horizontal/>
+                                @if(config('admin.modules_status.cargo'))
+                                    <x-input type="number" name="cargo_price" step="any" :value="$config->cargo_price" width="12" label="Kargo Fiyatı" placeholder="Varsayılan kargo fiyatı" horizontal/>
+                                @endif
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group col-md-12">
@@ -49,7 +51,7 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="image">Footer Text</label><br>
-                                    <textarea class="form-control" name="footer_text">{{ old('footer_text',$config->footer_text) }}</textarea>
+                                    <textarea class="form-control" name="footer_text" rows="4">{{ old('footer_text',$config->footer_text) }}</textarea>
                                 </div>
                                 <x-input name="active" type="checkbox" label="Aktif Mi ?" width="12" :value="$config->active" class="minimal"/>
                                 <div class="form-group col-md-2">
@@ -114,6 +116,11 @@
                             <x-input type="text" name="phone" :value="$config->phone" width="12" label="Telefon" horizontal/>
                             <x-input type="email" name="email" :value="$config->email" width="12" label="Email" horizontal/>
                             <x-input type="text" name="address" :value="$config->address" width="12" label="Adres" horizontal/>
+                            <br>
+                            <center><h4>İkincil Bilgiler</h4></center>
+                            <x-input type="text" name="phone_2" :value="$config->phone_2" width="12" label="Telefon 2" horizontal/>
+                            <x-input type="email" name="email_2" :value="$config->email_2" width="12" label="Email 2" horizontal/>
+                            <x-input type="text" name="address_2" :value="$config->address_2" width="12" label="Adres 2" horizontal/>
                         </div>
                     </div>
                 </div>

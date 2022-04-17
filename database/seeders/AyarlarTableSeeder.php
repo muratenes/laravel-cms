@@ -20,7 +20,7 @@ class AyarlarTableSeeder extends Seeder
             'footer_logo'   => 'footer_logo.png',
             'icon'          => 'icon.png',
             'keywords'      => 'kelime,ornek,default',
-            'footer_text'   => "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır",
+            'footer_text'   => "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler.",
             'email'         => 'ornek@mail.com',
             'address'       => 'Churchill-laan 266/III
 1078 GA AMSTERDAM

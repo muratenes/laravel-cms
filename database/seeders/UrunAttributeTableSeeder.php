@@ -15,14 +15,11 @@ class UrunAttributeTableSeeder extends Seeder
      */
     public function run()
     {
-        $attributes = json_decode(file_get_contents(database_path('seeders/files/attributes.json'), true), true);
+        $attributes = json_decode(file_get_contents(database_path('seeders/files/product-attributes.json'), true), true);
         foreach ($attributes as $attribute) {
             $parent = UrunAttribute::updateOrCreate(
                 [
                     'title' => $attribute['title'],
-                ],
-                [
-                    'icon' => $attribute['icon'] ?? '',
                 ]
             );
             if (isset($attribute['children'])) {

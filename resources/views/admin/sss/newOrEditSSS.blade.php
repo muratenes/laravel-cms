@@ -19,7 +19,7 @@
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">SSS Detay</h3>
+                    <h3 class="box-title">Soru Detay</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -28,12 +28,12 @@
                     <div class="box-body">
                         <div class="form-row">
                             <div class="form-group col-md-7">
-                                <label for="exampleInputEmail1">Başlık</label>
+                                <label for="exampleInputEmail1">Soru</label>
                                 <input type="text" class="form-control" name="title" placeholder="başlık" required
                                        value="{{ old('title', $item->title) }}">
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="exampleInputEmail1">Aktif Mi ?</label><br>
+                                <label for="exampleInputEmail1">Yayında mı ?</label><br>
                                 <input type="checkbox" class="minimal" name="active" {{ $item->active == 1 ? 'checked': '' }}>
                             </div>
                             @if(config('admin.multi_lang'))
@@ -48,7 +48,7 @@
                             @endif
 
                             <div class="form-group col-md-12">
-                                <label for="exampleInputEmail1">Açıklama</label>
+                                <label for="exampleInputEmail1">Cevap</label>
                                 <textarea name="desc" class="form-control" id="desc" cols="30" rows="10" required>{{ old('desc',$item->desc) }}</textarea>
                             </div>
                         </div>

@@ -26,8 +26,11 @@ class CreateAyarlarTable extends Migration
             $table->string('youtube', 255)->nullable();
             $table->string('footer_text', 250)->nullable();
             $table->string('phone', 50)->nullable();
+            $table->string('phone_2', 50)->nullable();
             $table->string('email', 50)->nullable();
+            $table->string('email_2', 50)->nullable();
             $table->string('address', 255)->nullable();
+            $table->string('address_2', 255)->nullable();
             $table->boolean('active')->default(1);
             $table->text('about')->nullable();
             $table->float('cargo_price', 8, 2)->default(10);
