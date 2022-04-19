@@ -1,3 +1,6 @@
+@php
+    $site = \App\Models\Ayar::first();
+@endphp
 @extends('site.layouts.base')
 @section('title','Urunler')
 
