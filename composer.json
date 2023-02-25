@@ -27,12 +27,11 @@
         "laravel/ui": "^3.0",
         "maatwebsite/excel": "^3.1",
         "murat/laravel-meta-tags": "dev-main",
-        "spatie/laravel-backup": "^6.14",
+        "spatie/laravel-backup": "^8.1.7",
         "unisharp/laravel-filemanager": "~1.9.2",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "fruitcake/laravel-telescope-toolbar": "^1.2",
         "fzaninotto/faker": "^1.9.1",
