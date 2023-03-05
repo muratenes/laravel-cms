@@ -11,7 +11,7 @@ class CreateReferencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('referanslar', function (Blueprint $table) {
+        Schema::create('references', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 100);
             $table->string('desc', 255)->nullable();

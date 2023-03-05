@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Region\Country;
 use Illuminate\Database\Eloquent\Model;
 
 class Cargo extends Model
@@ -13,7 +14,7 @@ class Cargo extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function country()
+    public function country(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Country::class);
     }

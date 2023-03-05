@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -19,7 +18,6 @@ class Log extends Model
     public const TYPE_ORDER_UPDATE = 9;
     public const TYPE_BASKET = 10;
     public const TYPE_ORDER = 11;
-    protected $table = 'log';
     protected $guarded = [];
     protected $perPage = 20;
 
@@ -59,7 +57,7 @@ class Log extends Model
                 'type'           => $type,
                 'message'        => mb_substr($message, 0, 250),
                 'exception'      => mb_substr((string) $exception, 0, 65000),
-                'user_id'        => null === $user_id ? (Auth::user() ? Auth::user()->id : null) : $user_id,
+                'user_id'        => null === $user_id ? (\Auth::user() ? \Auth::user()->id : null) : $user_id,
                 'code'           => null === $code ? Str::random() : $code,
                 'url'            => null === $url ? mb_substr(request()->fullUrl(), 0, 150) : mb_substr($url, 0, 150),
                 'exception_type' => mb_substr(\get_class($exception), 0, 150),
@@ -76,8 +74,8 @@ class Log extends Model
     /**
      * @param null|string $message   iyzico ile ilgili içerik
      * @param null|string $exception data veya hata string olabilir
-     * @param null        $relatedID sepet id veya order id olabilir
-     * @param int         $type      related id sepet id ise TYPE_BASKET değilse ilgili log gönderilmelidir
+     * @param null        $relatedID basket id veya order id olabilir
+     * @param int         $type      related id basket id ise TYPE_BASKET değilse ilgili log gönderilmelidir
      * @param null        $userID
      */
     public static function addIyzicoLog($message = null, $exception = null, $relatedID = null, $type = self::TYPE_BASKET, $userID = null)
@@ -87,7 +85,7 @@ class Log extends Model
                 'type'      => $type,
                 'message'   => $message ? mb_substr($message, 0, 250) : null,
                 'exception' => $exception ? mb_substr((string) $exception, 0, 65000) : $exception,
-                'user_id'   => null === $userID ? Auth::user() ? Auth::user()->id : 0 : $userID,
+                'user_id'   => null === $userID ? \Auth::user() ? \Auth::user()->id : 0 : $userID,
                 'code'      => $relatedID,
                 'url'       => mb_substr(request()->fullUrl(), 0, 150),
             ]);

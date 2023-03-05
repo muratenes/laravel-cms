@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Favori;
-use App\Models\Product\Urun;
+use App\Models\Favorite;
+use App\Models\Product\Product;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
@@ -13,18 +13,18 @@ class FavoriteController extends Controller
 
     public function list(Request $request)
     {
-        $favorites = Favori::with('product')->where('user_id', $request->user()->id)->paginate();
+        $favorites = Favorite::with('product')->where('user_id', $request->user()->id)->paginate();
 
-        return view('site.kullanici.favorites', compact('favorites'));
+        return view('site.user.favorites', compact('favorites'));
     }
 
     /**
      * @param Request $request
-     * @param Urun    $product
+     * @param Product $product
      *
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function addToFavorites(Request $request, Urun $product)
+    public function addToFavorites(Request $request, Product $product)
     {
         $request->user()->favorites()->firstOrCreate([
             'product_id' => $product->id,
@@ -35,13 +35,13 @@ class FavoriteController extends Controller
 
     /**
      * @param Request $request
-     * @param Urun    $product
+     * @param Product $product
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete(Request $request, Urun $product)
+    public function delete(Request $request, Product $product)
     {
-        Favori::where(['product_id' => $product->id, 'user_id' => $request->user()->id])->delete();
+        Favorite::where(['product_id' => $product->id, 'user_id' => $request->user()->id])->delete();
         success(__('lang.product_removed_favorites'));
 
         return back();

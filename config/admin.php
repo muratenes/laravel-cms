@@ -39,8 +39,8 @@ $data = [
     // multi lang
     'multi_lang'              => true,
     'multi_currency'          => false,
-    'default_language'        => 1, // Ayar::LANG_TR
-    'default_currency'        => 1, // Ayar::CURRENCY_TL
+    'default_language'        => 1, // Config::LANG_TR
+    'default_currency'        => 1, // Config::CURRENCY_TL
     'default_currency_prefix' => 'tl', // must be : tl,usd,eur
     'force_lang_currency'     => true, // para birimini dile göre varsayılanı seçmeye zorlar
 
@@ -339,7 +339,7 @@ $data['menus'] = [
         ],
         'sss' => [
             'icon'       => 'fa fa-info',
-            'permission' => 'SSS@list',
+            'permission' => 'FAQ@list',
             'title'      => 'faq',
             'routeName'  => 'admin.sss',
             'status'     => 'modules_status.sss',

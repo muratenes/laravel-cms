@@ -2,7 +2,7 @@
 
 namespace App\Utils\Concerns\Models;
 
-use App\Models\Ayar;
+use App\Models\Config;
 use App\Models\MultiLanguage;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,7 +30,7 @@ trait MultiLanguageHelper
      */
     private function syncModelForOtherLanguages(\Illuminate\Http\Request $request, Model $model)
     {
-        foreach (Ayar::otherActiveLanguages() as $language) {
+        foreach (Config::otherActiveLanguages() as $language) {
             $data = $this->getInitialDataColumnValue($model);
 
             if ($request->hasAny($model::LANG_FIELDS)) {

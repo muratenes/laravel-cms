@@ -2,12 +2,12 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Ayar;
-use App\Models\KullaniciAdres;
+use App\Models\Basket;
+use App\Models\BasketItem;
+use App\Models\Config;
 use App\Models\Log;
-use App\Models\Sepet;
-use App\Models\SepetUrun;
-use App\Models\Siparis;
+use App\Models\Order;
+use App\Models\UserAddress;
 use App\Models\İyzicoFailsJson;
 use App\Repositories\Interfaces\OdemeInterface;
 use App\User;
@@ -45,24 +45,24 @@ class ElOdemeDal extends BaseRepository implements OdemeInterface
     }
 
     /**
-     * @param Siparis        $order
-     * @param Sepet          $basket
-     * @param array          $cardInfo       - kredi kartı bilgileri cvv,holderName,cardNumber,cardExpireDateMonth,cardExpireDateYear
-     * @param User           $user
-     * @param KullaniciAdres $invoiceAddress
-     * @param KullaniciAdres $address
+     * @param Order       $order
+     * @param Basket      $basket
+     * @param array       $cardInfo       - kredi kartı bilgileri cvv,holderName,cardNumber,cardExpireDateMonth,cardExpireDateYear
+     * @param User        $user
+     * @param UserAddress $invoiceAddress
+     * @param UserAddress $address
      *
      * @return array
      */
-    public function makeIyzicoPayment(Siparis $order, Sepet $basket, array $cardInfo, User $user, KullaniciAdres $invoiceAddress, KullaniciAdres $address)
+    public function makeIyzicoPayment(Order $order, Basket $basket, array $cardInfo, User $user, UserAddress $invoiceAddress, UserAddress $address)
     {
         $options = $this->getIyzicoOptions();
         $request = new \Iyzipay\Request\CreatePaymentRequest();
-        $request->setLocale(Ayar::LANG_TR === currentCurrencyID() ? 'tr' : 'en');
+        $request->setLocale(Config::LANG_TR === currentCurrencyID() ? 'tr' : 'en');
         $request->setConversationId($basket->id);
         $request->setPrice($basket->total);
         $request->setPaidPrice($basket->total); // todo : order price gelmesi gerek
-        $request->setCurrency(Ayar::getCurrencyIyzicoConstById($order->currency_id));
+        $request->setCurrency(Config::getCurrencyIyzicoConstById($order->currency_id));
         $request->setInstallment($order->installment_count);
         $request->setBasketId($basket->id);
         $request->setPaymentChannel(\Iyzipay\Model\PaymentChannel::WEB);
@@ -83,7 +83,7 @@ class ElOdemeDal extends BaseRepository implements OdemeInterface
         $buyer->setSurname($user->surname);
         $buyer->setGsmNumber($user->phone);
         $buyer->setEmail($user->email);
-        $buyer->setIdentityNumber('74300864791'); //tc kimlik gelicek
+        $buyer->setIdentityNumber('74300864791'); // tc kimlik gelicek
         $buyer->setRegistrationAddress($order->adres);
         $buyer->setIp($order->ip_adres);
         $buyer->setCity($address->state->title); // todo : city state buglar
@@ -132,7 +132,7 @@ class ElOdemeDal extends BaseRepository implements OdemeInterface
         try {
             $paymentResult = json_decode($paymentResult, \JSON_UNESCAPED_UNICODE);
             // todo : genel logu kullan
-            İyzicoFailsJson::addLog(auth()->user()->id, $order['full_name'], $order['sepet_id'], $paymentResult);
+            İyzicoFailsJson::addLog(auth()->user()->id, $order['full_name'], $order['basket_id'], $paymentResult);
         } catch (\Exception $exception) {
             Log::addLog('iyzico işlemi sırasında hata oldu' . $exception->getMessage(), $exception, Log::TYPE_IYZICO);
         }
@@ -158,7 +158,7 @@ class ElOdemeDal extends BaseRepository implements OdemeInterface
             $response = json_decode($response->getRawResult(), true);
             if ('success' === $response['status']) {
                 foreach ($response['itemTransactions'] as $item) {
-                    SepetUrun::where('id', $item['itemId'])->update([
+                    BasketItem::where('id', $item['itemId'])->update([
                         'payment_transaction_id' => $item['paymentTransactionId'],
                         'paid_price'             => $item['paidPrice'],
                     ]);
@@ -180,7 +180,7 @@ class ElOdemeDal extends BaseRepository implements OdemeInterface
      */
     public function deleteUserOldNotPaymentOrderTransactions($userId)
     {
-        Siparis::where('is_payment', 0)->whereHas('basket', function ($query) use ($userId) {
+        Order::where('is_payment', 0)->whereHas('basket', function ($query) use ($userId) {
             $query->user_id = $userId;
         })->forceDelete();
     }

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\UrunFirma;
+use App\Models\Product\ProductCompany;
 use App\Repositories\Interfaces\UrunFirmaInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ProductCompanyController extends Controller
@@ -30,7 +29,7 @@ class ProductCompanyController extends Controller
         if (0 !== $id) {
             $item = $this->model->getById($id, null);
         } else {
-            $item = new UrunFirma();
+            $item = new ProductCompany();
         }
 
         return view('admin.product.company.newOrEditProductCompany', compact('item'));

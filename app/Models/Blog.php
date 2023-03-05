@@ -19,11 +19,9 @@ class Blog extends Model
     public const MODULE_NAME = 'blog';
     public const LANG_FIELDS = ['title', 'description', 'tags'];
 
-    public const IMAGE_RESIZE = null;
     public $timestamps = true;
     public $guarded = [];
     protected $perPage = 20;
-    protected $table = 'blog';
 
     protected $casts = [
         'tags' => 'array',

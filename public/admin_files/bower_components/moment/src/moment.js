@@ -83,11 +83,11 @@ moment.prototype             = fn;
 moment.HTML5_FMT = {
     DATETIME_LOCAL: 'YYYY-MM-DDTHH:mm',             // <input type="datetime-local" />
     DATETIME_LOCAL_SECONDS: 'YYYY-MM-DDTHH:mm:ss',  // <input type="datetime-local" step="1" />
-    DATETIME_LOCAL_MS: 'YYYY-MM-DDTHH:mm:ss.SSS',   // <input type="datetime-local" step="0.001" />
+    DATETIME_LOCAL_MS: 'YYYY-MM-DDTHH:mm:ss.FAQ',   // <input type="datetime-local" step="0.001" />
     DATE: 'YYYY-MM-DD',                             // <input type="date" />
     TIME: 'HH:mm',                                  // <input type="time" />
     TIME_SECONDS: 'HH:mm:ss',                       // <input type="time" step="1" />
-    TIME_MS: 'HH:mm:ss.SSS',                        // <input type="time" step="0.001" />
+    TIME_MS: 'HH:mm:ss.FAQ',                        // <input type="time" step="0.001" />
     WEEK: 'GGGG-[W]WW',                             // <input type="week" />
     MONTH: 'YYYY-MM'                                // <input type="month" />
 };

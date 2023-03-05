@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
         $this->call(KategorilerTableSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(AdminSeeder::class);
-        $this->call(UrunlerTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(UrunAttributeTableSeeder::class);
-        $this->call(AyarlarTableSeeder::class);
+        $this->call(ProductAttributeTableSeeder::class);
+        $this->call(ConfigTableSeeder::class);
 
 //        $this->call(CityTownTableSeeder::class);
 //        $this->call(CargoSeeder::class);

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-
 use App\Models\Builder\Menu;
 use App\Models\Builder\MenuDescription;
 use Illuminate\Database\Seeder;
@@ -24,7 +23,7 @@ class MenuSeeder extends Seeder
                 'order'     => 1,
                 'languages' => [
                     [
-                        'lang'  => \App\Models\Ayar::LANG_EN,
+                        'lang'  => \App\Models\Config::LANG_EN,
                         'title' => 'Home',
                         'href'  => '/',
                     ],
@@ -37,7 +36,7 @@ class MenuSeeder extends Seeder
                 'order'     => 2,
                 'languages' => [
                     [
-                        'lang'  => \App\Models\Ayar::LANG_EN,
+                        'lang'  => \App\Models\Config::LANG_EN,
                         'title' => 'Commercial',
                         'href'  => 'commercial',
                     ],

@@ -2,7 +2,7 @@
 
 namespace App\Http\Filters;
 
-use App\Models\SepetUrun;
+use App\Models\BasketItem;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -90,7 +90,7 @@ class OrderFilter extends Filter
     public function pendingRefund(string $value = null)
     {
         return $this->builder->whereHas('basket.basket_items', function ($q) {
-            $q->withTrashed()->where('status', SepetUrun::STATUS_IADE_TALEP);
+            $q->withTrashed()->where('status', BasketItem::STATUS_IADE_TALEP);
         });
     }
 }

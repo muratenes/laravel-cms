@@ -59,7 +59,7 @@
 
                     <div class="toolbox-item toolbox-show">
                         <label><span class="spTotalProduct">{{ $data['productTotalCount'] }}</span> sonuçtan <span
-                                class="spRangePageItems">0-{{ \App\Models\Product\Urun::PER_PAGE  }}</span> gösteriliyor</label>
+                                class="spRangePageItems">0-{{ \App\Models\Product\Product::PER_PAGE  }}</span> gösteriliyor</label>
                     </div><!-- End .toolbox-item -->
                 </nav>
 
@@ -102,7 +102,7 @@
                 <nav class="toolbox toolbox-pagination">
                     <div class="toolbox-item toolbox-show">
                         <label><span class="spTotalProduct">{{ $data['productTotalCount'] }}</span> sonuçtan <span
-                                class="spRangePageItems">0-{{ \App\Models\Product\Urun::PER_PAGE  }}</span> gösteriliyor</label>
+                                class="spRangePageItems">0-{{ \App\Models\Product\Product::PER_PAGE  }}</span> gösteriliyor</label>
                     </div><!-- End .toolbox-item -->
 
                     <ul class="pagination">
@@ -120,7 +120,7 @@
                 </nav>
             </div><!-- End .col-lg-9 -->
 
-            @include('site.urun.partials.productListLeftSidebar')
+            @include('site.product.partials.productListLeftSidebar')
         </div><!-- End .row -->
     </div><!-- End .container -->
 

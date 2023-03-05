@@ -15,7 +15,7 @@ function cartTotalCargoPrice()
 }
 
 /**
- * sepet total miktar.
+ * basket total amount.
  *
  * @return mixed
  */
@@ -25,7 +25,7 @@ function cartTotalPrice()
 }
 
 /**
- * sepet total miktar.
+ * basket sub total amount.
  *
  * @return mixed
  */

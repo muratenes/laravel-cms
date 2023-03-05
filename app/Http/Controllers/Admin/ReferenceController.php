@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Referance;
+use App\Models\Reference;
 use App\Repositories\Interfaces\ReferenceInterface;
 use App\Repositories\Traits\ImageUploadTrait;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -35,7 +34,7 @@ class ReferenceController extends Controller
 
     public function newOrEditForm($id = 0)
     {
-        $item = new Referance();
+        $item = new Reference();
         if (0 !== $id) {
             $item = $this->referenceService->find($id);
         }
@@ -56,7 +55,7 @@ class ReferenceController extends Controller
         }
         if ($entry) {
             $entry->update([
-                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/references', $entry->image, Referance::MODULE_NAME),
+                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/references', $entry->image, Reference::MODULE_NAME),
             ]);
 
             success();

@@ -16,6 +16,6 @@ class ContentController extends Controller
 
     public function detail(Content $content)
     {
-        return view('site.icerik.contentDetail', compact('content'));
+        return view('site.content.contentDetail', compact('content'));
     }
 }

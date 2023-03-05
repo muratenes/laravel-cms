@@ -12,7 +12,7 @@ class Image extends Model
     /**
      * Get the owning imageable model.
      */
-    public function imageable()
+    public function imageable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }

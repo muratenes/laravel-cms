@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Product\UrunYorum;
+use App\Models\Product\ProductComment;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\UrunYorumInterface;
 
@@ -10,7 +10,7 @@ class ElUrunYorumDal implements UrunYorumInterface
 {
     protected $model;
 
-    public function __construct(UrunYorum $model)
+    public function __construct(ProductComment $model)
     {
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }

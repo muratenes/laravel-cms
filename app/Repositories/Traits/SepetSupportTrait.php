@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Traits;
 
-use App\Models\Ayar;
-use App\Models\Product\Urun;
-use App\Models\Product\UrunVariant;
-use App\Models\Sepet;
-use App\Models\SepetUrun;
+use App\Models\Basket;
+use App\Models\BasketItem;
+use App\Models\Config;
+use App\Models\Product\Product;
+use App\Models\Product\ProductVariant;
 use Cart;
 
 trait SepetSupportTrait
@@ -14,12 +14,12 @@ trait SepetSupportTrait
     /**
      * ürüne ait varyant var ise varyantlı fiyatı yoksa normal veya indirimli fiyatı döner.
      *
-     * @param Urun             $product
-     * @param null|UrunVariant $productVariant
+     * @param Product             $product
+     * @param null|ProductVariant $productVariant
      *
      * @return float
      */
-    public function getProductPriceByDiscountAndVariant(Urun $product, ?UrunVariant $productVariant)
+    public function getProductPriceByDiscountAndVariant(Product $product, ?ProductVariant $productVariant)
     {
         return $productVariant ? $productVariant->price : $product->current_last_price;
     }
@@ -27,30 +27,30 @@ trait SepetSupportTrait
     /**
      * ürünün varyanta göre stok durumunu gönderir.
      *
-     * @param Urun             $product
-     * @param null|UrunVariant $productVariant
+     * @param Product             $product
+     * @param null|ProductVariant $productVariant
      *
      * @return int
      */
-    public function getProductMaxQtyFromVariant(Urun $product, ?UrunVariant $productVariant)
+    public function getProductMaxQtyFromVariant(Product $product, ?ProductVariant $productVariant)
     {
         return $productVariant ? $productVariant->qty : $product->qty;
     }
 
     /**
-     * @param Urun       $product
+     * @param Product    $product
      * @param null|int[] $subAttributeIdList sub attributeId list id
      * @param int        $qty
      *
      * @return array
      */
-    public function addItemToBasket(Urun $product, $subAttributeIdList = null, $qty = 1)
+    public function addItemToBasket(Product $product, $subAttributeIdList = null, $qty = 1)
     {
-        $variant = UrunVariant::urunHasVariant($product->id, $subAttributeIdList, currentCurrencyID());
+        $variant = ProductVariant::urunHasVariant($product->id, $subAttributeIdList, currentCurrencyID());
         $productPrice = $this->getProductPriceByDiscountAndVariant($product, $variant);
 
-        $attributeText = SepetUrun::getAttributesText($subAttributeIdList);
-        $attributeTextLang = SepetUrun::getAttributesTextByLang(curLangId(), $subAttributeIdList);
+        $attributeText = BasketItem::getAttributesText($subAttributeIdList);
+        $attributeTextLang = BasketItem::getAttributesTextByLang(curLangId(), $subAttributeIdList);
 
         $maxQty = $this->getProductMaxQtyFromVariant($product, $variant);
         $maxQty -= $this->getAddedProductQtyFromCartItem($product->id, $subAttributeIdList);
@@ -68,7 +68,7 @@ trait SepetSupportTrait
      * gönderilen ürünü session cart eklemeden önce mevcut mu bakar
      *  ürün sepette mevcut ise günceller yok ise ekler.
      *
-     * @param Urun        $product
+     * @param Product     $product
      * @param float       $productPrice
      * @param null        $selectedSubAttributesIdList
      * @param null|string $attributeText               ürünün seçili attribute text
@@ -77,7 +77,7 @@ trait SepetSupportTrait
      *
      * @return
      */
-    public function addItemToSessionCart(Urun $product, $productPrice, $selectedSubAttributesIdList = null, $attributeText = '', $qty = 1, $attributeTextLang = '')
+    public function addItemToSessionCart(Product $product, $productPrice, $selectedSubAttributesIdList = null, $attributeText = '', $qty = 1, $attributeTextLang = '')
     {
         $isProductAdded = $this->checkAndUpdateProductAddedToCartWithAttribute($product, $productPrice, $selectedSubAttributesIdList, $qty);
         if ($isProductAdded) {
@@ -85,7 +85,7 @@ trait SepetSupportTrait
         }
         $product->setAppends(['current_last_price', 'current_discount_price', 'last_cargo_price']);
 
-        Cart::add([
+        \Cart::add([
             'id'         => $this->getCartItemId($product->id, $selectedSubAttributesIdList),
             'name'       => $product->title_lang,
             'price'      => $productPrice,
@@ -104,7 +104,7 @@ trait SepetSupportTrait
     /**
      * gönderilen ürünü db sepete ekler var ise günceller.
      *
-     * @param Urun        $product
+     * @param Product     $product
      * @param float       $productPrice      ürün son fiyat
      * @param null        $attributeText
      * @param int         $qty
@@ -112,16 +112,16 @@ trait SepetSupportTrait
      *
      * @return false
      */
-    public function addProductToBasketItemOnDB(Urun $product, $productPrice, $attributeText = null, $qty = 1, $attributeTextLang = null)
+    public function addProductToBasketItemOnDB(Product $product, $productPrice, $attributeText = null, $qty = 1, $attributeTextLang = null)
     {
         $product->setAppends(['last_cargo_price', 'current_last_price']);
         if (! auth()->check()) {
             return false;
         }
 
-        $currentBasket = Sepet::getCurrentBasket();
+        $currentBasket = Basket::getCurrentBasket();
         $item = $currentBasket->basket_items()->where(
-            ['sepet_id' => $currentBasket->id, 'product_id' => $product->id, 'attributes_text' => $attributeText]
+            ['basket_id' => $currentBasket->id, 'product_id' => $product->id, 'attributes_text' => $attributeText]
         )->first();
         if ($item) {
             $item->update(['qty' => $item->qty + $qty, 'price' => $productPrice]);
@@ -133,7 +133,7 @@ trait SepetSupportTrait
             'product_id'           => $product->id,
             'qty'                  => $qty,
             'price'                => $productPrice,
-            'status'               => SepetUrun::STATUS_ONAY_BEKLIYOR,
+            'status'               => BasketItem::STATUS_ONAY_BEKLIYOR,
             'cargo_price'          => $product->last_cargo_price,
             'attributes_text'      => $attributeText,
             'attributes_text_lang' => $attributeTextLang,
@@ -143,14 +143,14 @@ trait SepetSupportTrait
     /**
      * eğer sepette aynı attribute 'da ürün varsa adet günceller.
      *
-     * @param Urun  $product
-     * @param float $productPrice
-     * @param null  $selectedSubAttributesIdList
-     * @param int   $qty
+     * @param Product $product
+     * @param float   $productPrice
+     * @param null    $selectedSubAttributesIdList
+     * @param int     $qty
      *
      * @return bool
      */
-    public function checkAndUpdateProductAddedToCartWithAttribute(Urun $product, $productPrice, $selectedSubAttributesIdList = null, $qty = 1)
+    public function checkAndUpdateProductAddedToCartWithAttribute(Product $product, $productPrice, $selectedSubAttributesIdList = null, $qty = 1)
     {
         foreach ($this->cartItems() as $item) {
             $cartItemId = $this->getCartItemId($product->id, $selectedSubAttributesIdList);
@@ -171,17 +171,17 @@ trait SepetSupportTrait
     }
 
     /**
-     * sepet sessiondaki ürünleri veritabanı ile eşler.
+     * basket sessiondaki ürünleri veritabanı ile eşler.
      *
-     * @param Sepet $basket
+     * @param Basket $basket
      */
-    private function matchSessionCartWithBasketItems(Sepet $basket)
+    private function matchSessionCartWithBasketItems(Basket $basket)
     {
-        $basket->update(['currency_id' => Ayar::getCurrencyId()]);
+        $basket->update(['currency_id' => Config::getCurrencyId()]);
 
         $cartItems = $this->cartItems();
         foreach ($cartItems as $cartItem) {
-            $product = Urun::find($cartItem->attributes->product['id'])->append('current_last_price');
+            $product = Product::find($cartItem->attributes->product['id'])->append('current_last_price');
             $this->updateCartItem($cartItem->id, [
                 'price'      => $product->current_last_price,
                 'attributes' => array_merge($cartItem->attributes->toArray(), ['cargo_price' => $product->last_cargo_price]),
@@ -193,7 +193,7 @@ trait SepetSupportTrait
                     'price'                => $product->current_last_price,
                     'attributes_text'      => $cartItem->attributes->attributes_text,
                     'attributes_text_lang' => $cartItem->attributes->attributes_text_lang,
-                    'status'               => SepetUrun::STATUS_ONAY_BEKLIYOR,
+                    'status'               => BasketItem::STATUS_ONAY_BEKLIYOR,
                     'cargo_price'          => $product->last_cargo_price,
                 ]);
             } else {

@@ -2,9 +2,9 @@
 
 namespace App\Utils\Concerns\Models;
 
+use App\Models\BasketItem;
 use App\Models\Coupon;
-use App\Models\SepetUrun;
-use App\Models\Siparis;
+use App\Models\Order;
 use App\User;
 
 trait BasketRelations
@@ -16,7 +16,7 @@ trait BasketRelations
      */
     public function order()
     {
-        return $this->hasOne(Siparis::class);
+        return $this->hasOne(Order::class);
     }
 
     /**
@@ -34,7 +34,7 @@ trait BasketRelations
      */
     public function basket_items()
     {
-        return $this->hasMany(SepetUrun::class);
+        return $this->hasMany(BasketItem::class);
     }
 
     /**

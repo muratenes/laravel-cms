@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product\Urun;
-use App\Models\Sepet;
+use App\Models\Basket;
+use App\Models\Product\Product;
 use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Interfaces\SepetInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
@@ -12,7 +12,6 @@ use App\Repositories\Traits\ResponseTrait;
 use App\Repositories\Traits\SepetSupportTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class BasketController extends Controller
 {
@@ -42,14 +41,14 @@ class BasketController extends Controller
         $cartSubTotalPrice = $this->getCardSubTotal();
         $sessionCoupon = session()->get('coupon');
         if ($request->user()) {
-            $basket = Sepet::getCurrentBasket();
+            $basket = Basket::getCurrentBasket();
         }
 
         if ($sessionCoupon) {
             $this->couponService->checkCoupon($productIdList, $sessionCoupon['code'], $cartSubTotalPrice, currentCurrencyID(), $basket);
         }
 
-        return view('site.sepet.sepet', compact('basket'));
+        return view('site.basket.sepet', compact('basket'));
     }
 
     /**
@@ -65,7 +64,7 @@ class BasketController extends Controller
         $cart = $this->getCartItem($rowID);
 
         if ($request->user()) {
-            Sepet::getCurrentBasket()->basket_items()
+            Basket::getCurrentBasket()->basket_items()
                 ->where(['product_id' => $cart->attributes['product']['id'], 'attributes_text' => $cart->attributes['attributes_text']])
                 ->delete()
             ;
@@ -96,12 +95,12 @@ class BasketController extends Controller
         $this->decrementItem($cartItem);
         if ($request->user()) {
             if (1 === $quantity) {
-                Sepet::getCurrentBasket()->basket_items()
+                Basket::getCurrentBasket()->basket_items()
                     ->where(['product_id' => $cartItem->attributes['product']['id']])
                     ->delete()
                 ;
             } else {
-                Sepet::getCurrentBasket()->basket_items()
+                Basket::getCurrentBasket()->basket_items()
                     ->where(['product_id' => $cartItem->attributes['product']['id']])
                     ->decrement('qty')
                 ;
@@ -115,7 +114,7 @@ class BasketController extends Controller
                 'total'       => $this->getCartTotal(),
                 'cargo_price' => CartTrait::getCartTotalCargoAmount(),
             ],
-            'html' => view('site.sepet.partials.basket-items')->render(),
+            'html' => view('site.basket.partials.basket-items')->render(),
         ]);
     }
 
@@ -130,7 +129,7 @@ class BasketController extends Controller
         $cart = $this->getCartItem($rowID);
 
         if ($request->user()) {
-            Sepet::getCurrentBasket()->basket_items()
+            Basket::getCurrentBasket()->basket_items()
                 ->where(['product_id' => $cart->attributes['product']['id'], 'attributes_text' => $cart->attributes['attributes_text']])
                 ->delete()
             ;
@@ -143,7 +142,7 @@ class BasketController extends Controller
                 'sub_total' => $this->getCardSubTotal(),
                 'total'     => $this->getCartTotal(),
             ],
-            'html' => view('site.sepet.partials.items')->render(),
+            'html' => view('site.basket.partials.items')->render(),
         ]);
     }
 
@@ -165,11 +164,11 @@ class BasketController extends Controller
      * sepete ürün eklemek için kullanılır.
      *
      * @param Request $request
-     * @param Urun    $product
+     * @param Product $product
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addItem(Request $request, Urun $product): JsonResponse
+    public function addItem(Request $request, Product $product): JsonResponse
     {
         $request->validate([
             'qty'                     => 'integer|nullable',
@@ -191,7 +190,7 @@ class BasketController extends Controller
                 'total'       => $this->getCartTotal(),
                 'cargo_price' => CartTrait::getCartTotalCargoAmount(),
             ],
-            'html' => view('site.sepet.partials.items')->render(),
+            'html' => view('site.basket.partials.items')->render(),
         ], __('lang.added_to_basket'));
     }
 

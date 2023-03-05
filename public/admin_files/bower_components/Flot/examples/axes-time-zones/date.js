@@ -329,7 +329,7 @@
     toLocaleDateString: function () {},
     toLocaleTimeString: function () {},
     toSource: function () {},
-    toISOString: function () { return this.toString('yyyy-MM-ddTHH:mm:ss.SSS', 'Etc/UTC') + 'Z'; },
+    toISOString: function () { return this.toString('yyyy-MM-ddTHH:mm:ss.FAQ', 'Etc/UTC') + 'Z'; },
     toJSON: function () { return this.toISOString(); },
     // Allows different format following ISO8601 format:
     toString: function (format, tz) {

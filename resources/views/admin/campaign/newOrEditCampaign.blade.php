@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Kampanya detay')
+@section('title','Campaign detay')
 
 @section('content')
     <div class="box box-default">
@@ -90,7 +90,7 @@
                                 <input type="file" class="form-control" name="image">
                                 @if($entry->image)
                                     <span class="help-block"><a
-                                            href="{{ imageUrl('public/kampanyalar',$entry->image) }}">{{ $entry->image }}</a></span>
+                                            href="{{ imageUrl('public/campaigns',$entry->image) }}">{{ $entry->image }}</a></span>
                                 @endif
                             </div>
 
@@ -158,7 +158,7 @@
             placeholder: 'Kampanyanın geçerli olacağı kategorileri seçiniz'
         });
         $('select#mySelect2').select2({
-            placeholder: 'Kampanyanın geçerli olacağı ürünleri seçmek için arama yapın'
+            placeholder: 'Kampanyanın geçerli olacağı ürünleri seçmek için search yapın'
         });
         $('select#companies').select2({
             placeholder: 'Kampanyanın geçerli olacağı firmayı seçiniz'

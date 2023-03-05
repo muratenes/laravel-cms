@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Product\Urun;
+use App\Models\Product\Product;
 
 interface UrunlerInterface extends BaseRepositoryInterface
 {
@@ -28,7 +28,7 @@ interface UrunlerInterface extends BaseRepositoryInterface
 
     public function deleteProductVariant($variant_id);
 
-    public function saveProductVariants(Urun $product, array $variantData, ?array $selectedVariantAttributeIDList);
+    public function saveProductVariants(Product $product, array $variantData, ?array $selectedVariantAttributeIDList);
 
     public function getProductVariantPriceAndQty($product_id, $sub_attribute_id_list);
 

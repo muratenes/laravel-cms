@@ -3,9 +3,8 @@
 namespace App\Http\Middleware\Admin;
 
 use App\Models\Auth\Role;
-use App\Models\Ayar;
+use App\Models\Config;
 use App\Models\Log;
-use Closure;
 use Illuminate\Support\Facades\View;
 
 class AdminInitialDataMW
@@ -18,9 +17,9 @@ class AdminInitialDataMW
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, \Closure $next)
     {
-        $activeLanguages = Ayar::activeLanguages();
+        $activeLanguages = Config::activeLanguages();
         View::share('menus', $this->_getAdminMenus());
         View::share('activeLanguages', $activeLanguages);
 

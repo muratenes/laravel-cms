@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendUserVerificationMail;
-use App\Models\Sepet;
+use App\Models\Basket;
 use App\Repositories\Traits\CartTrait;
 use App\Repositories\Traits\SepetSupportTrait;
 use App\User;
@@ -24,7 +24,7 @@ class UserController extends Controller
 
     public function loginForm()
     {
-        return view('site.kullanici.login');
+        return view('site.user.login');
     }
 
     public function login(Request $request)
@@ -36,7 +36,7 @@ class UserController extends Controller
 
         if (auth()->attempt($credentials, $request->get('rememberme', 0))) {
 //            request()->session()->regenerate();
-            $current_basket = Sepet::getCurrentBasket();
+            $current_basket = Basket::getCurrentBasket();
             $current_basket->update(['coupon_id' => session()->get('coupon_id')]);
             // todo : login olmuş kullanıcının sepetindeki ürünleri cart'a da eklemek gerekiyor yoksa siliyor
             $this->matchSessionCartWithBasketItems($current_basket);
@@ -61,7 +61,7 @@ class UserController extends Controller
 
     public function registerForm()
     {
-        return view('site.kullanici.register');
+        return view('site.user.register');
     }
 
     public function register(Request $request)

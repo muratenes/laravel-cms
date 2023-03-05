@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Product\UrunAttribute;
+use App\Models\Product\ProductAttribute;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\UrunOzellikInterface;
 
@@ -10,7 +10,7 @@ class ElUrunOzellikDal implements UrunOzellikInterface
 {
     protected $model;
 
-    public function __construct(UrunAttribute $model)
+    public function __construct(ProductAttribute $model)
     {
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }

@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Kampanya;
-use App\Models\Product\Urun;
+use App\Models\Campaign;
+use App\Models\Product\Product;
 use App\Repositories\Traits\CampaignTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -25,11 +25,11 @@ class UpdateProductDiscountPriceBySelectedProducts implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Kampanya $kampanya
+     * @param Campaign $kampanya
      * @param $selectedCategoriesIdList - seçili olan kategori id listesi
      * @param mixed $selectedProductIdList
      */
-    public function __construct(Kampanya $kampanya, $selectedProductIdList)
+    public function __construct(Campaign $kampanya, $selectedProductIdList)
     {
         $this->kampanya = $kampanya;
         $this->selectedProductIdList = $selectedProductIdList;
@@ -42,7 +42,7 @@ class UpdateProductDiscountPriceBySelectedProducts implements ShouldQueue
     {
         $this->kampanya->campaignProducts()->sync($this->selectedProductIdList);
         if (! $this->kampanya->active) {
-            Urun::whereIn('id', $this->selectedProductIdList)
+            Product::whereIn('id', $this->selectedProductIdList)
                 ->update(['discount_price' => null])
             ;
 
@@ -58,7 +58,7 @@ class UpdateProductDiscountPriceBySelectedProducts implements ShouldQueue
 
     private function _getProducts()
     {
-        return Urun::whereIn('id', $this->selectedProductIdList)
+        return Product::whereIn('id', $this->selectedProductIdList)
             ->when($this->kampanya->min_price, function ($query) {
                 $query->where('price', '>', $this->kampanya->min_price);
             })

@@ -23,7 +23,7 @@ class SearchController extends Controller
         request()->flash();
         $bestSellers = $this->_productService->getBestSellersProducts();
 
-        return view('site.arama.arama', compact('data', 'bestSellers'));
+        return view('site.search.arama', compact('data', 'bestSellers'));
     }
 
     public function headerSearchBarOnChangeWithAjax()

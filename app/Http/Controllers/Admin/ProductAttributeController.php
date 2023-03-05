@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Product\UrunAttribute;
-use App\Models\Product\UrunSubAttribute;
+use App\Models\Product\ProductAttribute;
+use App\Models\Product\ProductSubAttribute;
 use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Interfaces\UrunOzellikInterface;
 use App\Repositories\Traits\ResponseTrait;
@@ -36,12 +36,12 @@ class ProductAttributeController extends AdminController
 
     public function detail($id = 0)
     {
-        $item = 0 !== $id ? $this->model->getById($id, null, 'subAttributes.languages') : new UrunAttribute();
+        $item = 0 !== $id ? $this->model->getById($id, null, 'subAttributes.languages') : new ProductAttribute();
 
         return view('admin.product.attributes.editOrNewAttribute', compact('item'));
     }
 
-    public function save(Request $request, UrunAttribute $attribute)
+    public function save(Request $request, ProductAttribute $attribute)
     {
         $attribute->title = $request->get('title');
         $attribute->active = activeStatus();
@@ -58,7 +58,7 @@ class ProductAttributeController extends AdminController
             'title'  => $request->get('title'),
             'active' => activeStatus(),
         ];
-        $attribute = UrunAttribute::create($requestData);
+        $attribute = ProductAttribute::create($requestData);
         if ($attribute) {
             $this->syncModelForOtherLanguages($request, $attribute);
             $this->syncProductSubAttributeOtherLanguages($request, $attribute);
@@ -70,9 +70,9 @@ class ProductAttributeController extends AdminController
     public function deleteSubAttribute($id)
     {
         try {
-            $subAttribute = UrunSubAttribute::find($id);
+            $subAttribute = ProductSubAttribute::find($id);
             $subAttribute->delete();
-            UrunSubAttribute::clearCache();
+            ProductSubAttribute::clearCache();
 
             return response()->json('true');
         } catch (\Exception $exception) {
@@ -83,7 +83,7 @@ class ProductAttributeController extends AdminController
     public function delete($category_id)
     {
         $this->model->delete($category_id);
-        UrunAttribute::clearCache();
+        ProductAttribute::clearCache();
 
         return redirect(route('admin.product.attribute.list'));
     }
@@ -100,14 +100,14 @@ class ProductAttributeController extends AdminController
     public function getSubAttributesByAttributeId($id)
     {
         return $this->success([
-            'sub_attributes' => UrunSubAttribute::where('parent_attribute', $id)->orderBy('title')->get(),
+            'sub_attributes' => ProductSubAttribute::where('parent_attribute', $id)->orderBy('title')->get(),
         ]);
     }
 
     public function getAllProductAttributes()
     {
         return $this->success([
-            'attributes' => UrunAttribute::where('active', 1)->orderBy('title')->get(),
+            'attributes' => ProductAttribute::where('active', 1)->orderBy('title')->get(),
         ]);
     }
 }

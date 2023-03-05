@@ -15,7 +15,7 @@ class CreateMenuDescriptionsTable extends Migration
             $table->smallIncrements('id');
             $table->string('title', 40)->nullable();
             $table->string('href', 255)->nullable();
-            $table->unsignedTinyInteger('lang')->default(\App\Models\Ayar::LANG_TR);
+            $table->unsignedTinyInteger('lang')->default(\App\Models\Config::LANG_TR);
 
 //            $table->foreign('menu_id')->references('id')->on('menus');
 

@@ -1,9 +1,9 @@
 /**
  * kullanıcı adres düzenleme popup açar
  * @param addressID
- * @param fromRouteName hangi adresten düzenlendi odemeView,adres.odeme
+ * @param fromRouteName hangi adresten düzenlendi odemeView,adres.payment
  */
-function editAddress(addressID, fromRouteName = 'adres.odeme') {
+function editAddress(addressID, fromRouteName = 'adres.payment') {
     $('#editAddressModal').modal('show')
     $("#addressModalTitle").text('Adres Düzenle')
     $.get(`/kullanici/address/${addressID}`, function (data) {

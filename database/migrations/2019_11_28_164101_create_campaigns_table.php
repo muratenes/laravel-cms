@@ -11,7 +11,7 @@ class CreateCampaignsTable extends Migration
      */
     public function up()
     {
-        Schema::create('kampanyalar', function (Blueprint $table) {
+        Schema::create('campaigns', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 50);
             $table->string('image', 80)->nullable();
@@ -35,6 +35,6 @@ class CreateCampaignsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kampanyalar');
+        Schema::dropIfExists('campaigns');
     }
 }

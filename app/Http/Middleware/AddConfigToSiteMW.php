@@ -2,10 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Ayar;
 use App\Models\Builder\Menu;
+use App\Models\Config;
 use App\Models\Kategori;
-use Closure;
 use Illuminate\Support\Facades\View;
 
 class AddConfigToSiteMW
@@ -18,10 +17,10 @@ class AddConfigToSiteMW
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, \Closure $next)
     {
         $menu = Menu::where(['parent_id' => null, 'status' => true])->with('children:id,title,href,parent_id')->get();
-        $site = Ayar::getCache();
+        $site = Config::getCache();
         $user = \Auth::user();
         $cacheCategories = $this->getCategories();
 

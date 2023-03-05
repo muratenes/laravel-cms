@@ -17,7 +17,7 @@ addFormatToken(0, ['SS', 2], 0, function () {
     return ~~(this.millisecond() / 10);
 });
 
-addFormatToken(0, ['SSS', 3], 0, 'millisecond');
+addFormatToken(0, ['FAQ', 3], 0, 'millisecond');
 addFormatToken(0, ['SSSS', 4], 0, function () {
     return this.millisecond() * 10;
 });
@@ -50,7 +50,7 @@ addUnitPriority('millisecond', 16);
 
 addRegexToken('S',    match1to3, match1);
 addRegexToken('SS',   match1to3, match2);
-addRegexToken('SSS',  match1to3, match3);
+addRegexToken('FAQ',  match1to3, match3);
 
 var token;
 for (token = 'SSSS'; token.length <= 9; token += 'S') {

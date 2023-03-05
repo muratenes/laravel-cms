@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ayar;
 use App\Models\Banner;
+use App\Models\Basket;
+use App\Models\Config;
+use App\Models\FAQ;
 use App\Models\Kategori;
-use App\Models\Product\Urun;
-use App\Models\Sepet;
-use App\Models\SSS;
+use App\Models\Product\Product;
 use App\Repositories\Interfaces\KampanyaInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\SepetSupportTrait;
@@ -24,8 +24,8 @@ class HomeController extends Controller
 
     public function __construct(UrunlerInterface $productService, KampanyaInterface $campService)
     {
-        $this->_productService = $productService;
-        $this->_campService = $campService;
+//        $this->_productService = $productService;
+//        $this->_campService = $campService;
     }
 
     public function index()
@@ -43,14 +43,14 @@ class HomeController extends Controller
      */
     public function about()
     {
-        $sss = SSS::where(['lang' => curLangId(), 'active' => 1])->orderByDesc('id')->get();
+        $sss = FAQ::where(['lang' => curLangId(), 'active' => 1])->orderByDesc('id')->get();
 
         return view('site.main.about', compact('sss'));
     }
 
     public function sitemap()
     {
-        $products = Urun::orderBy('id', 'DESC')->take(1000)->get();
+        $products = Product::orderBy('id', 'DESC')->take(1000)->get();
         $categories = Kategori::orderBy('id', 'DESC')->take(1000)->get();
         $now = Carbon::now()->toAtomString();
         $content = view('site.sitemap', compact('products', 'now', 'categories'));
@@ -62,13 +62,13 @@ class HomeController extends Controller
     {
         App::setLocale($locale);
         session()->put('locale', $locale);
-        $lang = Ayar::getLanguageIdByShortName($locale);
+        $lang = Config::getLanguageIdByShortName($locale);
         session()->put('lang_id', $lang);
-        session()->put('currency_id', Ayar::getCurrencyId());
-        session()->put('product_price_currency_field', Ayar::getCurrencyProductPriceFieldByLang($lang));
+        session()->put('currency_id', Config::getCurrencyId());
+        session()->put('product_price_currency_field', Config::getCurrencyProductPriceFieldByLang($lang));
         if ($request->user()) {
-            $this->matchSessionCartWithBasketItems(Sepet::getCurrentBasket());
-            $request->user()->update(['locale' => Ayar::languages()[$lang][3]]);
+            $this->matchSessionCartWithBasketItems(Basket::getCurrentBasket());
+            $request->user()->update(['locale' => Config::languages()[$lang][3]]);
         }
 
         return back();

@@ -14,5 +14,4 @@ class OurTeam extends Model
     public $guarded = [];
 
     protected $perPage = 20;
-    protected $table = 'takimimiz';
 }

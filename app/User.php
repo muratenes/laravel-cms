@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Models\Auth\Role;
-use App\Models\Favori;
-use App\Models\KullaniciAdres;
+use App\Models\Favorite;
+use App\Models\UserAddress;
 use App\Notifications\PasswordReset;
 use App\Utils\Concerns\Models\UserGetters;
 use App\Utils\Concerns\Models\UserNotifications;
@@ -45,7 +45,7 @@ class User extends Authenticatable implements HasLocalePreference
      */
     public function addresses()
     {
-        return $this->hasMany(KullaniciAdres::class, 'user_id', 'id');
+        return $this->hasMany(UserAddress::class, 'user_id', 'id');
     }
 
     /**
@@ -53,7 +53,7 @@ class User extends Authenticatable implements HasLocalePreference
      */
     public function invoice_addresses()
     {
-        return $this->hasMany(KullaniciAdres::class, 'user_id', 'id')->where('type', KullaniciAdres::TYPE_INVOICE);
+        return $this->hasMany(UserAddress::class, 'user_id', 'id')->where('type', UserAddress::TYPE_INVOICE);
     }
 
     /**
@@ -61,7 +61,7 @@ class User extends Authenticatable implements HasLocalePreference
      */
     public function default_address()
     {
-        return $this->belongsTo(KullaniciAdres::class, 'default_address_id', 'id');
+        return $this->belongsTo(UserAddress::class, 'default_address_id', 'id');
     }
 
     /**
@@ -69,7 +69,7 @@ class User extends Authenticatable implements HasLocalePreference
      */
     public function favorites()
     {
-        return $this->hasMany(Favori::class);
+        return $this->hasMany(Favorite::class);
     }
 
     /**
@@ -77,7 +77,7 @@ class User extends Authenticatable implements HasLocalePreference
      */
     public function default_invoice_address()
     {
-        return $this->belongsTo(KullaniciAdres::class, 'default_invoice_address_id', 'id');
+        return $this->belongsTo(UserAddress::class, 'default_invoice_address_id', 'id');
     }
 
     /**

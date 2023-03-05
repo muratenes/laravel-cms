@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Product\Urun;
+use App\Models\Product\Product;
 use App\Utils\Concerns\Admin\CategoryLanguageAttributeConcern;
 use App\Utils\Concerns\Models\MultiLanguageRelations;
 use Illuminate\Database\Eloquent\Model;
@@ -45,7 +45,7 @@ class Kategori extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Urun::class, 'kategori_urun', 'category_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'kategori_urun', 'category_id', 'product_id');
     }
 
     /**

@@ -47,6 +47,6 @@ class Iyzico extends Model
 
     protected function siparis()
     {
-        return $this->belongsTo(Siparis::class, 'siparis_id', 'id');
+        return $this->belongsTo(Order::class, 'siparis_id', 'id');
     }
 }

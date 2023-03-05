@@ -4,8 +4,8 @@ namespace App\Jobs;
 
 use App\Mail\Order\OrderCreateadMail;
 use App\Models\Auth\Role;
-use App\Models\Sepet;
-use App\Models\Siparis;
+use App\Models\Basket;
+use App\Models\Order;
 use App\Notifications\order\AdminNewOrderNotification;
 use App\User;
 use Illuminate\Bus\Queueable;
@@ -23,14 +23,14 @@ class NewOrderAddedJob implements ShouldQueue
     use SerializesModels;
 
     /**
-     * @var Siparis
+     * @var Order
      */
-    public Siparis $order;
+    public Order $order;
 
     /**
-     * @var Sepet
+     * @var Basket
      */
-    public Sepet $basket;
+    public Basket $basket;
 
     /**
      * @var User
@@ -40,9 +40,9 @@ class NewOrderAddedJob implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param Siparis $order
+     * @param Order $order
      */
-    public function __construct(Siparis $order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
         $this->basket = $order->basket;

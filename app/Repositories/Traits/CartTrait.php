@@ -7,7 +7,7 @@ use Cart;
 
 trait CartTrait
 {
-    //============ SESSION CART ==============
+    // ============ SESSION CART ==============
 
     /**
      * Session Sepetteki toplam ürün sayısı.
@@ -32,7 +32,7 @@ trait CartTrait
     }
 
     /**
-     * session sepet için ID oluşturur.
+     * creates basket ID.
      *
      * @param int        $productID
      * @param null|array $selectedSubAttributesIdList
@@ -46,45 +46,23 @@ trait CartTrait
 
     // ========== CRUD ACTIONS =================
 
-    /**
-     * sepetteki item getirmek için kullanılır.
-     *
-     * @param null|int|string $id sepet id
-     *
-     * @return mixed
-     */
-    public function getCartItem($id)
+    public function getCartItem($itemId)
     {
-        return Cart::get($id);
+        return \Cart::get($itemId);
     }
 
-    /**
-     * sepetteki item silmek için kullanılır.
-     *
-     * @param null|int|string $id   sepet id
-     * @param array           $data
-     *
-     * @return mixed
-     */
     public function updateCartItem($id, array $data)
     {
-        return Cart::update($id, $data);
+        return \Cart::update($id, $data);
     }
 
-    /**
-     * sepetteki item silmek için kullanılır.
-     *
-     * @param null|int|string $id sepet id
-     *
-     * @return mixed
-     */
     public function removeCartItem($id)
     {
-        return Cart::remove($id);
+        return \Cart::remove($id);
     }
 
     /**
-     * sepete eklenmiş ürünün adet bilgisini gönderir.
+     * get item qty by sub attributes.
      *
      * @param int        $productID          ürün id
      * @param null|array $subAttributeIdList seçilmiş sub attribute ıd
@@ -119,7 +97,7 @@ trait CartTrait
      */
     public static function cartItems()
     {
-        return Cart::getContent();
+        return \Cart::getContent();
     }
 
     /**
@@ -135,7 +113,7 @@ trait CartTrait
     }
 
     /**
-     * @param object $cartItem sepet item
+     * @param object $cartItem basket item
      */
     public function decrementItem($cartItem)
     {
@@ -153,17 +131,17 @@ trait CartTrait
     }
 
     /**
-     * sepet alt toplam.
+     * basket sub total.
      *
      * @return mixed
      */
     public static function getCardSubTotal()
     {
-        return Cart::getSubTotal();
+        return \Cart::getSubTotal();
     }
 
     /**
-     * sepet toplam.
+     * basket total.
      *
      * @return mixed
      */
@@ -175,11 +153,6 @@ trait CartTrait
             - Coupon::getCouponDiscountPrice();
     }
 
-    /**
-     * gönderilen sepet ürünün toplam hesaplanmış tutarı gelir.
-     *
-     * @param $cartItem
-     */
     public static function getCartItemTotalByItem($cartItem)
     {
         return ($cartItem->price + $cartItem->attributes['cargo_price']) * $cartItem->quantity;

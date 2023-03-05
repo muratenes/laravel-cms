@@ -18,7 +18,7 @@ class CreateCargosTable extends Migration
             $table->string('title');
             $table->unsignedSmallInteger('country_id')->default($turkey ? $turkey->id : null);
             $table->string('cargo_tracking_url')->nullable();
-            $table->unsignedFloat('cargo_free_amount')->nullable(); // belirli tutardan sonra ücretsiz
+            $table->unsignedFloat('cargo_free_amount')->nullable();
 
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });

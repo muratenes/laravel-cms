@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Jobs\RemoveCampaignProductDiscountPricesAndDelete;
 use App\Jobs\UpdateCompanyProductDiscountPriceByCategory;
-use App\Models\Kampanya;
+use App\Models\Campaign;
 use App\Repositories\Interfaces\KampanyaInterface;
 use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\UrunFirmaInterface;
@@ -42,7 +42,7 @@ class CampaignController extends AdminController
     {
         $categories = $this->categoryService->all(['active' => 1]);
         $companies = $this->companyService->all(['active' => 1]);
-        $entry = new Kampanya();
+        $entry = new Campaign();
         $selected_categories = $selected_products = $selected_companies = [];
         $currencies = $this->activeCurrencies();
         if (0 !== $id) {
@@ -66,7 +66,7 @@ class CampaignController extends AdminController
         $oldCurrencyID = config('admin.default_currency');
         $oldCompanyMinPrice = 0;
         if (0 !== $id) {
-            $entry = Kampanya::find($id);
+            $entry = Campaign::find($id);
             $oldCompanyMinPrice = $entry->min_price;
             $oldCurrencyID = $entry->currency_id;
             $entry->update($request_data);
@@ -74,11 +74,11 @@ class CampaignController extends AdminController
             $entry = $this->model->create($request_data);
         }
         if ($entry) {
-            $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/kampanyalar/', $entry->image, Kampanya::MODULE_NAME);
+            $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/campaigns/', $entry->image, Campaign::MODULE_NAME);
             $entry->update(['image' => $imageName]);
 
             UpdateCompanyProductDiscountPriceByCategory::dispatch($entry, $posted_categories, $oldCurrencyID, $oldCompanyMinPrice);
-            Kampanya::forgetCaches();
+            Campaign::forgetCaches();
 
             return redirect(route('admin.campaigns.edit', $entry->id));
         }
@@ -88,9 +88,9 @@ class CampaignController extends AdminController
 
     public function delete($id)
     {
-        $campaign = Kampanya::find($id);
+        $campaign = Campaign::find($id);
         RemoveCampaignProductDiscountPricesAndDelete::dispatch($campaign);
 
-        return redirect(route('admin.campaigns'))->with('message', 'Kampanya indirimleri silindikten sonra tamamen silinmek üzere kuyruğa alındı');
+        return redirect(route('admin.campaigns'))->with('message', 'Campaign indirimleri silindikten sonra tamamen silinmek üzere kuyruğa alındı');
     }
 }

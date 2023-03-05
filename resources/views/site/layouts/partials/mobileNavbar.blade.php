@@ -27,7 +27,7 @@
 {{--                        @endif--}}
 {{--                    </li>--}}
 {{--                @endforeach--}}
-                <li><a href="{{ route('iletisim') }}">İletişim</a></li>
+                <li><a href="{{ route('contact') }}">İletişim</a></li>
             </ul>
         </nav>
 

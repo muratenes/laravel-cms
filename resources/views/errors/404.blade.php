@@ -1,5 +1,5 @@
 @php
-    $site = \App\Models\Ayar::first();
+    $site = \App\Models\Config::first();
 @endphp
 @extends('site.layouts.base')
 @section('title','Urunler')

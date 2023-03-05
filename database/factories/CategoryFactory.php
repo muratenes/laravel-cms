@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
-use App\Models\Product\Urun;
+use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -33,7 +33,7 @@ class CategoryFactory extends Factory
         return [
             Banner::class,
             Blog::class,
-            Urun::class,
+            Product::class,
         ];
     }
 }

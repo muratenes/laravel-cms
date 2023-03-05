@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Kampanya Listesi')
+@section('title','Campaign Listesi')
 
 
 @section('content')
@@ -62,7 +62,7 @@
                                     <td>{{ $l -> discount_amount}}</td>
                                     <td>{{ $l -> start_date}}</td>
                                     <td>{{ $l -> end_date}}</td>
-                                    <td><a href="{{ imageUrl('public/kampanyalar',$l->image) }}"><i class="fa fa-image"></i></a></td>
+                                    <td><a href="{{ imageUrl('public/campaigns',$l->image) }}"><i class="fa fa-image"></i></a></td>
                                     <td><i class="fa fa-{{ $l -> active == false ? 'times text-red' : 'check text-green' }}"></i></td>
                                     <td><a href="{{ route('admin.campaigns.delete',$l->id) }}" onclick="return confirm('Silmek istediğine emin misin ?')"><i
                                                 class="fa fa-trash text-red"></i></a></td>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Ayar;
+use App\Models\Config;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -23,7 +23,7 @@ class AdminController extends BaseController
      */
     public function languages()
     {
-        return Ayar::activeLanguages();
+        return Config::activeLanguages();
     }
 
     /**
@@ -33,7 +33,7 @@ class AdminController extends BaseController
      */
     public function otherActiveLanguages()
     {
-        return Ayar::otherActiveLanguages();
+        return Config::otherActiveLanguages();
     }
 
     /**
@@ -43,7 +43,7 @@ class AdminController extends BaseController
      */
     public function activeCurrencies()
     {
-        return Ayar::activeCurrencies();
+        return Config::activeCurrencies();
     }
 
     /**
@@ -53,6 +53,6 @@ class AdminController extends BaseController
      */
     public function currencies()
     {
-        return Ayar::currencies();
+        return Config::currencies();
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Utils\Concerns\Models;
 
-use App\Models\Siparis;
+use App\Models\Order;
 use App\Notifications\order\OrderCreatedNotification;
 
 trait UserNotifications
 {
     /**
-     * @param Siparis $order
+     * @param Order $order
      */
-    public function sendOrderCreatedNotification(Siparis $order)
+    public function sendOrderCreatedNotification(Order $order)
     {
         $this->notify(new OrderCreatedNotification());
     }

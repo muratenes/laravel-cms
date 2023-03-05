@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserDetailSaveRequest;
-use App\Models\Siparis;
+use App\Models\Order;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,11 +21,11 @@ class AccountController extends Controller
     {
         $user = $request->user();
         $defaultAddress = $user->default_address;
-        $orders = Siparis::with('basket')->whereHas('basket', function ($query) use ($user) {
+        $orders = Order::with('basket')->whereHas('basket', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->latest()->take(5)->get();
 
-        return view('site.kullanici.dashboard', compact('user', 'defaultAddress', 'orders'));
+        return view('site.user.dashboard', compact('user', 'defaultAddress', 'orders'));
     }
 
     /**
@@ -33,7 +33,7 @@ class AccountController extends Controller
      */
     public function userDetail()
     {
-        return view('site.kullanici.userDetail');
+        return view('site.user.userDetail');
     }
 
     /**

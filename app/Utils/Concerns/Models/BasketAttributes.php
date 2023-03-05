@@ -2,7 +2,7 @@
 
 namespace App\Utils\Concerns\Models;
 
-use App\Models\SepetUrun;
+use App\Models\BasketItem;
 
 trait BasketAttributes
 {
@@ -50,7 +50,7 @@ trait BasketAttributes
      */
     public function getItemCountAttribute()
     {
-        return $this->hasMany(SepetUrun::class)->count();
+        return $this->hasMany(BasketItem::class)->count();
     }
 
     /**
@@ -60,7 +60,7 @@ trait BasketAttributes
      */
     public function getItemQuantityCountAttribute()
     {
-        return $this->hasMany(SepetUrun::class)->sum('qty');
+        return $this->hasMany(BasketItem::class)->sum('qty');
     }
 
     /**

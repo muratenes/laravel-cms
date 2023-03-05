@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\SSS;
+use App\Models\FAQ;
 use App\Repositories\Interfaces\SSSInterface;
 
 class SSSController extends Controller
@@ -29,7 +29,7 @@ class SSSController extends Controller
 
     public function newOrEditForm($id = 0)
     {
-        $item = new SSS();
+        $item = new FAQ();
         if (0 !== $id) {
             $item = $this->model->getById($id);
         }

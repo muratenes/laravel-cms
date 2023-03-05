@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -19,8 +20,8 @@ class AdminSeeder extends Seeder
             'max_upload_size'         => 3024,
             'multi_lang'              => false,
             'multi_currency'          => false,
-            'default_language'        => \App\Models\Ayar::LANG_TR,
-            'default_currency'        => \App\Models\Ayar::CURRENCY_TL,
+            'default_language'        => \App\Models\Config::LANG_TR,
+            'default_currency'        => \App\Models\Config::CURRENCY_TL,
             'default_currency_prefix' => 'tl',
             'force_lang_currency'     => false,
         ];
@@ -47,7 +48,6 @@ class AdminSeeder extends Seeder
             'gallery'         => null,
             'gallery_item'    => 60,
         ];
-//        dd($data);
         $admin = \App\Models\Admin::create($data);
         \App\Models\Admin::setCache($admin);
     }

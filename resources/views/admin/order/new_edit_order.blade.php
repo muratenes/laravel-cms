@@ -91,7 +91,7 @@
             <!--/.col (left) -->
 
             <div class="col-md-6">
-                <!-- sepet bilgileri -->
+                <!-- basket bilgileri -->
                 <div class="row">
                     <div class="box box-primary">
                         <div class="box-header with-border">

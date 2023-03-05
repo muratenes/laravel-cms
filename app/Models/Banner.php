@@ -14,7 +14,6 @@ class Banner extends Model
     public $guarded = [];
 
     protected $perPage = 20;
-    protected $table = 'banner';
     protected $appends = ['lang_icon'];
 
     /**

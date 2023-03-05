@@ -2,7 +2,7 @@
 
 namespace App\Notifications\order;
 
-use App\Models\Siparis;
+use App\Models\Order;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,9 +15,9 @@ class OrderStatusChangedNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var Siparis
+     * @var Order
      */
-    public Siparis $order;
+    public Order $order;
 
     /**
      * @var User
@@ -27,9 +27,9 @@ class OrderStatusChangedNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param Siparis $order
+     * @param Order $order
      */
-    public function __construct(Siparis $order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
         $this->user = $order->basket->user;
@@ -56,7 +56,7 @@ class OrderStatusChangedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $statusLabel = Siparis::statusLabelStatic($this->order->status);
+        $statusLabel = Order::statusLabelStatic($this->order->status);
 
         return (new MailMessage())
             ->subject(__('lang.order_status_changed', ['status' => $statusLabel]))

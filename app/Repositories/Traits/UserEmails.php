@@ -3,8 +3,8 @@
 namespace App\Repositories\Traits;
 
 use App\Mail\OrderStatusOnChangedMail;
-use App\Models\SepetUrun;
-use App\Models\Siparis;
+use App\Models\BasketItem;
+use App\Models\Order;
 use App\Notifications\PasswordReset;
 
 trait UserEmails
@@ -22,21 +22,21 @@ trait UserEmails
     /**
      * sepetteki ürün status değişince kullanıcıya notify gider.
      *
-     * @param Siparis   $order
-     * @param SepetUrun $basketItem
+     * @param Order      $order
+     * @param BasketItem $basketItem
      */
-    public function orderItemStatusChanged(Siparis $order, SepetUrun $basketItem)
+    public function orderItemStatusChanged(Order $order, BasketItem $basketItem)
     {
         $this->notify(new OrderItemStatusChangedNotification($order, $basketItem));
     }
 
     /**
-     * Sepet status değişince kullanıcıya notify gider.
+     * Basket status değişince kullanıcıya notify gider.
      *
-     * @param Siparis   $order
-     * @param SepetUrun $basketItem
+     * @param Order      $order
+     * @param BasketItem $basketItem
      */
-    public function orderStatusChangedNotification(Siparis $order)
+    public function orderStatusChangedNotification(Order $order)
     {
         $this->notify(new OrderStatusOnChangedMail($this, $order));
     }

@@ -2,91 +2,63 @@
 
 namespace App\Utils\Concerns;
 
-use App\Models\Favori;
+use App\Models\Favorite;
 use App\Models\Kategori;
-use App\Models\Product\UrunDetail;
-use App\Models\Product\UrunFirma;
-use App\Models\Product\UrunImage;
-use App\Models\Product\UrunMarka;
-use App\Models\Product\UrunVariant;
-use App\Models\Product\UrunYorum;
+use App\Models\Product\ProductBrand;
+use App\Models\Product\ProductComment;
+use App\Models\Product\ProductCompany;
+use App\Models\Product\ProductDetail;
+use App\Models\Product\ProductImage;
+use App\Models\Product\ProductVariant;
 
 trait ProductRelations
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function categories()
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Kategori', 'kategori_urun', 'product_id', 'category_id');
+        return $this->belongsToMany(Kategori::class, 'category_product', 'product_id', 'category_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function detail()
+    public function detail(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(UrunDetail::class, 'product');
+        return $this->hasMany(ProductDetail::class, 'product');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function variants()
+    public function variants(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(UrunVariant::class, 'product_id');
+        return $this->hasMany(ProductVariant::class, 'product_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function favorites()
+    public function favorites(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Favori::class, 'favoriler', 'product_id');
+        return $this->belongsToMany(Favorite::class, 'favorites', 'product_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function images()
+    public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        // todo : product_id yap relation name
-        return $this->hasMany(UrunImage::class, 'product');
+        return $this->hasMany(ProductImage::class, 'product');
     }
 
     public function comments()
     {
-        return $this->hasMany(UrunYorum::class, 'product_id')->take(100);
+        return $this->hasMany(ProductComment::class, 'product_id')->take(100);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function company()
+    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(UrunFirma::class);
+        return $this->belongsTo(ProductCompany::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function brand()
+    public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(UrunMarka::class);
+        return $this->belongsTo(ProductBrand::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function parent_category()
     {
         return $this->belongsTo(Kategori::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function sub_category()
+    public function sub_category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Kategori::class);
     }

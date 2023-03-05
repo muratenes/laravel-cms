@@ -57,7 +57,7 @@ return [
     // Ebulten
     'congratulations_you_have_successfully_registered_for_the_newsletter' => 'Tebrikler ebültene başarılı şekilde kaydoldunuz',
 
-    //=============== Email ===============
+    // =============== Email ===============
     'hello'                       => 'Merhaba',
     'order_code'                  => 'Sipariş Kodu',
     'order_date'                  => 'Sipariş Tarihi',
@@ -77,14 +77,14 @@ return [
     'hello_username'              => 'Merhaba :username',
     'order_successfully_received' => 'siparişiniz başarılı şekilde alındı',
 
-    //OrderItemStatusChangedNotify
+    // OrderItemStatusChangedNotify
     'order_item_status_changed' => ':product durumu ":status" olarak güncellendi',
     'show_order'                => 'Siparişi Göster',
 
     // OrderStatusChangedNotification
     'order_status_changed' => 'Sipariş durumu :status olarak güncellendi',
 
-    //OrderCancelledNotify
+    // OrderCancelledNotify
     'refund_information'                          => 'Geri Ödeme Bilgisi',
     'your_refund_has_been_processed_successfully' => 'İade işleminiz başarıyla gerçekleşti',
     'order_refund_text'                           => ":code no'lu siparişinizin iptal / değişim / iadesine istinaden :price TL'lik tutar, :date tarihinde ödeme yaptığınız bankaya tarafımızdan ödenmiştir.",
@@ -96,7 +96,7 @@ return [
     'reset_password'                                               => 'Parola Sıfırla',
     'if_you_have_not_requested_a_password_reset_ignore_this_email' => 'Parola sıfırlama isteğinde bulunmadıysanız, bu maili dikkate almayınız',
 
-    // Sepet
+    // Basket
     'can_not_cancel_basket_item'                                     => 'Ürün durumu ":status" olduğu için iptal edilemez',
     'the_order_cannot_be_canceled_because_it_is_not_on_the_same_day' => 'Sipariş aynı gün olmadığı için yada saat geçtiği için iptal edilemez iade talebi oluşturunuz',
     'can_be_canceled'                                                => 'İptal işlemi yapılabilir',

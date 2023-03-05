@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Kampanya;
-use App\Models\Product\Urun;
+use App\Models\Campaign;
+use App\Models\Product\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,9 +22,9 @@ class RemoveCampaignProductDiscountPricesAndDelete implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Kampanya $kampanya
+     * @param Campaign $kampanya
      */
-    public function __construct(Kampanya $kampanya)
+    public function __construct(Campaign $kampanya)
     {
         $this->campaign = $kampanya;
     }
@@ -37,7 +37,7 @@ class RemoveCampaignProductDiscountPricesAndDelete implements ShouldQueue
         $campaignCategoriesIDs = $this->campaign->campaignCategories()->pluck('category_id')->toArray();
         $campaignProductIDs = $this->campaign->campaignProducts()->pluck('product_id')->toArray();
         // kategori indirimleri silmek için
-        Urun::whereHas('categories', function ($query) use ($campaignCategoriesIDs) {
+        Product::whereHas('categories', function ($query) use ($campaignCategoriesIDs) {
             $query->whereIn('category_id', $campaignCategoriesIDs);
         })->orWhereIn('id', $campaignProductIDs)
             ->update(['discount_price' => null])

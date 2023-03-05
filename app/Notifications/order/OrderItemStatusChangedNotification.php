@@ -2,9 +2,9 @@
 
 namespace App\Notifications\order;
 
-use App\Models\Product\Urun;
-use App\Models\SepetUrun;
-use App\Models\Siparis;
+use App\Models\BasketItem;
+use App\Models\Order;
+use App\Models\Product\Product;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,27 +17,27 @@ class OrderItemStatusChangedNotification extends Notification implements ShouldQ
     use Queueable;
 
     /**
-     * @var Siparis
+     * @var Order
      */
-    public Siparis $order;
+    public Order $order;
 
     /**
-     * @var SepetUrun
+     * @var BasketItem
      */
-    public SepetUrun  $basketItem;
+    public BasketItem  $basketItem;
 
     /**
-     * @var Urun
+     * @var Product
      */
-    public Urun $product;
+    public Product $product;
 
     /**
      * Create a new notification instance.
      *
-     * @param Siparis   $order
-     * @param SepetUrun $basketItem
+     * @param Order      $order
+     * @param BasketItem $basketItem
      */
-    public function __construct(Siparis $order, SepetUrun $basketItem)
+    public function __construct(Order $order, BasketItem $basketItem)
     {
         $this->order = $order;
         $this->basketItem = $basketItem;
@@ -66,13 +66,13 @@ class OrderItemStatusChangedNotification extends Notification implements ShouldQ
     public function toMail(User $user)
     {
         $productUrl = route('product.detail', $this->product->slug);
-        $statusLabel = SepetUrun::statusLabelStatic($this->basketItem->status);
+        $statusLabel = BasketItem::statusLabelStatic($this->basketItem->status);
 
         return (new MailMessage())
-            ->subject(__('lang.order_item_status_changed', ['product' => $this->product->title, 'status' => SepetUrun::statusLabelStatic($this->basketItem->status)]))
+            ->subject(__('lang.order_item_status_changed', ['product' => $this->product->title, 'status' => BasketItem::statusLabelStatic($this->basketItem->status)]))
 
             ->line(__('lang.hello_username', ['username' => $user->full_name]))
-            ->line(__('lang.order_item_status_changed', ['product' => $this->product->title, 'status' => SepetUrun::statusLabelStatic($this->basketItem->status)]))
+            ->line(__('lang.order_item_status_changed', ['product' => $this->product->title, 'status' => BasketItem::statusLabelStatic($this->basketItem->status)]))
             ->line(new HtmlString('<b>' . __('lang.order_code') . "</b> : {$this->order->code}"))
             ->line(new HtmlString('<b>' . __('lang.status') . "</b> : {$statusLabel}"))
             ->line(new HtmlString('<b>' . __('lang.product') . "</b> : <a href={$productUrl}>{$this->product->title}</a>"))

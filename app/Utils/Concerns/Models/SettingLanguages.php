@@ -2,7 +2,7 @@
 
 namespace App\Utils\Concerns\Models;
 
-use App\Models\Ayar;
+use App\Models\Config;
 
 trait SettingLanguages
 {
@@ -61,7 +61,7 @@ trait SettingLanguages
             return collect();
         }
 
-        return collect(Ayar::languages())->filter(function ($item, $key) {
+        return collect(Config::languages())->filter(function ($item, $key) {
             if ($item[2] && defaultLangID() !== $item[0]) {
                 return true;
             }

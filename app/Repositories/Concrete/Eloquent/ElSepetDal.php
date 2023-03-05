@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Product\Urun;
-use App\Models\Product\UrunVariant;
-use App\Models\Sepet;
-use App\Models\SepetUrun;
-use App\Models\Siparis;
+use App\Models\Basket;
+use App\Models\BasketItem;
+use App\Models\Order;
+use App\Models\Product\Product;
+use App\Models\Product\ProductVariant;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\SepetInterface;
 
@@ -14,7 +14,7 @@ class ElSepetDal implements SepetInterface
 {
     protected $model;
 
-    public function __construct(Sepet $model)
+    public function __construct(Basket $model)
     {
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }
@@ -73,8 +73,8 @@ class ElSepetDal implements SepetInterface
      */
     public function checkProductQtyCountCanAddToBasketItemCount($productId, $qty, $subAttributesIdList = null)
     {
-        $variant = UrunVariant::urunHasVariant($productId, $subAttributesIdList);
-        $product = Urun::findOrFail($productId);
+        $variant = ProductVariant::urunHasVariant($productId, $subAttributesIdList);
+        $product = Product::findOrFail($productId);
         $maxQty = $product->qty;
         if (false !== $variant) {
             $maxQty = $variant->qty;
@@ -94,11 +94,11 @@ class ElSepetDal implements SepetInterface
         return $qty;
     }
 
-    public function cancelBasketItems(Siparis $order)
+    public function cancelBasketItems(Order $order)
     {
-        $basketItems = SepetUrun::withTrashed()->where('sepet_id', $order->sepet_id)->get();
+        $basketItems = BasketItem::withTrashed()->where('basket_id', $order->basket_id)->get();
         foreach ($basketItems as $basketItem) {
-            $basketItem->update(['status' => SepetUrun::STATUS_IPTAL_EDILDI, 'refunded_amount' => $basketItem->total]);
+            $basketItem->update(['status' => BasketItem::STATUS_IPTAL_EDILDI, 'refunded_amount' => $basketItem->total]);
         }
     }
 }

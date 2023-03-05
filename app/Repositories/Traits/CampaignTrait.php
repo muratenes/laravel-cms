@@ -2,23 +2,23 @@
 
 namespace App\Repositories\Traits;
 
-use App\Models\Kampanya;
-use App\Models\Product\Urun;
+use App\Models\Campaign;
+use App\Models\Product\Product;
 
 trait CampaignTrait
 {
     /**
      * hesaplanmış kampa ürün fiyatı.
      *
-     * @param Kampanya $campaign
-     * @param Urun     $product
+     * @param Campaign $campaign
+     * @param Product  $product
      * @param string   $productDiscountPriceField ürün para birimi indirimli sutun adı
      *
      * @return float
      */
-    public function getDiscountPrice(Kampanya $campaign, Urun $product, string $productDiscountPriceField)
+    public function getDiscountPrice(Campaign $campaign, Product $product, string $productDiscountPriceField)
     {
-        if (Kampanya::DISCOUNT_TYPE_PRICE === $campaign->discount_type) {
+        if (Campaign::DISCOUNT_TYPE_PRICE === $campaign->discount_type) {
             if ($campaign->discount_amount >= $product->{$productDiscountPriceField}) {
                 return null;
             }
@@ -29,9 +29,9 @@ trait CampaignTrait
         return $product->{$productDiscountPriceField} - ($product->{$productDiscountPriceField} * $campaign->discount_amount / 100);
     }
 
-//    public function getProducts(Kampanya $campaign)
+//    public function getProducts(Campaign $campaign)
 //    {
-//        return Urun::where(function ($query) use ($campaign) {
+//        return Product::where(function ($query) use ($campaign) {
 //            $query->whereHas('categories', function ($query) use ($campaign) {
 //                $query->whereIn('category_id', $campaign->campaignCategories()->pluck('category_id')->toArray());
 //            })

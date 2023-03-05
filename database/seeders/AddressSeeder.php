@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\KullaniciAdres;
 use App\Models\Region\Country;
 use App\Models\Region\District;
 use App\Models\Region\Neighborhood;
 use App\Models\Region\State;
+use App\Models\UserAddress;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -29,7 +29,7 @@ class AddressSeeder extends Seeder
             'name'            => 'John',
             'surname'         => 'Doe',
             'phone'           => '512307124',
-            'type'            => KullaniciAdres::TYPE_DELIVERY,
+            'type'            => UserAddress::TYPE_DELIVERY,
             'adres'           => 'Can sk. Kuzey Apt. No:32 D:6',
         ]);
 
@@ -42,7 +42,7 @@ class AddressSeeder extends Seeder
             'name'            => 'Kols',
             'surname'         => 'Okra',
             'phone'           => '512309237',
-            'type'            => KullaniciAdres::TYPE_INVOICE,
+            'type'            => UserAddress::TYPE_INVOICE,
             'adres'           => 'Ordu Sk. Veysel Apt No :20 D:4',
         ]);
 

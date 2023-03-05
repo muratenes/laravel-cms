@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\KullaniciAdres;
+use App\Models\UserAddress;
 use App\User;
 
 interface AccountInterface
@@ -29,5 +29,5 @@ interface AccountInterface
 
     public function updateOrCreateUserAddress(int $id, array $data, int $userId);
 
-    public function checkUserDefaultAddress(User $user, KullaniciAdres $address);
+    public function checkUserDefaultAddress(User $user, UserAddress $address);
 }

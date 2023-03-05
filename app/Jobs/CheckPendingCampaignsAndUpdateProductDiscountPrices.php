@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Kampanya;
+use App\Models\Campaign;
 use App\Repositories\Traits\CampaignTrait;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -33,7 +33,7 @@ class CheckPendingCampaignsAndUpdateProductDiscountPrices implements ShouldQueue
     {
         $lastFiveMinute = Carbon::now()->subMinutes(14);
         $now = Carbon::now();
-        $pendingCampaigns = Kampanya::whereBetween('start_date', [$lastFiveMinute, $now])
+        $pendingCampaigns = Campaign::whereBetween('start_date', [$lastFiveMinute, $now])
             ->where('active', false)
             ->get()
         ;

@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','SSS detay')
+@section('title','FAQ detay')
 
 @section('content')
     <div class="box box-default">

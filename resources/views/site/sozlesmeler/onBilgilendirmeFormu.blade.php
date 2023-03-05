@@ -23,7 +23,7 @@
 {{--<br>--}}
 {{--4. SÖZLEŞME KONUSU ÜRÜN/ÜRÜNLER BİLGİLERİ <br>--}}
 {{--<br>--}}
-{{--4.1 Malın / Ürün/Ürünlerin / Hizmetin temel özellikleri (türü, miktarı, marka/modeli, rengi, adedi) SATICI’ya ait internet sitesinde yer almaktadır. Ürünün temel özelliklerini kampanya süresince inceleyebilirsiniz. Kampanya tarihine kadar geçerlidir.--}}
+{{--4.1 Malın / Ürün/Ürünlerin / Hizmetin temel özellikleri (türü, miktarı, marka/modeli, rengi, adedi) SATICI’ya ait internet sitesinde yer almaktadır. Ürünün temel özelliklerini kampanya süresince inceleyebilirsiniz. Campaign tarihine kadar geçerlidir.--}}
 {{--<br> <br>--}}
 {{--4.2 Listelenen ve sitede ilan edilen fiyatlar satış fiyatıdır. İlan edilen fiyatlar ve vaatler güncelleme yapılana ve değiştirilene kadar geçerlidir. Süreli olarak ilan edilen fiyatlar ise belirtilen süre sonuna kadar geçerlidir.--}}
 {{--<br> <br>--}}

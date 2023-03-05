@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\SSS;
+use App\Models\FAQ;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\SSSInterface;
 
@@ -10,7 +10,7 @@ class ElSSSDal implements SSSInterface
 {
     protected $model;
 
-    public function __construct(SSS $model)
+    public function __construct(FAQ $model)
     {
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Ayar;
+use App\Models\Config;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -29,7 +29,7 @@ class NewOrderAdminNotificationMail extends Mailable
         $this->user = $user;
         $this->order = $order;
         $this->basketItems = $basketItems;
-        $this->site = Ayar::getCache();
+        $this->site = Config::getCache();
     }
 
     /**

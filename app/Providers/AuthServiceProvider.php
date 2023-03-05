@@ -28,11 +28,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('edit-address', function (User $user, \App\Models\KullaniciAdres $address) {
+        Gate::define('edit-address', function (User $user, \App\Models\UserAddress $address) {
             return $user->id === $address->user_id;
         });
 
-        Gate::define('edit-order', function (User $user, \App\Models\Siparis $order) {
+        Gate::define('edit-order', function (User $user, \App\Models\Order $order) {
             return $user->id === $order->basket->user_id;
         });
 

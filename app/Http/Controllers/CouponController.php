@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sepet;
+use App\Models\Basket;
 use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Traits\CartTrait;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class CouponController extends Controller
         $validated = $request->validate(['code' => 'string|required']);
         $productIdList = $this->getProductIdList();
 
-        $basket = $request->user() ? Sepet::getCurrentBasket() : null;
+        $basket = $request->user() ? Basket::getCurrentBasket() : null;
         $result = $this->model->checkCoupon($productIdList, $validated['code'], $this->getCardSubTotal(), currentCurrencyID(), $basket);
 
         return redirect(route('basket'))->with('message', $result['message'])->with('message_type', $result['alert']);

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\SepetUrun;
+use App\Models\BasketItem;
 use App\Repositories\Traits\ResponseTrait;
 
 class BasketController extends Controller
@@ -18,7 +18,7 @@ class BasketController extends Controller
     public function show(int $basketID)
     {
         return $this->success([
-            'basket' => SepetUrun::withTrashed()->find($basketID)->append(['total', 'sub_total']),
+            'basket' => BasketItem::withTrashed()->find($basketID)->append(['total', 'sub_total']),
         ]);
     }
 }

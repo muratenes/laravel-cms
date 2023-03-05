@@ -23,7 +23,7 @@ class CreateIyzicoTable extends Migration
             $table->string('status', 50)->nullable();
             $table->text('iyzicoJson')->nullable();
 
-            $table->foreign('siparis_id')->references('id')->on('siparisler')->onDelete('cascade');
+            $table->foreign('siparis_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 

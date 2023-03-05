@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\UrunAttribute;
-use App\Models\Product\UrunYorum;
+use App\Models\Product\ProductAttribute;
+use App\Models\Product\ProductComment;
 use App\Repositories\Interfaces\UrunYorumInterface;
 use Illuminate\Http\Request;
 
@@ -19,7 +19,7 @@ class ProductCommentController extends Controller
 
     public function list(Request $request)
     {
-        $list = UrunYorum::when($request->get('productID'), function ($q, $v) {
+        $list = ProductComment::when($request->get('productID'), function ($q, $v) {
             $q->where('product_id', $v);
         })->latest()->paginate();
 
@@ -31,7 +31,7 @@ class ProductCommentController extends Controller
         if (0 !== $id) {
             $item = $this->model->getById($id, null, ['product', 'user']);
         } else {
-            $item = new UrunAttribute();
+            $item = new ProductAttribute();
         }
         if (0 !== $id && ! $item->is_read) {
             $item->update(['is_read' => 1]);

@@ -18,14 +18,14 @@ class CampaignController extends Controller
     {
         $list = $this->_campaignService->all(['active' => 1]);
 
-        return view('site.kampanyalar.listCampaigns', compact('list'));
+        return view('site.campaigns.listCampaigns', compact('list'));
     }
 
     public function detail($slug, $category = null)
     {
         $data = $this->_campaignService->getCampaignDetail($slug, null, null, $category);
 
-        return view('site.kampanyalar.campaignDetail', compact('lastPage', 'data'));
+        return view('site.campaigns.campaignDetail', compact('data'));
     }
 
     public function campaignsFilterWithAjax(Request $request)

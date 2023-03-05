@@ -3331,7 +3331,7 @@
         var utc = keepOffset !== true;
         var m = utc ? this.clone().utc() : this;
         if (m.year() < 0 || m.year() > 9999) {
-            return formatMoment(m, utc ? 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]' : 'YYYYYY-MM-DD[T]HH:mm:ss.SSSZ');
+            return formatMoment(m, utc ? 'YYYYYY-MM-DD[T]HH:mm:ss.FAQ[Z]' : 'YYYYYY-MM-DD[T]HH:mm:ss.SSSZ');
         }
         if (isFunction(Date.prototype.toISOString)) {
             // native implementation is ~50x faster, use it when we can
@@ -3341,7 +3341,7 @@
                 return new Date(this.valueOf() + this.utcOffset() * 60 * 1000).toISOString().replace('Z', formatMoment(m, 'Z'));
             }
         }
-        return formatMoment(m, utc ? 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]' : 'YYYY-MM-DD[T]HH:mm:ss.SSSZ');
+        return formatMoment(m, utc ? 'YYYY-MM-DD[T]HH:mm:ss.FAQ[Z]' : 'YYYY-MM-DD[T]HH:mm:ss.SSSZ');
     }
 
     /**
@@ -3362,7 +3362,7 @@
         }
         var prefix = '[' + func + '("]';
         var year = (0 <= this.year() && this.year() <= 9999) ? 'YYYY' : 'YYYYYY';
-        var datetime = '-MM-DD[T]HH:mm:ss.SSS';
+        var datetime = '-MM-DD[T]HH:mm:ss.FAQ';
         var suffix = zone + '[")]';
 
         return this.format(prefix + year + datetime + suffix);
@@ -3854,7 +3854,7 @@
         return ~~(this.millisecond() / 10);
     });
 
-    addFormatToken(0, ['SSS', 3], 0, 'millisecond');
+    addFormatToken(0, ['FAQ', 3], 0, 'millisecond');
     addFormatToken(0, ['SSSS', 4], 0, function () {
         return this.millisecond() * 10;
     });
@@ -3887,7 +3887,7 @@
 
     addRegexToken('S',    match1to3, match1);
     addRegexToken('SS',   match1to3, match2);
-    addRegexToken('SSS',  match1to3, match3);
+    addRegexToken('FAQ',  match1to3, match3);
 
     var token;
     for (token = 'SSSS'; token.length <= 9; token += 'S') {
@@ -4588,11 +4588,11 @@
     hooks.HTML5_FMT = {
         DATETIME_LOCAL: 'YYYY-MM-DDTHH:mm',             // <input type="datetime-local" />
         DATETIME_LOCAL_SECONDS: 'YYYY-MM-DDTHH:mm:ss',  // <input type="datetime-local" step="1" />
-        DATETIME_LOCAL_MS: 'YYYY-MM-DDTHH:mm:ss.SSS',   // <input type="datetime-local" step="0.001" />
+        DATETIME_LOCAL_MS: 'YYYY-MM-DDTHH:mm:ss.FAQ',   // <input type="datetime-local" step="0.001" />
         DATE: 'YYYY-MM-DD',                             // <input type="date" />
         TIME: 'HH:mm',                                  // <input type="time" />
         TIME_SECONDS: 'HH:mm:ss',                       // <input type="time" step="1" />
-        TIME_MS: 'HH:mm:ss.SSS',                        // <input type="time" step="0.001" />
+        TIME_MS: 'HH:mm:ss.FAQ',                        // <input type="time" step="0.001" />
         WEEK: 'GGGG-[W]WW',                             // <input type="week" />
         MONTH: 'YYYY-MM'                                // <input type="month" />
     };

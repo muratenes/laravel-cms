@@ -169,7 +169,7 @@ function basketItemAddToHtml(items, cardPrice) {
  * @param productId
  */
 function addToFavorites(productId) {
-    $.post(`/kullanici/favoriler/${productId}`, function (data) {
+    $.post(`/user/favorites/${productId}`, function (data) {
         console.log(data)
         if (data.status === true) {
             alert("Favorilere Eklendi")

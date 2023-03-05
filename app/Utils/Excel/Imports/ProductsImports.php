@@ -2,9 +2,9 @@
 
 namespace App\Utils\Excel\Imports;
 
-use App\Models\Ayar;
+use App\Models\Config;
 use App\Models\Kategori;
-use App\Models\Product\Urun;
+use App\Models\Product\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -18,7 +18,7 @@ class ProductsImports implements ToCollection, WithHeadingRow
         $properties = [];
 
         foreach ($rows as $row) {
-            $product = Urun::where('title', $row['title'])->first();
+            $product = Product::where('title', $row['title'])->first();
             $keywords = $row['keys'] ? explode(',', $row['keys']) : [];
             $category = $this->checkCategoryAndSubCategory($row);
             if ($product) {
@@ -30,7 +30,7 @@ class ProductsImports implements ToCollection, WithHeadingRow
                     'sub_category_id'    => $category['sub_category_id'],
                 ]);
             } else {
-                $product = Urun::create([
+                $product = Product::create([
                     'title'              => $row['title'],
                     'slug'               => Str::slug($row['title']),
                     'spot'               => mb_substr($row['short_description'], 0, 255),
@@ -44,7 +44,7 @@ class ProductsImports implements ToCollection, WithHeadingRow
             if (config('admin.product.multiple_category') && isset($row['categories']) && $row['categories']) {
                 $this->syncCategories($row['categories'], $product);
             }
-            //image
+            // image
             if ($row['image']) {
                 if (Storage::exists('excel/products/images/' . $row['image'])) {
                     $file = Storage::get('excel/products/images/' . $row['image']);
@@ -89,17 +89,17 @@ class ProductsImports implements ToCollection, WithHeadingRow
      * çoklu kategorileri ekleme/güncelleme için kullanılır.
      *
      * @param $rowCategories
-     * @param Urun $product
+     * @param Product $product
      *
      * @return array
      */
-    private function syncCategories($rowCategories, Urun $product)
+    private function syncCategories($rowCategories, Product $product)
     {
         $categoryTitles = explode(',', $rowCategories);
         foreach ($categoryTitles as $catTitle) {
             $hasParent = mb_strpos($catTitle, '(');
             if ($hasParent > -1) {
-                $parentCategoryTitle = mb_strtolower(str_replace(['(', ')'], '', mb_substr($catTitle, $hasParent, \mb_strlen($catTitle))));
+                $parentCategoryTitle = mb_strtolower(str_replace(['(', ')'], '', mb_substr($catTitle, $hasParent, mb_strlen($catTitle))));
                 $subCategoryTitle = mb_strtolower(mb_substr($catTitle, 0, $hasParent));
 
                 $parentCategory = Kategori::firstOrCreate(['title' => $parentCategoryTitle], ['slug' => Str::slug($parentCategoryTitle ?? Str::random(12))]);
@@ -125,13 +125,13 @@ class ProductsImports implements ToCollection, WithHeadingRow
     /**
      * ürünlerin diğer dillerdeki karşılıklarının günceller.
      *
-     * @param Urun $product
+     * @param Product $product
      * @param $properties
      * @param $row
      */
-    private function syncLanguages(Urun $product, $properties, $row)
+    private function syncLanguages(Product $product, $properties, $row)
     {
-        foreach (Ayar::languages() as $language) {
+        foreach (Config::languages() as $language) {
             $title = $row["title_${language[3]}"] ?? null;
             if ($title) {
                 $product->descriptions()->updateOrCreate([
@@ -150,12 +150,12 @@ class ProductsImports implements ToCollection, WithHeadingRow
     /**
      * product gallery upload images.
      *
-     * @param Urun $product
+     * @param Product $product
      * @param $row
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function uploadGalleryImages(Urun $product, $row)
+    private function uploadGalleryImages(Product $product, $row)
     {
         for ($i = 1; $i < 5; $i++) {
             $imageName = $row["image{$i}"];

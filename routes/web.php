@@ -1,15 +1,15 @@
 <?php
 
 Route::group(['middleware' => 'site.config'], function () {
-    //social auth
+    // social auth
     Route::get('/redirect/{service}', 'SocialAuthController@redirect');
     Route::get('/callback/{service}', 'SocialAuthController@callback');
 
     Route::get('test', 'TestController@index');
     // İnitial routes
     Route::get('kurumsal', 'HomeController@about')->name('about');
-    Route::get('iletisim', 'ContactController@index')->name('contact');
-    Route::post('iletisim', 'ContactController@sendMail')->name('contact.post')->middleware(['throttle:3,10']);
+    Route::get('contact', 'ContactController@index')->name('contact');
+    Route::post('contact', 'ContactController@sendMail')->name('contact.post')->middleware(['throttle:3,10']);
     Route::get('sss', 'SSSController@list')->name('sss');
     Route::post('referanslar', 'ReferenceController@list')->name('referanslar');
     Route::get('{content:slug}', 'ContentController@detail')->name('content.detail');
@@ -26,13 +26,13 @@ Route::group(['middleware' => 'site.config'], function () {
     Route::get('/searchPageFilter', 'SearchController@searchPageFilterWithAjax');
     Route::get('/headerSearchBarOnChangeWithAjax', 'SearchController@headerSearchBarOnChangeWithAjax');
 
-    //------------Ajax Routes --------------------
+    // ------------Ajax Routes --------------------
     Route::post('check-product-variant/{product:id}', 'ProductController@checkProductVariant')->name('getProductVariantPriceAndQtyWithAjax');
     Route::get('productFilterWithAjax', 'CategoryController@productFilterWithAjax')->name('productFilterWithAjax');
 
-    //------------- Basket Routes --------------------
+    // ------------- Basket Routes --------------------
 
-    Route::group(['prefix' => 'sepet', 'middleware' => 'throttle:20'], function () {
+    Route::group(['prefix' => 'basket', 'middleware' => 'throttle:20'], function () {
         Route::get('', 'BasketController@index')->name('basket');
         Route::post('/ekle', 'BasketController@itemAddToBasket')->name('basket.add');
         Route::delete('/sil/{rowId}', 'BasketController@remove')->name('basket.remove');
@@ -45,19 +45,19 @@ Route::group(['middleware' => 'site.config'], function () {
         Route::post('/multiple-update', 'BasketController@updateMultipleBasketItem');
     });
 
-    //------------ Odeme Controller -------------------
-    Route::group(['prefix' => 'odeme/', 'middleware' => ['auth', 'throttle:20']], function () {
-        Route::get('adres', 'AddressController@addresses')->name('odeme.adres');
+    // ------------ Odeme Controller -------------------
+    Route::group(['prefix' => 'payment/', 'middleware' => ['auth', 'throttle:20']], function () {
+        Route::get('adres', 'AddressController@addresses')->name('payment.adres');
         Route::get('review', 'PaymentController@index')->name('odemeView');
         Route::post('review', 'PaymentController@payment')->name('payment.create');
         Route::get('taksit-getir', 'PaymentController@getIyzicoInstallmentCount')->name('odgetIyzicoInstallmentCount');
 
-        Route::get('threeDSecurityRequest', 'PaymentController@threeDSecurityRequest')->name('odeme.threeDSecurityRequest');
-        Route::post('threeDSecurityResponse', 'PaymentController@threeDSecurityResponse')->name('odeme.threeDSecurityResponse');
+        Route::get('threeDSecurityRequest', 'PaymentController@threeDSecurityRequest')->name('payment.threeDSecurityRequest');
+        Route::post('threeDSecurityResponse', 'PaymentController@threeDSecurityResponse')->name('payment.threeDSecurityResponse');
     });
 
-    //---------- User Routes ----------------------
-    Route::group(['prefix' => 'kullanici'], function () {
+    // ---------- User Routes ----------------------
+    Route::group(['prefix' => 'user'], function () {
         Route::get('/giris', 'UserController@loginForm')->name('user.login');
         Route::post('/giris', 'UserController@login');
         Route::post('/cikis', 'UserController@logout')->name('user.logout');
@@ -89,7 +89,7 @@ Route::group(['middleware' => 'site.config'], function () {
         Route::get('/getNeighByDistrict/{districtId}', 'CityTownController@getNeighByDistrictId');
     });
 
-    //Password Reset Routes...
+    // Password Reset Routes...
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -111,7 +111,7 @@ Route::group(['middleware' => 'site.config'], function () {
     Route::get('lang/{locale}', 'HomeController@setLanguage')->name('home.setLocale');
     // ------------Product Routes ----------------
     Route::get('{product:slug}', 'ProductController@detail')->name('product.detail');
-    Route::get('urun/quickView/{product:slug}', 'ProductController@quickView')->name('product.quickView');
+    Route::get('product/quickView/{product:slug}', 'ProductController@quickView')->name('product.quickView');
     Route::get('kategori/{categorySlug}', 'CategoryController@index')->name('category.detail');
     Route::post('product/add-comment/{product:id}', 'ProductController@createComment')->name('product.comments.add')->middleware('auth');
 });

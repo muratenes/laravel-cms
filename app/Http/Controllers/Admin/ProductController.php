@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Filters\ProductFilter;
 use App\Http\Requests\AdminProductSaveRequest;
 use App\Models\Kategori;
-use App\Models\Product\Urun;
-use App\Models\Product\UrunMarka;
+use App\Models\Product\Product;
+use App\Models\Product\ProductBrand;
 use App\Repositories\Interfaces\KategoriInterface;
 use App\Repositories\Interfaces\UrunFirmaInterface;
 use App\Repositories\Interfaces\UrunlerInterface;
@@ -50,18 +50,18 @@ class ProductController extends AdminController
     {
         $companies = $this->_productCompanyService->all();
         $categories = $this->categoryService->all();
-        $brands = UrunMarka::select(['id', 'title'])->orderBy('title')->get();
+        $brands = ProductBrand::select(['id', 'title'])->orderBy('title')->get();
 
         return view('admin.product.list_products', compact('categories', 'companies', 'brands'));
     }
 
     public function newOrEditProduct($product_id = 0)
     {
-        $product = new Urun();
+        $product = new Product();
         $productDetails = $productVariants = $productSelectedSubAttributesIdsPerAttribute = $selectedAttributeIdList = $productSelectedSubAttributesIdsPerAttribute = [];
 
         if (0 !== $product_id) {
-            $product = $this->model->getById($product_id, null, ['categories', 'variants.urunVariantSubAttributes', 'languages']);
+            $product = $this->model->getById($product_id, null, ['categories', 'variants.productVariantSubAttributes', 'languages']);
         }
         $data = [
             'categories'    => $this->categoryService->all(['parent_category_id' => null]),
@@ -130,11 +130,11 @@ class ProductController extends AdminController
     public function ajax(ProductFilter $filter)
     {
         return DataTables::of(
-            Urun::with(['company:id,title', 'categories', 'parent_category', 'sub_category', 'brand:id,title'])->filter($filter)
+            Product::with(['company:id,title', 'categories', 'parent_category', 'sub_category', 'brand:id,title'])->filter($filter)
         )->make(true);
     }
 
-    public function deleteProduct(Urun $product)
+    public function deleteProduct(Product $product)
     {
         $this->model->delete($product->id);
 

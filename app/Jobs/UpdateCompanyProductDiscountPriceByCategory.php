@@ -2,17 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Models\Ayar;
-use App\Models\Kampanya;
-use App\Models\KampanyaKategori;
-use App\Models\Product\Urun;
+use App\Models\Campaign;
+use App\Models\CampaignCategory;
+use App\Models\Config;
+use App\Models\Product\Product;
 use App\Repositories\Traits\CampaignTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateCompanyProductDiscountPriceByCategory //implements ShouldQueue
+class UpdateCompanyProductDiscountPriceByCategory // implements ShouldQueue
 {
     use CampaignTrait;
     use Dispatchable;
@@ -20,7 +20,7 @@ class UpdateCompanyProductDiscountPriceByCategory //implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected Kampanya $campaign;
+    protected Campaign $campaign;
     /**
      * @var array id
      */
@@ -57,19 +57,19 @@ class UpdateCompanyProductDiscountPriceByCategory //implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Kampanya $campaign
+     * @param Campaign $campaign
      * @param array    $selectedCategoriesIdList - seçili olan kategori id listesi
      * @param $oldCurrencyID
      * @param float $oldCampaignMinPrice
      */
-    public function __construct(Kampanya $campaign, array $selectedCategoriesIdList, $oldCurrencyID, float $oldCampaignMinPrice = 0)
+    public function __construct(Campaign $campaign, array $selectedCategoriesIdList, $oldCurrencyID, float $oldCampaignMinPrice = 0)
     {
         // todo : genel olarak güncelleme işlemi yapılmadan önceki entry gönderilmesi lazım
         $this->campaign = $campaign;
         $this->campaignCategoriesIDList = $selectedCategoriesIdList;
         $this->oldCurrencyID = $oldCurrencyID;
-        $this->productPriceField = Ayar::getCurrencyPrefixByCurrencyID($campaign->currency_id) . '_price';
-        $this->productDiscountPriceField = Ayar::getCurrencyPrefixByCurrencyID($campaign->currency_id) . '_discount_price';
+        $this->productPriceField = Config::getCurrencyPrefixByCurrencyID($campaign->currency_id) . '_price';
+        $this->productDiscountPriceField = Config::getCurrencyPrefixByCurrencyID($campaign->currency_id) . '_discount_price';
         $this->oldCampaignMinPrice = $oldCampaignMinPrice;
     }
 
@@ -99,7 +99,7 @@ class UpdateCompanyProductDiscountPriceByCategory //implements ShouldQueue
 
     private function products()
     {
-        return Urun::whereHas('categories', function ($query) {
+        return Product::whereHas('categories', function ($query) {
             $query->whereIn('category_id', $this->campaignCategoriesIDList);
         })
             ->where($this->productPriceField, '>', $this->campaign->min_price ?? 0)
@@ -111,13 +111,13 @@ class UpdateCompanyProductDiscountPriceByCategory //implements ShouldQueue
      */
     private function _deleteOldCategoryProductDiscountPrices()
     {
-        $oldCategoriesIdList = KampanyaKategori::where(['campaign_id' => $this->campaign->id])
+        $oldCategoriesIdList = CampaignCategory::where(['campaign_id' => $this->campaign->id])
             ->get()->pluck('category_id')->toArray();
 
         $deleteOldDiffPriceCategoriesIdList = array_diff($oldCategoriesIdList, $this->campaignCategoriesIDList);
-        $oldPriceFieldPrefix = Ayar::getCurrencyPrefixByCurrencyID($this->oldCurrencyID);
+        $oldPriceFieldPrefix = Config::getCurrencyPrefixByCurrencyID($this->oldCurrencyID);
 
-        Urun::whereHas('categories', function ($query) use ($deleteOldDiffPriceCategoriesIdList) {
+        Product::whereHas('categories', function ($query) use ($deleteOldDiffPriceCategoriesIdList) {
             $query->whereIn('category_id', $deleteOldDiffPriceCategoriesIdList);
         })
             ->where($oldPriceFieldPrefix . '_price', '>', $this->oldCampaignMinPrice)

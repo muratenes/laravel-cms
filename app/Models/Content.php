@@ -16,7 +16,6 @@ class Content extends Model
     public const MODULE_NAME = 'content';
     public const IMAGE_RESIZE = null;
 
-    protected $table = 'icerik_yonetim';
     protected $perPage = 20;
     protected $guarded = ['id'];
     protected $appends = ['lang_icon'];

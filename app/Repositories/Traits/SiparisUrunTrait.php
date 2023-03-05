@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Traits;
 
+use App\Models\Basket;
 use App\Models\Log;
-use App\Models\Sepet;
-use App\Models\Siparis;
+use App\Models\Order;
 use App\Notifications\order\OrderItemStatusChangedNotification;
 use Illuminate\Http\Request;
 
@@ -26,12 +26,12 @@ trait SiparisUrunTrait
     }
 
     /**
-     * sepet ürün statusleri günceller.
+     * basket ürün statusleri günceller.
      *
      * @param Request $request
-     * @param Siparis $order
+     * @param Order   $order
      */
-    protected function checkBasketItemsStatus(Request $request, Siparis $order)
+    protected function checkBasketItemsStatus(Request $request, Order $order)
     {
         foreach ($order->basket->basket_items as $item) {
             $status = $request->get("orderItem{$item->id}");

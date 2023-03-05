@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\UrunFirma;
-use App\Models\Product\UrunMarka;
+use App\Models\Product\ProductBrand;
+use App\Models\Product\ProductCompany;
 use App\Repositories\Interfaces\UrunMarkaInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class ProductBrandController extends Controller
 
     public function detail($id = 0)
     {
-        $item = 0 !== $id ? $this->model->find($id) : new UrunMarka();
+        $item = 0 !== $id ? $this->model->find($id) : new ProductBrand();
 
         return view('admin.product.brands.newOrEditProductBrand', compact('item'));
     }
@@ -48,13 +48,13 @@ class ProductBrandController extends Controller
 
         if ($entry) {
             if (request()->hasFile('image')) {
-                $this->uploadImage($request->file('image'), $request_data['title'], 'public/company', $entry->image, UrunFirma::MODULE_NAME);
+                $this->uploadImage($request->file('image'), $request_data['title'], 'public/company', $entry->image, ProductCompany::MODULE_NAME);
             }
             success();
 
             return redirect(route('admin.product.brands.edit', $entry->id));
         }
-        UrunMarka::clearCache();
+        ProductBrand::clearCache();
 
         return back()->withInput();
     }
@@ -62,7 +62,7 @@ class ProductBrandController extends Controller
     public function delete($id)
     {
         $this->model->delete($id);
-        UrunMarka::clearCache();
+        ProductBrand::clearCache();
 
         return redirect(route('admin.product.brands.list'));
     }

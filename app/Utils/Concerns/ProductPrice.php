@@ -2,7 +2,7 @@
 
 namespace App\Utils\Concerns;
 
-use App\Models\Ayar;
+use App\Models\Config;
 use Illuminate\Database\Eloquent\Model;
 
 trait ProductPrice
@@ -25,7 +25,7 @@ trait ProductPrice
             return $this->cargo_price;
         }
 
-        return Ayar::getCache()->cargo_price;
+        return Config::getCache()->cargo_price;
     }
 
     /**
@@ -35,7 +35,7 @@ trait ProductPrice
      */
     public function getCurrentPriceAttribute()
     {
-        $priceColumnNamePrefix = Ayar::getCurrencyProductPrefixByID() . '_price';
+        $priceColumnNamePrefix = Config::getCurrencyProductPrefixByID() . '_price';
 
         return $this->{$priceColumnNamePrefix};
     }
@@ -47,7 +47,7 @@ trait ProductPrice
      */
     public function getCurrentDiscountPriceAttribute()
     {
-        $discountPriceColumnNamePrefix = Ayar::getCurrencyProductPrefixByID() . '_discount_price';
+        $discountPriceColumnNamePrefix = Config::getCurrencyProductPrefixByID() . '_discount_price';
 
         return $this->{$discountPriceColumnNamePrefix};
     }
@@ -69,7 +69,7 @@ trait ProductPrice
      */
     public function getCurrentSymbolAttribute()
     {
-        return Ayar::currencies()[Ayar::getCurrencyId()][2];
+        return Config::currencies()[Config::getCurrencyId()][2];
     }
 
     /**
@@ -79,7 +79,7 @@ trait ProductPrice
      */
     public function getCurrentLastPriceAttribute()
     {
-        $priceColumnNamePrefix = Ayar::getCurrencyProductPrefixByID();
+        $priceColumnNamePrefix = Config::getCurrencyProductPrefixByID();
         $discountPriceColumnNamePrefix = $priceColumnNamePrefix . '_discount_price';
         $priceColumnNamePrefix .= '_price';
 

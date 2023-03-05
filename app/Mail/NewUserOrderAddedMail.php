@@ -2,9 +2,9 @@
 
 namespace App\Mail;
 
-use App\Models\Ayar;
-use App\Models\Sepet;
-use App\Models\Siparis;
+use App\Models\Basket;
+use App\Models\Config;
+use App\Models\Order;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -16,23 +16,23 @@ class NewUserOrderAddedMail extends Mailable
     use SerializesModels;
 
     public User $user;
-    public Sepet $basket;
-    public Siparis $order;
-    public Ayar $site;
+    public Basket $basket;
+    public Order $order;
+    public Config $site;
 
     /**
      * Create a new job instance.
      *
-     * @param Sepet   $basket
-     * @param User    $user
-     * @param Siparis $order
+     * @param Basket $basket
+     * @param User   $user
+     * @param Order  $order
      */
-    public function __construct(Sepet $basket, User $user, Siparis $order)
+    public function __construct(Basket $basket, User $user, Order $order)
     {
         $this->basket = $basket;
         $this->user = $user;
         $this->order = $order;
-        $this->site = Ayar::getCache();
+        $this->site = Config::getCache();
     }
 
     /**

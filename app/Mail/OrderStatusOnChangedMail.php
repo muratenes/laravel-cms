@@ -2,9 +2,9 @@
 
 namespace App\Mail;
 
-use App\Models\Ayar;
-use App\Models\Sepet;
-use App\Models\Siparis;
+use App\Models\Basket;
+use App\Models\Config;
+use App\Models\Order;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -19,18 +19,18 @@ class OrderStatusOnChangedMail extends Mailable
      * Create a new message instance.
      */
     public User $user;
-    public Siparis $order;
-    public Sepet $basket;
-    public Ayar $site;
+    public Order $order;
+    public Basket $basket;
+    public Config $site;
     public string $orderStatusText;
 
-    public function __construct(User $user, Siparis $order)
+    public function __construct(User $user, Order $order)
     {
         $this->user = $user;
         $this->order = $order;
         $this->basket = $order->basket;
-        $this->site = Ayar::getCache();
-        $this->orderStatusText = Siparis::statusLabelStatic($this->order->status);
+        $this->site = Config::getCache();
+        $this->orderStatusText = Order::statusLabelStatic($this->order->status);
     }
 
     /**

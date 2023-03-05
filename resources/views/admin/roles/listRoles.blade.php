@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','SSS Listesi')
+@section('title','FAQ Listesi')
 
 
 @section('content')

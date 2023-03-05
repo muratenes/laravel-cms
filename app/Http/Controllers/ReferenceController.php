@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Referance;
+use App\Models\Reference;
 use App\Repositories\Interfaces\ReferenceInterface;
 
 class ReferenceController extends Controller
@@ -18,11 +18,11 @@ class ReferenceController extends Controller
     {
         $list = $this->_referenceService->allWithPagination();
 
-        return view('site.referans.listReferences', compact('list'));
+        return view('site.reference.listReferences', compact('list'));
     }
 
-    public function detail(Referance $reference)
+    public function detail(Reference $reference)
     {
-        return view('site.referans.referenceDetail', compact('reference'));
+        return view('site.reference.referenceDetail', compact('reference'));
     }
 }

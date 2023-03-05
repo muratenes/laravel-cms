@@ -3,8 +3,8 @@
 namespace App\Notifications\order;
 
 use App\Mail\Order\OrderCreateadMail;
-use App\Models\Sepet;
-use App\Models\Siparis;
+use App\Models\Basket;
+use App\Models\Order;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -14,21 +14,21 @@ class OrderCreatedNotification extends Notification
     use Queueable;
 
     /**
-     * @var Siparis
+     * @var Order
      */
-    public Siparis $order;
+    public Order $order;
 
     /**
-     * @var Sepet
+     * @var Basket
      */
-    public Sepet $basket;
+    public Basket $basket;
 
     /**
      * Create a new notification instance.
      *
-     * @param Siparis $order
+     * @param Order $order
      */
-    public function __construct(Siparis $order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
         $this->basket = $order->basket;

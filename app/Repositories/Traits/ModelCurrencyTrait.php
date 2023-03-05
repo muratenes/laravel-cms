@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Traits;
 
-use App\Models\Ayar;
+use App\Models\Config;
 
 trait ModelCurrencyTrait
 {
@@ -11,6 +11,6 @@ trait ModelCurrencyTrait
      */
     public function getCurrencySymbolAttribute()
     {
-        return Ayar::getCurrencySymbolById($this->currency_id);
+        return Config::getCurrencySymbolById($this->currency_id);
     }
 }

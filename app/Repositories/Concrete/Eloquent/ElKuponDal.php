@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
+use App\Models\Basket;
 use App\Models\Coupon;
-use App\Models\Product\Urun;
-use App\Models\Sepet;
+use App\Models\Product\Product;
 use App\Repositories\Interfaces\KuponInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Carbon\Carbon;
@@ -21,15 +21,15 @@ class ElKuponDal extends BaseRepository implements KuponInterface
     }
 
     /**
-     * @param int[]      $productIdList     sepette bulunan ürünlerin id listesi
-     * @param string     $couponCode
-     * @param float      $cartSubTotalPrice sepetteki ürünlerin sub total değeri
-     * @param int        $currency          para birimi
-     * @param null|Sepet $basket
+     * @param int[]       $productIdList     sepette bulunan ürünlerin id listesi
+     * @param string      $couponCode
+     * @param float       $cartSubTotalPrice sepetteki ürünlerin sub total değeri
+     * @param int         $currency          para birimi
+     * @param null|Basket $basket
      *
      * @return array
      */
-    public function checkCoupon(array $productIdList, string $couponCode, float $cartSubTotalPrice, int $currency, ?Sepet $basket)
+    public function checkCoupon(array $productIdList, string $couponCode, float $cartSubTotalPrice, int $currency, ?Basket $basket)
     {
         $currentDate = Carbon::now();
         $coupon = Coupon::with('categories.sub_categories')->where([
@@ -47,7 +47,7 @@ class ElKuponDal extends BaseRepository implements KuponInterface
         }
         $categoryIDList = [];
 
-        $productCategories = Urun::select('parent_category_id', 'sub_category_id')->whereIn('id', $productIdList)->get();
+        $productCategories = Product::select('parent_category_id', 'sub_category_id')->whereIn('id', $productIdList)->get();
         foreach ($productCategories as $product) {
             $categoryIDList[] = $product->parent_category_id;
             $categoryIDList[] = $product->sub_category_id;
@@ -106,9 +106,9 @@ class ElKuponDal extends BaseRepository implements KuponInterface
     /**
      * kuponu sessiondan ve veritabanından siler.
      *
-     * @param null|Sepet $basket
+     * @param null|Basket $basket
      */
-    private function forgetCoupon(?Sepet $basket)
+    private function forgetCoupon(?Basket $basket)
     {
         session()->forget('coupon');
         if ($basket) {

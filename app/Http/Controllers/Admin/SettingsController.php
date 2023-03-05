@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ayar;
+use App\Models\Config;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
@@ -14,18 +14,18 @@ class SettingsController extends Controller
     public function list()
     {
         return view('admin.config.list_configs', [
-            'list' => Ayar::all(),
+            'list' => Config::all(),
         ]);
     }
 
     public function show($id)
     {
-        $addedLanguages = Ayar::all()->pluck('lang')->toArray();
+        $addedLanguages = Config::all()->pluck('lang')->toArray();
 
         if ($id) {
-            $config = Ayar::findOrFail($id);
+            $config = Config::findOrFail($id);
         } else {
-            $config = new Ayar();
+            $config = new Config();
         }
 
         return view('admin.config.newOrEditConfigForm', compact('config', 'addedLanguages'));
@@ -41,7 +41,7 @@ class SettingsController extends Controller
     {
         $data = $this->validateRequest($request);
         $data['active'] = activeStatus();
-        $sameLangConfig = Ayar::where('lang', $data['lang'])->where('id', '!=', $id)->first();
+        $sameLangConfig = Config::where('lang', $data['lang'])->where('id', '!=', $id)->first();
 
         if ($sameLangConfig) {
             $sameLangConfig->update($data);
@@ -50,10 +50,10 @@ class SettingsController extends Controller
             return redirect(route('admin.config.show', $sameLangConfig->id));
         }
         if ($id) {
-            $entry = Ayar::find($id);
+            $entry = Config::find($id);
             $entry->update($data);
         } else {
-            $entry = Ayar::create($data);
+            $entry = Config::create($data);
         }
 
         if ($entry) {
@@ -66,7 +66,7 @@ class SettingsController extends Controller
                 'footer_logo' => $footer_logo,
                 'logo'        => $logo,
             ]);
-            Ayar::setCache($entry, $entry->lang);
+            Config::setCache($entry, $entry->lang);
         }
 
         return redirect(route('admin.config.show', $entry->id))->with('message', 'güncellendi');

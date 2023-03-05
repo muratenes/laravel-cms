@@ -11,31 +11,31 @@ class CreateCampaignRelationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('kampanya_urunler', function (Blueprint $table) {
+        Schema::create('campaign_products', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('campaign_id');
             $table->unsignedInteger('product_id');
 
-            $table->foreign('campaign_id')->references('id')->on('kampanyalar')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('urunler')->onDelete('cascade');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
-        Schema::create('kampanya_kategoriler', function (Blueprint $table) {
+        Schema::create('campaign_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('campaign_id');
             $table->unsignedInteger('category_id');
 
-            $table->foreign('campaign_id')->references('id')->on('kampanyalar')->onDelete('cascade');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('kategoriler')->onDelete('cascade');
         });
 
-        Schema::create('kampanya_markalar', function (Blueprint $table) {
+        Schema::create('campaign_brands', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('campaign_id');
             $table->unsignedInteger('company_id');
 
-            $table->foreign('campaign_id')->references('id')->on('kampanyalar')->onDelete('cascade');
-            $table->foreign('company_id')->references('id')->on('firmalar')->onDelete('cascade');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('product_companies')->onDelete('cascade');
         });
     }
 
@@ -44,8 +44,8 @@ class CreateCampaignRelationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kampanya_urunler');
-        Schema::dropIfExists('kampanya_kategoriler');
-        Schema::dropIfExists('kampanya_markalar');
+        Schema::dropIfExists('campaign_products');
+        Schema::dropIfExists('campaign_categories');
+        Schema::dropIfExists('campaign_brands');
     }
 }

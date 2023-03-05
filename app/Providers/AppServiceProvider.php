@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\Listeners\LoggingListener;
-use App\Models\Ayar;
-use App\Models\Product\Urun;
-use App\Models\Siparis;
+use App\Models\Config;
+use App\Models\Order;
+use App\Models\Product\Product;
 use App\Observers\OrderObserver;
 use App\Observers\UrunObserver;
 use App\Repositories\Concrete\ElBaseRepository;
@@ -24,12 +24,12 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         View::composer(['admin.*'], function ($view) {
-            $languages = Ayar::activeLanguages();
+            $languages = Config::activeLanguages();
 
             $view->with(compact('languages'));
         });
-        Urun::observe(UrunObserver::class);
-        Siparis::observe(OrderObserver::class);
+        Product::observe(UrunObserver::class);
+        Order::observe(OrderObserver::class);
 
         Blade::if('admin', function ($value) {
             return admin($value);

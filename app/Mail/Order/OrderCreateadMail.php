@@ -2,8 +2,8 @@
 
 namespace App\Mail\Order;
 
-use App\Models\Sepet;
-use App\Models\Siparis;
+use App\Models\Basket;
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,21 +15,21 @@ class OrderCreateadMail extends Mailable implements ShouldQueue
     use SerializesModels;
 
     /**
-     * @var Siparis
+     * @var Order
      */
-    public Siparis $order;
+    public Order $order;
 
     /**
-     * @var Sepet
+     * @var Basket
      */
-    public Sepet $basket;
+    public Basket $basket;
 
     /**
      * Create a new notification instance.
      *
-     * @param Siparis $order
+     * @param Order $order
      */
-    public function __construct(Siparis $order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
         $this->basket = $order->basket;

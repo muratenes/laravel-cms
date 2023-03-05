@@ -2,8 +2,8 @@
 
 namespace App\Utils\Concerns\Admin;
 
-use App\Models\Product\Urun;
-use App\Models\Product\UrunImage;
+use App\Models\Product\Product;
+use App\Models\Product\ProductImage;
 use Illuminate\Http\Request;
 
 trait ProductConcern
@@ -37,19 +37,19 @@ trait ProductConcern
      *  ürün galeri yükler.
      *
      * @param Request $request
-     * @param Urun    $entry
+     * @param Product $entry
      */
-    protected function uploadProductMainImageAndGallery(Request $request, Urun $entry)
+    protected function uploadProductMainImageAndGallery(Request $request, Product $entry)
     {
         if ($request->hasFile('image')) {
-            $imagePath = $this->uploadImage($request->file('image'), $entry->title, 'public/products', $entry->image, Urun::MODULE_NAME);
+            $imagePath = $this->uploadImage($request->file('image'), $entry->title, 'public/products', $entry->image, Product::MODULE_NAME);
             $entry->update(['image' => $imagePath]);
         }
         if ($request->hasFile('imageGallery')) {
             foreach (request()->file('imageGallery') as $index => $file) {
                 if ($index < 10) {
-                    $uploadPath = $this->uploadImage($file, $entry->title, 'public/product-gallery/', null, UrunImage::MODULE_NAME);
-                    UrunImage::create(['product' => $entry->id, 'image' => $uploadPath]);
+                    $uploadPath = $this->uploadImage($file, $entry->title, 'public/product-gallery/', null, ProductImage::MODULE_NAME);
+                    ProductImage::create(['product' => $entry->id, 'image' => $uploadPath]);
                 } else {
                     session()->flash('message', 'ürüne ait en fazla 10 adet resim yükleyebilirsiniz');
                     session()->flash('message_type', 'danger');
@@ -73,7 +73,7 @@ trait ProductConcern
         $index = 0;
         do {
             if ($request->has("attribute{$index}")) {
-                array_push($productSelectedAttributesIdAnSubAttributeIdList, [$request->get("attribute{$index}"), $request->get("subAttributes{$index}")]);
+                $productSelectedAttributesIdAnSubAttributeIdList[] = [$request->get("attribute{$index}"), $request->get("subAttributes{$index}")];
             }
             $index++;
         } while ($index < 10);

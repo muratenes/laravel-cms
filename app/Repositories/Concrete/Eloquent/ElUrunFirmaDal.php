@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Product\UrunFirma;
+use App\Models\Product\ProductCompany;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\UrunFirmaInterface;
 
@@ -10,7 +10,7 @@ class ElUrunFirmaDal implements UrunFirmaInterface
 {
     protected $model;
 
-    public function __construct(UrunFirma $model)
+    public function __construct(ProductCompany $model)
     {
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }

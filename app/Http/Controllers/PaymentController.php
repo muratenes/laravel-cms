@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentValidationRequest;
 use App\Jobs\NewOrderAddedJob;
-use App\Models\Ayar;
+use App\Models\Basket;
+use App\Models\BasketItem;
+use App\Models\Config;
 use App\Models\Iyzico;
 use App\Models\Log;
-use App\Models\Sepet;
-use App\Models\SepetUrun;
-use App\Models\Siparis;
+use App\Models\Order;
 use App\Models\İyzicoFailsJson;
 use App\Repositories\Interfaces\AccountInterface;
 use App\Repositories\Interfaces\CityTownInterface;
@@ -45,7 +45,7 @@ class PaymentController extends Controller
 
     public function index(Request $request)
     {
-        $basket = Sepet::getCurrentBasket();
+        $basket = Basket::getCurrentBasket();
         $this->matchSessionCartWithBasketItems($basket);
 
         if (0 === $this->getBasketItemCount() || 0 === $basket->basket_items->count()) {
@@ -55,18 +55,18 @@ class PaymentController extends Controller
         if (! $request->user()->default_address) {
             error(__('lang.no_address_information_is_entered_selected_please_add_or_select_a_new_address_below'));
 
-            return redirect()->route('odeme.adres');
+            return redirect()->route('payment.adres');
         }
         $address = $request->user()->default_address;
         $states = $this->cityTownService->all();
         $defaultInvoiceAddress = $request->user()->default_invoice_address;
-        $owner = Ayar::getCache();
+        $owner = Config::getCache();
 
         if (session()->get('coupon')) {
             $this->couponService->checkCoupon($this->getProductIdList(), session()->get('coupon')['code'], $this->getCardSubTotal(), $basket->currency_id, $basket);
         }
 
-        return view('site.odeme.payment', compact('address', 'states', 'defaultInvoiceAddress', 'owner', 'basket'));
+        return view('site.payment.payment', compact('address', 'states', 'defaultInvoiceAddress', 'owner', 'basket'));
     }
 
     /**
@@ -80,8 +80,8 @@ class PaymentController extends Controller
     {
         try {
             $user = $request->user();
-            $currentBasket = Sepet::getCurrentBasket();
-            Log::addIyzicoLog('Ödeme işlemine başlandı', "sepet id : {$currentBasket->id}", $currentBasket->id);
+            $currentBasket = Basket::getCurrentBasket();
+            Log::addIyzicoLog('Ödeme işlemine başlandı', "basket id : {$currentBasket->id}", $currentBasket->id);
             \DB::beginTransaction();
 
             if (! $currentBasket->basket_items->count()) {
@@ -95,11 +95,11 @@ class PaymentController extends Controller
             $payment = $this->paymentService->makeIyzicoPayment($order, $currentBasket, $creditCartInfo, $currentBasket->user, $invoiceAddress, $defaultAddress);
             if ('success' === $payment['status']) {
                 $iyzico3DResponse = $this->getIyzico3DSecurityDetailsFromIyzicoResponseData($payment);
-                Session::put('conversationId', $iyzico3DResponse['conversationId']); //basket id
+                Session::put('conversationId', $iyzico3DResponse['conversationId']); // basket id
                 Session::put('threeDSHtmlContent', $iyzico3DResponse['threeDSHtmlContent']);
                 \DB::commit();
 
-                return redirect()->route('odeme.threeDSecurityRequest');
+                return redirect()->route('payment.threeDSecurityRequest');
             }
             $this->paymentService->logPaymentError($payment, $order);
             error($payment['errorMessage']);
@@ -130,7 +130,7 @@ class PaymentController extends Controller
             return redirect()->route('odemeView')->withErrors(__('lang.no_order_found_to_pay'));
         }
 
-        return view('site.odeme.iyzico.threeDSecurity');
+        return view('site.payment.iyzico.threeDSecurity');
     }
 
     /**
@@ -145,7 +145,7 @@ class PaymentController extends Controller
         $requestData = $request->only('status', 'paymentId', 'conversationId', 'mdStatus');
         $orderId = session()->get('orderId');
         Log::addIyzicoLog('iyzico 3D response geldi', (string) json_encode($requestData), $orderId, Log::TYPE_ORDER);
-        $order = Siparis::find($orderId);
+        $order = Order::find($orderId);
 
         if ('success' !== $requestData['status']) {
             Log::addIyzicoLog('iyzico 3D response success değil', (string) json_encode($requestData), $orderId, Log::TYPE_ORDER);
@@ -166,7 +166,7 @@ class PaymentController extends Controller
             return redirect()->route('user.orders')->with('message', __('lang.the_order_has_been_received_successfully'));
         }
         $message = (array) $isThreeDSCompletedResponse['errorMessage'];
-        İyzicoFailsJson::addLog(null, $order->full_name, $order->sepet_id, json_encode($isThreeDSCompletedResponse, \JSON_UNESCAPED_UNICODE));
+        İyzicoFailsJson::addLog(null, $order->full_name, $order->basket_id, json_encode($isThreeDSCompletedResponse, \JSON_UNESCAPED_UNICODE));
 
         return redirect()->route('odemeView')->withErrors($message);
     }
@@ -174,14 +174,14 @@ class PaymentController extends Controller
     /**
      * sipariş tamamlandığında stok düşürme kupon silme işlemlerini yapar.
      *
-     * @param Siparis $order
+     * @param Order $order
      *
      * @return bool
      */
-    public function completeOrderStatusChangeToTrue(Siparis $order)
+    public function completeOrderStatusChangeToTrue(Order $order)
     {
         $basket = $order->basket;
-        $order->update(['is_payment' => 1, 'status' => Siparis::STATUS_ONAY_BEKLIYOR]);
+        $order->update(['is_payment' => 1, 'status' => Order::STATUS_ONAY_BEKLIYOR]);
         Log::addIyzicoLog('sipariş durumu tamamlandı olarak işaretlenecek', $basket ? $basket->toJson() : '', $basket->id);
 
         $this->dispatch(new NewOrderAddedJob($order));
@@ -190,10 +190,10 @@ class PaymentController extends Controller
             $this->removeCartItem($cartItem->id);
         }
         $this->couponService->decrementCouponQty($basket->coupon_id);
-        $basket->basket_items()->update(['status' => SepetUrun::STATUS_ONAY_BEKLIYOR]);
+        $basket->basket_items()->update(['status' => BasketItem::STATUS_ONAY_BEKLIYOR]);
         session()->forget(['current_basket_id', 'orderId']);
 
-        Log::addIyzicoLog('Sipariş is_payment tamamlandı eski sepet silindi', null, $order->id, Log::TYPE_ORDER);
+        Log::addIyzicoLog('Sipariş is_payment tamamlandı eski basket silindi', null, $order->id, Log::TYPE_ORDER);
 
         return true;
     }

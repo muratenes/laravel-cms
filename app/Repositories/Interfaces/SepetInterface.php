@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Siparis;
+use App\Models\Order;
 
 interface SepetInterface extends BaseRepositoryInterface
 {
@@ -11,9 +11,9 @@ interface SepetInterface extends BaseRepositoryInterface
     /**
      * Sepetteki ürünleri iptal eder ve refunded_amountları günceller.
      *
-     * @param Siparis $order
+     * @param Order $order
      *
      * @return mixed
      */
-    public function cancelBasketItems(Siparis $order);
+    public function cancelBasketItems(Order $order);
 }

@@ -2,18 +2,18 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
+use App\Models\CategoryProduct;
 use App\Models\Kategori;
-use App\Models\KategoriUrun;
-use App\Models\Product\Urun;
-use App\Models\Product\UrunAttribute;
-use App\Models\Product\UrunDetail;
-use App\Models\Product\UrunImage;
-use App\Models\Product\UrunInfo;
-use App\Models\Product\UrunMarka;
-use App\Models\Product\UrunSubAttribute;
-use App\Models\Product\UrunSubDetail;
-use App\Models\Product\UrunVariant;
-use App\Models\Product\UrunVariantSubAttribute;
+use App\Models\Product\Product;
+use App\Models\Product\ProductAttribute;
+use App\Models\Product\ProductBrand;
+use App\Models\Product\ProductDetail;
+use App\Models\Product\ProductImage;
+use App\Models\Product\ProductInfo;
+use App\Models\Product\ProductSubAttribute;
+use App\Models\Product\ProductSubDetail;
+use App\Models\Product\ProductVariant;
+use App\Models\Product\ProductVariantSubAttribute;
 use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\UrunlerInterface;
 use App\Repositories\Traits\ResponseTrait;
@@ -30,7 +30,7 @@ class ElUrunlerDal implements UrunlerInterface
     protected $urunSubAttributeService;
     protected $categoryService;
 
-    public function __construct(Urun $model, UrunAttribute $urunAttributeService, UrunSubAttribute $urunSubAttributeService, Kategori $categoryService)
+    public function __construct(Product $model, ProductAttribute $urunAttributeService, ProductSubAttribute $urunSubAttributeService, Kategori $categoryService)
     {
         $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
         $this->urunAttributeService = app()->makeWith(ElBaseRepository::class, ['model' => $urunAttributeService]);
@@ -59,7 +59,7 @@ class ElUrunlerDal implements UrunlerInterface
             $columns = ['*'];
         }
 
-        return Urun::select($columns)->where($field, $value)->when(null !== $relations, function ($query) use ($relations) {
+        return Product::select($columns)->where($field, $value)->when(null !== $relations, function ($query) use ($relations) {
             return $query->with($relations);
         })->withCount('activeComments')->firstOrFail();
     }
@@ -126,13 +126,13 @@ class ElUrunlerDal implements UrunlerInterface
         try {
             $entry = $this->getById($id);
             if (! isset($productData['code']) && config('admin.product.auto_code')) {
-                $productData['code'] = (int) (($entry->id . rand(1000, 999999)));
+                $productData['code'] = (int) ($entry->id . rand(1000, 999999));
             }
             $this->update($productData, $id);
             $entry->categories()->sync($categories);
             if (null !== $selected_attributes_and_sub_attributes) {
                 foreach ($selected_attributes_and_sub_attributes as $attribute) {
-                    $productDetail = UrunDetail::firstOrCreate(['product' => $entry->id, 'parent_attribute' => $attribute[0]]);
+                    $productDetail = ProductDetail::firstOrCreate(['product' => $entry->id, 'parent_attribute' => $attribute[0]]);
                     $productDetail->subDetailsForSync()->sync($attribute[1]);
                 }
             }
@@ -150,13 +150,13 @@ class ElUrunlerDal implements UrunlerInterface
     public function createWithCategory(array $productData, array $categories, array $selected_attributes_and_sub_attributes)
     {
         try {
-            $code = $productData['code'] ?: (config('admin.product_auto_code') ? (int) ((rand(1000, 999999))) : null);
+            $code = $productData['code'] ?: (config('admin.product_auto_code') ? (int) (rand(1000, 999999)) : null);
             $entry = $this->create($productData);
             $productDetailData['code'] = $code;
             $entry->categories()->attach($categories);
             if (null !== $selected_attributes_and_sub_attributes) {
                 foreach ($selected_attributes_and_sub_attributes as $attribute) {
-                    $productDetail = UrunDetail::create(['product' => $entry->id, 'parent_attribute' => $attribute[0]]);
+                    $productDetail = ProductDetail::create(['product' => $entry->id, 'parent_attribute' => $attribute[0]]);
                     $productDetail->subDetailsForSync()->attach($attribute[1]);
                 }
             }
@@ -177,15 +177,15 @@ class ElUrunlerDal implements UrunlerInterface
             $file_name = $product->id . '-' . Str::slug($product->title) . '.jpg';
             $image_resize = Image::make($image_file->getRealPath());
             $image_resize->backup();
-            $image_resize->resize((getimagesize($image_file)[0] / 2), getimagesize($image_file)[1] / 2);
-            $image_resize->save(public_path(config('constants.image_paths.product_image_folder_path') . $file_name), Urun::IMAGE_QUALITY);
+            $image_resize->resize(getimagesize($image_file)[0] / 2, getimagesize($image_file)[1] / 2);
+            $image_resize->save(public_path(config('constants.image_paths.product_image_folder_path') . $file_name), Product::IMAGE_QUALITY);
             $image_resize->reset();
-            if (Urun::IMAGE_RESIZE) {
-                $image_resize->resize(Urun::IMAGE_RESIZE[0], Urun::IMAGE_RESIZE[1]);
-            } elseif (Urun::IMAGE_RESIZE === null) {
-                $image_resize->resize((getimagesize($image_file)[0] / 2), getimagesize($image_file)[1] / 2);
+            if (Product::IMAGE_RESIZE) {
+                $image_resize->resize(Product::IMAGE_RESIZE[0], Product::IMAGE_RESIZE[1]);
+            } elseif (Product::IMAGE_RESIZE === null) {
+                $image_resize->resize(getimagesize($image_file)[0] / 2, getimagesize($image_file)[1] / 2);
             }
-            $image_resize->save(public_path(config('constants.image_paths.product270x250_folder_path') . $file_name), Urun::IMAGE_QUALITY);
+            $image_resize->save(public_path(config('constants.image_paths.product270x250_folder_path') . $file_name), Product::IMAGE_QUALITY);
             $product->update(['image' => $file_name]);
         } else {
             session()->flash('message', $image_file->getErrorMessage());
@@ -202,7 +202,7 @@ class ElUrunlerDal implements UrunlerInterface
 
     public function getAllSubAttributes()
     {
-        return UrunSubAttribute::whereHas('attribute', function ($query) {
+        return ProductSubAttribute::whereHas('attribute', function ($query) {
             $query->where('active', 1);
         })->get();
     }
@@ -215,12 +215,12 @@ class ElUrunlerDal implements UrunlerInterface
     public function deleteProductDetail($detailId)
     {
         try {
-            $productDetail = UrunDetail::with('product.variants')->findOrFail($detailId);
+            $productDetail = ProductDetail::with('product.variants')->findOrFail($detailId);
 
             $productId = $productDetail->product;
             $subAttributeIdList = $productDetail->attribute->subAttributes->pluck('id');
-            $productVariantsIdList = Urun::with('variants')->whereId($productId)->first()->variants()->pluck('id');
-            $data = UrunVariantSubAttribute::where(function ($query) use ($productVariantsIdList) {
+            $productVariantsIdList = Product::with('variants')->whereId($productId)->first()->variants()->pluck('id');
+            $data = ProductVariantSubAttribute::where(function ($query) use ($productVariantsIdList) {
                 foreach ($productVariantsIdList as $variant_id) {
                     $query->orWhere('variant_id', $variant_id);
                 }
@@ -251,8 +251,8 @@ class ElUrunlerDal implements UrunlerInterface
     public function deleteProductVariant($variantId)
     {
         try {
-            $productVariant = UrunVariant::findOrFail($variantId);
-            $productVariant->urunVariantSubAttributesForSync()->detach();
+            $productVariant = ProductVariant::findOrFail($variantId);
+            $productVariant->productVariantSubAttributesForSync()->detach();
             $productVariant->delete();
 
             return 'true';
@@ -262,37 +262,37 @@ class ElUrunlerDal implements UrunlerInterface
     }
 
     /**
-     * @param Urun       $product                        ürün id
+     * @param Product    $product                        ürün id
      * @param array      $variantData                    variant array data
      * @param null|array $selectedVariantAttributeIDList seçili olan attribute list
      */
-    public function saveProductVariants(Urun $product, array $variantData, ?array $selectedVariantAttributeIDList)
+    public function saveProductVariants(Product $product, array $variantData, ?array $selectedVariantAttributeIDList)
     {
-        $variant = UrunVariant::urunHasVariant($product->id, $selectedVariantAttributeIDList, $variantData['currency']);
+        $variant = ProductVariant::urunHasVariant($product->id, $selectedVariantAttributeIDList, $variantData['currency']);
         if ($variant) {
             $variant->update($variantData);
             if ($variantData['id'] && $variant->id !== $variantData['id']) {
-                UrunVariant::where('id', $variantData['id'])->delete();
+                ProductVariant::where('id', $variantData['id'])->delete();
             }
         } elseif ($variantData['id']) {
-            $variant = UrunVariant::find($variantData['id']);
+            $variant = ProductVariant::find($variantData['id']);
             $variant->update($variantData);
         } else {
-            $variant = UrunVariant::create(array_merge($variantData, ['product_id' => $product->id]));
+            $variant = ProductVariant::create(array_merge($variantData, ['product_id' => $product->id]));
         }
         if ($variant) {
-            $variant->urunVariantSubAttributesForSync()->sync($selectedVariantAttributeIDList);
+            $variant->productVariantSubAttributesForSync()->sync($selectedVariantAttributeIDList);
         }
     }
 
     public function getProductVariantPriceAndQty($product_id, $sub_attribute_id_list)
     {
-        return UrunVariant::urunHasVariant($product_id, $sub_attribute_id_list);
+        return ProductVariant::urunHasVariant($product_id, $sub_attribute_id_list);
     }
 
     public function deleteProductImage($id)
     {
-        $productImage = UrunImage::find($id);
+        $productImage = ProductImage::find($id);
         if (null === $productImage) {
             return $id . ' id li resim bulunamadı';
         }
@@ -319,9 +319,9 @@ class ElUrunlerDal implements UrunlerInterface
                 if ($file->isValid()) {
                     $file_name = $product_id . '-' . Str::slug($entry->title) . Str::random(6) . '.jpg';
                     $image_resize = Image::make($file->getRealPath());
-                    $image_resize->resize((getimagesize($file)[0] / 2), getimagesize($file)[1] / 2);
-                    $image_resize->save(public_path(config('constants.image_paths.product_gallery_folder_path') . $file_name), UrunImage::IMAGE_QUALITY);
-                    UrunImage::create(['product' => $product_id, 'image' => $file_name]);
+                    $image_resize->resize(getimagesize($file)[0] / 2, getimagesize($file)[1] / 2);
+                    $image_resize->save(public_path(config('constants.image_paths.product_gallery_folder_path') . $file_name), ProductImage::IMAGE_QUALITY);
+                    ProductImage::create(['product' => $product_id, 'image' => $file_name]);
                 }
             } else {
                 session()->flash('message', 'ürüne ait en fazla 10 adet resim yükleyebilirsiniz');
@@ -337,7 +337,7 @@ class ElUrunlerDal implements UrunlerInterface
     public function getProductsAndAttributeSubAttributesByFilter($category, $searchKey, $currentPage = 1, $selectedSubAttributeList = null, $selectedBrandIdList = null, $orderType = null)
     {
         $filteredProductIdList = $this->filterProductsFilterBySelectedSubAttributeIdList($selectedSubAttributeList);
-        $products = Urun::with('detail')->where([['title', 'like', "%{$searchKey}%"], ['active', '=', 1]])->when(null !== $category, function ($query) use ($category) {
+        $products = Product::with('detail')->where([['title', 'like', "%{$searchKey}%"], ['active', '=', 1]])->when(null !== $category, function ($query) use ($category) {
             $query->whereHas('categories', function ($query) use ($category) {
                 $category = Kategori::with('sub_categories')->find($category);
                 if (null !== $category) {
@@ -352,20 +352,20 @@ class ElUrunlerDal implements UrunlerInterface
             });
         })->when(null !== $filteredProductIdList, function ($q) use ($filteredProductIdList) {
             $q->whereIn('id', $filteredProductIdList);
-        })->orderBy(Urun::getProductOrderType($orderType)[0], Urun::getProductOrderType($orderType)[1]);
+        })->orderBy(Product::getProductOrderType($orderType)[0], Product::getProductOrderType($orderType)[1]);
         $productIdList = $products->pluck('id')->toArray();
-        $productTotalCount = Urun::whereIn('id', $productIdList)->select('id')->whereIn('id', $productIdList)->count();
-        $totalPage = ceil($productTotalCount / Urun::PER_PAGE);
-        $productDetails = UrunDetail::select('parent_attribute', 'id')->with('subDetails')->whereIn('product', $productIdList);
+        $productTotalCount = Product::whereIn('id', $productIdList)->select('id')->whereIn('id', $productIdList)->count();
+        $totalPage = ceil($productTotalCount / Product::PER_PAGE);
+        $productDetails = ProductDetail::select('parent_attribute', 'id')->with('subDetails')->whereIn('product', $productIdList);
         $attributesIdList = $productDetails->pluck('parent_attribute');
-        $attributes = UrunAttribute::getActiveAttributesWithSubAttributesCache()->find($attributesIdList);
-        $categories = KategoriUrun::select('category_id')->whereIn('product_id', $productIdList)->distinct('category_id')->pluck('category_id')->toArray();
+        $attributes = ProductAttribute::getActiveAttributesWithSubAttributesCache()->find($attributesIdList);
+        $categories = CategoryProduct::select('category_id')->whereIn('product_id', $productIdList)->distinct('category_id')->pluck('category_id')->toArray();
         $categories = Kategori::getCache()->whereIn('id', $categories);
-        $subAttributesIdList = UrunSubDetail::select('sub_attribute')->whereIn('parent_detail', $productDetails->pluck('id'))->pluck('sub_attribute');
-        $subAttributes = UrunSubAttribute::getActiveSubAttributesCache()->find($subAttributesIdList);
-        $brandIdList = UrunInfo::select('brand_id')->whereNotNull('brand_id')->whereIn('product_id', $productIdList)->distinct('brand_id')->get()->pluck('brand_id')->toArray();
-        $brands = array_values(UrunMarka::getActiveBrandsCache()->find($brandIdList)->toArray());
-        $products = $products->skip((1 !== $currentPage ? ($currentPage - 1) : 0) * Urun::PER_PAGE)->take(Urun::PER_PAGE)->get();
+        $subAttributesIdList = ProductSubDetail::select('sub_attribute')->whereIn('parent_detail', $productDetails->pluck('id'))->pluck('sub_attribute');
+        $subAttributes = ProductSubAttribute::getActiveSubAttributesCache()->find($subAttributesIdList);
+        $brandIdList = ProductInfo::select('brand_id')->whereNotNull('brand_id')->whereIn('product_id', $productIdList)->distinct('brand_id')->get()->pluck('brand_id')->toArray();
+        $brands = array_values(ProductBrand::getActiveBrandsCache()->find($brandIdList)->toArray());
+        $products = $products->skip((1 !== $currentPage ? ($currentPage - 1) : 0) * Product::PER_PAGE)->take(Product::PER_PAGE)->get();
 
         return [
             'products'              => $products,
@@ -377,7 +377,7 @@ class ElUrunlerDal implements UrunlerInterface
             'subAttributes'         => $subAttributes,
             'returnedSubAttributes' => $subAttributes->pluck('id')->toArray(),
             'filterSideBarAttr'     => $attributes->pluck('id')->toArray(),
-            'per_page'              => Urun::PER_PAGE,
+            'per_page'              => Product::PER_PAGE,
             'current_page'          => (int) (0 !== $currentPage ? $currentPage : 1),
         ];
     }
@@ -385,7 +385,7 @@ class ElUrunlerDal implements UrunlerInterface
     public function getProductsBySearchTextForAjax($searchQuery)
     {
         $products = \Cache::remember('allActiveProductsWithKeyTitlePriceId', 60 * 24, function () {
-            return Urun::where('active', 1)->get(['id', 'title', 'price']);
+            return Product::where('active', 1)->get(['id', 'title', 'price']);
         });
 
         return $products->filter(function ($value, $key) use ($searchQuery) {
@@ -396,7 +396,7 @@ class ElUrunlerDal implements UrunlerInterface
     public function getFeaturedProducts($categoryId = null, $qty = 10, $excludeProductId = null, $relations = null, $columns = ['*'])
     {
         if (null !== $categoryId) {
-            return Urun::select($columns)->when(null !== $relations, function ($query) use ($relations) {
+            return Product::select($columns)->when(null !== $relations, function ($query) use ($relations) {
                 return $query->with($relations);
             })->when(null !== $excludeProductId, function ($query) use ($excludeProductId) {
                 return $query->where('id', '!=', $excludeProductId);
@@ -406,7 +406,7 @@ class ElUrunlerDal implements UrunlerInterface
             orderByDesc('id')->take($qty)->get();
         }
 
-        return Urun::select($columns)->when(null !== $relations, function ($query) use ($relations) {
+        return Product::select($columns)->when(null !== $relations, function ($query) use ($relations) {
             return $query->with($relations);
         })->when(null !== $excludeProductId, function ($query) use ($excludeProductId) {
             return $query->where(['id', '!=', $excludeProductId]);
@@ -424,12 +424,12 @@ class ElUrunlerDal implements UrunlerInterface
                 $categoryQuery = " and ku.category_id = {$categoryId}";
             }
             $query = "select u.title,SUM(su.qty) as qty,u.image,u.slug,u.tl_price,u.id,u.tl_discount_price,ud.product as detail
-            from siparisler as  si
-            inner join  sepet as s on si.sepet_id = s.id
-            inner join  sepet_urun as su on s.id = su.sepet_id
-            inner join urunler as u on u.active=1 and  su.product_id = u.id {$excludeProductQuery}
-            inner join kategori_urun as ku on ku.product_id = u.id {$categoryQuery}
-            left join urun_detail ud on u.id = ud.product
+            from orders as  si
+            inner join  baskets as s on si.basket_id = s.id
+            inner join  basket_items as su on s.id = su.basket_id
+            inner join products as u on u.active=1 and  su.product_id = u.id {$excludeProductQuery}
+            inner join category_product as ku on ku.product_id = u.id {$categoryQuery}
+            left join product_details ud on u.id = ud.product
             group by u.title,u.image,u.slug,u.tl_price,u.id,ud.product
             order by SUM(su.qty) DESC limit {$qty}";
 
@@ -443,7 +443,7 @@ class ElUrunlerDal implements UrunlerInterface
             $productIdList = [];
             $newProductIdList = [];
             foreach ($selectedSubAttributeList as $index => $item) {
-                $productIdList[] = UrunDetail::whereHas('subDetails', function ($query) use ($item) {
+                $productIdList[] = ProductDetail::whereHas('subDetails', function ($query) use ($item) {
                     $query->whereIn('sub_attribute', $item);
                 })->pluck('product')->toArray();
                 if (0 !== $index && $index !== \count($selectedSubAttributeList) && \count($selectedSubAttributeList) > 1) {
@@ -462,18 +462,18 @@ class ElUrunlerDal implements UrunlerInterface
 
     public function getProductDetailWithRelations($slug, $relations)
     {
-        return Urun::with($relations)->whereSlug($slug)->whereActive(1)->withCount('comments')->first();
+        return Product::with($relations)->whereSlug($slug)->whereActive(1)->withCount('comments')->first();
     }
 
     /**
      * gönderilen ürünün istenilen dildeki karşılık gelen kategorilerini bulur.
      *
-     * @param Urun $product
-     * @param int  $lang    istenilen dildeki kategoriler
+     * @param Product $product
+     * @param int     $lang    istenilen dildeki kategoriler
      *
      * @return null|array
      */
-    public function getProductCategoriesByLanguage(Urun $product, int $lang)
+    public function getProductCategoriesByLanguage(Product $product, int $lang)
     {
         $defaultLanguageCategoriesIDs = $product->categories->pluck('id')->toArray();
 

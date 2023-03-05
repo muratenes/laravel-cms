@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Ayar detay')
+@section('title','Config detay')
 
 @section('content')
     <div class="box box-default">

@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Admin;
-use App\Models\Ayar;
+use App\Models\Config;
 use Illuminate\Support\Str;
 
 function changeUIPhoneNumberToDbFormat($phone)
@@ -35,12 +35,12 @@ function defaultLangID()
 
 function langIcon($langId)
 {
-    return '/admin_files/dist/img/langs/' . \App\Models\Ayar::getLanguageImageNameById($langId);
+    return '/admin_files/dist/img/langs/' . \App\Models\Config::getLanguageImageNameById($langId);
 }
 
 function langTitle($langId)
 {
-    return Ayar::getLanguageLabelByLang($langId);
+    return Config::getLanguageLabelByLang($langId);
 }
 
 // ====== PARA BİRİMLERİ =============
@@ -53,7 +53,7 @@ function currentCurrencySymbol()
 {
     $currencyID = session()->get('currency_id', config('admin.default_currency'));
 
-    return Ayar::getCurrencySymbolById($currencyID);
+    return Config::getCurrencySymbolById($currencyID);
 }
 
 /**
@@ -73,7 +73,7 @@ function loggedAdminUser()
  */
 function currentCurrencyID()
 {
-    return Ayar::getCurrencyId();
+    return Config::getCurrencyId();
 }
 
 /**
@@ -85,7 +85,7 @@ function currentCurrencyID()
  */
 function getCurrencySymbolById($currencyID)
 {
-    return Ayar::getCurrencySymbolById($currencyID);
+    return Config::getCurrencySymbolById($currencyID);
 }
 
 // ====== ./// CURRENCY =============

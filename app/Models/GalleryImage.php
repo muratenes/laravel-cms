@@ -11,7 +11,7 @@ class GalleryImage extends Model
     protected $perPage = 20;
     protected $guarded = [];
 
-    public function gallery()
+    public function gallery(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Gallery::class, 'gallery_id', 'id');
     }

@@ -12,7 +12,7 @@ trait MultiLanguageRelations
     /**
      * Get the another languages model instances.
      */
-    public function languages()
+    public function languages(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany(MultiLanguage::class, 'languageable');
     }
