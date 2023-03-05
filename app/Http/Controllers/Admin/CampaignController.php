@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Jobs\RemoveCampaignProductDiscountPricesAndDelete;
 use App\Jobs\UpdateCompanyProductDiscountPriceByCategory;
 use App\Models\Campaign;
-use App\Repositories\Interfaces\KampanyaInterface;
-use App\Repositories\Interfaces\KategoriInterface;
-use App\Repositories\Interfaces\UrunFirmaInterface;
+use App\Repositories\Interfaces\CampaignInterface;
+use App\Repositories\Interfaces\CategoryInterface;
+use App\Repositories\Interfaces\ProductCompanyInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
@@ -15,11 +15,11 @@ class CampaignController extends AdminController
 {
     use ImageUploadTrait;
 
-    protected KampanyaInterface $model;
-    private KategoriInterface $categoryService;
-    private UrunFirmaInterface $companyService;
+    protected CampaignInterface $model;
+    private CategoryInterface $categoryService;
+    private ProductCompanyInterface $companyService;
 
-    public function __construct(KampanyaInterface $model, KategoriInterface $categoryService, UrunFirmaInterface $companyService)
+    public function __construct(CampaignInterface $model, CategoryInterface $categoryService, ProductCompanyInterface $companyService)
     {
         $this->model = $model;
         $this->categoryService = $categoryService;

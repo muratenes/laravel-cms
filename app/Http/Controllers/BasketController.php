@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Basket;
 use App\Models\Product\Product;
-use App\Repositories\Interfaces\KuponInterface;
-use App\Repositories\Interfaces\SepetInterface;
-use App\Repositories\Interfaces\UrunlerInterface;
+use App\Repositories\Interfaces\BasketInterface;
+use App\Repositories\Interfaces\CouponInterface;
+use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\CartTrait;
 use App\Repositories\Traits\ResponseTrait;
 use App\Repositories\Traits\SepetSupportTrait;
@@ -18,11 +18,11 @@ class BasketController extends Controller
     use ResponseTrait;
     use SepetSupportTrait;
 
-    protected SepetInterface $model;
-    private UrunlerInterface $productService;
-    private KuponInterface $couponService;
+    protected BasketInterface $model;
+    private ProductInterface $productService;
+    private CouponInterface $couponService;
 
-    public function __construct(SepetInterface $model, UrunlerInterface $productService, KuponInterface $couponService)
+    public function __construct(BasketInterface $model, ProductInterface $productService, CouponInterface $couponService)
     {
         $this->model = $model;
         $this->productService = $productService;

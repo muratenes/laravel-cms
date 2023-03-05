@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductAttribute;
 use App\Models\Product\ProductComment;
-use App\Repositories\Interfaces\UrunYorumInterface;
+use App\Repositories\Interfaces\ProductCommentInterface;
 use Illuminate\Http\Request;
 
 class ProductCommentController extends Controller
 {
-    protected UrunYorumInterface $model;
+    protected ProductCommentInterface $model;
 
-    public function __construct(UrunYorumInterface $model)
+    public function __construct(ProductCommentInterface $model)
     {
         $this->model = $model;
     }

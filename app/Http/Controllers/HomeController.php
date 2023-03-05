@@ -8,8 +8,8 @@ use App\Models\Config;
 use App\Models\FAQ;
 use App\Models\Kategori;
 use App\Models\Product\Product;
-use App\Repositories\Interfaces\KampanyaInterface;
-use App\Repositories\Interfaces\UrunlerInterface;
+use App\Repositories\Interfaces\CampaignInterface;
+use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\SepetSupportTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,10 +19,10 @@ class HomeController extends Controller
 {
     use SepetSupportTrait;
 
-    private UrunlerInterface $_productService;
-    private KampanyaInterface $_campService;
+    private ProductInterface $_productService;
+    private CampaignInterface $_campService;
 
-    public function __construct(UrunlerInterface $productService, KampanyaInterface $campService)
+    public function __construct(ProductInterface $productService, CampaignInterface $campService)
     {
 //        $this->_productService = $productService;
 //        $this->_campService = $campService;

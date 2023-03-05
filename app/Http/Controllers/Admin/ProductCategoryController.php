@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AdminCategoryRequest;
 use App\Models\Kategori;
-use App\Repositories\Interfaces\KategoriInterface;
+use App\Repositories\Interfaces\CategoryInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Models\MultiLanguageHelper;
@@ -16,9 +16,9 @@ class ProductCategoryController extends AdminController
     use MultiLanguageHelper;
     use ResponseTrait;
 
-    protected KategoriInterface $model;
+    protected CategoryInterface $model;
 
-    public function __construct(KategoriInterface $model)
+    public function __construct(CategoryInterface $model)
     {
         $this->model = $model;
     }

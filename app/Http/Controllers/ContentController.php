@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
-use App\Repositories\Interfaces\IcerikYonetimInterface;
+use App\Repositories\Interfaces\ContentInterface;
 
 class ContentController extends Controller
 {
-    private IcerikYonetimInterface $_icerikYonetimService;
+    private ContentInterface $_icerikYonetimService;
 
-    public function __construct(IcerikYonetimInterface $icerikYonetimService)
+    public function __construct(ContentInterface $icerikYonetimService)
     {
         $this->_icerikYonetimService = $icerikYonetimService;
     }

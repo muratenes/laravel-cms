@@ -2,21 +2,23 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Banner;
-use App\Repositories\Interfaces\BannerInterface;
+use App\Models\Content;
+use App\Repositories\Interfaces\ContentInterface;
 
-class ElBannerDal extends BaseRepository implements BannerInterface
+class ElContentDal extends BaseRepository implements ContentInterface
 {
-    public function __construct(Banner $model)
+    protected $model;
+
+    public function __construct(Content $model)
     {
         parent::__construct($model);
     }
 
-    public function delete(int $id): bool
+    public function delete($id): bool
     {
         $item = $this->find($id);
         if ($item->image) {
-            $path = "public/banners/{$item->image}";
+            $path = "public/contents/{$item->image}";
             if (\Storage::exists($path)) {
                 \Storage::delete($path);
             }

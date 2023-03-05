@@ -20,17 +20,14 @@ class ElAccountDal extends BaseRepository implements AccountInterface
 
     public function getUserAddresses($userId, $addressType)
     {
-        return UserAddress::with(['country', 'state', 'district', 'neighborhood'])->where(['user_id' => $userId, 'type' => $addressType])->orderByDesc('id')->get();
+        return UserAddress::with(['country', 'state', 'district', 'neighborhood'])
+            ->where(['user_id' => $userId, 'type' => $addressType])
+            ->orderByDesc('id')
+            ->get()
+        ;
     }
 
-    /**
-     * kullanıcının varsayılan adresini gönderir.
-     *
-     * @param $userId
-     *
-     * @return null|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
-     */
-    public function getUserDefaultAddress($userId)
+    public function getUserDefaultAddress(int $userId): ?UserAddress
     {
         $user = $this->model->find($userId);
         if (! $user) {
@@ -40,9 +37,9 @@ class ElAccountDal extends BaseRepository implements AccountInterface
         return UserAddress::with(['state', 'district', 'user'])->find($user->default_address_id);
     }
 
-    public function setUserDefaultAddress($userId, $addressId)
+    public function setUserDefaultAddress(int $userId, int $addressId): bool
     {
-        $user = User::with('detail')->find($userId);
+        $user = User::find($userId);
         if ($user) {
             $user->update(['default_address_id' => $addressId]);
 
@@ -62,7 +59,7 @@ class ElAccountDal extends BaseRepository implements AccountInterface
     public function updateOrCreateUserAddress(int $id, array $data, int $userId)
     {
         $data['type'] = ! isset($data['type']) ? UserAddress::TYPE_DELIVERY : $data['type'];
-        $user = User::find($userId);
+        $user = $this->model->find($userId);
         if (! $id) {
             $address = $user->addresses()->create($data);
         } else {
@@ -87,7 +84,7 @@ class ElAccountDal extends BaseRepository implements AccountInterface
      *
      * @return null|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
-    public function getUserDefaultInvoiceAddress($userId)
+    public function getUserDefaultInvoiceAddress(int $userId): ?UserAddress
     {
         $user = User::find($userId);
         if (! $user) {
@@ -97,7 +94,7 @@ class ElAccountDal extends BaseRepository implements AccountInterface
         return UserAddress::with(['state', 'district', 'user'])->find($user->default_invoice_address_id);
     }
 
-    public function setUserDefaultInvoiceAddress($userId, $addressId)
+    public function setUserDefaultInvoiceAddress(int $userId, int $addressId): bool
     {
         $user = User::with('detail')->find($userId);
         if ($user) {
@@ -109,13 +106,7 @@ class ElAccountDal extends BaseRepository implements AccountInterface
         return false;
     }
 
-    /**
-     * kullanıcının gönderilen adreste varsayılan adres var mı yoksa bununla günceller.
-     *
-     * @param User        $user
-     * @param UserAddress $address
-     */
-    public function checkUserDefaultAddress(User $user, UserAddress $address)
+    public function checkUserDefaultAddress(User $user, UserAddress $address): bool
     {
         $typeColumn = UserAddress::TYPE_DELIVERY === $address->type ? 'default_address_id' : 'default_invoice_address_id';
         $existAddress = UserAddress::find($user->{$typeColumn});
@@ -123,6 +114,10 @@ class ElAccountDal extends BaseRepository implements AccountInterface
             $user->update([
                 $typeColumn => $address->id,
             ]);
+
+            return true;
         }
+
+        return false;
     }
 }

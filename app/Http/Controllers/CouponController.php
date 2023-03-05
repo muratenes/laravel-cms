@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Basket;
-use App\Repositories\Interfaces\KuponInterface;
+use App\Repositories\Interfaces\CouponInterface;
 use App\Repositories\Traits\CartTrait;
 use Illuminate\Http\Request;
 
@@ -11,9 +11,9 @@ class CouponController extends Controller
 {
     use CartTrait;
 
-    protected KuponInterface $model;
+    protected CouponInterface $model;
 
-    public function __construct(KuponInterface $model)
+    public function __construct(CouponInterface $model)
     {
         $this->model = $model;
     }

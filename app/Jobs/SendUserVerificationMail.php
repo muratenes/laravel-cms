@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\KullaniciKayitMail;
+use App\Mail\UserRegisterMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -37,6 +37,6 @@ class SendUserVerificationMail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new KullaniciKayitMail($this->user));
+        Mail::to($this->email)->send(new UserRegisterMail($this->user));
     }
 }

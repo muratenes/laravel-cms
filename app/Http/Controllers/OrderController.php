@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Repositories\Interfaces\KuponInterface;
-use App\Repositories\Interfaces\SiparisInterface;
+use App\Repositories\Interfaces\CouponInterface;
+use App\Repositories\Interfaces\OrderInterface;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    protected SiparisInterface $model;
+    protected OrderInterface $model;
 
-    public function __construct(SiparisInterface $model, KuponInterface $couponService)
+    public function __construct(OrderInterface $model, CouponInterface $couponService)
     {
         $this->model = $model;
     }

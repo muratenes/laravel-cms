@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ContentManagementRequest;
 use App\Models\Content;
-use App\Repositories\Interfaces\IcerikYonetimInterface;
+use App\Repositories\Interfaces\ContentInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\MultipleImageConcern;
@@ -16,9 +16,9 @@ class ContentController extends AdminController
     use MultipleImageConcern;
     use ResponseTrait;
 
-    protected IcerikYonetimInterface $model;
+    protected ContentInterface $model;
 
-    public function __construct(IcerikYonetimInterface $model)
+    public function __construct(ContentInterface $model)
     {
         $this->model = $model;
     }

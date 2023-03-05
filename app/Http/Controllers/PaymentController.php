@@ -13,9 +13,9 @@ use App\Models\Order;
 use App\Models\İyzicoFailsJson;
 use App\Repositories\Interfaces\AccountInterface;
 use App\Repositories\Interfaces\CityTownInterface;
-use App\Repositories\Interfaces\KuponInterface;
-use App\Repositories\Interfaces\OdemeInterface;
-use App\Repositories\Interfaces\SiparisInterface;
+use App\Repositories\Interfaces\CouponInterface;
+use App\Repositories\Interfaces\OrderInterface;
+use App\Repositories\Interfaces\PaymentInterface;
 use App\Repositories\Traits\IyzicoTrait;
 use App\Repositories\Traits\SepetSupportTrait;
 use App\Utils\Concerns\Controllers\PaymentConcern;
@@ -28,13 +28,13 @@ class PaymentController extends Controller
     use PaymentConcern;
     use SepetSupportTrait;
 
-    private SiparisInterface $orderService;
-    private OdemeInterface $paymentService;
+    private OrderInterface $orderService;
+    private PaymentInterface $paymentService;
     private CityTownInterface $cityTownService;
     private AccountInterface $accountService;
-    private KuponInterface $couponService;
+    private CouponInterface $couponService;
 
-    public function __construct(SiparisInterface $orderService, OdemeInterface $paymentService, CityTownInterface $cityTownService, AccountInterface $accountService, KuponInterface $couponService)
+    public function __construct(OrderInterface $orderService, PaymentInterface $paymentService, CityTownInterface $cityTownService, AccountInterface $accountService, CouponInterface $couponService)
     {
         $this->orderService = $orderService;
         $this->paymentService = $paymentService;

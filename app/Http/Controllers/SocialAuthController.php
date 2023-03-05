@@ -52,8 +52,8 @@ class SocialAuthController extends Controller
         }
 
         Cart::destroy();
-        $basket_products = BasketItem::where('basket_id', $current_basket_id)->get();
-        foreach ($basket_products as $basketItem) {
+        $basket_itemss = BasketItem::where('basket_id', $current_basket_id)->get();
+        foreach ($basket_itemss as $basketItem) {
             Cart::add($basketItem->product->id, $basketItem->product->title, $basketItem->qty, $basketItem->price, ['slug' => $basketItem->product->slug, 'attributeText' => $basketItem->attributes_text, 'image' => $basketItem->product->image]);
         }
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\GalleryImage;
-use App\Repositories\Interfaces\FotoGalleryInterface;
+use App\Repositories\Interfaces\GalleryInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,9 +14,9 @@ class FotoGalleryController extends Controller
 {
     use ImageUploadTrait;
 
-    protected FotoGalleryInterface $model;
+    protected GalleryInterface $model;
 
-    public function __construct(FotoGalleryInterface $model)
+    public function __construct(GalleryInterface $model)
     {
         $this->model = $model;
     }

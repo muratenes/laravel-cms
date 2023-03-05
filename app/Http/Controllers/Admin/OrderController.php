@@ -12,10 +12,10 @@ use App\Models\Order;
 use App\Models\Product\ProductCompany;
 use App\Notifications\order\OrderCancelledNotification;
 use App\Notifications\order\OrderStatusChangedNotification;
+use App\Repositories\Interfaces\BasketInterface;
+use App\Repositories\Interfaces\CategoryInterface;
 use App\Repositories\Interfaces\CityTownInterface;
-use App\Repositories\Interfaces\KategoriInterface;
-use App\Repositories\Interfaces\SepetInterface;
-use App\Repositories\Interfaces\SiparisInterface;
+use App\Repositories\Interfaces\OrderInterface;
 use App\Repositories\Traits\ResponseTrait;
 use App\Repositories\Traits\SiparisUrunTrait;
 use Illuminate\Http\Request;
@@ -27,13 +27,13 @@ class OrderController extends Controller
     use ResponseTrait;
     use SiparisUrunTrait;
 
-    protected SiparisInterface $model;
+    protected OrderInterface $model;
     protected ProductCompany $productCompanyService;
-    protected KategoriInterface $categoryService;
+    protected CategoryInterface $categoryService;
     protected CityTownInterface $cityTownService;
-    protected SepetInterface $basketService;
+    protected BasketInterface $basketService;
 
-    public function __construct(SiparisInterface $model, ProductCompany $productCompanyService, KategoriInterface $categoryService, CityTownInterface $cityTownService, SepetInterface $basketService)
+    public function __construct(OrderInterface $model, ProductCompany $productCompanyService, CategoryInterface $categoryService, CityTownInterface $cityTownService, BasketInterface $basketService)
     {
         $this->model = $model;
         $this->productCompanyService = $productCompanyService;

@@ -7,10 +7,10 @@ use App\Http\Requests\AdminProductSaveRequest;
 use App\Models\Kategori;
 use App\Models\Product\Product;
 use App\Models\Product\ProductBrand;
-use App\Repositories\Interfaces\KategoriInterface;
-use App\Repositories\Interfaces\UrunFirmaInterface;
-use App\Repositories\Interfaces\UrunlerInterface;
-use App\Repositories\Interfaces\UrunMarkaInterface;
+use App\Repositories\Interfaces\CategoryInterface;
+use App\Repositories\Interfaces\ProductBrandInterface;
+use App\Repositories\Interfaces\ProductCompanyInterface;
+use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\ProductConcern;
@@ -24,12 +24,12 @@ class ProductController extends AdminController
     use ProductConcern;
     use ResponseTrait;
 
-    protected UrunlerInterface $model;
-    protected KategoriInterface $categoryService;
-    private UrunMarkaInterface $_brandService;
-    private UrunFirmaInterface $_productCompanyService;
+    protected ProductInterface $model;
+    protected CategoryInterface $categoryService;
+    private ProductBrandInterface $_brandService;
+    private ProductCompanyInterface $_productCompanyService;
 
-    public function __construct(UrunlerInterface $model, KategoriInterface $categoryService, UrunMarkaInterface $brandService, UrunFirmaInterface $productCompanyService)
+    public function __construct(ProductInterface $model, CategoryInterface $categoryService, ProductBrandInterface $brandService, ProductCompanyInterface $productCompanyService)
     {
         $this->model = $model;
         $this->_brandService = $brandService;

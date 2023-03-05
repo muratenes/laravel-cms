@@ -7,27 +7,26 @@ use App\User;
 
 interface AccountInterface
 {
-    public function getUserAddresses($userId, $addressType);
-
-    /** kullanıcı varsayılan adresi getirir.
-     * @param int $userId
-     *
-     * @return mixed
-     */
-    public function getUserDefaultAddress($userId);
-
-    public function setUserDefaultAddress($userId, $addressId);
+    public function getUserAddresses(int $userId, string $addressType);
 
     /**
-     * @param int $userId User id
-     *
-     * @return mixed
+     * get user default address.
      */
-    public function getUserDefaultInvoiceAddress($userId);
+    public function getUserDefaultAddress(int $userId): ?UserAddress;
 
-    public function setUserDefaultInvoiceAddress($userId, $addressId);
+    public function setUserDefaultAddress(int $userId, int $addressId): bool;
+
+    public function getUserDefaultInvoiceAddress(int $userId): ?UserAddress;
+
+    public function setUserDefaultInvoiceAddress(int $userId, int $addressId): bool;
 
     public function updateOrCreateUserAddress(int $id, array $data, int $userId);
 
-    public function checkUserDefaultAddress(User $user, UserAddress $address);
+    /**
+     * check user has default address in type,if not exists update.
+     *
+     * @param User        $user
+     * @param UserAddress $address
+     */
+    public function checkUserDefaultAddress(User $user, UserAddress $address): bool;
 }

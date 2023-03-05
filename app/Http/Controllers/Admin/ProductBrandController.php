@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductBrand;
 use App\Models\Product\ProductCompany;
-use App\Repositories\Interfaces\UrunMarkaInterface;
+use App\Repositories\Interfaces\ProductBrandInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 
@@ -13,9 +13,9 @@ class ProductBrandController extends Controller
 {
     use ImageUploadTrait;
 
-    protected UrunMarkaInterface $model;
+    protected ProductBrandInterface $model;
 
-    public function __construct(UrunMarkaInterface $model)
+    public function __construct(ProductBrandInterface $model)
     {
         $this->model = $model;
     }

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Interfaces\KategoriInterface;
-use App\Repositories\Interfaces\UrunlerInterface;
+use App\Repositories\Interfaces\CategoryInterface;
+use App\Repositories\Interfaces\ProductInterface;
 
 class CategoryController extends Controller
 {
-    protected KategoriInterface $model;
-    private UrunlerInterface $productService;
+    protected CategoryInterface $model;
+    private ProductInterface $productService;
 
-    public function __construct(KategoriInterface $model, UrunlerInterface $productService)
+    public function __construct(CategoryInterface $model, ProductInterface $productService)
     {
         $this->model = $model;
         $this->productService = $productService;

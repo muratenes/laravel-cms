@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
-use App\Repositories\Interfaces\UrunlerInterface;
+use App\Repositories\Interfaces\ProductInterface;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    private UrunlerInterface $_productService;
+    private ProductInterface $_productService;
 
-    public function __construct(UrunlerInterface $productService)
+    public function __construct(ProductInterface $productService)
     {
         $this->_productService = $productService;
     }

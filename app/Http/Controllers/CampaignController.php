@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Interfaces\KampanyaInterface;
+use App\Repositories\Interfaces\CampaignInterface;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
-    private KampanyaInterface $_campaignService;
+    private CampaignInterface $_campaignService;
 
-    public function __construct(KampanyaInterface $campaignService)
+    public function __construct(CampaignInterface $campaignService)
     {
         $this->_campaignService = $campaignService;
     }

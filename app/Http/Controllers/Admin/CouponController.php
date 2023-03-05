@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CouponRequest;
 use App\Models\Coupon;
-use App\Repositories\Interfaces\KategoriInterface;
-use App\Repositories\Interfaces\KuponInterface;
+use App\Repositories\Interfaces\CategoryInterface;
+use App\Repositories\Interfaces\CouponInterface;
 
 class CouponController extends AdminController
 {
-    protected KuponInterface $model;
-    protected KategoriInterface $categoryService;
+    protected CouponInterface $model;
+    protected CategoryInterface $categoryService;
 
-    public function __construct(KuponInterface $model, KategoriInterface $kategoriService)
+    public function __construct(CouponInterface $model, CategoryInterface $kategoriService)
     {
         $this->model = $model;
         $this->categoryService = $kategoriService;

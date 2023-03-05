@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gallery;
-use App\Repositories\Interfaces\FotoGalleryInterface;
+use App\Repositories\Interfaces\GalleryInterface;
 
 class GalleryController extends Controller
 {
-    private FotoGalleryInterface $_galleryService;
+    private GalleryInterface $_galleryService;
 
-    public function __construct(FotoGalleryInterface $galleryService)
+    public function __construct(GalleryInterface $galleryService)
     {
         $this->_galleryService = $galleryService;
     }

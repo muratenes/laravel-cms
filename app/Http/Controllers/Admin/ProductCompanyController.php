@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductCompany;
-use App\Repositories\Interfaces\UrunFirmaInterface;
+use App\Repositories\Interfaces\ProductCompanyInterface;
 use Illuminate\Support\Str;
 
 class ProductCompanyController extends Controller
 {
-    protected UrunFirmaInterface $model;
+    protected ProductCompanyInterface $model;
 
-    public function __construct(UrunFirmaInterface $model)
+    public function __construct(ProductCompanyInterface $model)
     {
         $this->model = $model;
     }

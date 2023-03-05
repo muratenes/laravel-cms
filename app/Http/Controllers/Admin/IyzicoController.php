@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Interfaces\SiparisInterface;
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\OrderInterface;
 
 class IyzicoController extends Controller
 {
-    protected SiparisInterface $model;
+    protected OrderInterface $model;
 
-    public function __construct(SiparisInterface $model)
+    public function __construct(OrderInterface $model)
     {
         $this->model = $model;
     }

@@ -6,8 +6,8 @@ use App\Models\Product\Product;
 use App\Models\Product\ProductBrand;
 use App\Models\Product\ProductComment;
 use App\Models\Product\ProductVariant;
-use App\Repositories\Interfaces\KampanyaInterface;
-use App\Repositories\Interfaces\UrunlerInterface;
+use App\Repositories\Interfaces\CampaignInterface;
+use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
@@ -15,10 +15,10 @@ class ProductController extends Controller
 {
     use ResponseTrait;
 
-    protected UrunlerInterface $model;
-    private KampanyaInterface $_campaignService;
+    protected ProductInterface $model;
+    private CampaignInterface $_campaignService;
 
-    public function __construct(UrunlerInterface $model)
+    public function __construct(ProductInterface $model)
     {
         $this->model = $model;
     }

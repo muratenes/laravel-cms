@@ -18,14 +18,14 @@ class HomeController extends Controller
         $best_sellers = DB::select('select u.title,SUM(su.qty) as qty
             from orders as  si
             inner join  baskets as s on si.basket_id = s.id
-            inner join  basket_product as su on s.id = su.basket_id
+            inner join  basket_items as su on s.id = su.basket_id
             inner join products as u on su.product_id = u.id
             group by u.title
             order by SUM(su.qty) DESC limit 8');
         $orders_count_per_month = DB::select('select DATE_FORMAT(si.created_at,\'%Y-%m\') as ay, sum(su.qty) qty
             from orders as si
             inner join baskets s on si.basket_id = s.id
-            inner join basket_product su on s.id = su.basket_id
+            inner join basket_items su on s.id = su.basket_id
             group by DATE_FORMAT(si.created_at,\'%Y-%m\')
             order by DATE_FORMAT(si.created_at,\'%Y-%m\') limit 8');
         $data = Cache::remember('adminIndexData', 2, function () {

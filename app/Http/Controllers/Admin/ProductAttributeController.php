@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Product\ProductAttribute;
 use App\Models\Product\ProductSubAttribute;
-use App\Repositories\Interfaces\UrunlerInterface;
-use App\Repositories\Interfaces\UrunOzellikInterface;
+use App\Repositories\Interfaces\ProductAttributeInterface;
+use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\ResponseTrait;
 use App\Utils\Concerns\Admin\ProductAttributeConcern;
 use App\Utils\Concerns\Models\MultiLanguageHelper;
@@ -17,10 +17,10 @@ class ProductAttributeController extends AdminController
     use ProductAttributeConcern;
     use ResponseTrait;
 
-    protected UrunOzellikInterface $model;
-    protected UrunlerInterface $productService;
+    protected ProductAttributeInterface $model;
+    protected ProductInterface $productService;
 
-    public function __construct(UrunOzellikInterface $model, UrunlerInterface $productService)
+    public function __construct(ProductAttributeInterface $model, ProductInterface $productService)
     {
         $this->model = $model;
         $this->productService = $productService;

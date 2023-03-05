@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Middleware\RolesAuth;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
-use App\Repositories\Interfaces\KullaniciInterface;
+use App\Repositories\Interfaces\UserInterface;
 
 class RoleController extends Controller
 {
-    protected KullaniciInterface $model;
+    protected UserInterface $model;
 
-    public function __construct(KullaniciInterface $model)
+    public function __construct(UserInterface $model)
     {
         $this->model = $model;
     }
