@@ -30,7 +30,7 @@ class CouponController extends AdminController
     {
         $entry = new Coupon();
         if (0 != $id) {
-            $entry = $this->model->getById($id);
+            $entry = $this->model->find($id);
         }
         $categories = $this->categoryService->all(['active' => 1]);
         $selected_categories = [];

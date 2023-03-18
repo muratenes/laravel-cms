@@ -26,6 +26,6 @@ class ProductDetail extends Model
 
     public function subDetailsForSync(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(ProductSubDetail::class, 'product_sub_detail', 'parent_detail', 'sub_attribute');
+        return $this->belongsToMany(ProductSubDetail::class, 'product_sub_details', 'parent_detail', 'sub_attribute');
     }
 }

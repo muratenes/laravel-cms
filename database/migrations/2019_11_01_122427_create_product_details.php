@@ -26,6 +26,6 @@ class CreateProductDetails extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('urun_detail');
+        Schema::dropIfExists('product_details');
     }
 }

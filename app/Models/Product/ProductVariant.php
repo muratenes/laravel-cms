@@ -16,7 +16,7 @@ class ProductVariant extends Model
 
     public function productVariantSubAttributesForSync()
     {
-        return $this->belongsToMany(ProductVariantSubAttribute::class, 'urun_variant_sub_attributes', 'variant_id', 'sub_attr_id');
+        return $this->belongsToMany(ProductVariantSubAttribute::class, 'product_variant_sub_attributes', 'variant_id', 'sub_attr_id');
     }
 
     /**

@@ -31,7 +31,7 @@
                                             <select name="variants[{{$index}}][attributes][{{ $subIndex }}][sub_attribute]" class="form-control">
                                                 <option value="">Seçiniz</option>
                                                 @foreach($detail['sub_details'] as $subDetail)
-                                                    <option {{ collect($variant->urunVariantSubAttributes()->get()->map(function ($item) {
+                                                    <option {{ collect($variant->productVariantSubAttributes()->get()->map(function ($item) {
                                                                      return $item->sub_attr_id;
                                                                     }))->contains($subDetail['sub_attribute']) ? 'selected' : 'note' }}
 

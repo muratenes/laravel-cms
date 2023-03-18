@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div id="containerOzellikler">
-            @if(@count($product->properties) > 0)
+            @if($product->properties and count($product->properties) > 0)
                 @foreach($product->properties as $i=>$properties)
                     <!-- Attr item -->
                         <div class="box-body itemOzellikler" id="productPropertyContainer{{$i}}" data-index="{{ $i }}">

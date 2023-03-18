@@ -31,7 +31,7 @@ class SSSController extends Controller
     {
         $item = new FAQ();
         if (0 != $id) {
-            $item = $this->model->getById($id);
+            $item = $this->model->find($id);
         }
 
         return view('admin.sss.newOrEditSSS', compact('item'));

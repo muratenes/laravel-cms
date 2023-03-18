@@ -36,7 +36,7 @@ class ProductAttributeController extends AdminController
 
     public function detail($id = 0)
     {
-        $item = 0 != $id ? $this->model->getById($id, null, 'subAttributes.languages') : new ProductAttribute();
+        $item = 0 != $id ? $this->model->find($id, 'id', ['subAttributes.languages']) : new ProductAttribute();
 
         return view('admin.product.attributes.editOrNewAttribute', compact('item'));
     }

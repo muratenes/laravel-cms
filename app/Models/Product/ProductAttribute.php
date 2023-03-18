@@ -22,7 +22,7 @@ class ProductAttribute extends Model
 
     public function subAttributeForSync(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(ProductSubAttribute::class, 'urun_sub_attributes', 'parent_attribute', 'id');
+        return $this->belongsToMany(ProductSubAttribute::class, 'product_sub_attributes', 'parent_attribute', 'id');
     }
 
     /**
