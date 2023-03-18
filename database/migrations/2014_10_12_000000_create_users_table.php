@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
 
             $table->integer('default_address_id')->nullable();
             $table->integer('default_invoice_address_id')->nullable();
-            $table->string('phone', 15)->nullable();
+            $table->string('phone', 50)->nullable();
 
             $table->rememberToken();
             $table->timestamps();

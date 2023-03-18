@@ -13,8 +13,6 @@ class ElCouponDal extends BaseRepository implements CouponInterface
 {
     use ResponseTrait;
 
-    protected $model;
-
     public function __construct(Coupon $model)
     {
         parent::__construct($model);
@@ -31,7 +29,7 @@ class ElCouponDal extends BaseRepository implements CouponInterface
      */
     public function checkCoupon(array $productIdList, string $couponCode, float $cartSubTotalPrice, int $currency, ?Basket $basket)
     {
-        // TODO : REFACTOR
+        // TODO : REFACTOR with Middleware Pattern
         $currentDate = Carbon::now();
         $coupon = Coupon::with('categories.sub_categories')->where([
             ['active', '=', 1],
@@ -90,7 +88,7 @@ class ElCouponDal extends BaseRepository implements CouponInterface
      *
      * @return bool
      */
-    public function decrementCouponQty($couponId = null) : bool
+    public function decrementCouponQty($couponId = null): bool
     {
         if (! $couponId) {
             return false;

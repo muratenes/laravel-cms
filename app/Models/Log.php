@@ -93,7 +93,7 @@ class Log extends Model
         }
     }
 
-    protected function checkLogCount()
+    protected static function checkLogCount()
     {
         $count = self::count();
         if ($count > 1500) {

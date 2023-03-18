@@ -29,13 +29,13 @@ class CouponController extends AdminController
     public function newOrEditForm($id = 0)
     {
         $entry = new Coupon();
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->getById($id);
         }
         $categories = $this->categoryService->all(['active' => 1]);
         $selected_categories = [];
         $currencies = $this->activeCurrencies();
-        if (0 !== $id) {
+        if (0 != $id) {
             $coupon = $this->model->find($id, null, ['categories']);
             $selected_categories = $coupon->categories()->pluck('category_id')->all();
         }
@@ -47,7 +47,7 @@ class CouponController extends AdminController
     {
         $requestData = $request->validated();
         $requestData['active'] = activeStatus();
-        if (0 !== $id) {
+        if (0 != $id) {
             $this->model->update($requestData, $id);
             $entry = $this->model->find($id, null, ['categories']);
         } else {

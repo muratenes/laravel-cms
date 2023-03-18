@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-interface UserInterface extends BaseRepositoryInterface
+interface UserInterface
 {
     public function getAllRolesWithPagination();
 

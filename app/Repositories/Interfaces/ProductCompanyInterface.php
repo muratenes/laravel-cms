@@ -2,6 +2,6 @@
 
 namespace App\Repositories\Interfaces;
 
-interface ProductCompanyInterface extends BaseRepositoryInterface
+interface ProductCompanyInterface
 {
 }

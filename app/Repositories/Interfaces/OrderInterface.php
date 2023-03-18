@@ -5,7 +5,7 @@ namespace App\Repositories\Interfaces;
 use App\Models\BasketItem;
 use App\Models\Order;
 
-interface OrderInterface extends BaseRepositoryInterface
+interface OrderInterface
 {
     public function createOrderIyzicoDetail($iyzicoData, $orderId);
 

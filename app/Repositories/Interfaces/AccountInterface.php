@@ -20,7 +20,7 @@ interface AccountInterface
 
     public function setUserDefaultInvoiceAddress(int $userId, int $addressId): bool;
 
-    public function updateOrCreateUserAddress(int $id, array $data, int $userId);
+    public function updateOrCreateUserAddress(int $id, array $data, int $userId): UserAddress;
 
     /**
      * check user has default address in type,if not exists update.

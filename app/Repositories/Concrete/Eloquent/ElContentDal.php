@@ -7,8 +7,6 @@ use App\Repositories\Interfaces\ContentInterface;
 
 class ElContentDal extends BaseRepository implements ContentInterface
 {
-    protected $model;
-
     public function __construct(Content $model)
     {
         parent::__construct($model);

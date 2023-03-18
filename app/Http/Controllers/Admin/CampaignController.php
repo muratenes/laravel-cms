@@ -45,7 +45,7 @@ class CampaignController extends AdminController
         $entry = new Campaign();
         $selected_categories = $selected_products = $selected_companies = [];
         $currencies = $this->activeCurrencies();
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->getById($id, null, ['campaignProducts', 'campaignCategories']);
             $selected_categories = $entry->campaignCategories->pluck('id');
         }
@@ -65,7 +65,7 @@ class CampaignController extends AdminController
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
         $oldCurrencyID = config('admin.default_currency');
         $oldCompanyMinPrice = 0;
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = Campaign::find($id);
             $oldCompanyMinPrice = $entry->min_price;
             $oldCurrencyID = $entry->currency_id;

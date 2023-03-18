@@ -102,19 +102,16 @@ class AddressController extends Controller
         $validated['user_id'] = $request->user()->id;
 
         $address = $this->accountService->updateOrCreateUserAddress($addressID, $validated, $request->user()->id);
-        if ($address) {
-            success();
-            if ($request->has('setAsDefault')) {
-                $request->user()->update([(UserAddress::TYPE_INVOICE === $validated['type'] ? 'default_invoice_address_id' : 'default_address_id') => $address->id]);
-            }
-            if ($request->get('fromPage')) {
-                return redirect(route($request->get('fromPage')));
-            }
+        success();
 
-            return redirect(route('user.address.edit', $address->id));
+        if ($request->has('setAsDefault')) {
+            $request->user()->update([(UserAddress::TYPE_INVOICE === $validated['type'] ? 'default_invoice_address_id' : 'default_address_id') => $address->id]);
+        }
+        if ($request->get('fromPage')) {
+            return redirect(route($request->get('fromPage')));
         }
 
-        return back();
+        return redirect(route('user.address.edit', $address->id));
     }
 
     /**
@@ -127,7 +124,7 @@ class AddressController extends Controller
      */
     public function setDefaultInvoiceAddress(Request $request, UserAddress $address)
     {
-        $request->user()->update(['default_invoice_address_id' => $address->id]);
+        $this->accountService->setUserDefaultInvoiceAddress($request->user()->id, $address->id);
         success();
 
         return back();

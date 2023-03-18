@@ -43,15 +43,12 @@ class BannerController extends AdminController
         } else {
             $entry = $this->model->create($validated);
         }
-        if ($entry) {
-            $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/banners', $entry->image, Banner::MODULE_NAME);
-            $entry->update(['image' => $imageName]);
-            success();
 
-            return redirect(route('admin.banners.edit', $entry->id));
-        }
+        $imageName = $this->uploadImage($request->file('image'), $entry->title, 'public/banners', $entry->image, Banner::MODULE_NAME);
+        $entry->update(['image' => $imageName]);
+        success();
 
-        return back()->withInput();
+        return redirect(route('admin.banners.edit', $entry->id));
     }
 
     public function delete(Banner $banner)

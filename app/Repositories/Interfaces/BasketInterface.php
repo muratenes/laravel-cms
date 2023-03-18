@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Order;
 
-interface BasketInterface extends BaseRepositoryInterface
+interface BasketInterface
 {
     public function checkProductQtyCountCanAddToBasketItemCount(int $productId, int $checkedQty, $subAttributesIdList = null);
 

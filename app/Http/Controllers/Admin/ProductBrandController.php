@@ -30,7 +30,7 @@ class ProductBrandController extends Controller
 
     public function detail($id = 0)
     {
-        $item = 0 !== $id ? $this->model->find($id) : new ProductBrand();
+        $item = 0 != $id ? $this->model->find($id) : new ProductBrand();
 
         return view('admin.product.brands.newOrEditProductBrand', compact('item'));
     }
@@ -40,7 +40,7 @@ class ProductBrandController extends Controller
         $request_data = $request->only('title');
         $request_data['active'] = activeStatus();
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);

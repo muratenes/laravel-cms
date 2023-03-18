@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class ElBaseRepository implements BaseRepositoryInterface
 {
     // model property on class instances
-    public $model;
+    public Model $model;
 
 //     Constructor to bind model to repo
     public function __construct(Model $model)
@@ -47,7 +47,7 @@ class ElBaseRepository implements BaseRepositoryInterface
             return $query->with($relations);
         })->select($columns)->when(null !== $filter, function ($query) use ($filter) {
             return $query->where($filter);
-        })->orderByDesc('id')->paginate((null === $perPageItem ? $this->model->getPerPage() : $perPageItem), $columns);
+        })->orderByDesc('id')->paginate(null === $perPageItem ? $this->model->getPerPage() : $perPageItem, $columns);
     }
 
     // Get object by Id
@@ -74,7 +74,7 @@ class ElBaseRepository implements BaseRepositoryInterface
         } catch (\Exception $exception) {
             session()->flash('message_type', 'danger');
             session()->flash('message', $exception->getMessage());
-            Log::addLog(($this->getModelTableName() . '' . ' eklerken bir sorun oluştu ' . $exception->getMessage()), $exception, Log::TYPE_CREATE_OBJECT);
+            Log::addLog($this->getModelTableName() . ' eklerken bir sorun oluştu ' . $exception->getMessage(), $exception, Log::TYPE_CREATE_OBJECT);
         }
     }
 
@@ -90,7 +90,7 @@ class ElBaseRepository implements BaseRepositoryInterface
         } catch (\Exception $exception) {
             session()->flash('message_type', 'danger');
             session()->flash('message', [$exception->getMessage() . '']);
-            Log::addLog(($this->getModelTableName() . '' . ' güncellerken bir sorun oluştu ' . $exception->getMessage()), $exception, Log::TYPE_CREATE_OBJECT);
+            Log::addLog($this->getModelTableName() . ' güncellerken bir sorun oluştu ' . $exception->getMessage(), $exception, Log::TYPE_CREATE_OBJECT);
         }
     }
 
@@ -106,7 +106,7 @@ class ElBaseRepository implements BaseRepositoryInterface
         } catch (\Exception $exception) {
             session()->flash('message_type', 'danger');
             session()->flash('message', $exception->getMessage());
-            Log::addLog(($this->getModelTableName() . '' . ' silinirken bir sorun oluştu ' . $exception->getMessage()), $exception, Log::TYPE_CREATE_OBJECT);
+            Log::addLog($this->getModelTableName() . ' silinirken bir sorun oluştu ' . $exception->getMessage(), $exception, Log::TYPE_CREATE_OBJECT);
         }
     }
 

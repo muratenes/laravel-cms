@@ -18,7 +18,7 @@ class SettingsController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $addedLanguages = Config::all()->pluck('lang')->toArray();
 
@@ -37,7 +37,7 @@ class SettingsController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function save(Request $request, $id = 0)
+    public function save(Request $request, int $id = 0)
     {
         $data = $this->validateRequest($request);
         $data['active'] = activeStatus();

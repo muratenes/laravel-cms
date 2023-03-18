@@ -35,7 +35,7 @@ class ReferenceController extends Controller
     public function newOrEditForm($id = 0)
     {
         $item = new Reference();
-        if (0 !== $id) {
+        if (0 != $id) {
             $item = $this->referenceService->find($id);
         }
 
@@ -48,7 +48,7 @@ class ReferenceController extends Controller
         $request_data['slug'] = Str::slug($request->get('title'));
         $request_data['slug'] = createSlugByModelAndTitle($this->referenceService, $request->title, $id);
         $request_data['active'] = request()->has('active') ? 1 : 0;
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->referenceService->update($request_data, $id);
         } else {
             $entry = $this->referenceService->create($request_data);

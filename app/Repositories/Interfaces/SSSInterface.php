@@ -2,6 +2,6 @@
 
 namespace App\Repositories\Interfaces;
 
-interface SSSInterface extends BaseRepositoryInterface
+interface SSSInterface
 {
 }

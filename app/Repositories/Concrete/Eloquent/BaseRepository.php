@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
+use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\EloquentRepositoryInterface;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class BaseRepository implements EloquentRepositoryInterface
 {
-    /**
-     * @var Model
-     */
-    protected $model;
+    public BaseRepositoryInterface $repository;
+    protected Model $model;
 
     /**
      * BaseRepository constructor.
@@ -21,6 +21,7 @@ class BaseRepository implements EloquentRepositoryInterface
     public function __construct(Model $model)
     {
         $this->model = $model;
+        $this->repository = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
     }
 
     /**

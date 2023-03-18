@@ -28,12 +28,12 @@ class ProductCommentController extends Controller
 
     public function detail($id = 0)
     {
-        if (0 !== $id) {
-            $item = $this->model->getById($id, null, ['product', 'user']);
+        if (0 != $id) {
+            $item = $this->model->find($id, 'id', ['product', 'user']);
         } else {
             $item = new ProductAttribute();
         }
-        if (0 !== $id && ! $item->is_read) {
+        if (0 != $id && ! $item->is_read) {
             $item->update(['is_read' => 1]);
         }
 
@@ -44,7 +44,7 @@ class ProductCommentController extends Controller
     {
         $request_data = request()->only('title');
         $request_data['active'] = request()->has('active') ? 1 : 0;
-        if (0 !== $id) {
+        if (0 != $id) {
             $this->model->update($request_data, $id);
         } else {
             $this->model->create($request_data);

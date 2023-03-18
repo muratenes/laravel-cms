@@ -8,6 +8,7 @@ use App\Models\Kategori;
 use App\Models\Product\Product;
 use App\Models\Product\ProductBrand;
 use App\Repositories\Interfaces\CategoryInterface;
+use App\Repositories\Interfaces\ProductAttributeInterface;
 use App\Repositories\Interfaces\ProductBrandInterface;
 use App\Repositories\Interfaces\ProductCompanyInterface;
 use App\Repositories\Interfaces\ProductInterface;
@@ -26,15 +27,22 @@ class ProductController extends AdminController
 
     protected ProductInterface $model;
     protected CategoryInterface $categoryService;
-    private ProductBrandInterface $_brandService;
-    private ProductCompanyInterface $_productCompanyService;
+    private ProductBrandInterface $brandService;
+    private ProductCompanyInterface $productCompanyService;
+    private ProductAttributeInterface $productAttributeService;
 
-    public function __construct(ProductInterface $model, CategoryInterface $categoryService, ProductBrandInterface $brandService, ProductCompanyInterface $productCompanyService)
-    {
+    public function __construct(
+        ProductInterface $model,
+        CategoryInterface $categoryService,
+        ProductBrandInterface $brandService,
+        ProductCompanyInterface $productCompanyService,
+        ProductAttributeInterface $productAttributeService
+    ) {
         $this->model = $model;
-        $this->_brandService = $brandService;
+        $this->brandService = $brandService;
         $this->categoryService = $categoryService;
-        $this->_productCompanyService = $productCompanyService;
+        $this->productCompanyService = $productCompanyService;
+        $this->productAttributeService = $productAttributeService;
         $this->middleware('admin')->except('getProductVariantPriceAndQtyWithAjax');
     }
 
@@ -48,7 +56,7 @@ class ProductController extends AdminController
 
     public function listProducts()
     {
-        $companies = $this->_productCompanyService->all();
+        $companies = $this->productCompanyService->all();
         $categories = $this->categoryService->all();
         $brands = ProductBrand::select(['id', 'title'])->orderBy('title')->get();
 
@@ -61,14 +69,14 @@ class ProductController extends AdminController
         $productDetails = $productVariants = $productSelectedSubAttributesIdsPerAttribute = $selectedAttributeIdList = $productSelectedSubAttributesIdsPerAttribute = [];
 
         if (0 !== $product_id) {
-            $product = $this->model->getById($product_id, null, ['categories', 'variants.productVariantSubAttributes', 'languages']);
+            $product = $this->model->find($product_id, 'id', ['categories', 'variants.productVariantSubAttributes', 'languages']);
         }
         $data = [
             'categories'    => $this->categoryService->all(['parent_category_id' => null]),
-            'brands'        => $this->_brandService->all(['active' => 1]),
-            'companies'     => $this->_productCompanyService->all(['active' => 1]),
-            'attributes'    => $this->model->getAllAttributes(),
-            'subAttributes' => $this->model->getAllSubAttributes(),
+            'brands'        => $this->brandService->all(['active' => 1]),
+            'companies'     => $this->productCompanyService->all(['active' => 1]),
+            'attributes'    => $this->productAttributeService->all(),
+            'subAttributes' => $this->productAttributeService->getAllSubAttributes(),
             'currencies'    => $this->activeCurrencies(),
             'subCategories' => [],
             'selected'      => [

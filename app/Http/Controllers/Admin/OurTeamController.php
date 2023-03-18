@@ -34,8 +34,8 @@ class OurTeamController extends Controller
     public function newOrEditForm($id = 0)
     {
         $item = new OurTeam();
-        if (0 !== $id) {
-            $item = $this->model->getById($id);
+        if (0 != $id) {
+            $item = $this->model->find($id);
         }
 
         return view('admin.ourTeam.newOrEditOurTeam', compact('item'));
@@ -45,19 +45,16 @@ class OurTeamController extends Controller
     {
         $request_data = $request->only('title', 'position', 'desc');
         $request_data['active'] = activeStatus();
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
         }
-        if ($entry) {
-            $imagePath = $this->uploadImage($request->file('image'), $entry->title, 'public/our-team', $entry->image, OurTeam::MODULE_NAME);
-            $entry->update(['image' => $imagePath]);
 
-            return redirect(route('admin.our_team.edit', $entry->id));
-        }
+        $imagePath = $this->uploadImage($request->file('image'), $entry->title, 'public/our-team', $entry->image, OurTeam::MODULE_NAME);
+        $entry->update(['image' => $imagePath]);
 
-        return back()->withInput();
+        return redirect(route('admin.our_team.edit', $entry->id));
     }
 
     public function delete($id)

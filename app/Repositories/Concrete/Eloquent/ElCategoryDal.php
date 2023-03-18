@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 class ElCategoryDal extends BaseRepository implements CategoryInterface
 {
-    protected $model;
     private ProductInterface $productService;
 
     public function __construct(Kategori $model, ProductInterface $productService)

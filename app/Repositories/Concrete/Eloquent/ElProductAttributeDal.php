@@ -3,55 +3,25 @@
 namespace App\Repositories\Concrete\Eloquent;
 
 use App\Models\Product\ProductAttribute;
-use App\Repositories\Concrete\ElBaseRepository;
+use App\Models\Product\ProductSubAttribute;
 use App\Repositories\Interfaces\ProductAttributeInterface;
 
-class ElProductAttributeDal implements ProductAttributeInterface
+class ElProductAttributeDal extends BaseRepository implements ProductAttributeInterface
 {
-    protected $model;
-
     public function __construct(ProductAttribute $model)
     {
-        $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
+        parent::__construct($model);
     }
 
-    public function all($filter = null, $columns = ['*'], $relations = null)
+    public function getAllAttributes()
     {
-        return $this->model->all($filter, $columns, $relations)->get();
+        return $this->model->all(['active' => 1])->get();
     }
 
-    public function allWithPagination($filter = null, $columns = ['*'], $perPageItem = null, $relations = null)
+    public function getAllSubAttributes()
     {
-        return $this->model->allWithPagination($filter, $columns, $perPageItem, $relations);
-    }
-
-    public function getById($id, $columns = ['*'], $relations = null)
-    {
-        return $this->model->getById($id, $columns, $relations);
-    }
-
-    public function getByColumn(string $field, $value, $columns = ['*'], $relations = null)
-    {
-        return $this->model->getByColumn($field, $value, $columns, $relations);
-    }
-
-    public function create(array $data)
-    {
-        return $this->model->create($data);
-    }
-
-    public function update(array $data, $id)
-    {
-        return $this->model->update($data, $id);
-    }
-
-    public function delete($id)
-    {
-        return $this->model->delete($id);
-    }
-
-    public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
-    {
-        return $this->model->with($relations, $filter, $paginate, $perPageItem);
+        return ProductSubAttribute::whereHas('attribute', function ($query) {
+            $query->where('active', 1);
+        })->get();
     }
 }

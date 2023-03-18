@@ -7,8 +7,6 @@ use App\Repositories\Interfaces\ReferenceInterface;
 
 class ElReferenceDal extends BaseRepository implements ReferenceInterface
 {
-    protected $model;
-
     public function __construct(Reference $model)
     {
         parent::__construct($model);

@@ -14,8 +14,6 @@ use App\User;
 
 class ElPaymentDal extends BaseRepository implements PaymentInterface
 {
-    protected $model;
-
     public function __construct(Log $model)
     {
         parent::__construct($model);

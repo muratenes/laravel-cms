@@ -30,7 +30,7 @@ class UserCreateRequest extends FormRequest
             'surname'  => 'required|min:3|max:50',
             'password' => 'required|string|min:6|max:30',
             'role_id'  => 'required|numeric',
-            'phone'    => 'string|nullable',
+            'phone'    => 'string|nullable|max:50',
             'locale'   => 'string|nullable',
         ];
     }

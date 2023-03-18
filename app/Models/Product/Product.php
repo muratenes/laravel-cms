@@ -19,8 +19,6 @@ class Product extends Model
     use ProductRelations;
     use SoftDeletes;
 
-    public const IMAGE_QUALITY = 80;
-    public const IMAGE_RESIZE = null;
     public const MODULE_NAME = 'product';
     public const PER_PAGE = 12;
     public const LANG_FIELDS = ['title', 'spot', 'tags', 'properties', 'desc', 'cargo_price'];

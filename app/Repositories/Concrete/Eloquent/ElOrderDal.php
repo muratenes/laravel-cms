@@ -10,59 +10,17 @@ use App\Models\Order;
 use App\Models\Product\Product;
 use App\Models\Product\ProductVariant;
 use App\Models\İyzicoFailsJson;
-use App\Repositories\Concrete\ElBaseRepository;
 use App\Repositories\Interfaces\OrderInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Carbon\Carbon;
 
-class ElOrderDal implements OrderInterface
+class ElOrderDal extends BaseRepository implements OrderInterface
 {
     use ResponseTrait;
 
-    protected $model;
-
     public function __construct(Order $model)
     {
-        $this->model = app()->makeWith(ElBaseRepository::class, ['model' => $model]);
-    }
-
-    public function all($filter = null, $columns = ['*'], $relations = null)
-    {
-    }
-
-    public function allWithPagination($filter = null, $columns = ['*'], $perPageItem = null, $relations = null)
-    {
-    }
-
-    public function getById($id, $columns = ['*'], $relations = null)
-    {
-        return $this->model->getById($id, $columns, $relations);
-    }
-
-    public function getByColumn(string $field, $value, $columns = ['*'], $relations = null)
-    {
-    }
-
-    public function create(array $data)
-    {
-        return $this->model->create($data);
-    }
-
-    public function update(array $data, $id)
-    {
-        return $this->model->update($data, $id);
-    }
-
-    public function delete($id)
-    {
-        $order = $this->model->getById($id);
-
-        return $order->forceDelete($id);
-    }
-
-    public function with($relations, $filter = null, bool $paginate = null, int $perPageItem = null)
-    {
-        return $this->model->with($relations, $filter, $paginate, $perPageItem);
+        parent::__construct($model);
     }
 
     public function orderFilterByStatusAndSearchText($search_text, $status, $paginate = false)

@@ -29,7 +29,7 @@ class RoleController extends Controller
         $item = new Role();
         $allPermissions = Permission::all();
         $userPermission = [];
-        if (0 !== $id) {
+        if (0 != $id) {
             $item = $this->model->getRoleById($id);
             if ($item) {
                 $userPermission = $item->permissions->pluck('id');
@@ -48,7 +48,7 @@ class RoleController extends Controller
         $roles = request('roles');
         $roles = array_merge($roles, $allUserAccessThisUrls->toarraY());
         $roles = array_unique($roles);
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->updateRole($id, $request_data);
             if ($entry) {
                 $entry->permissions()->sync($roles);

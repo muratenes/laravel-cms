@@ -66,18 +66,15 @@ class ContentController extends AdminController
         } else {
             $entry = $this->model->create($validated);
         }
-        if ($entry) {
-            $entry->update([
-                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', $entry->image, Content::MODULE_NAME),
-            ]);
-            success();
-            $entry->meta_tag()->updateOrCreate(['taggable_id' => $entry->id], $metaValidated);
-            $this->uploadMultipleImages($request, $entry, 'public/contents/gallery');
 
-            return redirect(route('admin.content.edit', $entry->id));
-        }
+        $entry->update([
+            'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/contents', $entry->image, Content::MODULE_NAME),
+        ]);
+        success();
+        $entry->meta_tag()->updateOrCreate(['taggable_id' => $entry->id], $metaValidated);
+        $this->uploadMultipleImages($request, $entry, 'public/contents/gallery');
 
-        return back()->withInput();
+        return redirect(route('admin.content.edit', $entry->id));
     }
 
     public function delete(Content $content)

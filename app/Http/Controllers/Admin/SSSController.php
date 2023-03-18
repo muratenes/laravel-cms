@@ -30,7 +30,7 @@ class SSSController extends Controller
     public function newOrEditForm($id = 0)
     {
         $item = new FAQ();
-        if (0 !== $id) {
+        if (0 != $id) {
             $item = $this->model->getById($id);
         }
 
@@ -41,7 +41,7 @@ class SSSController extends Controller
     {
         $request_data = request()->only('title', 'desc', 'lang');
         $request_data['active'] = request()->has('active') ? 1 : 0;
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);

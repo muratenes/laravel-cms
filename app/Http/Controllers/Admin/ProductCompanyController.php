@@ -26,8 +26,8 @@ class ProductCompanyController extends Controller
 
     public function detail($id = 0)
     {
-        if (0 !== $id) {
-            $item = $this->model->getById($id, null);
+        if (0 != $id) {
+            $item = $this->model->find($id);
         } else {
             $item = new ProductCompany();
         }
@@ -35,7 +35,7 @@ class ProductCompanyController extends Controller
         return view('admin.product.company.newOrEditProductCompany', compact('item'));
     }
 
-    public function save($id = 0)
+    public function save(int $id = 0)
     {
         $request_data = request()->only('title', 'address', 'phone', 'email');
         $request_data['active'] = request()->has('active') ? 1 : 0;
@@ -46,7 +46,7 @@ class ProductCompanyController extends Controller
         if ($this->model->all([['email', $request_data['email']], ['id', '!=', $id]], ['id'])->count() > 0) {
             return back()->withInput()->withErrors('email  kayıtlı farklı email deneyin');
         }
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);

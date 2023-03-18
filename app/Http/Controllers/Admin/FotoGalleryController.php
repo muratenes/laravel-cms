@@ -42,7 +42,7 @@ class FotoGalleryController extends Controller
         $item = new Gallery();
         // multiple image gallery
         if (config('admin.use_album_gallery')) {
-            if (0 !== $id) {
+            if (0 != $id) {
                 $item = $this->model->find($id);
             }
         } else {
@@ -58,30 +58,27 @@ class FotoGalleryController extends Controller
         $request_data['title'] = $request->get('title');
         $request_data['slug'] = createSlugByModelAndTitle($this->model, $request_data['title'], $id);
         $request_data['active'] = activeStatus();
-        if (0 !== $id) {
+        if (0 != $id) {
             $entry = $this->model->update($request_data, $id);
         } else {
             $entry = $this->model->create($request_data);
         }
-        if ($entry) {
-            $entry->update([
-                'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/gallery', $entry->image, Gallery::MODULE_NAME),
-            ]);
-            // todo : use multiple image upload trait
-            if (request()->hasFile('imageGallery')) {
-                foreach ($request->file('imageGallery') as $imageItem) {
-                    $uploadedPath = $this->uploadImage($imageItem, $request_data['title'], 'public/gallery/items', null, GalleryImage::MODULE_NAME);
-                    $entry->images()->create([
-                        'image' => $uploadedPath,
-                    ]);
-                }
+
+        $entry->update([
+            'image' => $this->uploadImage($request->file('image'), $entry->title, 'public/gallery', $entry->image, Gallery::MODULE_NAME),
+        ]);
+        // todo : use multiple image upload trait
+        if (request()->hasFile('imageGallery')) {
+            foreach ($request->file('imageGallery') as $imageItem) {
+                $uploadedPath = $this->uploadImage($imageItem, $request_data['title'], 'public/gallery/items', null, GalleryImage::MODULE_NAME);
+                $entry->images()->create([
+                    'image' => $uploadedPath,
+                ]);
             }
-            success();
-
-            return redirect(route('admin.gallery.edit', $entry->id));
         }
+        success();
 
-        return back()->withInput();
+        return redirect(route('admin.gallery.edit', $entry->id));
     }
 
     public function delete($id)
