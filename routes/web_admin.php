@@ -21,7 +21,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::get('contacts', 'HomeController@contacts')->name('admin.contacts');
         Route::get('cikis', 'AuthController@logout')->name('admin.logout');
 
-        //----- Admin/User/..
+        Route::group(['prefix' => 'nova/'], function () {
+            Route::get('list', [\App\Admin\Controller\BaseController::class, 'index']);
+            Route::get('table/{model}', [\App\Admin\Controller\BaseController::class, 'table']);
+        });
+
+        // ----- Admin/User/..
         Route::group(['prefix' => 'user/'], function () {
             Route::get('/', 'UserController@index')->name('admin.users');
             Route::get('create', 'UserController@create')->name('admin.user.create');
@@ -31,7 +36,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::delete('{user:id}', 'UserController@delete')->name('admin.user.delete');
         });
 
-        //----- Admin/Category/..
+        // ----- Admin/Category/..
         Route::group(['prefix' => 'category/'], function () {
             Route::get('/', 'CategoryController@index')->name('admin.categories.index');
             Route::get('{category:id}/sub-categories', 'CategoryController@subCategories')->name('admin.categories.sub-categories');
@@ -43,7 +48,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::delete('{category:id}', 'CategoryController@delete')->name('admin.categories.delete');
         });
 
-        //----- Admin/Admin/..
+        // ----- Admin/Admin/..
         Route::group(['prefix' => 'builder/'], function () {
             Route::get('edit', 'BuilderController@edit')->name('admin.builder.edit');
             Route::post('save', 'BuilderController@save')->name('admin.builder.save');
@@ -52,7 +57,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('get-view-folders/{theme}', 'BuilderController@getAllFilesByTheme');
             Route::get('get-view-folders/{theme}/{folder}', 'BuilderController@getFilesByTheme');
 
-            //----- Admin/builder/menus
+            // ----- Admin/builder/menus
             Route::group(['prefix' => 'menus/'], function () {
                 Route::get('/', 'MenuController@index')->name('admin.builder.menus');
                 Route::get('create', 'MenuController@create')->name('admin.builder.menus.new');
@@ -66,7 +71,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         // Adverts
         Route::resource('adverts', 'AdvertController', ['as' => 'admin']);
 
-        //----- Admin/Products/..
+        // ----- Admin/Products/..
         Route::group(['prefix' => 'product/'], function () {
             Route::get('/', 'ProductController@listProducts')->name('admin.products');
             Route::get('new', 'ProductController@newOrEditProduct')->name('admin.product.new');
@@ -99,7 +104,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::post('get-new-product-sub-attribute-html', 'ProductAttributeController@addNewProductSubAttribute');
             });
 
-            //----- Admin/product/category -----
+            // ----- Admin/product/category -----
             Route::group(['prefix' => 'category/'], function () {
                 Route::get('/', 'ProductCategoryController@listCategories')->name('admin.product.categories');
                 Route::get('new', 'ProductCategoryController@newOrEditCategory')->name('admin.product.category.new');
@@ -134,7 +139,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             });
         });
 
-        //----- Admin/Orders/..
+        // ----- Admin/Orders/..
         Route::group(['prefix' => 'order/'], function () {
             Route::get('/', 'OrderController@list')->name('admin.orders');
             Route::get('/iyzico-fails', 'IyzicoController@iyzicoErrorOrderList')->name('admin.orders.iyzico_logs');
@@ -157,7 +162,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('basket/{basketID}', 'BasketController@show');
         });
 
-        //----- Admin/Banners/..
+        // ----- Admin/Banners/..
         Route::group(['prefix' => 'banner/'], function () {
             Route::get('/', 'BannerController@list')->name('admin.banners');
             Route::get('new', 'BannerController@edit')->name('admin.banners.new');
@@ -166,7 +171,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::delete('{banner:id}', 'BannerController@delete')->name('admin.banners.delete');
         });
 
-        //----- Admin/Configs/..
+        // ----- Admin/Configs/..
         Route::group(['prefix' => 'configs/'], function () {
             Route::get('list', 'SettingsController@list')->name('admin.config.list');
             Route::get('show/{id}', 'SettingsController@show')->name('admin.config.show');
@@ -175,7 +180,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::resource('cargo', 'CargoController', ['as' => 'admin']);
         });
 
-        //----- Admin/Logs/..
+        // ----- Admin/Logs/..
         Route::group(['prefix' => 'logs/'], function () {
             Route::get('/', 'LogController@list')->name('admin.logs');
             Route::get('show/{id}', 'LogController@show')->name('admin.log.show');
@@ -184,7 +189,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('deleteAll', 'LogController@deleteAll')->name('admin.log.delete_all');
         });
 
-        //----- Admin/Coupons/..
+        // ----- Admin/Coupons/..
         Route::group(['prefix' => 'coupon/'], function () {
             Route::get('/', 'CouponController@list')->name('admin.coupons');
             Route::get('new', 'CouponController@newOrEditForm')->name('admin.coupons.new');
@@ -193,7 +198,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('delete/{id}', 'CouponController@delete')->name('admin.coupons.delete');
         });
 
-        //----- Admin/Campaigns/..
+        // ----- Admin/Campaigns/..
         Route::group(['prefix' => 'campaigns/'], function () {
             Route::get('/', 'CampaignController@list')->name('admin.campaigns');
             Route::get('new', 'CampaignController@newOrEditForm')->name('admin.campaigns.new');
@@ -202,7 +207,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('delete/{id}', 'CampaignController@delete')->name('admin.campaigns.delete');
         });
 
-        //----- Admin/Coupons/..
+        // ----- Admin/Coupons/..
         Route::group(['prefix' => 'sss/'], function () {
             Route::get('/', 'SSSController@list')->name('admin.sss');
             Route::get('new', 'SSSController@newOrEditForm')->name('admin.sss.new');
@@ -211,7 +216,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('delete/{id}', 'SSSController@delete')->name('admin.sss.delete');
         });
 
-        //----- Admin/References/..
+        // ----- Admin/References/..
         Route::group(['prefix' => 'references/'], function () {
             Route::get('/', 'ReferenceController@list')->name('admin.reference');
             Route::get('new', 'ReferenceController@newOrEditForm')->name('admin.reference.new');
@@ -219,7 +224,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('save/{id}', 'ReferenceController@save')->name('admin.reference.save');
             Route::get('delete/{id}', 'ReferenceController@delete')->name('admin.reference.delete');
         });
-        //----- Admin/PhotoGallery/..
+        // ----- Admin/PhotoGallery/..
         Route::group(['prefix' => 'photo-gallery/'], function () {
             Route::get('/', 'FotoGalleryController@list')->name('admin.gallery');
             Route::get('new', 'FotoGalleryController@newOrEditForm')->name('admin.gallery.new');
@@ -228,7 +233,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('delete/{id}', 'FotoGalleryController@delete')->name('admin.gallery.delete');
             Route::get('deleteGalleryImage/{id}', 'FotoGalleryController@deleteGalleryImage')->name('admin.gallery.image.delete');
         });
-        //----- Admin/Content/..
+        // ----- Admin/Content/..
         Route::group(['prefix' => 'content/'], function () {
             Route::get('/', 'ContentController@index')->name('admin.content');
             Route::get('new', 'ContentController@create')->name('admin.content.new');
@@ -236,7 +241,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('{content:id}', 'ContentController@save')->name('admin.content.save');
             Route::delete('{content:id}', 'ContentController@delete')->name('admin.content.delete');
         });
-        //----- Admin/Roles/..
+        // ----- Admin/Roles/..
         Route::group(['prefix' => 'roles/'], function () {
             Route::get('/', 'RoleController@list')->name('admin.roles');
             Route::get('new', 'RoleController@newOrEditForm')->name('admin.role.new');
@@ -244,7 +249,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('save/{id}', 'RoleController@save')->name('admin.role.save');
             Route::get('delete/{id}', 'RoleController@delete')->name('admin.role.delete');
         });
-        //----- Admin/Blog/..
+        // ----- Admin/Blog/..
         Route::group(['prefix' => 'blog'], function () {
             Route::get('/', 'BlogController@index')->name('admin.blog');
             Route::get('new', 'BlogController@create')->name('admin.blog.new');
@@ -253,7 +258,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('', 'BlogController@store')->name('admin.blog.store');
             Route::delete('{blog:id}', 'BlogController@delete')->name('admin.blog.delete');
         });
-        //----- Admin/OurTeam/..
+        // ----- Admin/OurTeam/..
         Route::group(['prefix' => 'our-team/'], function () {
             Route::get('/', 'OurTeamController@list')->name('admin.our_team');
             Route::get('new', 'OurTeamController@newOrEditForm')->name('admin.our_team.new');
@@ -261,25 +266,25 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::post('save/{id}', 'OurTeamController@save')->name('admin.our_team.save');
             Route::get('delete/{id}', 'OurTeamController@delete')->name('admin.our_team.delete');
         });
-        //----- Admin/EBulten/..
+        // ----- Admin/EBulten/..
         Route::group(['prefix' => 'ebulten/'], function () {
             Route::get('/', 'EBultenController@list')->name('admin.ebulten');
             Route::get('delete/{id}', 'EBultenController@delete')->name('admin.ebulten.delete');
         });
-        //----- Admin/Contact/..
+        // ----- Admin/Contact/..
         Route::group(['prefix' => 'contact/'], function () {
             Route::get('/', 'ContactController@list')->name('admin.contact');
             Route::get('ajax', 'ContactController@ajax')->name('admin.contact.ajax');
             Route::get('delete/{contact:id}', 'ContactController@delete')->name('admin.contact.delete');
         });
-        //---- Admin/Locations/......
+        // ---- Admin/Locations/......
         Route::group(['prefix' => 'locations'], function () {
             Route::get('/countries', 'RegionController@countries')->name('regions.countries');
             Route::get('/state/{country:id}', 'RegionController@getStatesByCountry')->name('regions.states');
             Route::get('/neighborhoods/{state:id}', 'RegionController@getNeighborhoodByState')->name('regions.neighborhoods');
         });
 
-        //----- Admin/Tables/..
+        // ----- Admin/Tables/..
         Route::group(['prefix' => 'tables/'], function () {
             Route::get('users', 'TableController@users')->name('admin.tables.users');
             Route::get('blogs', 'TableController@blogs')->name('admin.tables.blogs');
@@ -289,7 +294,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('banners', 'TableController@banners')->name('admin.tables.banners');
         });
 
-        //----- Admin/Images/----
+        // ----- Admin/Images/----
         Route::delete('images/{image:id}', [\App\Http\Controllers\Admin\ImageController::class, 'delete']);
     });
 });

@@ -14,7 +14,7 @@ class Banner extends Model
     public $guarded = [];
 
     protected $perPage = 20;
-    protected $appends = ['lang_icon'];
+//    protected $appends = ['lang_icon'];
 
     /**
      * Get all of the tags for the banner.
