@@ -7,9 +7,14 @@
 |
  */
 
+use App\User;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Html\Column;
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::redirect('', '/admin/giris/');
-//    Route::match(['get', 'post'], 'giris', 'AuthController@login')->name('admin.login');
+    //    Route::match(['get', 'post'], 'giris', 'AuthController@login')->name('admin.login');
     Route::get('giris', 'AuthController@loginView')->name('admin.login');
     Route::post('giris', 'AuthController@login')->name('admin.login.post');
     Route::get('/clear_cache', 'HomeController@cacheClear')->name('admin.clearCache');
@@ -24,6 +29,21 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::group(['prefix' => 'nova/'], function () {
             Route::get('list', [\App\Admin\Controller\BaseController::class, 'index']);
             Route::get('table/{model}', [\App\Admin\Controller\BaseController::class, 'table']);
+            Route::get('users', function (Builder $builder) {
+                if (request()->ajax()) {
+                    return DataTables::of(User::query())->toJson();
+                }
+
+                $html = $builder->columns([
+                    Column::make('id'),
+                    Column::make('name'),
+                    Column::make('email'),
+                    Column::make('created_at'),
+                    Column::make('updated_at'),
+                ]);
+
+                return view('list', compact('html'));
+            });
         });
 
         // ----- Admin/User/..

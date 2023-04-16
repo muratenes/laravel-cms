@@ -13,7 +13,6 @@
         "ext-json": "*",
         "darryldecode/cart": "^4.1",
         "doctrine/dbal": "^2.10",
-        "spatie/laravel-ignition": "^1.0",
         "intervention/image": "^2.5",
         "iyzico/iyzipay-php": "^2.0",
         "laravel-validation-rules/credit-card": "^1.2",
@@ -26,8 +25,10 @@
         "maatwebsite/excel": "^3.1",
         "murat/laravel-meta-tags": "dev-main",
         "spatie/laravel-backup": "^8.0",
+        "spatie/laravel-ignition": "^1.0",
         "unisharp/laravel-filemanager": "~1.9.2",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-html": "^9.0",
+        "yajra/laravel-datatables-oracle": "~10.0"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

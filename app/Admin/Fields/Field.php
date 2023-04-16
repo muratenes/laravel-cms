@@ -2,7 +2,9 @@
 
 namespace App\Admin\Fields;
 
-class Field
+use Yajra\DataTables\Html\Column;
+
+abstract class Field
 {
     public int $maxLength = 100;
     public bool $isRequired = true;
@@ -11,6 +13,7 @@ class Field
     public string $type = 'text';
     public bool $showOnList = false;
     public string $label = '';
+    protected ?Column $tableColumn = null;
 
     public function __construct(public string $name)
     {
@@ -97,6 +100,25 @@ class Field
     public function setLabel(string $label): self
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function getTableColumn(): Column
+    {
+        if (! $this->tableColumn) {
+            $this->tableColumn = Column::make($this->name, $this->name)->title($this->label);
+        }
+
+        return $this->tableColumn;
+    }
+
+    public function setTableColumn(Column $column): self
+    {
+        if (! $this->tableColumn) {
+            $this->tableColumn = Column::make($this->name, $this->name)->title($this->label);
+        }
+        $this->tableColumn = new Column(array_merge($column->toArray(), $this->tableColumn ? $this->tableColumn->toArray() : []));
 
         return $this;
     }

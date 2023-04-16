@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Utils\Concerns\Models\Languageable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Banner extends Model
 {
+    use HasFactory;
     use Languageable;
 
     public const MODULE_NAME = 'banner';
@@ -14,7 +16,7 @@ class Banner extends Model
     public $guarded = [];
 
     protected $perPage = 20;
-//    protected $appends = ['lang_icon'];
+    //    protected $appends = ['lang_icon'];
 
     /**
      * Get all of the tags for the banner.

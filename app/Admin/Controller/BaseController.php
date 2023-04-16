@@ -3,6 +3,8 @@
 namespace App\Admin\Controller;
 
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class BaseController
 {
@@ -18,11 +20,27 @@ class BaseController
         ]);
     }
 
-    public function table(Request $request, string $model): \Illuminate\Http\JsonResponse
+    public function table(Request $request, string $model, Builder $builder)
     {
-        $model = (new ('App\\Admin\\Models\\' . $model));
-        $items = $model->getItems();
+        $adminModel = (new ('App\\Admin\\Models\\' . $model));
+        $fields = $adminModel->getFields();
 
-        return response()->json($items);
+        if (request()->ajax()) {
+            return DataTables::of($adminModel->getModel()::query())->toJson();
+        }
+
+        foreach ($fields as $field) {
+            if (! $field->showOnList) {
+                continue;
+            }
+
+            $builder->addColumn($field->getTableColumn());
+        }
+
+        return view('list', [
+            'html' => $builder,
+        ]);
+
+        //        return response()->json($items);
     }
 }

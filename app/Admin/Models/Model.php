@@ -39,4 +39,9 @@ abstract class Model
 
         return $this->model->latest()->get($fields);
     }
+
+    public function getModel(): DBModel
+    {
+        return $this->model;
+    }
 }

@@ -27,9 +27,10 @@
                     <table class="table table-hover table-bordered" id="baseTable">
                         <thead>
                             <tr>
-                                @foreach($fields as $field)
-                                    <th>{{ $field->label }}</th>
-                                @endforeach
+{{--                                @foreach($fields as $field)--}}
+{{--                                    <th>{{ $field->label }}</th>--}}
+{{--                                @endforeach--}}
+                                {!! $html->table() !!}
                             </tr>
                         </thead>
 
@@ -44,24 +45,26 @@
     </div>
 @endsection
 @section('footer')
+    {{ $html->scripts() }}
+
     <script>
-        $('#baseTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: '/admin/nova/table/{{ request()->get('model') }}',
-            },
-            "language": {
-                "url": "/admin_files/plugins/jquery-datatable/language-tr.json"
-            },
-            columns: [
-                @foreach($fields as $field)
-                    {data: "{{ $field->name }}", name: '{{ $field->name }}',title: '{{ $field->label }}'},
-                @endforeach
-            ],
-            order: [0, 'desc'],
-            pageLength: 10
-        });
+        {{--$('#baseTable').DataTable({--}}
+        {{--    processing: true,--}}
+        {{--    serverSide: true,--}}
+        {{--    ajax: {--}}
+        {{--        url: '/admin/nova/table/{{ request()->get('model') }}',--}}
+        {{--    },--}}
+        {{--    "language": {--}}
+        {{--        "url": "/admin_files/plugins/jquery-datatable/language-tr.json"--}}
+        {{--    },--}}
+        {{--    columns: [--}}
+        {{--        @foreach($fields as $field)--}}
+        {{--            {data: "{{ $field->name }}", name: '{{ $field->name }}',title: '{{ $field->label }}'},--}}
+        {{--        @endforeach--}}
+        {{--    ],--}}
+        {{--    order: [0, 'desc'],--}}
+        {{--    pageLength: 10--}}
+        {{--});--}}
     </script>
 
 @endsection
