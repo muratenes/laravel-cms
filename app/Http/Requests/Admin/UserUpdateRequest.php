@@ -36,7 +36,7 @@ class UserUpdateRequest extends FormRequest
         ];
     }
 
-    public function validated(): array
+    public function validated($key = null, $default = null)
     {
         $validated = parent::validated();
         $validated['is_active'] = $this->request->has('is_active');
