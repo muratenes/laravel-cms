@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/', function () {
+    return 'OK';
+});
+
 Route::group(['middleware' => 'site.config'], function () {
     // social auth
     Route::get('/redirect/{service}', 'SocialAuthController@redirect');

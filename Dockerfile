@@ -1,35 +1,36 @@
 # Dockerfile
-
 FROM php:8.1-fpm
 
-# Set working directory
-WORKDIR /var/www
-
-# Install system dependencies
+# Sistem paketleri
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    libzip-dev \
+    libjpeg-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
     unzip \
     git \
     curl \
-    vim \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
+    libzip-dev \
+    libmcrypt-dev \
+    nano
 
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# PHP eklentileri
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Copy existing application
-COPY . /var/www
+# Composer yükle
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set permissions
+# Proje dizinine geç
+WORKDIR /var/www
+
+# Dosyaları container'a kopyala
+COPY . .
+
+# Gerekli izinler
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage
+    && chmod -R 755 /var/www
 
 EXPOSE 9000
 CMD ["php-fpm"]
