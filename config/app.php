@@ -154,16 +154,15 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\HorizonServiceProvider::class,
+//        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
+//        App\Providers\TelescopeServiceProvider::class,
 
         // Custom Service Providers...
 
         \App\Providers\AppRepositoryProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         \App\Providers\ObserversProvider::class,
-        Darryldecode\Cart\CartServiceProvider::class,
     ],
 
     /*

@@ -1,36 +1,40 @@
-# Dockerfile
-FROM php:8.1-fpm
+# PHP 8.2 kullanmak için resmi PHP 8.2 imajını kullanıyoruz
+FROM php:8.2-fpm
 
-# Sistem paketleri
+# Sistem güncellemeleri ve gerekli bağımlılıkların yüklenmesi
 RUN apt-get update && apt-get install -y \
-    build-essential \
     libpng-dev \
     libjpeg-dev \
-    libonig-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
     libxml2-dev \
-    zip \
-    unzip \
-    git \
-    curl \
     libzip-dev \
-    libmcrypt-dev \
-    nano
+    zip \
+    git \
+    unzip \
+    && docker-php-ext-install pdo_mysql zip gd exif pcntl
 
-# PHP eklentileri
-RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Composer yükle
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Composer'ı indirip kuruyoruz
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Proje dizinine geç
+# Laravel uygulamanızı kopyalıyoruz
 WORKDIR /var/www
-
-# Dosyaları container'a kopyala
 COPY . .
 
-# Gerekli izinler
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www
+# Laravel için dosya izinlerini ayarlıyoruz
+RUN chown -R www-data:www-data /var/www
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+RUN git config --global --add safe.directory /var/www
+
+# Bağımlılıkları kuruyoruz
+RUN composer install --no-dev --optimize-autoloader
+
+# .env dosyasını kopyalıyoruz
+COPY .env.example .env
+
+# PHP-FPM'i başlatıyoruz
+CMD ["php-fpm"]
 
 EXPOSE 9000
-CMD ["php-fpm"]
