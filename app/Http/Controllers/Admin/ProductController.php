@@ -49,7 +49,7 @@ class ProductController extends AdminController
     public function ajax(ProductFilter $filter)
     {
         return DataTables::of(
-            Product::with(['company:id,title', 'categories', 'parent_category', 'sub_category', 'brand:id,title'])->filter($filter)
+            Product::with(['vendors:id,title'])
         )->make(true);
     }
 

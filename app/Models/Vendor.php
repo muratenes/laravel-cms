@@ -9,4 +9,10 @@ class Vendor extends Model
     protected $guarded = ['id'];
 
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'vendor_products')
+            ->withPivot('price')
+            ->withTimestamps();
+    }
 }

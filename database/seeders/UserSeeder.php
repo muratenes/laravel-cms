@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use App\Models\Vendor;
+use App\Models\VendorProduct;
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -77,6 +79,56 @@ class UserSeeder extends Seeder
             'password' => Hash::make("123456"),
             'is_active' => 1,
             'role_id' => \App\Models\Auth\Role::ROLE_MANAGER,
+        ]);
+
+
+        // products
+
+        $sut = Product::create([
+            'name' => 'Süt',
+            'purchase_price' => 30,
+            'price' => 35,
+            'stock_follow' => false,
+        ]);
+
+        Product::create([
+            'name' => 'Simental Süt',
+            'purchase_price' => 50,
+            'price' => 60,
+            'stock_follow' => false,
+        ]);
+
+        Product::create([
+            'name' => 'Pet',
+            'purchase_price' => 4,
+            'price' => 8,
+            'stock_follow' => true,
+        ]);
+
+        Product::create([
+            'name' => 'Tereyağ',
+            'purchase_price' => 300,
+            'price' => 350,
+            'stock_follow' => true,
+        ]);
+
+        Product::create([
+            'name' => 'Yumurta 30lu',
+            'purchase_price' => 100,
+            'price' => 140,
+            'stock_follow' => true,
+        ]);
+
+        VendorProduct::create([
+            'vendor_id' => $sezerVendor->id,
+            'product_id' => $sut->id,
+            'price' => 32,
+        ]);
+
+        VendorProduct::create([
+            'vendor_id' => $oktayVendor->id,
+            'product_id' => $sut->id,
+            'price' => 32,
         ]);
     }
 }

@@ -16,30 +16,6 @@
         <a href="{{ route('admin.products') }}"> <i class="fa fa-refresh"></i> @lang('admin.refresh')</a>
     </x-breadcrumb>
     <!-- filtreleme -->
-    <div class="box box-default">
-        <!-- /.box-header -->
-        <div class="box-body">
-            <div class="row">
-                <form action="{{ route('admin.products') }}" method="get" id="form">
-                    <div class="col-md-12">
-                        <div class="col-md-1" style="padding-top: 8px"><strong>@lang('admin.filter') : </strong></div>
-                        @if (admin('modules.product.category'))
-                            <div class="col-md-2">
-                                <select name="category" class="form-control" id="category_filter">
-                                    <option value="">--@lang('admin.product.select_category')--</option>
-                                </select>
-                            </div>
-                        @endif
-                        <div class="col-md-2">
-                            <button class="btn btn-sm btn-success">@lang('admin.filter')</button>
-                            <a href="{{ route('admin.products') }}" class="btn btn-sm btn-danger">@lang('admin.clear')</a>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
 
     <div class="row">
@@ -51,20 +27,14 @@
                     <table class="table table-hover table-bordered display" id="productList">
                         <thead>
                         <tr>
-                            <th>@lang('admin.id')</th>
-                            <th>@lang('admin.title')</th>
-                            <th class="{{ admin('modules.product.category') && admin('modules.product.multiple_category') ? '' : 'hidden' }}">@lang('admin.categories') <i class="fa fa-external-link"></i></th>
-                            <th class="{{ admin('modules.product.category') && admin('modules.product.multiple_category') ? 'hidden' : '' }}">@lang('admin.parent_category') <i class="fa fa-external-link"></i></th>
-                            <th class="{{ admin('modules.product.category') && admin('modules.product.multiple_category') ? 'hidden' : '' }}">@lang('admin.sub_category') <i class="fa fa-external-link"></i></th>
-                            <th>Slug <i class="fa fa-question-circle" title="web sitesinde görüntüle"></i></th>
-                            <th class="{{ admin('modules.product.company') ? '' : 'hidden' }}">@lang('admin.company')</th>
-                            <th class="{{ admin('modules.product.brand') ? '' : 'hidden' }}">@lang('admin.brand')</th>
-                            <th class="{{ admin('modules.product.qty') ? '' : 'hidden' }}">@lang('admin.stock')</th>
-                            <th class="{{ admin('modules.product.prices') ? '' : 'hidden' }}">@lang('admin.price')</th>
-                            <th class="{{ admin('modules.product.prices') ? '' : 'hidden' }}">@lang('admin.discount')</th>
-                            <th class="{{ admin('modules.product.image') ? '' : 'hidden' }}">@lang('admin.image')</th>
-                            <th>@lang('admin.status')</th>
-                            <th>@lang('admin.created_at')</th>
+                            <th>ID</th>
+                            <th>Ürün</th>
+                            <th>Alış Fiyatı</th>
+                            <th>Satış Fiyatı</th>
+                            <th>Özel Fiyat Tanımlı Esnaf</th>
+                            <th>Stok</th>
+                            <th>Son Güncelleme</th>
+                            <th>#</th>
                         </tr>
                         </thead>
                     </table>
