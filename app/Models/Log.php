@@ -60,7 +60,7 @@ class Log extends Model
                 'user_id'        => null === $user_id ? (\Auth::user() ? \Auth::user()->id : null) : $user_id,
                 'code'           => null === $code ? Str::random() : $code,
                 'url'            => null === $url ? mb_substr(request()->fullUrl(), 0, 150) : mb_substr($url, 0, 150),
-                'exception_type' => mb_substr(\get_class($exception), 0, 150),
+                'exception_type' => mb_substr($exception, 0, 150),
             ]);
             self::checkLogCount();
         } catch (\Exception $exception) {

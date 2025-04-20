@@ -102,7 +102,7 @@ class Permission extends Model
      *
      * @return string[]
      */
-    private function basicRoutes()
+    private static function basicRoutes()
     {
         return [
             'Home@index',

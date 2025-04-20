@@ -17,19 +17,19 @@ class CreateOrdersTable extends Migration
 
             // işlem yapılan para değerlerine göre
             $table->unsignedSmallInteger('currency_id')->default(\App\Models\Config::CURRENCY_TL);
-            $table->unsignedFloat('order_price', 8, 2);
-            $table->unsignedFloat('cargo_price', 8, 2);
-            $table->unsignedFloat('coupon_price', 8, 2)->nullable();
-            $table->unsignedFloat('order_total_price', 8, 2);
+            $table->float('order_price', 8, 2);
+            $table->float('cargo_price', 8, 2);
+            $table->float('coupon_price', 8, 2)->nullable();
+            $table->float('order_total_price', 8, 2);
 
             // iade edilen tutar
-            $table->unsignedFloat('refunded_amount', 8, 2)->default(0);
+            $table->float('refunded_amount', 8, 2)->default(0);
 
             // türk lirası karşılıkları
-            $table->unsignedFloat('real_order_price', 8, 2)->nullable();
-            $table->unsignedFloat('real_cargo_price', 8, 2)->nullable();
-            $table->unsignedFloat('real_coupon_price', 8, 2)->nullable();
-            $table->unsignedFloat('real_order_total_price', 8, 2)->nullable();
+            $table->float('real_order_price', 8, 2)->nullable();
+            $table->float('real_cargo_price', 8, 2)->nullable();
+            $table->float('real_coupon_price', 8, 2)->nullable();
+            $table->float('real_order_total_price', 8, 2)->nullable();
 
             // genel
             $table->unsignedSmallInteger('status')->default(\App\Models\BasketItem::STATUS_ONAY_BEKLIYOR);

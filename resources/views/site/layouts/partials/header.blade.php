@@ -85,52 +85,21 @@
 
                 <div class="dropdown cart-dropdown">
                     <a href="#" class="dropdown-toggle" id="openShoppingCart" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                        <span class="cart-count">{{ Cart::getContent()->count() }}</span>
+                        <span class="cart-count"></span>
                     </a>
 
                     <div class="dropdown-menu">
                         <div class="dropdownmenu-wrapper">
                             <div class="dropdown-cart-header">
-                                <span class="cart-count">{{ Cart::getContent()->count() }}</span> &nbsp;ürün
+                                <span class="cart-count"></span> &nbsp;ürün
 
                                 <a href="{{route('basket')}}">Sepete git</a>
                             </div><!-- End .dropdown-cart-header -->
                             <div class="dropdown-cart-products" id="basketContainer">
-                                @foreach(cartItems() as $item)
-                                    <div class="product">
-                                        <div class="product-details">
-                                            <h4 class="product-title">
-                                                <a href="#">{{$item->name}}</a>
-                                            </h4>
 
-                                            <span class="cart-product-info">
-                                                    <span class="cart-product-qty">{{$item->quantity}} | ({{ $item->id }})</span>
-                                                    x <span class="cart-product-price">{{ $item->price }} {{ currentCurrencySymbol() }}</span><br>
-                                                <span class="small">{{$item->attributes['attributes_text_lang']}}</span>
-                                                </span>
-                                        </div><!-- End .product-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="#" class="product-image">
-                                                <img width="80" height="80" src="{{imageUrl('public/products',$item->attributes['product']['image'])}}"
-                                                     alt="{{$item->title}}">
-                                            </a>
-                                            <a href="#" class="btn-remove" title="Ürünü kaldır" onclick="return removeBasketItem(this)" data-value="{{$item->id}}"><i
-                                                    class="icon-cancel" data-value="{{$item->id}}"></i></a>
-                                        </figure>
-                                    </div><!-- End .product -->
-                                @endforeach
                             </div><!-- End .cart-product -->
 
-                            <div class="dropdown-cart-total">
-                                <span>Toplam</span>
 
-                                <span class="cart-total-price">{{Cart::getSubTotal()}} </span> &nbsp; {{ currentCurrencySymbol() }}
-                            </div><!-- End .dropdown-cart-total -->
-
-                            <div class="dropdown-cart-action  {{ Cart::getContent()->count() > 0 ? '' : 'd-lg-none' }}">
-                                <a href="{{route('odemeView')}}" class="btn btn-block ">Ödeme</a>
-                            </div>
                         </div>
                     </div>
                 </div>

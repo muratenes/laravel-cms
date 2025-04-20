@@ -22,14 +22,14 @@ class CreateProductsTable extends Migration
             $table->unsignedSmallInteger('qty')->default(1);
 
             // Fiyat bilgileri
-            $table->unsignedFloat('tl_price', 8, 2)->nullable();
-            $table->unsignedFloat('tl_discount_price', 8, 2)->nullable();
+            $table->float('tl_price', 8, 2)->unsigned()->nullable();
+            $table->float('tl_discount_price', 8, 2)->unsigned()->nullable();
 
-            $table->unsignedFloat('usd_price', 8, 2)->nullable();
-            $table->unsignedFloat('usd_discount_price', 8, 2)->nullable();
+            $table->float('usd_price', 8, 2)->unsigned()->nullable();
+            $table->float('usd_discount_price', 8, 2)->unsigned()->nullable();
 
-            $table->unsignedFloat('eur_price', 8, 2)->nullable();
-            $table->unsignedFloat('eur_discount_price', 8, 2)->nullable();
+            $table->float('eur_price', 8, 2)->unsigned()->nullable();
+            $table->float('eur_discount_price', 8, 2)->unsigned()->nullable();
 
             // Other columns
 
@@ -51,7 +51,7 @@ class CreateProductsTable extends Migration
 
             // CARGO PRICE
 
-            $table->unsignedFloat('cargo_price', 8, 2)->nullable();
+            $table->float('cargo_price', 8, 2)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
