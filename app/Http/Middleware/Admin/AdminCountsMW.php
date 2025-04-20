@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware\Admin;
 
-use App\Models\Order;
 use Illuminate\Support\Facades\View;
 
 class AdminCountsMW
@@ -18,7 +17,7 @@ class AdminCountsMW
     public function handle($request, \Closure $next)
     {
         $counts = [
-            'order' => Order::where(['status' => Order::STATUS_ONAY_BEKLIYOR])->count(),
+            'order' =>0,
         ];
         View::share('counts', $counts);
 

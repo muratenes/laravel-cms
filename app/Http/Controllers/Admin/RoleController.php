@@ -68,7 +68,7 @@ class RoleController extends Controller
 
     public function delete($id)
     {
-        if (\in_array($id, [Role::ROLE_SUPER_ADMIN, Role::ROLE_CUSTOMER, Role::ROLE_STORE, Role::ROLE_STORE_WORKER], true)) {
+        if (\in_array($id, [Role::ROLE_SUPER_ADMIN, Role::ROLE_CUSTOMER, Role::ROLE_VENDOR, Role::ROLE_STORE_WORKER], true)) {
             return redirect(route('admin.roles'))->withErrors('you can not delete this role');
         }
         $this->model->deleteRole($id);

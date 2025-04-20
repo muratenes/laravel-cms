@@ -2,14 +2,8 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\BasketItem;
 use App\Models\Config;
-use App\Models\Iyzico;
 use App\Models\Log;
-use App\Models\Order;
-use App\Models\Product\Product;
-use App\Models\Product\ProductVariant;
-use App\Models\İyzicoFailsJson;
 use App\Repositories\Interfaces\OrderInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Carbon\Carbon;

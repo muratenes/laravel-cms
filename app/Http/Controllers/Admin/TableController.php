@@ -3,12 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Banner;
-use App\Models\Blog;
-use App\Models\Category;
-use App\Models\Contact;
-use App\Models\Content;
-use App\Models\Product\ProductCompany;
 use App\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;

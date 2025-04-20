@@ -37,7 +37,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="{{ route('admin.orders') }}?q=&status_filter={{ \App\Models\Order::STATUS_SIPARIS_ALINDI }}" class="small-box-footer">Siparişler <i
+                    <a href="{{ route('admin.orders') }}?q=&status_filter" class="small-box-footer">Siparişler <i
                                 class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                     <div class="icon">
                         <i class="ion ion-appstore"></i>
                     </div>
-                    <a href="{{ route('admin.orders') }}?q=&status_filter={{ \App\Models\Order::STATUS_TAMAMLANDI }}" class="small-box-footer">More info <i
+                    <a href="{{ route('admin.orders') }}?q=&status_filter=" class="small-box-footer">More info <i
                                 class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -111,26 +111,26 @@
                                 <th>Sepet Tutarı</th>
                                 <th>Oluşturulma Tarihi</th>
                             </tr>
-                            @foreach($data['last_orders'] as $l)
-                                <tr>
-                                    <td><a href="{{ route('admin.order.edit',$l->id) }}">SP-{{ $l->id }}</a></td>
-                                    <td><a href="{{ route('admin.order.edit',$l->id) }}"> {{ $l->full_name }}</a></td>
-                                    <td>
-                                        @if ($l->basket and $l->basket->user)
-                                            <a href="{{ route('admin.user.edit',$l->basket->user->id) }}">
-                                                {{ $l->basket->user->full_name }} &nbsp;
-                                                <i class="fa fa-edit"></i></a>
-                                        @endif
-                                    </td>
-                                    <td>{{ $l ->adres }}</td>
-                                    <td>{{ $l ->phone }}</td>
-                                    <td>{{ $l ->bank }} </td>
-                                    <td>{{ $l->statusLabel() }}</td>
-                                    <td>{{ $l->order_total_price }} ₺</td>
-                                    <td>{{ $l ->created_at }} </td>
-                                    </td>
-                                </tr>
-                            @endforeach
+{{--                            @foreach($data['last_orders'] as $l)--}}
+{{--                                <tr>--}}
+{{--                                    <td><a href="{{ route('admin.order.edit',$l->id) }}">SP-{{ $l->id }}</a></td>--}}
+{{--                                    <td><a href="{{ route('admin.order.edit',$l->id) }}"> {{ $l->full_name }}</a></td>--}}
+{{--                                    <td>--}}
+{{--                                        @if ($l->basket and $l->basket->user)--}}
+{{--                                            <a href="{{ route('admin.user.edit',$l->basket->user->id) }}">--}}
+{{--                                                {{ $l->basket->user->full_name }} &nbsp;--}}
+{{--                                                <i class="fa fa-edit"></i></a>--}}
+{{--                                        @endif--}}
+{{--                                    </td>--}}
+{{--                                    <td>{{ $l ->adres }}</td>--}}
+{{--                                    <td>{{ $l ->phone }}</td>--}}
+{{--                                    <td>{{ $l ->bank }} </td>--}}
+{{--                                    <td>{{ $l->statusLabel() }}</td>--}}
+{{--                                    <td>{{ $l->order_total_price }} ₺</td>--}}
+{{--                                    <td>{{ $l ->created_at }} </td>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+{{--                            @endforeach--}}
                             </tbody>
 
                         </table>
@@ -215,63 +215,7 @@
 @section('footer')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.0/dist/Chart.min.js"></script>
     <script>
-        @php
-            $bestSellersLabels = $bestSellersData =$orderCountPerMonthLabels = $orderCountPerMonthData = "";
-            foreach ($data['best_sellers'] as $bs){
-                $bestSellersLabels .= "\"$bs->title\",";
-                $bestSellersData .= "\"$bs->qty\",";
-            }
-            foreach ($data['sellers_per_month'] as $order){
-                $orderCountPerMonthLabels .= "\"$order->ay\",";
-                $orderCountPerMonthData .= "\"$order->qty\",";
-            } // chartOrderCountPerMonth
 
-        @endphp
-        var ctx = document.getElementById('chartCokSatanlar').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'horizontalBar',
-            data: {
-                labels: [{!! $bestSellersLabels !!}],
-                datasets: [{
-                    label: 'Çok Satan Ürünler',
-                    data: [{!! $bestSellersData !!}],
-                    borderWidth: 1,
-                    backgroundColor: '#3c8dbc',
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-        // per month sales
-        var ctx = document.getElementById('chartOrderCountPerMonth').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'horizontalBar',
-            data: {
-                labels: [{!! $orderCountPerMonthLabels !!}],
-                datasets: [{
-                    label: 'Aylara Göre Satılan Ürün Sayısı',
-                    data: [{!! $orderCountPerMonthData !!}],
-                    borderWidth: 1,
-                    backgroundColor: '#3c8dbc',
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
     </script>
 @endsection
 

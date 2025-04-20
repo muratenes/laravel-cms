@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\ProductCompany;
 use App\Repositories\Interfaces\ProductCompanyInterface;
 use Illuminate\Support\Str;
 

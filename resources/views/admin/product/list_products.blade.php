@@ -27,31 +27,6 @@
                             <div class="col-md-2">
                                 <select name="category" class="form-control" id="category_filter">
                                     <option value="">--@lang('admin.product.select_category')--</option>
-                                    @foreach($categories as $cat)
-                                        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
-                                            {{ $cat->title  }} {{ $cat->parent_cat ? "({$cat->parent_cat->title})"  : '' }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
-                        @if(admin('modules.product.company'))
-                            <div class="col-md-2">
-                                <select name="company" class="form-control" id="company_filter">
-                                    <option value="">--@lang('admin.product.filter_by_company')--</option>
-                                    @foreach($companies as $com)
-                                        <option value="{{ $com->id }}" {{ request('company') == $com->id ? 'selected' : '' }}>{{ $com->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
-                        @if(admin('modules.product.brand'))
-                            <div class="col-md-2">
-                                <select name="brand" class="form-control" id="brand_filter">
-                                    <option value="">--@lang('admin.product.filter_by_brand')--</option>
-                                    @foreach($brands as $brand)
-                                        <option value="{{ $brand->id }}" {{ request('brand') == $brand->id ? 'selected' : '' }}>{{ $brand->title }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         @endif

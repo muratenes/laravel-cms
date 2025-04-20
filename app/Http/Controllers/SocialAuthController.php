@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Basket;
-use App\Models\BasketItem;
-use App\Models\Product\ProductVariant;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;

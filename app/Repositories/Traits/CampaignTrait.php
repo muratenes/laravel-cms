@@ -2,8 +2,7 @@
 
 namespace App\Repositories\Traits;
 
-use App\Models\Campaign;
-use App\Models\Product\Product;
+
 
 trait CampaignTrait
 {

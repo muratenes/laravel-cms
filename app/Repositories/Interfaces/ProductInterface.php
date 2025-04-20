@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Model;
 
 interface ProductInterface

@@ -7,6 +7,8 @@
 |
  */
 
+use App\Http\Controllers\Admin\ProductController;
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::redirect('', '/admin/giris/');
 //    Route::match(['get', 'post'], 'giris', 'AuthController@login')->name('admin.login');
@@ -68,7 +70,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/Products/..
         Route::group(['prefix' => 'product/'], function () {
-            Route::get('/', 'ProductController@listProducts')->name('admin.products');
+            Route::get('/', [ProductController::class, 'listProducts'])->name('admin.products');
             Route::get('new', 'ProductController@newOrEditProduct')->name('admin.product.new');
             Route::get('edit/{product_id}', 'ProductController@newOrEditProduct')->name('admin.product.edit');
             Route::post('save/{product_id}', 'ProductController@saveProduct')->name('admin.product.save');

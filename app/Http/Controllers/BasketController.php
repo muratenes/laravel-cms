@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Basket;
-use App\Models\Product\Product;
 use App\Repositories\Interfaces\BasketInterface;
 use App\Repositories\Interfaces\CouponInterface;
 use App\Repositories\Interfaces\ProductInterface;

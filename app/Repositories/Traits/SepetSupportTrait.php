@@ -2,12 +2,7 @@
 
 namespace App\Repositories\Traits;
 
-use App\Models\Basket;
-use App\Models\BasketItem;
 use App\Models\Config;
-use App\Models\Product\Product;
-use App\Models\Product\ProductVariant;
-use Cart;
 
 trait SepetSupportTrait
 {

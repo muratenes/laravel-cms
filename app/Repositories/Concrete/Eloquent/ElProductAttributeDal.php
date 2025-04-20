@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Product\ProductAttribute;
-use App\Models\Product\ProductSubAttribute;
 use App\Repositories\Interfaces\ProductAttributeInterface;
 
 class ElProductAttributeDal extends BaseRepository implements ProductAttributeInterface

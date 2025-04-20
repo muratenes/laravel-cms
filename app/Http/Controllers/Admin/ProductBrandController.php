@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\ProductBrand;
-use App\Models\Product\ProductCompany;
 use App\Repositories\Interfaces\ProductBrandInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;

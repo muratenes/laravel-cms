@@ -19,21 +19,19 @@ class CreateUsersTable extends Migration
             $table->string('password', 150)->nullable();
 
             $table->string('activation_code', 60)->nullable();
-            $table->boolean('is_active')->default(0);
+            $table->boolean('is_active')->default(1);
             $table->string('token', 200)->nullable();
             $table->text('about')->nullable();
 
             $table->unsignedInteger('role_id')->index()->nullable();
 
-            $table->integer('default_address_id')->nullable();
-            $table->integer('default_invoice_address_id')->nullable();
             $table->string('phone', 50)->nullable();
+            $table->unsignedInteger('vendor_id')->nullable();
 
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->string('locale', 10)->default('tr');
 
             $table->foreign('role_id')->references('id')->on('roles');
         });

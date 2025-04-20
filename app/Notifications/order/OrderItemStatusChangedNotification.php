@@ -4,7 +4,6 @@ namespace App\Notifications\order;
 
 use App\Models\BasketItem;
 use App\Models\Order;
-use App\Models\Product\Product;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

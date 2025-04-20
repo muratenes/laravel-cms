@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
 use App\Repositories\Interfaces\ProductInterface;
 use Illuminate\Http\Request;
 

@@ -2,8 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Campaign;
-use App\Models\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

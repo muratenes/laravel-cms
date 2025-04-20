@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Favorite;
-use App\Models\Product\Product;
 use App\Repositories\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 

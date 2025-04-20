@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Product\ProductBrand;
 use App\Repositories\Interfaces\ProductBrandInterface;
 
 class ElProductBrandDal extends BaseRepository implements ProductBrandInterface

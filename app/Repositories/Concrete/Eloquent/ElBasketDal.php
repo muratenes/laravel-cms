@@ -2,13 +2,8 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Basket;
-use App\Models\BasketItem;
-use App\Models\Order;
-use App\Models\Product\Product;
-use App\Models\Product\ProductVariant;
+
 use App\Repositories\Interfaces\BasketInterface;
-use Darryldecode\Cart\Cart;
 
 class ElBasketDal extends BaseRepository implements BasketInterface
 {

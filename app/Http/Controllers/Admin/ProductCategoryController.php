@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AdminCategoryRequest;
-use App\Models\Kategori;
 use App\Repositories\Interfaces\CategoryInterface;
 use App\Repositories\Traits\ImageUploadTrait;
 use App\Repositories\Traits\ResponseTrait;

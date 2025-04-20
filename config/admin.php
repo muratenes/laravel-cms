@@ -5,10 +5,10 @@ $data = [
     // LOAD CONFIG FROM DATABASE OR FILE
     'config_driver' => env('CONFIG_DRIVER', 'file'),
 
-    'title'           => 'CMS Yönetim',
+    'title'           => 'Sütçüler Süt',
     'short_title'     => 'CMS',
-    'creator'         => 'NeAjans',
-    'creator_link'    => 'http://google.com',
+    'creator'         => 'sutculersut',
+    'creator_link'    => 'http://sutculersut.com',
     'version'         => 'v1.1.0',
     'max_upload_size' => 3024,
     // module status
@@ -55,12 +55,6 @@ $data = [
     'check_coupon_prev_minute'   => 5,
     'check_campaign_prev_minute' => 5,
 
-    'iyzico' => [
-        'order_url'  => env('IYZIPAY_ORDER_URL', 'https://sandbox-merchant.iyzipay.com/transactions/'),
-        'api_key'    => env('IYZIPAY_API_KEY', 'DEFAULT_KEY'),
-        'api_secret' => env('IYZIPAY_API_SECRET', 'DEFAULT_SECRET_KEY'),
-        'base_url'   => env('IYZIPAY_BASE_URL', 'DEFAULT_BASE_URL'),
-    ],
     // image quality %x if value is null image not be resized
     'image_quality' => [
         'advert'          => 70,
@@ -79,8 +73,8 @@ $data = [
         'gallery_item'    => 60,
     ],
     // admin account
-    'username' => 'admin@admin.com',
-    'password' => 'adminadmin',
+    'username' => 'yilmaz.karabacak@gmail.com',
+    'password' => '53257780619901',
 
     'store_email'    => 'customer@example.com',
     'store_password' => 'customer!1ıDnsnc',

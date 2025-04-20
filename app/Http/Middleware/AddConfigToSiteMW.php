@@ -2,9 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Builder\Menu;
 use App\Models\Config;
-use App\Models\Kategori;
 use Illuminate\Support\Facades\View;
 
 class AddConfigToSiteMW

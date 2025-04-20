@@ -9,7 +9,6 @@ use App\Models\Cargo;
 use App\Models\Config;
 use App\Models\Log;
 use App\Models\Order;
-use App\Models\Product\ProductCompany;
 use App\Notifications\order\OrderCancelledNotification;
 use App\Notifications\order\OrderStatusChangedNotification;
 use App\Repositories\Interfaces\BasketInterface;

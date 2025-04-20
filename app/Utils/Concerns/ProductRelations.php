@@ -2,14 +2,6 @@
 
 namespace App\Utils\Concerns;
 
-use App\Models\Favorite;
-use App\Models\Kategori;
-use App\Models\Product\ProductBrand;
-use App\Models\Product\ProductComment;
-use App\Models\Product\ProductCompany;
-use App\Models\Product\ProductDetail;
-use App\Models\Product\ProductImage;
-use App\Models\Product\ProductVariant;
 
 trait ProductRelations
 {

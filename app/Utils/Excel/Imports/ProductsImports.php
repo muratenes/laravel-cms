@@ -3,8 +3,6 @@
 namespace App\Utils\Excel\Imports;
 
 use App\Models\Config;
-use App\Models\Kategori;
-use App\Models\Product\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

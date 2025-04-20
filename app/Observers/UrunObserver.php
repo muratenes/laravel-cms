@@ -2,8 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Product\Product;
-use Psy\Util\Str;
 
 class UrunObserver
 {

@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Models\Campaign;
 use App\Models\CampaignCategory;
 use App\Models\Config;
-use App\Models\Product\Product;
 use App\Repositories\Traits\CampaignTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;

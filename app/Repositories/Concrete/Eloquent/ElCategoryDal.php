@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Kategori;
 use App\Repositories\Interfaces\CategoryInterface;
 use App\Repositories\Interfaces\ProductInterface;
 use Illuminate\Support\Str;

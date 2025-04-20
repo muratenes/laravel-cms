@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Kategori;
-use App\Models\CategoryProduct;
-use App\Models\Product\Product;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

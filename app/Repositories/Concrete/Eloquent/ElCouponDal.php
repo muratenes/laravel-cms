@@ -2,9 +2,6 @@
 
 namespace App\Repositories\Concrete\Eloquent;
 
-use App\Models\Basket;
-use App\Models\Coupon;
-use App\Models\Product\Product;
 use App\Repositories\Interfaces\CouponInterface;
 use App\Repositories\Traits\ResponseTrait;
 use Carbon\Carbon;

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\ProductAttribute;
-use App\Models\Product\ProductComment;
 use App\Repositories\Interfaces\ProductCommentInterface;
 use Illuminate\Http\Request;
 

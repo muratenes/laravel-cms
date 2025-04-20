@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Banner;
-use App\Models\Basket;
 use App\Models\Config;
-use App\Models\FAQ;
-use App\Models\Kategori;
-use App\Models\Product\Product;
 use App\Repositories\Interfaces\CampaignInterface;
 use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\SepetSupportTrait;

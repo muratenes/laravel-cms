@@ -52,46 +52,25 @@ class Log extends Model
 
     public static function addLog($message, $exception, $type = self::TYPE_GENERAL, $code = null, $url = null, $user_id = null)
     {
-        try {
-            self::create([
-                'type'           => $type,
-                'message'        => mb_substr($message, 0, 250),
-                'exception'      => mb_substr((string) $exception, 0, 65000),
-                'user_id'        => null === $user_id ? (\Auth::user() ? \Auth::user()->id : null) : $user_id,
-                'code'           => null === $code ? Str::random() : $code,
-                'url'            => null === $url ? mb_substr(request()->fullUrl(), 0, 150) : mb_substr($url, 0, 150),
-                'exception_type' => mb_substr($exception, 0, 150),
-            ]);
-            self::checkLogCount();
-        } catch (\Exception $exception) {
-            if (\in_array('slack', config('logging.channels.' . config('logging.default') . '.channels'), true)) {
-                \Illuminate\Support\Facades\Log::channel('single')->error('slack', ['message' => $exception->getMessage()]);
-            }
-            \Illuminate\Support\Facades\Log::channel('single')->critical($exception->getMessage(), $exception->getTrace());
-        }
+//        try {
+//            self::create([
+//                'type'           => $type,
+//                'message'        => mb_substr($message, 0, 250),
+//                'exception'      => mb_substr((string) $exception, 0, 65000),
+//                'user_id'        => null === $user_id ? (\Auth::user() ? \Auth::user()->id : null) : $user_id,
+//                'code'           => null === $code ? Str::random() : $code,
+//                'url'            => null === $url ? mb_substr(request()->fullUrl(), 0, 150) : mb_substr($url, 0, 150),
+//                'exception_type' => mb_substr($exception, 0, 150),
+//            ]);
+//            self::checkLogCount();
+//        } catch (\Exception $exception) {
+//            if (\in_array('slack', config('logging.channels.' . config('logging.default') . '.channels'), true)) {
+//                \Illuminate\Support\Facades\Log::channel('single')->error('slack', ['message' => $exception->getMessage()]);
+//            }
+//            \Illuminate\Support\Facades\Log::channel('single')->critical($exception->getMessage(), $exception->getTrace());
+//        }
     }
 
-    /**
-     * @param null|string $message   iyzico ile ilgili içerik
-     * @param null|string $exception data veya hata string olabilir
-     * @param null        $relatedID basket id veya order id olabilir
-     * @param int         $type      related id basket id ise TYPE_BASKET değilse ilgili log gönderilmelidir
-     * @param null        $userID
-     */
-    public static function addIyzicoLog($message = null, $exception = null, $relatedID = null, $type = self::TYPE_BASKET, $userID = null)
-    {
-        try {
-            self::create([
-                'type'      => $type,
-                'message'   => $message ? mb_substr($message, 0, 250) : null,
-                'exception' => $exception ? mb_substr((string) $exception, 0, 65000) : $exception,
-                'user_id'   => null === $userID ? \Auth::user() ? \Auth::user()->id : 0 : $userID,
-                'code'      => $relatedID,
-                'url'       => mb_substr(request()->fullUrl(), 0, 150),
-            ]);
-        } catch (\Exception $exception) {
-        }
-    }
 
     protected static function checkLogCount()
     {

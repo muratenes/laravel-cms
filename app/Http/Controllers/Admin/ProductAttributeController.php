@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Product\ProductAttribute;
-use App\Models\Product\ProductSubAttribute;
 use App\Repositories\Interfaces\ProductAttributeInterface;
 use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\ResponseTrait;

@@ -16,11 +16,6 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        PermissionRole::truncate();
-        Permission::truncate();
-        Role::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $this->updateOrCreateRoles();
 
         $permission_ids = []; // an empty array of stored permission IDs
@@ -61,7 +56,7 @@ class RolesTableSeeder extends Seeder
 
         // SYNC STORE ROLES.
         $storePermissions = Permission::select('id')->whereIn('name', Permission::storeRoles())->get('id')->pluck('id')->toarray();
-        $storeRole = Role::where('name', 'store')->first();
+        $storeRole = Role::where('name', 'vendor')->first();
         $storeRole->permissions()->sync($storePermissions);
 
         // SYNC MANAGER ROLES.
@@ -74,9 +69,7 @@ class RolesTableSeeder extends Seeder
     {
         $roles = [
             ['name' => 'super-admin'],
-            ['name' => 'store'],
-            ['name' => 'store-worker'],
-            ['name' => 'company'],
+            ['name' => 'vendor'],
             ['name' => 'manager'],
         ];
         foreach ($roles as $role) {

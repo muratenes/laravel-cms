@@ -4,10 +4,6 @@ namespace App\Providers;
 
 use App\Listeners\LoggingListener;
 use App\Models\Config;
-use App\Models\Order;
-use App\Models\Product\Product;
-use App\Observers\OrderObserver;
-use App\Observers\UrunObserver;
 use App\Repositories\Concrete\ElBaseRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
@@ -28,8 +24,6 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with(compact('languages'));
         });
-        Product::observe(UrunObserver::class);
-        Order::observe(OrderObserver::class);
 
         Blade::if('admin', function ($value) {
             return admin($value);

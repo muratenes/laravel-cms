@@ -55,7 +55,7 @@ class NewOrderAddedJob implements ShouldQueue
     public function handle()
     {
         Mail::to($this->user)->send(new OrderCreateadMail($this->order));
-        $adminUsers = User::where('role_id', [Role::ROLE_SUPER_ADMIN, Role::ROLE_STORE])->get();
+        $adminUsers = User::where('role_id', [Role::ROLE_SUPER_ADMIN, Role::ROLE_VENDOR])->get();
         foreach ($adminUsers as $user) {
             $user->notify(new AdminNewOrderNotification($this->order));
         }
