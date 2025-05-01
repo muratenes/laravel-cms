@@ -4,6 +4,30 @@ namespace App\Models\Auth;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $key
+ * @property string $controller
+ * @property string $method
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Auth\Role> $roles
+ * @property-read int|null $roles_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereController($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Permission extends Model
 {
     protected $table = 'permissions';

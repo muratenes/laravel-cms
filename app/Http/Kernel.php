@@ -73,6 +73,6 @@ class Kernel extends HttpKernel
         'admin.data'         => AdminInitialDataMW::class,
         'role'               => RolesAuth::class,
         'admin.language'     => SetUserLocaleMW::class,
-        'site.config'        => AddConfigToSiteMW::class,
+//        'site.config'        => AddConfigToSiteMW::class,
     ];
 }

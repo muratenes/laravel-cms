@@ -3,7 +3,6 @@
 namespace App\Http\Middleware\Admin;
 
 use App\Models\Auth\Role;
-use App\Models\Config;
 use App\Models\Log;
 use Illuminate\Support\Facades\View;
 
@@ -19,9 +18,8 @@ class AdminInitialDataMW
      */
     public function handle($request, \Closure $next)
     {
-        $activeLanguages = Config::activeLanguages();
         View::share('menus', $this->_getAdminMenus());
-        View::share('activeLanguages', $activeLanguages);
+        View::share('activeLanguages', []);
 
         return $next($request);
     }

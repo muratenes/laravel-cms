@@ -1,6 +1,4 @@
-@php
-    $site = \App\Models\Config::first();
-@endphp
+
 @extends('site.layouts.base')
 @section('title','Urunler')
 

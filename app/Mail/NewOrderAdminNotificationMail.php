@@ -15,7 +15,6 @@ class NewOrderAdminNotificationMail extends Mailable
     public $user;
     public $order;
     public $basketItems;
-    public $site;
 
     /**
      * Create a new message instance.
@@ -29,7 +28,6 @@ class NewOrderAdminNotificationMail extends Mailable
         $this->user = $user;
         $this->order = $order;
         $this->basketItems = $basketItems;
-        $this->site = Config::getCache();
     }
 
     /**

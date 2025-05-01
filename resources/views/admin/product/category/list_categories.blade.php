@@ -12,7 +12,7 @@
 
             <div class="box-tools pull-right">
 
-                <a class="btn btn-box-tool" title="yenile" href="{{ route('admin.product.categories') }}"><i class="fa fa-retweet"></i></a>
+                <a class="btn btn-box-tool" title="yenile" href=""><i class="fa fa-retweet"></i></a>
                         <a class="btn btn-box-tool" title="kategori ekle" href="{{ route('admin.product.category.new') }}"><i class="fa fa-plus"></i></a>
             </div>
         </div>

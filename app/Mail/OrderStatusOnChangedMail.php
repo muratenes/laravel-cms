@@ -29,7 +29,6 @@ class OrderStatusOnChangedMail extends Mailable
         $this->user = $user;
         $this->order = $order;
         $this->basket = $order->basket;
-        $this->site = Config::getCache();
         $this->orderStatusText = Order::statusLabelStatic($this->order->status);
     }
 

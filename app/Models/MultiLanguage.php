@@ -5,6 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 
+ *
+ * @property-read Model|\Eloquent $languageable
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MultiLanguage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MultiLanguage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MultiLanguage query()
+ * @mixin \Eloquent
+ */
 class MultiLanguage extends Model
 {
     use HasFactory;

@@ -7,6 +7,14 @@ use App\Utils\Concerns\SettingCurrencyConcern;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * 
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config query()
+ * @mixin \Eloquent
+ */
 class Config extends Model
 {
     use SettingCurrencyConcern;

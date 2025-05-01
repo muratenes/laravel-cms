@@ -2,7 +2,6 @@
 
 namespace App\Utils\Concerns\Models;
 
-use App\Models\Config;
 
 trait SettingLanguages
 {
@@ -36,37 +35,7 @@ trait SettingLanguages
         return self::languages()[1][0];
     }
 
-    /**
-     * aktif dilleri getirir.
-     *
-     * @return array
-     */
-    public static function activeLanguages()
-    {
-        return collect(self::languages())->filter(function ($item, $key) {
-            if ($item[2]) {
-                return true;
-            }
-        })->toArray();
-    }
 
-    /**
-     * get all active language without main project language.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function otherActiveLanguages()
-    {
-        if (! config('admin.multi_lang')) {
-            return collect();
-        }
-
-        return collect(Config::languages())->filter(function ($item, $key) {
-            if ($item[2] && defaultLangID() !== $item[0]) {
-                return true;
-            }
-        });
-    }
 
     /**
      * language label getirir.

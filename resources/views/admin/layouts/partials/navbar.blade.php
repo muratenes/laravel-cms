@@ -139,20 +139,7 @@
                 @endforeach
             @endforeach
         <!-- creator -->
-            @if(loggedAdminUser()->isSuperAdmin())
 
-                <li class="header">Creator</li>
-                <li>
-                    <a href="{{ route('admin.builder.menus') }}">
-                        <i class="fa fa-wrench"></i> Menü
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('admin.builder.edit') }}">
-                        <i class="fa fa-gavel"></i> Tema & Admin
-                    </a>
-                </li>
-            @endif
 
         </ul>
     </section>

@@ -18,7 +18,6 @@ class NewUserOrderAddedMail extends Mailable
     public User $user;
     public Basket $basket;
     public Order $order;
-    public Config $site;
 
     /**
      * Create a new job instance.
@@ -32,7 +31,6 @@ class NewUserOrderAddedMail extends Mailable
         $this->basket = $basket;
         $this->user = $user;
         $this->order = $order;
-        $this->site = Config::getCache();
     }
 
     /**

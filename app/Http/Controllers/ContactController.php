@@ -12,9 +12,7 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $site = Config::getCache();
 
-        return view('site.contact.contact', compact('site'));
     }
 
     public function sendMail(ContactRequest $request)

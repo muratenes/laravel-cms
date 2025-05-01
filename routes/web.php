@@ -4,7 +4,7 @@ Route::get('/', function () {
     return 'OK';
 });
 
-Route::group(['middleware' => 'site.config'], function () {
+Route::group(['prefix' => '/'], function () {
     // social auth
     Route::get('/redirect/{service}', 'SocialAuthController@redirect');
     Route::get('/callback/{service}', 'SocialAuthController@callback');

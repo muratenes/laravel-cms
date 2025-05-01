@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Config;
 use App\Repositories\Interfaces\CampaignInterface;
 use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Traits\SepetSupportTrait;
@@ -19,8 +18,6 @@ class HomeController extends Controller
 
     public function __construct(ProductInterface $productService, CampaignInterface $campService)
     {
-//        $this->_productService = $productService;
-//        $this->_campService = $campService;
     }
 
     public function index()
@@ -29,43 +26,5 @@ class HomeController extends Controller
         $camps = []; // $this->_campService->getLatestActiveCampaigns(3);
 
         return view('site.index', compact('banners', 'camps'));
-    }
-
-    /**
-     * hakkımızda sayfası.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function about()
-    {
-        $sss = FAQ::where(['lang' => curLangId(), 'active' => 1])->orderByDesc('id')->get();
-
-        return view('site.main.about', compact('sss'));
-    }
-
-    public function sitemap()
-    {
-        $products = Product::orderBy('id', 'DESC')->take(1000)->get();
-        $categories = Kategori::orderBy('id', 'DESC')->take(1000)->get();
-        $now = Carbon::now()->toAtomString();
-        $content = view('site.sitemap', compact('products', 'now', 'categories'));
-
-        return response($content)->header('Content-Type', 'application/xml');
-    }
-
-    public function setLanguage(Request $request, $locale)
-    {
-        App::setLocale($locale);
-        session()->put('locale', $locale);
-        $lang = Config::getLanguageIdByShortName($locale);
-        session()->put('lang_id', $lang);
-        session()->put('currency_id', Config::getCurrencyId());
-        session()->put('product_price_currency_field', Config::getCurrencyProductPriceFieldByLang($lang));
-        if ($request->user()) {
-            $this->matchSessionCartWithBasketItems(Basket::getCurrentBasket());
-            $request->user()->update(['locale' => Config::languages()[$lang][3]]);
-        }
-
-        return back();
     }
 }

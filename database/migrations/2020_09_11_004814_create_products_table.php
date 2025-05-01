@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->float('purchase_price')->unsigned();
             $table->float('price')->unsigned();
+            $table->unsignedBigInteger('stock')->default(0);
             $table->boolean('stock_follow')->default(true);
             $table->boolean('is_active')->default(true);
 

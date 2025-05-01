@@ -70,19 +70,28 @@ class Handler extends ExceptionHandler
         });
     }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable               $exception
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function render($request, Throwable $exception)
     {
-//        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-//            //
-//        }
+        // Eğer exception ValidationException değilse ama sen custom error döndürmek istiyorsan:
+        if ($exception instanceof HttpException) {
+
+            $message = $exception->getMessage() ?? 'Beklenmeyen bir hata oluştu';
+            $errors = method_exists($exception, 'errors') ? $exception->errors() : [];
+
+            // JSON/AJAX isteği mi?
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => $message,
+                    'errors' => $errors,
+                ], 422);
+            }
+
+            error($message);
+            // Normal form isteği
+            return back();
+        }
+
         return parent::render($request, $exception);
     }
 

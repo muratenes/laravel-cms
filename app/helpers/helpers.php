@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Admin;
-use App\Models\Config;
 use Illuminate\Support\Str;
 
 function changeUIPhoneNumberToDbFormat($phone)
@@ -35,12 +34,12 @@ function defaultLangID()
 
 function langIcon($langId)
 {
-    return '/admin_files/dist/img/langs/' . \App\Models\Config::getLanguageImageNameById($langId);
+    return '';
 }
 
 function langTitle($langId)
 {
-    return Config::getLanguageLabelByLang($langId);
+    return '';
 }
 
 // ====== PARA BİRİMLERİ =============
@@ -53,7 +52,7 @@ function currentCurrencySymbol()
 {
     $currencyID = session()->get('currency_id', config('admin.default_currency'));
 
-    return Config::getCurrencySymbolById($currencyID);
+    return '';
 }
 
 /**
@@ -73,7 +72,7 @@ function loggedAdminUser()
  */
 function currentCurrencyID()
 {
-    return Config::getCurrencyId();
+    return 1;
 }
 
 /**
@@ -85,7 +84,7 @@ function currentCurrencyID()
  */
 function getCurrencySymbolById($currencyID)
 {
-    return Config::getCurrencySymbolById($currencyID);
+    return 1;
 }
 
 // ====== ./// CURRENCY =============

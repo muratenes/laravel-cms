@@ -126,13 +126,6 @@ $data['menus'] = [
             'routeName'  => 'admin.blog',
             'status'     => 'modules_status.blog',
         ],
-        'advert' => [
-            'icon'       => 'fa fa-percent',
-            'permission' => 'Advert@index',
-            'title'      => 'adverts',
-            'routeName'  => 'admin.adverts.index',
-            'status'     => 'modules_status.advert',
-        ],
         'categories' => [
             'icon'       => 'fa fa-align-center',
             'permission' => 'Category@index',
@@ -194,41 +187,6 @@ $data['menus'] = [
                     'routeName'  => 'admin.products',
                     'status'     => 'modules_status.product',
                 ],
-                [
-                    'icon'       => 'fa fa-circle-o',
-                    'permission' => 'ProductCategory@listCategories',
-                    'title'      => 'categories',
-                    'routeName'  => 'admin.product.categories',
-                    'status'     => 'modules.product.category',
-                ],
-                [
-                    'icon'       => 'fa fa-circle-o',
-                    'permission' => 'ProductAttribute@list',
-                    'title'      => 'product_features',
-                    'routeName'  => 'admin.product.attribute.list',
-                    'status'     => 'modules.product.attribute',
-                ],
-                [
-                    'icon'       => 'fa fa-comment',
-                    'permission' => 'ProductComment@list',
-                    'title'      => 'product_comments',
-                    'routeName'  => 'admin.product.comments.list',
-                    'status'     => 'modules.product.comment',
-                ],
-                [
-                    'icon'       => 'fa fa-medium',
-                    'permission' => 'ProductBrand@list',
-                    'title'      => 'product_brands',
-                    'routeName'  => 'admin.product.brands.list',
-                    'status'     => 'modules.product.brand',
-                ],
-                [
-                    'icon'       => 'fa fa-building',
-                    'permission' => 'ProductCompany@list',
-                    'title'      => 'product_companies',
-                    'routeName'  => 'admin.product.company.list',
-                    'status'     => 'modules.product.company',
-                ],
             ],
         ],
         'orders' => [
@@ -254,13 +212,6 @@ $data['menus'] = [
                     'param'      => '?pendingRefund=1',
                     'key'        => 'pendingRefundRequests',
                     'status'     => 'modules_status.order',
-                ],
-                'error_orders' => [
-                    'icon'       => 'fa fa-exclamation',
-                    'permission' => 'Order@iyzicoErrorOrderList',
-                    'title'      => 'failed_orders',
-                    'routeName'  => 'admin.orders.iyzico_logs',
-                    'status'     => 'modules.order.iyzico_logs',
                 ],
             ],
         ],
@@ -308,29 +259,6 @@ $data['menus'] = [
         ],
     ], 1 => [
         'title'    => 'Genel',
-        'settings' => [
-            'icon'       => 'fa fa-key',
-            'permission' => 'Settings@list',
-            'title'      => 'configs',
-            'routeName'  => 'admin.config.list',
-            'status'     => 'modules_status.setting',
-            'subs'       => [
-                [
-                    'icon'       => 'fa fa-key',
-                    'permission' => 'Settings@list',
-                    'title'      => 'general',
-                    'routeName'  => 'admin.config.list',
-                    'status'     => 'modules_status.setting',
-                ],
-                [
-                    'icon'       => 'fa fa-truck',
-                    'permission' => 'Cargo@index',
-                    'title'      => 'cargo',
-                    'routeName'  => 'admin.cargo.index',
-                    'status'     => 'modules.order.cargo',
-                ],
-            ],
-        ],
         'sss' => [
             'icon'       => 'fa fa-info',
             'permission' => 'FAQ@list',
@@ -370,7 +298,7 @@ $data['modules'] = [
         'images'   => true,
     ],
     'order' => [
-        'iyzico_logs' => true,
+        'iyzico_logs' => false,
         'cargo'       => true,
     ],
     'content' => [

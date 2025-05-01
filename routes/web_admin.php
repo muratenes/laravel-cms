@@ -7,6 +7,7 @@
 |
  */
 
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
@@ -15,6 +16,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('giris', 'AuthController@loginView')->name('admin.login');
     Route::post('giris', 'AuthController@login')->name('admin.login.post');
     Route::get('/clear_cache', 'HomeController@cacheClear')->name('admin.clearCache');
+
+
+
     Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.language', 'admin.counts', 'admin.data']], function () {
         Route::get('storage-link', function () {
             return Artisan::call('storage:link');
@@ -45,36 +49,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::delete('{category:id}', 'CategoryController@delete')->name('admin.categories.delete');
         });
 
-        //----- Admin/Admin/..
-        Route::group(['prefix' => 'builder/'], function () {
-            Route::get('edit', 'BuilderController@edit')->name('admin.builder.edit');
-            Route::post('save', 'BuilderController@save')->name('admin.builder.save');
 
-            // ajax
-            Route::post('get-view-folders/{theme}', 'BuilderController@getAllFilesByTheme');
-            Route::get('get-view-folders/{theme}/{folder}', 'BuilderController@getFilesByTheme');
 
-            //----- Admin/builder/menus
-            Route::group(['prefix' => 'menus/'], function () {
-                Route::get('/', 'MenuController@index')->name('admin.builder.menus');
-                Route::get('create', 'MenuController@create')->name('admin.builder.menus.new');
-                Route::get('edit/{item:id}', 'MenuController@edit')->name('admin.builder.menus.edit');
-                Route::put('update/{item:id}', 'MenuController@update')->name('admin.builder.menus.update');
-                Route::post('store', 'MenuController@store')->name('admin.builder.menus.store');
-                Route::get('delete/{item:id}', 'MenuController@destroy')->name('admin.builder.menus.delete');
-            });
-        });
-
-        // Adverts
-        Route::resource('adverts', 'AdvertController', ['as' => 'admin']);
 
         //----- Admin/Products/..
         Route::group(['prefix' => 'product/'], function () {
             Route::get('/', [ProductController::class, 'listProducts'])->name('admin.products');
-            Route::get('new', 'ProductController@newOrEditProduct')->name('admin.product.new');
-            Route::get('edit/{product_id}', 'ProductController@newOrEditProduct')->name('admin.product.edit');
+            Route::get('new', [ProductController::class,'newProduct'])->name('admin.product.new');
+            Route::get('edit/{product:id}', [ProductController::class,'editProduct'])->name('admin.product.edit');
             Route::post('save/{product_id}', 'ProductController@saveProduct')->name('admin.product.save');
             Route::get('delete/{product:id}', 'ProductController@deleteProduct')->name('admin.product.delete');
+
+            Route::post('{product:id}/save-custom-prices',[ProductController::class,'saveCustomPrices'])->name('admin.product.save-custom-prices');
 
             // ajax
             Route::get('ajax', 'ProductController@ajax');
@@ -84,79 +70,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('deleteProductVariant/{variant_id}', 'ProductController@deleteProductVariant')->name('deleteProductVariant');
             Route::get('deleteProductImage/{id}', 'ProductController@deleteProductImage')->name('deleteProductImage');
             Route::post('clone-for-language/{product:id}/{lang}', 'ProductController@cloneForLanguage')->name('admin.product.clone-for-language');
-
-            Route::group(['prefix' => 'attributes/'], function () {
-                Route::get('/', 'ProductAttributeController@list')->name('admin.product.attribute.list');
-                Route::get('new', 'ProductAttributeController@detail')->name('admin.product.attribute.new');
-                Route::get('edit/{id}', 'ProductAttributeController@detail')->name('admin.product.attribute.edit');
-                Route::post('update/{attribute:id}', 'ProductAttributeController@save')->name('admin.product.attribute.save');
-                Route::post('create', 'ProductAttributeController@create')->name('admin.product.attribute.create');
-                Route::get('delete/{id}', 'ProductAttributeController@delete')->name('admin.product.attribute.delete');
-
-                // ajax
-                Route::get('get-sub-attributes-by-attribute-id/{id}', 'ProductAttributeController@getSubAttributesByAttributeId')->name('getSubAttributesByAttributeId');
-                Route::get('get-all-product-attributes', 'ProductAttributeController@getAllProductAttributes')->name('getAllProductAttributes');
-
-                Route::post('deleteSubAttribute/{id}', 'ProductAttributeController@deleteSubAttribute')->name('admin.product.attribute.subAttribute.delete');
-                Route::post('get-new-product-sub-attribute-html', 'ProductAttributeController@addNewProductSubAttribute');
-            });
-
-            //----- Admin/product/category -----
-            Route::group(['prefix' => 'category/'], function () {
-                Route::get('/', 'ProductCategoryController@listCategories')->name('admin.product.categories');
-                Route::get('new', 'ProductCategoryController@newOrEditCategory')->name('admin.product.category.new');
-                Route::get('edit/{category_id}', 'ProductCategoryController@newOrEditCategory')->name('admin.product.category.edit');
-                Route::post('save/{category_id}', 'ProductCategoryController@saveCategory')->name('admin.product.category.save');
-                Route::get('delete/{category_id}', 'ProductCategoryController@deleteCategory')->name('admin.product.category.delete');
-                // ajax
-                Route::get('getSubCategoriesByCategoryId/{categoryID}', 'ProductCategoryController@getSubCategoriesByID')->name('admin.category.get-sub-categories');
-                Route::post('clone-for-language/{category:id}/{lang}', 'ProductCategoryController@cloneForLanguage')->name('admin.category.clone-for-language');
-                Route::post('sync-all-categories', 'ProductCategoryController@syncParentCategoriesLanguages');
-            });
-            Route::group(['prefix' => 'comments/'], function () {
-                Route::get('/', 'ProductCommentController@list')->name('admin.product.comments.list');
-                Route::get('new', 'ProductCommentController@detail')->name('admin.product.comments.new');
-                Route::get('edit/{id}', 'ProductCommentController@detail')->name('admin.product.comments.edit');
-                Route::post('save/{id}', 'ProductCommentController@save')->name('admin.product.comments.save');
-                Route::get('delete/{id}', 'ProductCommentController@delete')->name('admin.product.comments.delete');
-            });
-            Route::group(['prefix' => 'brands/'], function () {
-                Route::get('/', 'ProductBrandController@list')->name('admin.product.brands.list');
-                Route::get('new', 'ProductBrandController@detail')->name('admin.product.brands.new');
-                Route::get('edit/{id}', 'ProductBrandController@detail')->name('admin.product.brands.edit');
-                Route::post('save/{id}', 'ProductBrandController@save')->name('admin.product.brands.save');
-                Route::get('delete/{id}', 'ProductBrandController@delete')->name('admin.product.brands.delete');
-            });
-            Route::group(['prefix' => 'company/'], function () {
-                Route::get('/', 'ProductCompanyController@list')->name('admin.product.company.list');
-                Route::get('new', 'ProductCompanyController@detail')->name('admin.product.company.new');
-                Route::get('edit/{id}', 'ProductCompanyController@detail')->name('admin.product.company.edit');
-                Route::post('save/{id}', 'ProductCompanyController@save')->name('admin.product.company.save');
-                Route::get('delete/{id}', 'ProductCompanyController@delete')->name('admin.product.company.delete');
-            });
         });
 
         //----- Admin/Orders/..
         Route::group(['prefix' => 'order/'], function () {
             Route::get('/', 'OrderController@list')->name('admin.orders');
-            Route::get('/iyzico-fails', 'IyzicoController@iyzicoErrorOrderList')->name('admin.orders.iyzico_logs');
-            Route::get('/iyzico-fails/{id}', 'IyzicoController@iyzicoErrorOrderDetail')->name('admin.orders.iyzico_logs_detail');
-            Route::get('snapshot/{order:id}', 'OrderController@snapshot')->name('admin.orders.snapshot');
             Route::get('edit/{orderId}', 'OrderController@newOrEditOrder')->name('admin.order.edit');
             Route::post('save/{orderId}', 'OrderController@save')->name('admin.order.save');
             Route::get('delete/{id}', 'OrderController@deleteOrder')->name('admin.order.delete');
 
-            // iyzico cancel
-            Route::post('cancel-all/{order:id}', 'OrderController@cancelOrder')->name('admin.order.cancel');
-            Route::post('cancel-order-item/{item:id}', 'OrderController@cancelOrderItem')->name('admin.orders.cancel-order-item');
-
-            // iyzico refund items
-            Route::post('refund-item', 'OrderController@refundItem')->name('admin.orders.refund-basket-item');
-
-            Route::get('edit/{order:id}/invoice', 'OrderController@invoiceDetail')->name('admin.order.invoice');
             Route::get('ajax', 'OrderController@ajax')->name('admin.order.ajax');
 
-            Route::post('basket/{basketID}', 'BasketController@show');
+            Route::post('create',[OrderController::class,'createOrder'])->name('admin.order.create');
         });
 
         //----- Admin/Banners/..
@@ -166,15 +91,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('edit/{banner:id}', 'BannerController@edit')->name('admin.banners.edit');
             Route::post('save/{id}', 'BannerController@save')->name('admin.banners.save');
             Route::delete('{banner:id}', 'BannerController@delete')->name('admin.banners.delete');
-        });
-
-        //----- Admin/Configs/..
-        Route::group(['prefix' => 'configs/'], function () {
-            Route::get('list', 'SettingsController@list')->name('admin.config.list');
-            Route::get('show/{id}', 'SettingsController@show')->name('admin.config.show');
-            Route::post('save/{id}', 'SettingsController@save')->name('admin.config.save');
-
-            Route::resource('cargo', 'CargoController', ['as' => 'admin']);
         });
 
         //----- Admin/Logs/..
