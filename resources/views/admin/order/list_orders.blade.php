@@ -24,47 +24,23 @@
                         <form action="{{ route('admin.orders') }}" method="GET" id="form">
                             <div class="col-md-12">
                                 <div class="col-md-1" style="padding-top: 8px"><strong>Filtrele : </strong></div>
-                                @if(config('admin.product.use_companies'))
                                     <div class="col-md-2">
-                                        <select name="company" class="form-control" id="company">
-                                            <option value="">--Tedarikçi--</option>
-                                            @foreach($companies as $com)
-                                                <option value="{{ $com->id }}" {{ request('company') == $com->id ? 'selected' : '' }}>{{ $com->title }}</option>
+                                        <select name="vendor_id" class="form-control" id="vendor_id">
+                                            <option value="">--Esnaf--</option>
+                                            @foreach($vendors as $vendor)
+                                                <option value="{{ $vendor->id }}" {{ request('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->title }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                @endif
-                                <div class="col-md-2">
-                                    <select name="status" class="form-control" id="status">
-                                        <option value="">--Sipariş Durumu Seçiniz--</option>
-                                        @foreach($filter_types as $filter)
-                                            <option value="{{ $filter[0] }}" {{ $filter[0] == request('status') ? 'selected': '' }}> {{ $filter[1] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-1">
-                                    <select name="state" class="form-control" id="state">
-                                        <option value="">--İl Seçiniz--</option>
-                                        @foreach($states as $state)
-                                            <option value="{{ $state->id }}" {{ $state->id == request('state') ? 'selected': '' }}> {{ $state->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <select name="category" class="form-control" id="category">
-                                        <option value="">Ürün Kategori</option>
-                                        @foreach($categories as $cat)
-                                            <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
-                                               <b> {{ $cat->title  }}</b>
-                                            </option>
-                                            @foreach($cat->sub_categories as $subCategory)
-                                                <option value="{{ $subCategory->id }}" {{ request('category') == $subCategory->id ? 'selected' : '' }}>
-                                                    &nbsp;&nbsp;-- {{ $subCategory->title  }}
-                                                </option>
-                                            @endforeach
-                                        @endforeach
-                                    </select>
-                                </div>
+{{--                                <div class="col-md-2">--}}
+{{--                                    <select name="status" class="form-control" id="status">--}}
+{{--                                        <option value="">--Sipariş Durumu Seçiniz--</option>--}}
+{{--                                        @foreach($filter_types as $filter)--}}
+{{--                                            <option value="{{ $filter[0] }}" {{ $filter[0] == request('status') ? 'selected': '' }}> {{ $filter[1] }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+
                                 <div class="col-md-2">
                                     <button class="btn btn-sm btn-success">Filtrele</button>
                                     <a href="{{ route('admin.orders') }}" class="btn btn-sm btn-danger">Temizle</a>
@@ -85,17 +61,9 @@
                         <thead>
                             <tr>
                                 <th>Sipariş Kodu</th>
-                                <th>Ad/Soyad</th>
-                                <th>Kullanıcı</th>
-                                <th>Adres</th>
-                                <th>Telefon</th>
-                                <th>Ödeme Alındı?</th>
-                                <th>Durum</th>
-                                <th>İl</th>
-                                <th>İlçe</th>
-                                <th>Sepet Tutarı</th>
-{{--                                <th>Kargo Tutarı</th>--}}
-{{--                                <th>Kupon Tutar</th>--}}
+                                <th>Esnaf</th>
+                                <th>Açıklama</th>
+                                <th>Ürünler</th>
                                 <th>Toplam Tutar</th>
                                 <th>Oluşturulma Tarihi</th>
                             </tr>

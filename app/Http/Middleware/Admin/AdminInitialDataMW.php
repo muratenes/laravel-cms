@@ -4,6 +4,7 @@ namespace App\Http\Middleware\Admin;
 
 use App\Models\Auth\Role;
 use App\Models\Log;
+use App\Services\DashboardService;
 use Illuminate\Support\Facades\View;
 
 class AdminInitialDataMW
@@ -12,7 +13,7 @@ class AdminInitialDataMW
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param \Closure $next
      *
      * @return mixed
      */
@@ -20,6 +21,7 @@ class AdminInitialDataMW
     {
         View::share('menus', $this->_getAdminMenus());
         View::share('activeLanguages', []);
+        View::share('settings', (new DashboardService())->init());
 
         return $next($request);
     }
@@ -37,7 +39,7 @@ class AdminInitialDataMW
                     foreach ($menus as $index => $header) {
                         foreach ($header as $k => $head) {
                             if ('title' !== $k) {
-                                if (! $userPermissions->contains($head['permission'])) {
+                                if (!$userPermissions->contains($head['permission'])) {
                                     unset($menus[$index][$k]);
                                 }
                             }

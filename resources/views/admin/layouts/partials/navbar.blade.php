@@ -106,39 +106,41 @@
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            @foreach($menus as $index=>$menu)
-                <li class="header">{{ $menu['title'] }}</li>
-                @foreach($menu as $subI=>$item)
-                    @if($subI != 'title' && admin($item['status']))
-                        <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
-                            <a href="{{route($item['routeName']) . ($item['extra'] ?? '') }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
-                                <i class="{{ $item['icon'] }}"></i>
-                                <span>{{ __("admin.navbar.{$item['title']}") }}</span>
-                                <span class="pull-right-container">
+            @isset($menus)
+                @foreach($menus as $index=>$menu)
+                    <li class="header">{{ $menu['title'] }}</li>
+                    @foreach($menu as $subI=>$item)
+                        @if($subI != 'title' && admin($item['status']))
+                            <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
+                                <a href="{{route($item['routeName']) . ($item['extra'] ?? '') }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
+                                    <i class="{{ $item['icon'] }}"></i>
+                                    <span>{{ __("admin.navbar.{$item['title']}") }}</span>
+                                    <span class="pull-right-container">
                                  @if(isset($item['subs']))
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    @endif
-                                </span>
-                            </a>
-                            @if(isset($item['subs']))
-
-                                <ul class="treeview-menu" style="display: block">
-                                    @foreach($item['subs'] as $sub)
-                                        @if(admin($sub['status']))
-                                            <li>
-                                                <a href="{{ route($sub['routeName']) . ($sub['extra'] ?? '') }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
-                                                    <i class="{{ $sub['icon'] }}"></i> {{ __("admin.navbar.{$sub['title']}") }}
-                                                </a>
-                                            </li>
+                                            <i class="fa fa-angle-left pull-right"></i>
                                         @endif
-                                    @endforeach
-                                </ul>
-                            @endif
-                        </li>
-                    @endif
+                                </span>
+                                </a>
+                                @if(isset($item['subs']))
+
+                                    <ul class="treeview-menu" style="display: block">
+                                        @foreach($item['subs'] as $sub)
+                                            @if(admin($sub['status']))
+                                                <li>
+                                                    <a href="{{ route($sub['routeName']) . ($sub['extra'] ?? '') }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
+                                                        <i class="{{ $sub['icon'] }}"></i> {{ __("admin.navbar.{$sub['title']}") }}
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endif
+                    @endforeach
                 @endforeach
-            @endforeach
-        <!-- creator -->
+            @endisset
+            <!-- creator -->
 
 
         </ul>

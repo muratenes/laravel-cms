@@ -10,13 +10,6 @@ $.ajaxSetup({
 });
 
 
-/**
- *  dil değişttirme
- */
-$("#languageSelect").on('change', function () {
-    const language = $(this).val()
-    window.location.href = `/lang/${language}`;
-});
 
 /**
  * başarılı mesajı gösterir.
@@ -33,33 +26,6 @@ function errorMessage(response) {
     }
 }
 
-
-function productVariantAttributeOnChange(productId) {
-    let productDetailSelectedAttributes = $("#productDetailsContainer .productVariantAttribute");
-    let selectedAttributeIdList = [];
-    $.each(productDetailSelectedAttributes, function (index, element) {
-        if ($("#" + element.id + " option:selected").attr('data-value') !== undefined)
-            selectedAttributeIdList.push($("#" + element.id + " option:selected").attr('data-value'));
-    });
-    $.ajax({
-            url: `/check-product-variant/${productId}`,
-            method: 'POST',
-            data: {
-                'subAttributeIDs': selectedAttributeIdList
-            },
-            success: function (data) {
-                console.log(data);
-                $('span.price').text(data.data.variant.price);
-                $('span.qty').text(data.data.variant.qty);
-                $("#qty").attr('dt-max', data.data.variant.qty).val(1)
-            },
-            error: function (error) {
-                $('span.price').text($("#productDefaultPrice").val());
-                $('span.qty').text($("#productDefaultQty").val());
-            }
-        }
-    );
-}
 
 
 /**

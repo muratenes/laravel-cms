@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Services\DTO\OrderCreateDto;
 use App\Services\DTO\OrderCreateItemDto;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class OrderCreateRequest extends FormRequest
 {
@@ -39,16 +40,17 @@ class OrderCreateRequest extends FormRequest
     {
         $items = [];
         foreach ($this->get('items') as $item) {
-            $items = (new OrderCreateItemDto(
+            $items[] = (new OrderCreateItemDto(
                 $item['product_id'],
                 $item['quantity'],
                 $item['per_price'],
             ));
         }
         $this->orderCreateDto = (new OrderCreateDto(
-            $this->user()->id,
+            $this->user('admin')->id,
             $this->get('vendor_id'),
             $items
         ));
     }
+
 }

@@ -7,8 +7,10 @@
 |
  */
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Services\DashboardService;
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::redirect('', '/admin/giris/');
@@ -16,10 +18,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('giris', 'AuthController@loginView')->name('admin.login');
     Route::post('giris', 'AuthController@login')->name('admin.login.post');
     Route::get('/clear_cache', 'HomeController@cacheClear')->name('admin.clearCache');
+    Route::get('/init', [DashboardController::class,'init']);
+    Route::view('/add-new-order', 'admin.order.partials.add-new-order',(new DashboardService())->init());
 
-
-
-    Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.language', 'admin.counts', 'admin.data']], function () {
+    Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.counts', 'admin.data']], function () {
         Route::get('storage-link', function () {
             return Artisan::call('storage:link');
         });
@@ -50,17 +52,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         });
 
 
-
-
         //----- Admin/Products/..
         Route::group(['prefix' => 'product/'], function () {
             Route::get('/', [ProductController::class, 'listProducts'])->name('admin.products');
-            Route::get('new', [ProductController::class,'newProduct'])->name('admin.product.new');
-            Route::get('edit/{product:id}', [ProductController::class,'editProduct'])->name('admin.product.edit');
+            Route::get('new', [ProductController::class, 'newProduct'])->name('admin.product.new');
+            Route::get('edit/{product:id}', [ProductController::class, 'editProduct'])->name('admin.product.edit');
             Route::post('save/{product_id}', 'ProductController@saveProduct')->name('admin.product.save');
             Route::get('delete/{product:id}', 'ProductController@deleteProduct')->name('admin.product.delete');
 
-            Route::post('{product:id}/save-custom-prices',[ProductController::class,'saveCustomPrices'])->name('admin.product.save-custom-prices');
+            Route::post('{product:id}/save-custom-prices', [ProductController::class, 'saveCustomPrices'])->name('admin.product.save-custom-prices');
 
             // ajax
             Route::get('ajax', 'ProductController@ajax');
@@ -74,7 +74,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         //----- Admin/Orders/..
         Route::group(['prefix' => 'order/'], function () {
-            Route::get('/', 'OrderController@list')->name('admin.orders');
+            Route::get('/', [OrderController::class, 'list'])->name('admin.orders');
             Route::get('edit/{orderId}', 'OrderController@newOrEditOrder')->name('admin.order.edit');
             Route::post('save/{orderId}', 'OrderController@save')->name('admin.order.save');
             Route::get('delete/{id}', 'OrderController@deleteOrder')->name('admin.order.delete');

@@ -30,6 +30,7 @@ return new class extends Migration
 
             $table->float('amount');
             $table->string('description')->nullable();
+            $table->date('due_date');
 
             $table->unsignedInteger('vendor_id');
             $table->unsignedInteger('user_id');
@@ -48,7 +49,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('quantity');
             $table->unsignedInteger('user_id');
             $table->float('amount');
-            $table->timestamp('due_date');
+            $table->date('due_date');
             $table->unsignedTinyInteger('type'); // TransactionType
 
 

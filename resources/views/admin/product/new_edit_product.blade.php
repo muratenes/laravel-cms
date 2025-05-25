@@ -145,6 +145,8 @@
         </tbody>
     </table>
 
+    @include('admin.order.partials.add-new-order')
+
 @endsection
 @section('footer')
     <script>
@@ -158,4 +160,5 @@
     <script src="{{ asset('admin_files/js/adminProductDetailVehicles.js') }}"></script>
     <script src="{{ asset('admin_files/js/pages/admin.product.js') }}"></script>
     <script src="{{ asset('admin_files/js/.js') }}"></script>
+    <script src="/admin_files/js/pages/admin.order.create.js"></script>
 @endsection

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $purchase_price
  * @property float $price
  * @property int $stock_follow
+ * @property int stock
  * @property int $is_active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -39,5 +40,15 @@ class Product extends Model
         return $this->belongsToMany(Vendor::class, 'vendor_products')
             ->withPivot('price')
             ->withTimestamps();
+    }
+
+    public function getPriceForVendor(?Vendor $vendor): float
+    {
+        if (!$vendor) {
+            return $this->price;
+        }
+        $pivot = $this->vendors->firstWhere('id', $vendor->id);
+
+        return $pivot ? $pivot->pivot->price : $this->price;
     }
 }
