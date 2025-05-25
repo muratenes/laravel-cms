@@ -36,6 +36,7 @@ function getUrlVars() {
 }
 
 $(document).ready(function () {
+    $("#vendor_id_filter").select2({width:'100%'})
     $("[id*='count']").each(function (index, element) {
         if ($(element).val() !== "0") {
             $("#" + $(element).data('item')).append(`<small class="label pull-right bg-red" >${$(element).val()}</small>`)

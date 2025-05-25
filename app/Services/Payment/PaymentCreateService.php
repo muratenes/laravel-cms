@@ -3,12 +3,10 @@
 namespace App\Services\Payment;
 
 use App\Exceptions\HttpException;
-use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\Vendor;
-use App\Services\DTO\OrderCreateDto;
 use App\Services\DTO\PaymentCreateDto;
 use App\Utils\Enum\TransactionType;
 use Carbon\Carbon;
@@ -43,7 +41,7 @@ class PaymentCreateService
 
     private function validations()
     {
-        $this->vendor = Vendor::find($this->orderCreateDto->getVendorId());
+        $this->vendor = Vendor::find($this->paymentCreateDto->getVendorId());
         throw_if(empty($this->vendor), new HttpException("gönderilen bilgilerle esnaf bulunamadı"));
 
         throw_if($this->paymentCreateDto->getCashAmount() < 0, new HttpException("Nakit ile ödenen tutar eksi olamaz."));
@@ -74,7 +72,7 @@ class PaymentCreateService
                 'per_price_purchase' => $this->paymentCreateDto->getCashAmount(),
                 'per_price' => $this->paymentCreateDto->getCashAmount(),
                 'quantity' => 1,
-                'amount' => $this->paymentCreateDto->getTotalAmount(),
+                'amount' => (-1 * $this->paymentCreateDto->getCashAmount()),
                 'type' => TransactionType::PAYMENT_CASH->value,
                 'payment_id' => $this->payment->id,
                 'due_date' => $this->paymentCreateDto->getDueDate(),
@@ -88,20 +86,11 @@ class PaymentCreateService
                 'per_price_purchase' => $this->paymentCreateDto->getCreditCartAmount(),
                 'per_price' => $this->paymentCreateDto->getCreditCartAmount(),
                 'quantity' => 1,
-                'amount' => $this->paymentCreateDto->getTotalAmount(),
+                'amount' => (-1 * $this->paymentCreateDto->getCreditCartAmount()),
                 'type' => TransactionType::PAYMENT_CASH->value,
                 'payment_id' => $this->payment->id,
                 'due_date' => $this->paymentCreateDto->getDueDate(),
             ]);
-        }
-    }
-
-    private function decreaseStock(): void
-    {
-        foreach ($this->orderCreateDto->getItems() as $item) {
-            if ($item->getProduct()->stock_follow) {
-                $item->getProduct()->decrement('stock', $item->getQuantity());
-            }
         }
     }
 }

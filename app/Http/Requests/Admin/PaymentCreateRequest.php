@@ -28,7 +28,7 @@ class PaymentCreateRequest extends FormRequest
         ];
     }
 
-    public function getOrderCreateDto(): ?PaymentCreateDto
+    public function getCreateDto(): ?PaymentCreateDto
     {
         return $this->paymentCreateDto;
     }

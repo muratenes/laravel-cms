@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\User;
+use App\Utils\Concerns\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Payment extends Model
 {
+    use Filterable;
+
     protected $guarded = ['id'];
 
 

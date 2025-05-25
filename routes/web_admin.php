@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Services\DashboardService;
 
@@ -11,8 +12,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('giris', 'AuthController@loginView')->name('admin.login');
     Route::post('giris', 'AuthController@login')->name('admin.login.post');
     Route::get('/clear_cache', 'HomeController@cacheClear')->name('admin.clearCache');
-    Route::get('/init', [DashboardController::class,'init']);
-    Route::view('/add-new-order', 'admin.order.partials.add-new-order',(new DashboardService())->init());
+    Route::get('/init', [DashboardController::class, 'init']);
+    Route::view('/add-new-order', 'admin.order.partials.add-new-order', (new DashboardService())->init());
 
     Route::group(['middleware' => ['admin', 'admin.module', 'role', 'admin.counts', 'admin.data']], function () {
         Route::get('storage-link', function () {
@@ -62,21 +63,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
             Route::get('ajax', 'OrderController@ajax')->name('admin.order.ajax');
 
-            Route::post('create',[OrderController::class,'createOrder'])->name('admin.order.create');
+            Route::post('create', [OrderController::class, 'createOrder'])->name('admin.order.create');
         });
 
         //----- Admin/Payments/..
         Route::group(['prefix' => 'payments/'], function () {
-            Route::get('/', [OrderController::class, 'list'])->name('admin.orders');
-            Route::get('edit/{orderId}', 'OrderController@newOrEditOrder')->name('admin.order.edit');
-            Route::post('save/{orderId}', 'OrderController@save')->name('admin.order.save');
-            Route::get('delete/{id}', 'OrderController@deleteOrder')->name('admin.order.delete');
+            Route::get('/', [PaymentController::class, 'list'])->name('admin.payments');
+            Route::get('edit/{orderId}', 'PaymentController@newOrEditOrder')->name('admin.payments.edit');
 
-            Route::get('ajax', 'OrderController@ajax')->name('admin.order.ajax');
+            Route::get('ajax', [PaymentController::class, 'ajax'])->name('admin.payments.ajax');
 
-            Route::post('create',[OrderController::class,'createOrder'])->name('admin.order.create');
+            Route::post('create', [PaymentController::class, 'createPayment'])->name('admin.payments.create');
         });
-
 
 
         //----- Admin/Logs/..
@@ -87,8 +85,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::get('delete/{id}', 'LogController@delete')->name('admin.log.delete');
             Route::get('deleteAll', 'LogController@deleteAll')->name('admin.log.delete_all');
         });
-
-
 
 
         //---- Admin/Locations/......

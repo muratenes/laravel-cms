@@ -20,7 +20,7 @@
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createOrderModal">
                         <i class="fa fa-shopping-basket"></i> Yeni Sipariş Ekle
                     </button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#createOrderModal">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#createPaymentModal">
                         <i class="fa fa-money"></i> Ödeme Gir
                     </button>
                 </li>
