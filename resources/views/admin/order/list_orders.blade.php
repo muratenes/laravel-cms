@@ -14,6 +14,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xs-12">
             <!-- filtreleme -->
@@ -63,6 +64,7 @@
                                 <th>Sipariş Kodu</th>
                                 <th>Esnaf</th>
                                 <th>Açıklama</th>
+                                <th>Sipariş Tarihi</th>
                                 <th>Ürünler</th>
                                 <th>Toplam Tutar</th>
                                 <th>Oluşturulma Tarihi</th>

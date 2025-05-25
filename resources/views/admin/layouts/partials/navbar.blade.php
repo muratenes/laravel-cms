@@ -16,32 +16,15 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
-                @if(config('admin.product.use_comment'))
-                    <li class="dropdown messages-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">{{ $unreadCommentsCount }}</span>
-                        </a>
+                <li class="dropdown messages-menu" style="display: flex; justify-content: center; align-items: center; margin-top: 4px; gap: 10px;">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createOrderModal">
+                        <i class="fa fa-shopping-basket"></i> Yeni Sipariş Ekle
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#createOrderModal">
+                        <i class="fa fa-money"></i> Ödeme Gir
+                    </button>
+                </li>
 
-                        <ul class="dropdown-menu">
-                            <li class="header">Okunmamış {{ $unreadCommentsCount }} yeni yorum var</li>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    @foreach($lastUnreadComments as $uc)
-                                        <li>
-                                            <a href="{{ route('admin.product.comments.edit',$uc->id) }}">
-                                                <i class="fa fa-comment text-aqua"></i> {{ $uc->message }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            <li class="footer"><a href="{{ route('admin.product.comments.list') }}">Tümünü Göster</a></li>
-                        </ul>
-
-                    </li>
-                @endif
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -117,6 +117,8 @@ $(document).ready(function () {
 
                     // Select2 gibi özel elementleri resetlemek gerekiyorsa:
                     $('.select2').val(null).trigger('change');
+
+                    $('#createOrderModal').modal('hide');
                 },
                 error: function (xhr) {
                     if (xhr.status === 422) {

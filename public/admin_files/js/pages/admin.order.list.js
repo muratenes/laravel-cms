@@ -18,14 +18,43 @@ $(document).ready(function () {
             {
                 data: 'id', name: 'id',
                 render: function (data, type, row) {
-                    return `<a href="/admin/order/edit/${row.id}">${data}</a>`
+                    return `#<a href="/admin/order/edit/${row.id}">${data}</a>`
                 }
             },
-            {data: 'vendor_id', name: 'vendor_id'},
+            {
+                data: 'vendor_id', name: 'vendor_id',
+                render: function (data, type, row) {
+                    return `<a href="/admin/vendors/edit/${row.id}">${row['vendor']['title']}</a>`
+                }
+            },
             {data: 'description', name: 'description'},
-            {data: 'description', name: 'description'},
-            {data: 'amount', name: 'amount'},
-            {data: 'amount', name: 'amount'},
+            {data: 'due_date', name: 'due_date'},
+            {
+                data: 'transactions',
+                name: 'transactions',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    if (!data || data.length === 0) {
+                        return '<span class="text-muted">Ürün yok</span>';
+                    }
+
+                    // Her transaction için ürün bilgilerini derle
+                    let html = '<ul class="list-unstyled m-0">';
+                    data.forEach(tx => {
+                        html += `<li>${tx.product.name} (${tx.per_price} ₺) * ${tx.quantity} adet = ${tx.amount} ₺</li>`;
+                    });
+                    html += '</ul>';
+                    return html;
+                }
+            },
+            {
+                data: 'amount', name: 'amount',
+                render: function (data, type, row) {
+                    return `${data} ₺`
+                }
+            },
+            {data: 'amount', name: 'amount'}
         ]
     });
 })

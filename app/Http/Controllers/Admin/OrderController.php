@@ -47,7 +47,7 @@ class OrderController extends Controller
     public function ajax(OrderFilter $filter)
     {
         return DataTables::of(
-            Order::with(['vendor','user'])->filter($filter)
+            Order::with(['vendor:id,title','user:id,name','transactions.product'])->filter($filter)
         )->make(true);
     }
 }

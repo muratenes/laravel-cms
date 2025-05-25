@@ -65,6 +65,7 @@
     </div>
     @include('admin.layouts.partials.footer')
     <div class="control-sidebar-bg"></div>
+    @include('admin.order.partials.add-new-order')
 </div>
 <!-- ./wrapper -->
 
@@ -103,6 +104,7 @@
 <script src="/admin_files/js/pages/admin.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 {{--<script src="/admin_files/bower_components/ckeditor/ckeditor.js"></script>--}}
+<script src="/admin_files/js/pages/admin.order.create.js"></script>
 <script>
     // constants
     const IS_ADMIN  = {{ loggedAdminUser()->isSuperAdmin() }};
