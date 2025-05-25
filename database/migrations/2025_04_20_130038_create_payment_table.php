@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
 
+            $table->float('cash_amount');
+            $table->float('credit_cart_amount');
             $table->float('amount');
             $table->string('description')->nullable();
 

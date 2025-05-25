@@ -107,8 +107,9 @@ $(document).ready(function () {
                 method: method,
                 data: formData,
                 success: function (response) {
+                    console.log(response);
                     // Başarılı olursa yapılacaklar
-                    successMessage('Sipariş başarıyla oluşturuldu');
+                    successMessage(`${response.vendor.title} için ${response.total_amount} ₺ tutarında sipariş eklendi`);
 
                     // 🔴 FORMU TEMİZLE
                     form.trigger('reset'); // input/select temizliği

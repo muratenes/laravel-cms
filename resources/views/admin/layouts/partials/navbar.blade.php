@@ -89,43 +89,64 @@
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            @isset($menus)
-                @foreach($menus as $index=>$menu)
-                    <li class="header">{{ $menu['title'] }}</li>
-                    @foreach($menu as $subI=>$item)
-                        @if($subI != 'title' && admin($item['status']))
-                            <li class="{{ isset($item['subs']) ? 'treeview menu-open':'' }}">
-                                <a href="{{route($item['routeName']) . ($item['extra'] ?? '') }}" {{ isset($item['key']) ? "id={$item['key']}" :''  }}>
-                                    <i class="{{ $item['icon'] }}"></i>
-                                    <span>{{ __("admin.navbar.{$item['title']}") }}</span>
-                                    <span class="pull-right-container">
-                                 @if(isset($item['subs']))
-                                            <i class="fa fa-angle-left pull-right"></i>
-                                        @endif
-                                </span>
-                                </a>
-                                @if(isset($item['subs']))
-
-                                    <ul class="treeview-menu" style="display: block">
-                                        @foreach($item['subs'] as $sub)
-                                            @if(admin($sub['status']))
-                                                <li>
-                                                    <a href="{{ route($sub['routeName']) . ($sub['extra'] ?? '') }}{{ $sub['param'] ?? '' }}" id="label_{{ $sub['key'] ?? $sub['routeName'] }}">
-                                                        <i class="{{ $sub['icon'] }}"></i> {{ __("admin.navbar.{$sub['title']}") }}
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
-                        @endif
-                    @endforeach
-                @endforeach
-            @endisset
-            <!-- creator -->
-
-
+            <li class="" style="height: auto;">
+                <a href="{{ route('admin.orders') }}">
+                    <i class="fa fa-home"></i>
+                    <span>Anasayfa</span>
+                </a>
+            </li>
+            <li class="treeview menu-open" style="height: auto;">
+                <a href="{{ route('admin.orders') }}">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Siparişler</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu" style="display: block;">
+                    <li><a href="{{route('admin.orders')}}"><i class="fa fa-circle-o"></i> Siparişler</a></li>
+                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Sipariş Oluştur</a></li>
+                </ul>
+            </li>
+            <li class="treeview menu-open" style="height: auto;">
+                <a href="{{ route('admin.orders') }}">
+                    <i class="fa fa-money"></i>
+                    <span>Ödemeler</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu" style="display: block;">
+                    <li><a href="{{route('admin.orders')}}"><i class="fa fa-circle-o"></i> Ödemeler</a></li>
+                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Ödeme Gir</a></li>
+                </ul>
+            </li>
+            <li class="treeview menu-open" style="height: auto;">
+                <a href="{{ route('admin.products') }}">
+                    <i class="fa fa-list"></i>
+                    <span>Ürünler</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu" style="display: block;">
+                    <li><a href="{{route('admin.products')}}"><i class="fa fa-circle-o"></i> Ürünler</a></li>
+                    <li><a href="{{route('admin.product.new')}}"><i class="fa fa-circle-o"></i> Ürün Oluştur</a></li>
+                </ul>
+            </li>
+            <li class="treeview menu-open" style="height: auto;">
+                <a href="{{ route('admin.users') }}">
+                    <i class="fa fa-building"></i>
+                    <span>Esnaflar</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu" style="display: block;">
+                    <li><a href="{{route('admin.users')}}"><i class="fa fa-circle-o"></i> Esnaflar</a></li>
+                    <li><a href="{{route('admin.product.new')}}"><i class="fa fa-circle-o"></i> Yeni Esnaf Oluştur</a></li>
+                </ul>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

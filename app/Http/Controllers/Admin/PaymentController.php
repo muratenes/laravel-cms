@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\OrderFilter;
+use App\Http\Filters\PaymentFilter;
 use App\Http\Requests\Admin\OrderCreateRequest;
-use App\Http\Requests\Admin\PaymentCreateRequest;
 use App\Models\Order;
 use App\Repositories\Traits\ResponseTrait;
 use App\Repositories\Traits\SiparisUrunTrait;
@@ -13,7 +13,7 @@ use App\Services\Order\OrderCreateService;
 use App\Services\Vendor\VendorService;
 use Yajra\DataTables\DataTables;
 
-class OrderController extends Controller
+class PaymentController extends Controller
 {
     use ResponseTrait;
     use SiparisUrunTrait;
@@ -25,25 +25,16 @@ class OrderController extends Controller
 
     public function list()
     {
-        $vendors = VendorService::vendors();
-
-        return view('admin.order.list_orders', compact('vendors'));
+        return view('admin.payment.list_payments');
     }
 
-    public function createOrder(OrderCreateRequest $request): \Illuminate\Http\JsonResponse
+    public function createPayment(OrderCreateRequest $request): \Illuminate\Http\JsonResponse
     {
         $result = $this->createService->create($request->getOrderCreateDto());
         return response()->json($result);
     }
 
-    /**
-     * @param OrderFilter $filter
-     *
-     * @return mixed
-     * @throws \Exception
-     *
-     */
-    public function ajax(OrderFilter $filter)
+    public function ajax(PaymentFilter $filter)
     {
         return DataTables::of(
             Order::with(['vendor:id,title','user:id,name','transactions.product'])->filter($filter)
