@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -38,5 +39,10 @@ class Vendor extends Model
         return $this->belongsToMany(Product::class, 'vendor_products')
             ->withPivot('price')
             ->withTimestamps();
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class,'id','vendor_id');
     }
 }

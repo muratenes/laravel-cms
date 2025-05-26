@@ -8,7 +8,9 @@ $(document).ready(function () {
         ajax: {
             url: '/admin/order/ajax',
             data: {
-                vendor_id: $("#vendor_id").val(),
+                vendor_id: $("#vendorIdFilter").val(),
+                start_date: $("#startDateFilter").val(),
+                end_date: $("#endDateFilter").val(),
             }
         },
         "language": {

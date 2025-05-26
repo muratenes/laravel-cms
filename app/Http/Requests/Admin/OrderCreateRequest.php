@@ -50,7 +50,7 @@ class OrderCreateRequest extends FormRequest
             $this->user('admin')->id,
             $this->get('vendor_id'),
             $items
-        ));
+        ))->setDueDate($this->get('due_date'));
     }
 
 }

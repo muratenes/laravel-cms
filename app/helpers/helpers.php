@@ -3,6 +3,11 @@
 use App\Models\Admin;
 use Illuminate\Support\Str;
 
+function currency_tr($amount, $suffix = '₺')
+{
+    return number_format($amount, 2, ',', '.') . ' ' . $suffix;
+}
+
 function changeUIPhoneNumberToDbFormat($phone)
 {
     $replacedText = ['(', ')', ' ', '-', '_'];

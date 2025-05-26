@@ -143,8 +143,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu" style="display: block;">
-                    <li><a href="{{route('admin.users')}}"><i class="fa fa-circle-o"></i> Esnaflar</a></li>
-                    <li><a href="{{route('admin.product.new')}}"><i class="fa fa-circle-o"></i> Yeni Esnaf Oluştur</a></li>
+                    <li><a href="{{route('admin.vendors')}}"><i class="fa fa-circle-o"></i> Esnaflar</a></li>
+                    <li><a href="{{route('admin.vendors.reports')}}"><i class="fa fa-circle-o"></i> Rapor</a></li>
+                    <li><a href="{{route('admin.vendors')}}"><i class="fa fa-circle-o"></i> Yeni Esnaf Oluştur</a></li>
                 </ul>
             </li>
         </ul>

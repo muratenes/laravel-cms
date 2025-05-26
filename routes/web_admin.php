@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\VendorReportController;
 use App\Services\DashboardService;
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
@@ -69,11 +71,24 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         //----- Admin/Payments/..
         Route::group(['prefix' => 'payments/'], function () {
             Route::get('/', [PaymentController::class, 'list'])->name('admin.payments');
-            Route::get('edit/{orderId}', 'PaymentController@newOrEditOrder')->name('admin.payments.edit');
-
             Route::get('ajax', [PaymentController::class, 'ajax'])->name('admin.payments.ajax');
 
             Route::post('create', [PaymentController::class, 'createPayment'])->name('admin.payments.create');
+        });
+
+        //----- Admin/Vendors/..
+        Route::group(['prefix' => 'vendors/'], function () {
+            Route::get('/', [VendorController::class, 'list'])->name('admin.vendors');
+            Route::get('/reports', [VendorReportController::class, 'vendorSalesReport'])->name('admin.vendors.reports');
+            Route::get('{vendor:id}/summary', [VendorController::class, 'summary'])->name('admin.vendors.summary');
+            Route::get('new/{vendorId}', [VendorController::class, 'show'])->name('admin.vendors.new');
+            Route::get('edit/{vendorId}', [VendorController::class, 'show'])->name('admin.vendors.edit');
+
+            Route::get('ajax', [VendorController::class, 'ajax'])->name('admin.vendors.ajax');
+            Route::post('', [VendorController::class, ''])->name('admin.vendors.store');
+            Route::put('{vendor:id}', 'UserController@update')->name('admin.vendors.update');
+
+            Route::post('create', [VendorController::class, 'createPayment'])->name('admin.vendors.create');
         });
 
 
