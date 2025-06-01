@@ -52,114 +52,63 @@ class VendorReportController extends Controller
             ]);
         }
 
-        $isWeekly = $diffDays > 15;
-
         $vendor = Vendor::find($vendorId);
-        // Veriyi çek
-        $rawData = $this->getTransactionData($vendorId, $startDate, $endDate, $isWeekly);
-
-        // Ürün isimlerini al
-        $productIds = collect($rawData)->pluck('product_id')->unique()->toArray();
-        $products = Product::whereIn('id', $productIds)->pluck('name', 'id')->toArray();
-
-        // Label ve veri matrisini hazırla
-        if ($isWeekly) {
-            $labels = $this->getWeekLabels($rawData);
-            $groupKey = 'year_week';
-        } else {
-            $labels = collect($rawData)->pluck('due_date')->unique()->toArray();
-            $groupKey = 'due_date';
-        }
-
-        $chartData = $this->buildChartData($rawData, $products, $labels, $groupKey);
 
         return view('admin.vendor.reports', [
             'selectedVendor' => $vendor,
-            'chartLabels' => json_encode(array_values($labels)),
-            'productNames' => json_encode(array_keys($chartData)),
-            'chartData' => json_encode($chartData),
             'summary' => $this->vendorService->summary($vendorId, $startDate, $endDate),
         ]);
     }
 
-    private function getTransactionData(int $vendorId, string $startDate, string $endDate, bool $weekly)
+
+    public function vendorDailySales(Request $request)
     {
-        if ($weekly) {
-            return DB::table('transactions')
-                ->select(
-                    DB::raw("YEARWEEK(due_date, 1) as year_week"),
-                    'product_id',
-                    DB::raw('SUM(quantity) as total_quantity'),
-                    DB::raw('SUM(amount) as total_amount')
-                )
-                ->where('vendor_id', $vendorId)
-                ->where('type', TransactionType::PURCHASE->value)
-                ->whereBetween('due_date', [$startDate, $endDate])
-                ->groupBy('year_week', 'product_id')
-                ->orderBy('year_week')
-                ->get();
+        $vendorId = $request->input('vendor_id');
+
+        $dateRange = $request->input('date_range');
+
+        if ($dateRange && str_contains($dateRange, ' - ')) {
+            [$startDate, $endDate] = explode(' - ', str_replace('+', '', $dateRange));
+        } else {
+            $endDate = Carbon::now()->toDateString();
+            $startDate = Carbon::parse($endDate)->subDays(29)->toDateString();
         }
 
-        return DB::table('transactions')
-            ->select(
-                'due_date',
-                'product_id',
-                DB::raw('SUM(quantity) as total_quantity'),
-                DB::raw('SUM(amount) as total_amount')
-            )
-            ->where('vendor_id', $vendorId)
-            ->where('type', TransactionType::PURCHASE->value)
+        if (empty($vendorId) || empty($startDate) || empty($endDate)) {
+            throw new HttpException("Esnaf,başlangıç tarihi ve end date seçili olmalı");
+        };
+
+
+        $results = DB::table('transactions')
+            ->selectRaw('DATE(due_date) as date, products.name as product, SUM(quantity) as total_quantity')
+            ->join('products', 'transactions.product_id', '=', 'products.id')
+            ->where('transactions.vendor_id', $vendorId)
+            ->where('transactions.type', TransactionType::PURCHASE->value)
             ->whereBetween('due_date', [$startDate, $endDate])
-            ->groupBy('due_date', 'product_id')
-            ->orderBy('due_date')
+            ->groupBy('date', 'products.name')
+            ->orderBy('date')
             ->get();
-    }
 
-    private function getWeekLabels($rawData)
-    {
-        $weeks = collect($rawData)->pluck('year_week')->unique()->values();
+        // Verileri gruplama
+        $labels = collect(range(0, 29))->map(fn($i) => Carbon::parse($endDate)->subDays(29 - $i)->format('Y-m-d'));
+        $productGroups = $results->groupBy('product');
 
-        return $weeks->map(function ($yw) {
-            $year = substr($yw, 0, 4);
-            $week = substr($yw, 4, 2);
-            $startOfWeek = Carbon::now()->setISODate($year, $week)->startOfWeek(Carbon::MONDAY);
-            $endOfWeek = (clone $startOfWeek)->endOfWeek(Carbon::SUNDAY);
-            return $startOfWeek->format('d.m.Y') . ' - ' . $endOfWeek->format('d.m.Y');
-        })->toArray();
-    }
+        $datasets = [];
 
-    private function buildChartData($rawData, $products, $labels, $groupKey)
-    {
-        $chartData = [];
-
-        // Ürün başlıkları için sıfırlarla dolu array hazırla
-        foreach ($products as $id => $title) {
-            $chartData[$title] = array_fill(0, count($labels), 0);
+        foreach ($productGroups as $product => $items) {
+            $quantitiesByDate = $items->keyBy('date')->map(fn($item) => $item->total_quantity);
+            $datasets[] = [
+                'label' => $product,
+                'data' => $labels->map(fn($d) => $quantitiesByDate->get($d, 0)),
+                'fill' => true,
+            ];
         }
 
-        // Verileri uygun index'e yerleştir
-        $labelIndexes = array_flip($labels);
-        foreach ($rawData as $row) {
-            $productName = $products[$row->product_id] ?? 'Bilinmeyen Ürün';
-            $key = $groupKey === 'year_week'
-                ? $this->formatYearWeek($row->$groupKey)
-                : $row->$groupKey;
-
-            if (!isset($labelIndexes[$key])) continue;
-
-            $index = $labelIndexes[$key];
-            $chartData[$productName][$index] = round($row->total_amount, 2);
-        }
-
-        return $chartData;
+        return response()->json([
+            'labels' => $labels,
+            'datasets' => $datasets
+        ]);
     }
 
-    private function formatYearWeek($yearWeek)
-    {
-        $year = substr($yearWeek, 0, 4);
-        $week = substr($yearWeek, 4, 2);
-        $startOfWeek = Carbon::now()->setISODate($year, $week)->startOfWeek(Carbon::MONDAY);
-        $endOfWeek = (clone $startOfWeek)->endOfWeek(Carbon::SUNDAY);
-        return $startOfWeek->format('d.m.Y') . ' - ' . $endOfWeek->format('d.m.Y');
-    }
+
 }

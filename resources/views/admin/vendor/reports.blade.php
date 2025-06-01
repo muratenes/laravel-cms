@@ -9,7 +9,7 @@
                 <div class="col-md-10">
                     <a href="{{route('admin.home_page')}}"> <i class="fa fa-home"></i> Anasayfa</a>
                     › Esnaf Raporları
-                    › <h4>{{ $selectedVendor['title'] ?? '' }} > {{ request()->get('start_date') }} - {{ request()->get('end_date') }}</h4>
+                    › <h4>{{ $selectedVendor['title'] ?? '' }} > {{ request()->get('date_range') }}</h4>
                 </div>
                 <div class="col-md-2 text-right mr-3">
 
@@ -95,7 +95,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
-                        <canvas id="dailySalesChart" height="100"></canvas>
+                        <canvas id="salesChart" height="100"></canvas>
                     </div>
                 </div>
             </div>
@@ -158,11 +158,11 @@
             </div>
         @else
             <div class="col-md-12">
-               <div class="box">
-                   <div class="box-body">
-                       <h2 style="text-align: center;color: red">Raporu görüntülemek için esnaf seçiniz</h2>
-                   </div>
-               </div>
+                <div class="box">
+                    <div class="box-body">
+                        <h2 style="text-align: center;color: red">Raporu görüntülemek için esnaf seçiniz</h2>
+                    </div>
+                </div>
             </div>
         @endif
 
@@ -174,140 +174,101 @@
     <script src="/admin_files/js/pages/admin.payment.list.js"></script>
     <script src="/admin_files/js/pages/admin.vendors.reports.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-{{--    <script>--}}
-{{--        var labels = {!! $chartLabels !!}; // ['2025-05-20', '2025-05-21', '2025-05-22']--}}
-{{--        var productNames = {!! $productNames !!}; // ['Süt', 'Yumurta', 'Tereyağ']--}}
-{{--        var rawData = {!! $chartData !!}; // {'Süt': [...], 'Yumurta': [...], ...}--}}
 
-{{--        var backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];--}}
+    <!-- -reports --->
 
-{{--        var datasets = productNames.map((product, index) => ({--}}
-{{--            label: product,--}}
-{{--            data: rawData[product],--}}
-{{--            backgroundColor: backgroundColors[index % backgroundColors.length],--}}
-{{--        }));--}}
+    <script>
+        const getQueryParam = (key) => {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(key);
+        };
 
-{{--        var ctx = document.getElementById('dailySalesChart').getContext('2d');--}}
-{{--        new Chart(ctx, {--}}
-{{--            type: 'bar',--}}
-{{--            data: {--}}
-{{--                labels: labels,--}}
-{{--                datasets: datasets--}}
-{{--            },--}}
-{{--            options: {--}}
-{{--                responsive: true,--}}
-{{--                plugins: {--}}
-{{--                    title: {--}}
-{{--                        display: true,--}}
-{{--                        text: 'Tarih Bazlı Satış Tutarları (₺)'--}}
-{{--                    },--}}
-{{--                    tooltip: {--}}
-{{--                        mode: 'index',--}}
-{{--                        intersect: false--}}
-{{--                    }--}}
-{{--                },--}}
-{{--                interaction: {--}}
-{{--                    mode: 'index',--}}
-{{--                    intersect: false--}}
-{{--                },--}}
-{{--                scales: {--}}
-{{--                    x: {--}}
-{{--                        stacked: false, // <-- STACKED KAPALI--}}
-{{--                        title: {--}}
-{{--                            display: true,--}}
-{{--                            text: 'Tarih'--}}
-{{--                        }--}}
-{{--                    },--}}
-{{--                    y: {--}}
-{{--                        stacked: false, // <-- STACKED KAPALI--}}
-{{--                        beginAtZero: true,--}}
-{{--                        title: {--}}
-{{--                            display: true,--}}
-{{--                            text: 'Tutar (₺)'--}}
-{{--                        }--}}
-{{--                    }--}}
-{{--                }--}}
-{{--            }--}}
-{{--        });--}}
+        const vendorId = getQueryParam('vendor_id');
+        const dateRange = getQueryParam('date_range');
 
-{{--        // // other chart--}}
-{{--        //--}}
-{{--        // var labels = ['2025-05-20', '2025-05-21', '2025-05-22'];--}}
-{{--        // var productNames = ['Süt', 'Yumurta', 'Tereyağ'];--}}
-{{--        //--}}
-{{--        // // Dummy toplam tutar verileri (₺ cinsinden)--}}
-{{--        // var rawData = {--}}
-{{--        //     'Süt': [1700.25, 1900.75, 2100.00],--}}
-{{--        //     'Yumurta': [800.00, 950.50, 1020.25],--}}
-{{--        //     'Tereyağ': [1200.00, 1150.00, 1300.00]--}}
-{{--        // };--}}
-{{--        //--}}
-{{--        // var backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56'];--}}
-{{--        //--}}
-{{--        // var datasets = productNames.map((product, index) => ({--}}
-{{--        //     label: product,--}}
-{{--        //     data: rawData[product],--}}
-{{--        //     backgroundColor: backgroundColors[index % backgroundColors.length],--}}
-{{--        // }));--}}
-{{--        //--}}
-{{--        // var ctx = document.getElementById('vendorDailyTotalChart').getContext('2d');--}}
-{{--        // new Chart(ctx, {--}}
-{{--        //     type: 'bar',--}}
-{{--        //     data: {--}}
-{{--        //         labels: labels,--}}
-{{--        //         datasets: datasets--}}
-{{--        //     },--}}
-{{--        //     options: {--}}
-{{--        //         responsive: true,--}}
-{{--        //         plugins: {--}}
-{{--        //             title: {--}}
-{{--        //                 display: true,--}}
-{{--        //                 text: 'Tarih Bazlı Ürün Satışları (₺)'--}}
-{{--        //             },--}}
-{{--        //             tooltip: {--}}
-{{--        //                 mode: 'index',--}}
-{{--        //                 intersect: false,--}}
-{{--        //                 callbacks: {--}}
-{{--        //                     label: function(context) {--}}
-{{--        //                         // ₺ formatı TR--}}
-{{--        //                         return context.dataset.label + ': ' + context.raw.toLocaleString('tr-TR', {--}}
-{{--        //                             style: 'currency',--}}
-{{--        //                             currency: 'TRY'--}}
-{{--        //                         });--}}
-{{--        //                     }--}}
-{{--        //                 }--}}
-{{--        //             }--}}
-{{--        //         },--}}
-{{--        //         interaction: {--}}
-{{--        //             mode: 'index',--}}
-{{--        //             intersect: false--}}
-{{--        //         },--}}
-{{--        //         scales: {--}}
-{{--        //             x: {--}}
-{{--        //                 stacked: false,--}}
-{{--        //                 title: {--}}
-{{--        //                     display: true,--}}
-{{--        //                     text: 'Tarih'--}}
-{{--        //                 }--}}
-{{--        //             },--}}
-{{--        //             y: {--}}
-{{--        //                 stacked: false,--}}
-{{--        //                 beginAtZero: true,--}}
-{{--        //                 title: {--}}
-{{--        //                     display: true,--}}
-{{--        //                     text: 'Tutar (₺)'--}}
-{{--        //                 },--}}
-{{--        //                 ticks: {--}}
-{{--        //                     callback: function(value) {--}}
-{{--        //                         return value.toLocaleString('tr-TR', {--}}
-{{--        //                             style: 'currency',--}}
-{{--        //                             currency: 'TRY'--}}
-{{--        //                         });--}}
-{{--        //                     }--}}
-{{--        //                 }--}}
-{{--        //             }--}}
-{{--        //         }--}}
-{{--        //     }--}}
-{{--        // });--}}
-{{--    </script>--}}
+        // vendorId veya dateRange yoksa, uyarı ver
+        if (!vendorId || !dateRange) {
+            document.getElementById('salesChart').replaceWith("Lütfen URL'de vendor_id ve date_range parametrelerini belirtin.");
+            throw new Error("Eksik parametre: vendor_id veya date_range yok.");
+        }
+
+        // Tarih aralığını parçala
+        const [start, end] = dateRange.split(' - ').map(d => new Date(d.trim()));
+        const dayDiff = (end - start) / (1000 * 60 * 60 * 24); // milisaniye -> gün
+
+        if (isNaN(dayDiff) || dayDiff < 0) {
+            alert("Geçersiz tarih aralığı!");
+            throw new Error("Geçersiz tarih aralığı.");
+        }
+
+        if (dayDiff > 32) {
+            document.getElementById('salesChart').replaceWith("Satış verilerini grafik halinde görmek için tarih aralığı en fazla 30 gün olmalıdır");
+            throw new Error("Tarih aralığı 30 günden büyük.");
+        }
+
+
+        fetch(`/admin/vendors/reports/daily-sales-by-vendor?vendor_id=${vendorId}&date_range=${encodeURIComponent(dateRange)}`)
+            .then(res => res.json())
+            .then(data => {
+                new Chart("salesChart", {
+                    type: "line",
+                    data: {
+                        labels: data.labels,
+                        datasets: data.datasets.map((ds, i) => {
+                            const colors = [
+                                { border: "rgba(54, 162, 235, 1)", background: "rgba(54, 162, 235, 0.1)" },
+                                { border: "rgba(255, 206, 86, 1)", background: "rgba(255, 206, 86, 0.1)" },
+                                { border: "rgba(75, 192, 192, 1)", background: "rgba(75, 192, 192, 0.1)" },
+                                { border: "rgba(255, 99, 132, 1)", background: "rgba(255, 99, 132, 0.1)" },
+                                { border: "rgba(153, 102, 255, 1)", background: "rgba(153, 102, 255, 0.1)" }
+                            ];
+                            const c = colors[i % colors.length];
+                            return {
+                                label: ds.label,
+                                data: ds.data,
+                                fill: true,
+                                tension: 0.3,
+                                borderColor: c.border,
+                                backgroundColor: c.background
+                            };
+                        })
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: "Son Satış Trendleri"
+                            },
+                            legend: {
+                                position: 'top'
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            axis: 'x',
+                            intersect: false
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Satış Adedi"
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    maxTicksLimit: 10
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
 @endsection

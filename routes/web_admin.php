@@ -80,6 +80,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::group(['prefix' => 'vendors/'], function () {
             Route::get('/', [VendorController::class, 'list'])->name('admin.vendors');
             Route::get('/reports', [VendorReportController::class, 'vendorSalesReport'])->name('admin.vendors.reports');
+            Route::get('/reports/daily-sales-by-vendor', [VendorReportController::class, 'vendorDailySales'])->name('admin.vendors.daily-sales');
             Route::get('{vendor:id}/summary', [VendorController::class, 'summary'])->name('admin.vendors.summary');
             Route::get('new/{vendorId}', [VendorController::class, 'show'])->name('admin.vendors.new');
             Route::get('edit/{vendorId}', [VendorController::class, 'show'])->name('admin.vendors.edit');
