@@ -109,7 +109,7 @@
                 </ul>
             </li>
             <li class="treeview menu-open" style="height: auto;">
-                <a href="{{ route('admin.orders') }}">
+                <a href="{{ route('admin.payments') }}">
                     <i class="fa fa-money"></i>
                     <span>Ödemeler</span>
                     <span class="pull-right-container">
@@ -117,7 +117,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu" style="display: block;">
-                    <li><a href="{{route('admin.orders')}}"><i class="fa fa-circle-o"></i> Ödemeler</a></li>
+                    <li><a href="{{route('admin.payments')}}"><i class="fa fa-circle-o"></i> Ödemeler</a></li>
                     <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createPaymentModal"><i class="fa fa-circle-o"></i> Ödeme Gir</a></li>
                 </ul>
             </li>

@@ -26,7 +26,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-1" style="padding-top: 8px"><strong>Filtrele : </strong></div>
                                     <div class="col-md-2">
-                                        <select name="vendor_id" class="form-control" id="vendorIdFilter">
+                                        <select name="vendor_id" id="vendorIdFilter" class="form-control vendorIdFilter">
                                             <option value="">--Esnaf--</option>
                                             @foreach($vendors as $vendor)
                                                 <option value="{{ $vendor->id }}" {{ request('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->title }}</option>

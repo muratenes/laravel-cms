@@ -28,22 +28,19 @@
                             <div class="col-md-12">
                                 <div class="form-group col-md-2">
                                     <label for="vendor_id">Esnaf Seç</label>
-                                    <select name="vendor_id" id="vendorIdFilter" class="form-control select2" required>
+                                    <select name="vendor_id" id="vendorIdFilter" class="form-control select2 vendorIdFilter" required>
                                         <option value="">Esnaf Seçiniz</option>
                                         @foreach($settings['vendors'] as $vendor)
                                             <option {{ request()->get('vendor_id') == $vendor['id'] ? 'selected' : '' }} value="{{ $vendor['id'] }}">{{ $vendor['title'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label for="due_date">Başlangıç Tarihi</label>
-                                    <input type="date" name="start_date" id="startDateFilter" class="form-control" value="{{ request()->get('start_date') ?: \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d') }}" required>
+                                <div class="form-group col-md-4">
+                                    <label for="date_range">Tarih Aralığı</label>
+                                    <input type="text" name="date_range" id="dateRangePicker" class="form-control"
+                                           value="{{ request('date_range') ?: \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d') . ' - ' . \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                           autocomplete="off" readonly>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label for="due_date">Bitiş Tarihi</label>
-                                    <input type="date" name="end_date" id="endDateFilter" class="form-control" value="{{ request()->get('end_date') ?: \Carbon\Carbon::now()->format('Y-m-d') }}" required>
-                                </div>
-
                                 <div class="col-md-2">
                                     <br>
                                     <button class="btn btn-sm btn-success">Filtrele</button>
@@ -172,144 +169,145 @@
     </div>
 @endsection
 @section('footer')
+    <script src="/admin_files/js/pages/admin.reports.js"></script>
     <script src="/admin_files/js/pages/admin.order.list.js"></script>
     <script src="/admin_files/js/pages/admin.payment.list.js"></script>
     <script src="/admin_files/js/pages/admin.vendors.reports.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var labels = {!! $chartLabels !!}; // ['2025-05-20', '2025-05-21', '2025-05-22']
-        var productNames = {!! $productNames !!}; // ['Süt', 'Yumurta', 'Tereyağ']
-        var rawData = {!! $chartData !!}; // {'Süt': [...], 'Yumurta': [...], ...}
+{{--    <script>--}}
+{{--        var labels = {!! $chartLabels !!}; // ['2025-05-20', '2025-05-21', '2025-05-22']--}}
+{{--        var productNames = {!! $productNames !!}; // ['Süt', 'Yumurta', 'Tereyağ']--}}
+{{--        var rawData = {!! $chartData !!}; // {'Süt': [...], 'Yumurta': [...], ...}--}}
 
-        var backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+{{--        var backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];--}}
 
-        var datasets = productNames.map((product, index) => ({
-            label: product,
-            data: rawData[product],
-            backgroundColor: backgroundColors[index % backgroundColors.length],
-        }));
+{{--        var datasets = productNames.map((product, index) => ({--}}
+{{--            label: product,--}}
+{{--            data: rawData[product],--}}
+{{--            backgroundColor: backgroundColors[index % backgroundColors.length],--}}
+{{--        }));--}}
 
-        var ctx = document.getElementById('dailySalesChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Tarih Bazlı Satış Tutarları (₺)'
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
-                    }
-                },
-                interaction: {
-                    mode: 'index',
-                    intersect: false
-                },
-                scales: {
-                    x: {
-                        stacked: false, // <-- STACKED KAPALI
-                        title: {
-                            display: true,
-                            text: 'Tarih'
-                        }
-                    },
-                    y: {
-                        stacked: false, // <-- STACKED KAPALI
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Tutar (₺)'
-                        }
-                    }
-                }
-            }
-        });
+{{--        var ctx = document.getElementById('dailySalesChart').getContext('2d');--}}
+{{--        new Chart(ctx, {--}}
+{{--            type: 'bar',--}}
+{{--            data: {--}}
+{{--                labels: labels,--}}
+{{--                datasets: datasets--}}
+{{--            },--}}
+{{--            options: {--}}
+{{--                responsive: true,--}}
+{{--                plugins: {--}}
+{{--                    title: {--}}
+{{--                        display: true,--}}
+{{--                        text: 'Tarih Bazlı Satış Tutarları (₺)'--}}
+{{--                    },--}}
+{{--                    tooltip: {--}}
+{{--                        mode: 'index',--}}
+{{--                        intersect: false--}}
+{{--                    }--}}
+{{--                },--}}
+{{--                interaction: {--}}
+{{--                    mode: 'index',--}}
+{{--                    intersect: false--}}
+{{--                },--}}
+{{--                scales: {--}}
+{{--                    x: {--}}
+{{--                        stacked: false, // <-- STACKED KAPALI--}}
+{{--                        title: {--}}
+{{--                            display: true,--}}
+{{--                            text: 'Tarih'--}}
+{{--                        }--}}
+{{--                    },--}}
+{{--                    y: {--}}
+{{--                        stacked: false, // <-- STACKED KAPALI--}}
+{{--                        beginAtZero: true,--}}
+{{--                        title: {--}}
+{{--                            display: true,--}}
+{{--                            text: 'Tutar (₺)'--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                }--}}
+{{--            }--}}
+{{--        });--}}
 
-        // // other chart
-        //
-        // var labels = ['2025-05-20', '2025-05-21', '2025-05-22'];
-        // var productNames = ['Süt', 'Yumurta', 'Tereyağ'];
-        //
-        // // Dummy toplam tutar verileri (₺ cinsinden)
-        // var rawData = {
-        //     'Süt': [1700.25, 1900.75, 2100.00],
-        //     'Yumurta': [800.00, 950.50, 1020.25],
-        //     'Tereyağ': [1200.00, 1150.00, 1300.00]
-        // };
-        //
-        // var backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56'];
-        //
-        // var datasets = productNames.map((product, index) => ({
-        //     label: product,
-        //     data: rawData[product],
-        //     backgroundColor: backgroundColors[index % backgroundColors.length],
-        // }));
-        //
-        // var ctx = document.getElementById('vendorDailyTotalChart').getContext('2d');
-        // new Chart(ctx, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: labels,
-        //         datasets: datasets
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         plugins: {
-        //             title: {
-        //                 display: true,
-        //                 text: 'Tarih Bazlı Ürün Satışları (₺)'
-        //             },
-        //             tooltip: {
-        //                 mode: 'index',
-        //                 intersect: false,
-        //                 callbacks: {
-        //                     label: function(context) {
-        //                         // ₺ formatı TR
-        //                         return context.dataset.label + ': ' + context.raw.toLocaleString('tr-TR', {
-        //                             style: 'currency',
-        //                             currency: 'TRY'
-        //                         });
-        //                     }
-        //                 }
-        //             }
-        //         },
-        //         interaction: {
-        //             mode: 'index',
-        //             intersect: false
-        //         },
-        //         scales: {
-        //             x: {
-        //                 stacked: false,
-        //                 title: {
-        //                     display: true,
-        //                     text: 'Tarih'
-        //                 }
-        //             },
-        //             y: {
-        //                 stacked: false,
-        //                 beginAtZero: true,
-        //                 title: {
-        //                     display: true,
-        //                     text: 'Tutar (₺)'
-        //                 },
-        //                 ticks: {
-        //                     callback: function(value) {
-        //                         return value.toLocaleString('tr-TR', {
-        //                             style: 'currency',
-        //                             currency: 'TRY'
-        //                         });
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // });
-    </script>
+{{--        // // other chart--}}
+{{--        //--}}
+{{--        // var labels = ['2025-05-20', '2025-05-21', '2025-05-22'];--}}
+{{--        // var productNames = ['Süt', 'Yumurta', 'Tereyağ'];--}}
+{{--        //--}}
+{{--        // // Dummy toplam tutar verileri (₺ cinsinden)--}}
+{{--        // var rawData = {--}}
+{{--        //     'Süt': [1700.25, 1900.75, 2100.00],--}}
+{{--        //     'Yumurta': [800.00, 950.50, 1020.25],--}}
+{{--        //     'Tereyağ': [1200.00, 1150.00, 1300.00]--}}
+{{--        // };--}}
+{{--        //--}}
+{{--        // var backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56'];--}}
+{{--        //--}}
+{{--        // var datasets = productNames.map((product, index) => ({--}}
+{{--        //     label: product,--}}
+{{--        //     data: rawData[product],--}}
+{{--        //     backgroundColor: backgroundColors[index % backgroundColors.length],--}}
+{{--        // }));--}}
+{{--        //--}}
+{{--        // var ctx = document.getElementById('vendorDailyTotalChart').getContext('2d');--}}
+{{--        // new Chart(ctx, {--}}
+{{--        //     type: 'bar',--}}
+{{--        //     data: {--}}
+{{--        //         labels: labels,--}}
+{{--        //         datasets: datasets--}}
+{{--        //     },--}}
+{{--        //     options: {--}}
+{{--        //         responsive: true,--}}
+{{--        //         plugins: {--}}
+{{--        //             title: {--}}
+{{--        //                 display: true,--}}
+{{--        //                 text: 'Tarih Bazlı Ürün Satışları (₺)'--}}
+{{--        //             },--}}
+{{--        //             tooltip: {--}}
+{{--        //                 mode: 'index',--}}
+{{--        //                 intersect: false,--}}
+{{--        //                 callbacks: {--}}
+{{--        //                     label: function(context) {--}}
+{{--        //                         // ₺ formatı TR--}}
+{{--        //                         return context.dataset.label + ': ' + context.raw.toLocaleString('tr-TR', {--}}
+{{--        //                             style: 'currency',--}}
+{{--        //                             currency: 'TRY'--}}
+{{--        //                         });--}}
+{{--        //                     }--}}
+{{--        //                 }--}}
+{{--        //             }--}}
+{{--        //         },--}}
+{{--        //         interaction: {--}}
+{{--        //             mode: 'index',--}}
+{{--        //             intersect: false--}}
+{{--        //         },--}}
+{{--        //         scales: {--}}
+{{--        //             x: {--}}
+{{--        //                 stacked: false,--}}
+{{--        //                 title: {--}}
+{{--        //                     display: true,--}}
+{{--        //                     text: 'Tarih'--}}
+{{--        //                 }--}}
+{{--        //             },--}}
+{{--        //             y: {--}}
+{{--        //                 stacked: false,--}}
+{{--        //                 beginAtZero: true,--}}
+{{--        //                 title: {--}}
+{{--        //                     display: true,--}}
+{{--        //                     text: 'Tutar (₺)'--}}
+{{--        //                 },--}}
+{{--        //                 ticks: {--}}
+{{--        //                     callback: function(value) {--}}
+{{--        //                         return value.toLocaleString('tr-TR', {--}}
+{{--        //                             style: 'currency',--}}
+{{--        //                             currency: 'TRY'--}}
+{{--        //                         });--}}
+{{--        //                     }--}}
+{{--        //                 }--}}
+{{--        //             }--}}
+{{--        //         }--}}
+{{--        //     }--}}
+{{--        // });--}}
+{{--    </script>--}}
 @endsection

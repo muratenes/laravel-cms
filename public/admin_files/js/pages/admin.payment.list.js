@@ -1,5 +1,6 @@
+
 $(document).ready(function () {
-    $("#vendor_id,#company,#state,#status").select2({width:'100%'})
+    $(".vendorIdFilter,#company,#state,#status").select2({width:'100%'})
     var table = $('#paymentList').DataTable({
         processing: true,
         serverSide: true,
@@ -9,8 +10,7 @@ $(document).ready(function () {
             url: '/admin/payments/ajax',
             data: {
                 vendor_id: $("#vendorIdFilter").val(),
-                start_date: $("#startDateFilter").val(),
-                end_date: $("#endDateFilter").val(),
+                date_range: $("#dateRangePicker").val()
             }
         },
         "language": {
@@ -32,19 +32,19 @@ $(document).ready(function () {
             {
                 data: 'cash_amount', name: 'cash_amount',
                 render: function (data, type, row) {
-                    return `${data} ₺`
+                    return `${currency_tr(data)} ₺`
                 }
             },
             {
                 data: 'credit_cart_amount', name: 'credit_cart_amount',
                 render: function (data, type, row) {
-                    return `${data} ₺`
+                    return `${currency_tr(data)} ₺`
                 }
             },
             {
                 data: 'amount', name: 'amount',
                 render: function (data, type, row) {
-                    return `${data} ₺`
+                    return `${currency_tr(data)} ₺`
                 }
             },
             {data: 'due_date', name: 'due_date'},

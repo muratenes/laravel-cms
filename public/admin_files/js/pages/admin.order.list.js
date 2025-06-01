@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#vendor_id,#company,#state,#status").select2({})
+    $(".vendorIdFilter,#company,#state,#status").select2({})
     var table = $('#orderList').DataTable({
         processing: true,
         serverSide: true,
@@ -9,8 +9,7 @@ $(document).ready(function () {
             url: '/admin/order/ajax',
             data: {
                 vendor_id: $("#vendorIdFilter").val(),
-                start_date: $("#startDateFilter").val(),
-                end_date: $("#endDateFilter").val(),
+                date_range: $("#dateRangePicker").val()
             }
         },
         "language": {

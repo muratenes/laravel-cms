@@ -13,13 +13,13 @@ class OrderFilter extends Filter
         return $this->builder->where('vendor_id', $value);
     }
 
-    public function start_date(string $value = null): Builder
+    public function date_range(string $value = null): Builder
     {
-        return $this->builder->where('due_date','>=', $value);
-    }
+        if ($value) {
+            [$start, $end] = explode(' - ', $value);
+            $this->builder->whereBetween('due_date', [$start, $end]);
+        }
 
-    public function end_date(string $value = null): Builder
-    {
-        return $this->builder->where('due_date','<=', $value);
+        return $this->builder;
     }
 }

@@ -48,8 +48,8 @@
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="form-group col-md-12">
-                                                <label for="vendor_id">Esnaf Seç</label>
-                                                <select name="vendor_id" id="vendor_id" class="form-control select2" required>
+                                                <label for="vendorIdPayment">Esnaf Seç</label>
+                                                <select name="vendor_id" id="vendorIdPayment" class="form-control select2 vendorIdFilter" required>
                                                     <option value="">Esnaf Seçiniz</option>
                                                     @foreach($settings['vendors'] as $vendor)
                                                         <option value="{{ $vendor['id'] }}">{{ $vendor['title'] }}</option>

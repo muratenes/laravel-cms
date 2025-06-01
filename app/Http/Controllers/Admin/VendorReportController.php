@@ -12,6 +12,7 @@ use App\Repositories\Traits\SiparisUrunTrait;
 use App\Services\Payment\PaymentCreateService;
 use App\Services\Vendor\VendorService;
 use App\Utils\Enum\TransactionType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -31,10 +32,17 @@ class VendorReportController extends Controller
 
     public function vendorSalesReport(Request $request)
     {
-        $startDate = Carbon::parse($request->get('start_date'));
-        $endDate = Carbon::parse($request->get('end_date'));
+        $startDate = null;
+        $endDate = null;
+
+        if ($request->get('date_range')) {
+            [$start, $end] = explode(' - ', $request->get('date_range'));
+            $startDate = Carbon::parse($start);
+            $endDate = Carbon::parse($end);
+        }
+
         $vendorId = $request->get('vendor_id');
-        $diffDays = $startDate->diffInDays($endDate);
+        $diffDays = (!empty($startDate) && !empty($endDate)) ? $startDate->diffInDays($endDate) : 0;
 
         if (empty($vendorId)) {
             return view('admin.vendor.reports', [

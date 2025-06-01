@@ -24,6 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
+function currency_tr(generalTotal) {
+    var formatted = new Intl.NumberFormat('tr-TR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(generalTotal.toFixed(2))
+    return formatted;
+}
+
 function getUrlVars() {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -36,7 +44,7 @@ function getUrlVars() {
 }
 
 $(document).ready(function () {
-    $("#vendor_id_filter").select2({width:'100%'})
+    $("#vendor_id_filter").select2({width: '100%'})
     $("[id*='count']").each(function (index, element) {
         if ($(element).val() !== "0") {
             $("#" + $(element).data('item')).append(`<small class="label pull-right bg-red" >${$(element).val()}</small>`)
