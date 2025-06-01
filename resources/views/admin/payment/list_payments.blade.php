@@ -56,7 +56,6 @@
                 <div class="box-header">
                     <h3 class="box-title">Ödemeler</h3>
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body table-responsive">
                     <table class="table table-hover table-bordered" id="paymentList">
                         <thead>
@@ -73,8 +72,6 @@
                         </thead>
                     </table>
                 </div>
-
-                <!-- /.box-body -->
             </div>
 
             <!-- /.box -->

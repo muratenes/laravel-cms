@@ -18,7 +18,7 @@
                 <!-- Messages: style can be found in dropdown.less-->
                 <li class="dropdown messages-menu" style="display: flex; justify-content: center; align-items: center; margin-top: 4px; gap: 10px;">
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createOrderModal">
-                        <i class="fa fa-shopping-basket"></i> Yeni Sipariş Ekle
+                        <i class="fa fa-shopping-basket"></i> Yeni Kayıt Ekle
                     </button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#createPaymentModal">
                         <i class="fa fa-money"></i> Ödeme Gir
@@ -105,7 +105,7 @@
                 </a>
                 <ul class="treeview-menu" style="display: block;">
                     <li><a href="{{route('admin.orders')}}"><i class="fa fa-circle-o"></i> Siparişler</a></li>
-                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Sipariş Oluştur</a></li>
+                    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createOrderModal"><i class="fa fa-circle-o"></i> Sipariş Oluştur</a></li>
                 </ul>
             </li>
             <li class="treeview menu-open" style="height: auto;">
@@ -118,7 +118,7 @@
                 </a>
                 <ul class="treeview-menu" style="display: block;">
                     <li><a href="{{route('admin.orders')}}"><i class="fa fa-circle-o"></i> Ödemeler</a></li>
-                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Ödeme Gir</a></li>
+                    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#createPaymentModal"><i class="fa fa-circle-o"></i> Ödeme Gir</a></li>
                 </ul>
             </li>
             <li class="treeview menu-open" style="height: auto;">

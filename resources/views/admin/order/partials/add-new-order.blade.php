@@ -34,7 +34,7 @@
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Yeni Sipariş Ekle</h5>
+                    <h5 class="modal-title">Yeni Kayıt Ekle</h5>
                     <span class="help-block">Bu bölümden yeni sipariş oluşturabilirsiniz.</span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

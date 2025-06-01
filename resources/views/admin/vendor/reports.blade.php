@@ -3,8 +3,20 @@
 
 
 @section('content')
-    <x-breadcrumb first="Esnaf Raporları">
-    </x-breadcrumb>
+    <div class="box box-default">
+        <div class="box-body with-border">
+            <div class="row">
+                <div class="col-md-10">
+                    <a href="{{route('admin.home_page')}}"> <i class="fa fa-home"></i> Anasayfa</a>
+                    › Esnaf Raporları
+                    › <h4>{{ $selectedVendor['title'] ?? '' }} > {{ request()->get('start_date') }} - {{ request()->get('end_date') }}</h4>
+                </div>
+                <div class="col-md-2 text-right mr-3">
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <!-- filtreleme -->
         <div class="col-md-12">
@@ -35,7 +47,7 @@
                                 <div class="col-md-2">
                                     <br>
                                     <button class="btn btn-sm btn-success">Filtrele</button>
-                                    <a href="{{ route('admin.orders') }}" class="btn btn-sm btn-danger">Temizle</a>
+                                    <a href="{{ route('admin.vendors.reports') }}" class="btn btn-sm btn-danger">Temizle</a>
                                 </div>
 
                             </div>
@@ -45,89 +57,123 @@
             </div>
         </div>
 
-        <div class="col-md-12">
-            <div class="box">
-                <!-- ./box-body -->
-                <div class="box-footer">
-                    <div class="row">
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <h5 class="description-header text-danger">{{ currency_tr(0) }}</h5>
-                                <span class="description-text">Güncel Bakiye</span>
-                                <span class="help-block">Tarih filtrelesi bakiyeyi engellemez</span>
+        @if(isset($selectedVendor))
+            <div class="col-md-12">
+                <div class="box">
+                    <!-- ./box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <h5 class="description-header text-danger">{{ currency_tr($summary['balance'] ?? 0) }}</h5>
+                                    <span class="description-text">Güncel Bakiye</span>
+                                    <span class="help-block">Tarih filtrelesi bakiyeyi engellemez</span>
+                                </div>
+                                <!-- /.description-block -->
                             </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <h5 class="description-header">{{ currency_tr(0) }}</h5>
-                                <span class="description-text">Toplam Sipariş</span>
-                                <span class="help-block">Seçilen tarih arasındaki sipariş toplam tutarı</span>
+                            <!-- /.col -->
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <h5 class="description-header">{{ currency_tr($summary['order_total_amount']) }}</h5>
+                                    <span class="description-text">Toplam Sipariş</span>
+                                    <span class="help-block">Seçilen tarih arasındaki sipariş toplam tutarı</span>
+                                </div>
+                                <!-- /.description-block -->
                             </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <h5 class="description-header">{{ currency_tr(0) }}</h5>
-                                <span class="description-text">Toplam Ödeme</span>
-                                <span class="help-block">Seçilen tarih arasındaki yapılan ödeme tutarı</span>
+                            <!-- /.col -->
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <h5 class="description-header">{{ currency_tr($summary['payment_total_amount']) }}</h5>
+                                    <span class="description-text">Toplam Ödeme</span>
+                                    <span class="help-block">Seçilen tarih arasındaki yapılan ödeme tutarı</span>
+                                </div>
+                                <!-- /.description-block -->
                             </div>
-                            <!-- /.description-block -->
                         </div>
+                        <!-- /.row -->
                     </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.box-footer -->
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-body">
-                    <canvas id="dailySalesChart" height="100"></canvas>
+                    <!-- /.box-footer -->
                 </div>
             </div>
-        </div>
-{{--        <div class="col-md-12">--}}
-{{--            <div class="box">--}}
-{{--              <div class="box-body">--}}
-{{--                  <div style="width: 90%; margin: auto;">--}}
-{{--                      <canvas id="vendorDailyTotalChart" height="100"></canvas>--}}
-{{--                  </div>--}}
-{{--              </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-        <!-- Siparişler -->
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box ">
-                    <div class="box-header">
-                        <h3 class="box-title">Siparişler</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body table-responsive">
-                        <table class="table table-hover table-bordered" id="orderList">
-                            <thead>
-                            <tr>
-                                <th>Sipariş Kodu</th>
-                                <th>Esnaf</th>
-                                <th>Açıklama</th>
-                                <th>Sipariş Tarihi</th>
-                                <th>Ürünler</th>
-                                <th>Toplam Tutar</th>
-                                <th>Oluşturulma Tarihi</th>
-                            </tr>
-                            </thead>
-                        </table>
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-body">
+                        <canvas id="dailySalesChart" height="100"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
+            {{--        <div class="col-md-12">--}}
+            {{--            <div class="box">--}}
+            {{--              <div class="box-body">--}}
+            {{--                  <div style="width: 90%; margin: auto;">--}}
+            {{--                      <canvas id="vendorDailyTotalChart" height="100"></canvas>--}}
+            {{--                  </div>--}}
+            {{--              </div>--}}
+            {{--            </div>--}}
+            {{--        </div>--}}
+            <!-- Siparişler -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box ">
+                        <div class="box-header">
+                            <h3 class="box-title">Siparişler</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body table-responsive">
+                            <table class="table table-hover table-bordered" id="orderList">
+                                <thead>
+                                <tr>
+                                    <th>Sipariş Kodu</th>
+                                    <th>Esnaf</th>
+                                    <th>Açıklama</th>
+                                    <th>Sipariş Tarihi</th>
+                                    <th>Ürünler</th>
+                                    <th>Toplam Tutar</th>
+                                    <th>Oluşturulma Tarihi</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Ödemeler -->
+            <div class="box ">
+                <div class="box-header">
+                    <h3 class="box-title">Ödemeler</h3>
+                </div>
+                <div class="box-body table-responsive">
+                    <table class="table table-hover table-bordered" id="paymentList">
+                        <thead>
+                        <tr>
+                            <th>Ödeme Kodu</th>
+                            <th>Esnaf</th>
+                            <th>Nakit Ödenen</th>
+                            <th>Kartla Ödenen</th>
+                            <th>Toplam Ödeme</th>
+                            <th>Ödeme Tarihi</th>
+                            <th>Açıklama</th>
+                            <th>Oluşturulma Tarihi</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        @else
+            <div class="col-md-12">
+               <div class="box">
+                   <div class="box-body">
+                       <h2 style="text-align: center;color: red">Raporu görüntülemek için esnaf seçiniz</h2>
+                   </div>
+               </div>
+            </div>
+        @endif
+
     </div>
 @endsection
 @section('footer')
     <script src="/admin_files/js/pages/admin.order.list.js"></script>
+    <script src="/admin_files/js/pages/admin.payment.list.js"></script>
     <script src="/admin_files/js/pages/admin.vendors.reports.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -155,7 +201,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Tarih Bazlı Satışlar (Adet)'
+                        text: 'Tarih Bazlı Satış Tutarları (₺)'
                     },
                     tooltip: {
                         mode: 'index',
@@ -179,7 +225,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Adet'
+                            text: 'Tutar (₺)'
                         }
                     }
                 }

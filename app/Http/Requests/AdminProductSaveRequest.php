@@ -24,7 +24,7 @@ class AdminProductSaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:90',
+            'name' => 'required|max:90',
             'is_active' => 'nullable',
             'price' => 'numeric|min:0',
             'purchase_price' => 'numeric|min:0',

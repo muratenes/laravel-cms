@@ -4,11 +4,13 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         order: [0, 'desc'],
-        pageLength: 16,
+        pageLength: 10,
         ajax: {
             url: '/admin/payments/ajax',
             data: {
-                vendor_id: $("#vendor_id_filter").val(),
+                vendor_id: $("#vendorIdFilter").val(),
+                start_date: $("#startDateFilter").val(),
+                end_date: $("#endDateFilter").val(),
             }
         },
         "language": {

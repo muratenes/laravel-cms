@@ -81,6 +81,12 @@ class ProductController extends AdminController
             success("Ürün güncellendi");
             return back();
         }
+
+        $product = new Product();
+        $product->fill($validated);
+        $product->save();
+        success("Ürün eklendi");
+        return redirect()->route('admin.product.edit', ['product' => $product->id]);
     }
 
     /**

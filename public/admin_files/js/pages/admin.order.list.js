@@ -4,7 +4,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         order: [0, 'desc'],
-        pageLength: 16,
+        pageLength: 10,
         ajax: {
             url: '/admin/order/ajax',
             data: {
@@ -56,7 +56,12 @@ $(document).ready(function () {
                     return `${data} ₺`
                 }
             },
-            {data: 'amount', name: 'amount'}
+            {
+                data: 'created_at', name: 'created_at',
+                render: function (data, type, row) {
+                    return createdAt(data)
+                }
+            },
         ]
     });
 })

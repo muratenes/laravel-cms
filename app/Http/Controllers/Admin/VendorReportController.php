@@ -46,6 +46,7 @@ class VendorReportController extends Controller
 
         $isWeekly = $diffDays > 15;
 
+        $vendor = Vendor::find($vendorId);
         // Veriyi çek
         $rawData = $this->getTransactionData($vendorId, $startDate, $endDate, $isWeekly);
 
@@ -63,18 +64,13 @@ class VendorReportController extends Controller
         }
 
         $chartData = $this->buildChartData($rawData, $products, $labels, $groupKey);
-        dd(
-            [
-                'chartLabels' => json_encode(array_values($labels)),
-                'productNames' => json_encode(array_keys($chartData)),
-                'chartData' => json_encode($chartData),
-            ]
-        );
 
         return view('admin.vendor.reports', [
+            'selectedVendor' => $vendor,
             'chartLabels' => json_encode(array_values($labels)),
             'productNames' => json_encode(array_keys($chartData)),
             'chartData' => json_encode($chartData),
+            'summary' => $this->vendorService->summary($vendorId, $startDate, $endDate),
         ]);
     }
 
